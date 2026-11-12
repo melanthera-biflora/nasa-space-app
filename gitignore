@@ -1,0 +1,53 @@
+# ---------------------------------------------------------------
+# Climatch .gitignore
+# Big data and personal files stay OFF GitHub.
+# Share data/ and cache/ through Google Drive instead.
+# ---------------------------------------------------------------
+
+# Built data (PM2.5, NO2, fires): too big for GitHub -> Google Drive
+data/
+
+# Per-address downloads (NASA POWER, MODIS) and AI stories -> Google Drive
+cache/
+
+# Reports from `python pipeline.py ...` (local only)
+output/
+
+# Python virtual environment: everyone makes their own
+.venv/
+venv/
+env/
+
+# Secrets: API keys, passwords. NEVER commit these
+.env
+.env.*
+*.key
+.netrc
+_netrc
+
+# Python junk
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Jupyter junk
+.ipynb_checkpoints/
+
+# NASA files if any are downloaded by hand
+*.nc
+*.nc4
+*.he5
+*.hdf
+*.h5
+*.parquet
+
+# Editor and system junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Keep these (they are small and the team needs them):
+#   demo_reports/            (real demo reports)
+#   SAMPLE_REPORT_FAKE.json  (frontend sample)

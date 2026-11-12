@@ -1,0 +1,109 @@
+{
+  "_note": "Plain-language text for each card: definition, health link, actions and one source. TEAM_CHECK: open every source_url before the demo and make sure it still works and says what we claim.",
+
+  "hot_days": {
+    "definition": "Days when the temperature reaches 35 °C (95 °F) or more.",
+    "health_link": "Heat strains the heart and lungs; older adults and people with heart or lung disease are admitted to hospital more often during hot spells.",
+    "source_name": "CDC — Heat and Older Adults (65+)",
+    "source_url": "https://www.cdc.gov/heat-health/risk-factors/heat-and-older-adults-aged-65.html",
+    "actions": ["Choose a home with working air conditioning and a plan for power cuts.",
+                "Plan outdoor activity for early morning in the hot season.",
+                "Store medicines and inhalers away from heat, as the label says."]
+  },
+  "warm_nights": {
+    "definition": "Nights when the temperature stays at 20 °C (68 °F) or above.",
+    "health_link": "Warm nights stop the body recovering from daytime heat and disrupt sleep.",
+    "source_name": "WHO Europe — Heatwaves fact sheet",
+    "source_url": "https://www.who.int/europe/news-room/fact-sheets/item/heatwaves",
+    "actions": ["Keep cooling running overnight during hot spells.",
+                "Prefer a bedroom that doesn't face west or sit under the roof."]
+  },
+  "cold_days": {
+    "definition": "Days when the temperature drops below 0 °C (32 °F).",
+    "health_link": "Cold raises blood pressure and strain on the heart, and icy ground raises the risk of falls.",
+    "source_name": null,
+    "source_url": null,
+    "TEAM_CHECK": "Add a cold-weather health source your team picks (e.g. your national health agency's winter guidance).",
+    "actions": ["Check the home's insulation and heating costs before buying.",
+                "Look for step-free, well-lit entrances that are easy to keep clear of ice."]
+  },
+  "heavy_rain_days": {
+    "definition": "Days with 20 mm (0.8 in) of rain or more.",
+    "health_link": "Heavy rain raises flood risk: injuries, damp and mould at home, and trouble reaching medicines or care.",
+    "source_name": "US EPA — A Brief Guide to Mold, Moisture and Your Home",
+    "source_url": "https://www.epa.gov/mold/brief-guide-mold-moisture-and-your-home",
+    "actions": ["Check the official flood map for the address before buying.",
+                "Avoid basement bedrooms; ask about past water damage.",
+                "Keep a week of medicines and a go-bag ready in the rainy season."]
+  },
+  "wettest_day": {
+    "definition": "The most rain that fell in a single day each year.",
+    "health_link": "Bigger single-day downpours are what overwhelm drains and cause flash floods.",
+    "source_name": "US EPA — A Brief Guide to Mold, Moisture and Your Home",
+    "source_url": "https://www.epa.gov/mold/brief-guide-mold-moisture-and-your-home",
+    "actions": []
+  },
+  "dry_days": {
+    "definition": "Days when average humidity is below 20%.",
+    "health_link": "Very dry air irritates the airways, eyes and skin, and can trigger coughing in people with asthma.",
+    "source_name": "US EPA — A Brief Guide to Mold, Moisture and Your Home",
+    "source_url": "https://www.epa.gov/mold/brief-guide-mold-moisture-and-your-home",
+    "actions": ["Keep indoor humidity between 30% and 50% with a humidifier.",
+                "Clean the humidifier often so it doesn't grow mould."]
+  },
+  "muggy_days": {
+    "definition": "Days when the dew point is 21 °C (70 °F) or higher — sticky, humid air.",
+    "health_link": "Long humid spells help mould and dust mites grow indoors, common asthma and allergy triggers.",
+    "source_name": "US EPA — A Brief Guide to Mold, Moisture and Your Home",
+    "source_url": "https://www.epa.gov/mold/brief-guide-mold-moisture-and-your-home",
+    "actions": ["Keep indoor humidity below 50–60% with air conditioning or a dehumidifier."]
+  },
+  "pm25": {
+    "definition": "Tiny particles in the air, 2.5 micrometres or smaller, from smoke, traffic, industry and dust.",
+    "health_link": "Fine particles reach deep into the lungs and blood and can trigger asthma attacks, COPD flare-ups and heart problems.",
+    "source_name": "US EPA — Air Cleaners and Air Filters in the Home",
+    "source_url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home",
+    "actions": ["Run a HEPA air purifier sized for the bedroom.",
+                "Check the daily air quality index; close windows on bad days."]
+  },
+  "no2": {
+    "definition": "Nitrogen dioxide, a gas mainly from traffic, power plants and industry, measured from space by NASA's OMI instrument.",
+    "health_link": "NO₂ inflames the airways; long-term exposure is linked to asthma developing in children.",
+    "source_name": "US EPA — Basic Information about NO2",
+    "source_url": "https://www.epa.gov/no2-pollution/basic-information-about-no2",
+    "actions": ["Prefer homes away from highways and busy junctions.",
+                "Keep bedroom windows on the side away from the main road."]
+  },
+  "fires": {
+    "definition": "Wildfires and vegetation fires detected by NASA satellites within 50 km.",
+    "health_link": "Wildfire smoke carries fine particles that worsen asthma, COPD and heart disease, and is a risk in pregnancy.",
+    "source_name": "AirNow (US EPA) — Wildfires and smoke",
+    "source_url": "https://www.airnow.gov/wildfires/",
+    "TEAM_CHECK": "Verify this link before the demo.",
+    "actions": ["Have a room you can seal with a HEPA purifier for smoke days.",
+                "Sign up for local fire and smoke alerts."]
+  },
+  "surface_heat": {
+    "definition": "How hot the ground, roofs and roads get on summer afternoons, measured by NASA's MODIS satellite at 1 km.",
+    "health_link": "Neighborhoods with more pavement and fewer trees stay hotter, raising heat stress for people living there.",
+    "source_name": "US EPA — Heat Islands",
+    "source_url": "https://www.epa.gov/heatislands",
+    "actions": ["Look for streets with trees and parks nearby.",
+                "A light-coloured or well-insulated roof keeps the home cooler."]
+  },
+  "heat_island": {
+    "definition": "How much hotter the area around the address is than the wider 11 × 11 km area.",
+    "health_link": "Urban heat islands add extra heat on top of the regional climate.",
+    "source_name": "US EPA — Heat Islands",
+    "source_url": "https://www.epa.gov/heatislands",
+    "actions": []
+  },
+
+  "other_checks": [
+    {"label": "Radon (US)", "text": "Radon is a radioactive gas from the ground; the only way to know is to test the home.",
+     "url": "https://www.epa.gov/radon"},
+    {"label": "Official flood map (US)", "text": "Check the flood zone for the exact address.",
+     "url": "https://msc.fema.gov/portal/home"},
+    {"label": "Local safety statistics", "text": "Check your city or police department's official open data.", "url": null}
+  ]
+}
