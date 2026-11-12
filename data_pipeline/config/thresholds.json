@@ -1,0 +1,106 @@
+{
+  "_note": "ONE shared file. The pipeline, the backend and the website all read limits from here. Change numbers here, never in code. TEAM_TODO = placeholder the team must confirm. caution_from/high_from = null means 'trend only' (no official health limit exists).",
+  "version": "2026-11-11",
+
+  "hot_days": {
+    "label": "Very hot days", "unit": "days / year", "unit_short": "days", "decimals": 0,
+    "data": "NASA POWER (MERRA-2) daily max temperature T2M_MAX, ~50 km grid",
+    "rule": "daily max temperature >= day_temp_c", "day_temp_c": 35, "day_temp_source": "team-defined",
+    "higher_is_worse": true, "caution_from": 30, "high_from": 60, "cutoff_source": "team-defined",
+    "TEAM_TODO": "Suggested 30 / 60 (~1 / ~2 months a year). Or use day_temp_c 40 with 10 / 30. Decide with compare_cities.py."
+  },
+  "warm_nights": {
+    "label": "Warm nights", "unit": "nights / year", "unit_short": "nights", "decimals": 0,
+    "data": "NASA POWER (MERRA-2) daily min temperature T2M_MIN, ~50 km grid",
+    "rule": "daily min temperature >= night_temp_c", "night_temp_c": 20,
+    "night_temp_source": "official: ETCCDI index TR (tropical nights, min >= 20 C)",
+    "higher_is_worse": true, "caution_from": 30, "high_from": 60, "cutoff_source": "team-defined",
+    "TEAM_TODO": "Suggested 30 / 60."
+  },
+  "cold_days": {
+    "label": "Frost days", "unit": "days / year", "unit_short": "days", "decimals": 0,
+    "data": "NASA POWER (MERRA-2) daily min temperature T2M_MIN, ~50 km grid",
+    "rule": "daily min temperature < frost_temp_c", "frost_temp_c": 0,
+    "frost_source": "official: ETCCDI index FD (frost days, min < 0 C)",
+    "higher_is_worse": true, "caution_from": 60, "high_from": 120, "cutoff_source": "team-defined",
+    "TEAM_TODO": "Suggested 60 / 120 (~2 / ~4 months of frost)."
+  },
+  "heavy_rain_days": {
+    "label": "Heavy rain days", "unit": "days / year", "unit_short": "days", "decimals": 0,
+    "data": "NASA POWER daily precipitation PRECTOTCORR, ~50 km grid",
+    "rule": "daily rain >= rain_mm_per_day", "rain_mm_per_day": 20,
+    "rain_source": "official: ETCCDI index R20mm (very heavy precipitation days)",
+    "higher_is_worse": true, "caution_from": 10, "high_from": 20, "cutoff_source": "team-defined",
+    "TEAM_TODO": "10 / 20 are placeholders. A 50 km average smooths local downpours, so counts are lower than a rain gauge."
+  },
+  "wettest_day": {
+    "label": "Wettest day of the year", "unit": "mm in one day", "unit_short": "mm", "decimals": 0,
+    "parent": "heavy_rain_days",
+    "data": "NASA POWER daily precipitation PRECTOTCORR, ~50 km grid",
+    "rule": "maximum daily rain in each year", "rule_source": "official: ETCCDI index Rx1day",
+    "higher_is_worse": true, "caution_from": 100, "high_from": 150, "cutoff_source": "team-defined",
+    "TEAM_TODO": "100 / 150 mm are placeholders. Sub-line only."
+  },
+  "dry_days": {
+    "label": "Very dry days", "unit": "days / year", "unit_short": "days", "decimals": 0,
+    "data": "NASA POWER (MERRA-2) relative humidity RH2M, ~50 km grid",
+    "rule": "daily mean relative humidity < rh_below_pct", "rh_below_pct": 20, "rh_source": "team-defined",
+    "higher_is_worse": true, "caution_from": 90, "high_from": 180, "cutoff_source": "team-defined",
+    "TEAM_TODO": "Suggested 90 / 180."
+  },
+  "muggy_days": {
+    "label": "Muggy days", "unit": "days / year", "unit_short": "days", "decimals": 0,
+    "parent": "dry_days",
+    "data": "NASA POWER (MERRA-2) dew point T2MDEW, ~50 km grid",
+    "rule": "daily mean dew point >= dew_point_c", "dew_point_c": 21, "dew_source": "team-defined",
+    "higher_is_worse": true, "caution_from": 30, "high_from": 90, "cutoff_source": "team-defined",
+    "TEAM_TODO": "Suggested 30 / 90. Sub-line only."
+  },
+  "pm25": {
+    "label": "Fine particle pollution (PM2.5)", "unit": "µg/m³ (annual mean)", "unit_short": "µg/m³", "decimals": 1,
+    "data": "NASA MERRA-2 aerosol diagnostics M2TMNXAER (monthly), PM2.5 rebuilt from dust, sea salt, sulfate, black and organic carbon, ~50 km grid",
+    "higher_is_worse": true,
+    "caution_from": 9, "caution_source": "official: US EPA annual standard (2024)",
+    "high_from": 15, "high_source": "official: WHO interim target 4",
+    "reference_only": 5, "reference_source": "official: WHO 2021 guideline (reference only)"
+  },
+  "no2": {
+    "label": "Traffic & industry pollution (NO₂)", "unit": "×10¹⁵ molecules/cm² (annual mean)", "unit_short": "×10¹⁵ molec/cm²", "decimals": 2,
+    "data": "NASA OMI/Aura tropospheric NO2 column OMNO2d (daily, 0.25° ≈ 25 km), 2005 onward",
+    "higher_is_worse": true, "caution_from": null, "high_from": null,
+    "cutoff_source": "none: there is no official health limit for satellite NO2 columns, so this card shows the trend only"
+  },
+  "fires": {
+    "label": "Wildfire activity nearby", "unit": "fire detections / year within radius", "unit_short": "fires", "decimals": 0,
+    "data": "NASA FIRMS MODIS active fire detections (vegetation fires, confidence >= 30), 1 km",
+    "radius_km": 50, "min_confidence": 30,
+    "higher_is_worse": true, "caution_from": 50, "high_from": 200, "cutoff_source": "team-defined",
+    "TEAM_TODO": "50 / 200 detections a year within 50 km are placeholders."
+  },
+  "surface_heat": {
+    "label": "Neighborhood surface heat", "unit": "°C (summer daytime land surface)", "unit_short": "°C", "decimals": 1,
+    "data": "NASA MODIS/Terra land surface temperature MOD11A2 (8-day, 1 km), via ORNL DAAC",
+    "rule": "average daytime land surface temperature in summer (Jun-Aug north, Dec-Feb south), 3 x 3 km around the address",
+    "higher_is_worse": true, "caution_from": 45, "high_from": 55, "cutoff_source": "team-defined",
+    "TEAM_TODO": "Surface temperature (ground, roofs, roads) is much hotter than air temperature. 45 / 55 C are placeholders."
+  },
+  "heat_island": {
+    "label": "Hotter than surroundings by", "unit": "°C vs 11 x 11 km area", "unit_short": "°C", "decimals": 1,
+    "parent": "surface_heat",
+    "data": "NASA MODIS/Terra MOD11A2, 1 km",
+    "rule": "summer daytime surface temperature: 3 x 3 km around the address minus the 11 x 11 km area around it",
+    "higher_is_worse": true, "caution_from": 2, "high_from": 4, "cutoff_source": "team-defined",
+    "TEAM_TODO": "2 / 4 C are placeholders. Sub-line only."
+  },
+
+  "settings": {
+    "data_end_year": 2025,
+    "period_options": [10, 15, 20, 25],
+    "default_period": 25,
+    "compare_window_years": 5,
+    "min_years_for_trend": 8,
+    "significance_alpha": 0.05,
+    "min_valid_days_per_year": 330,
+    "verdict_rule": "High risk if any main factor is red · Caution if any is yellow · otherwise Suitable. Trend-only cards (no limit) don't change the verdict."
+  }
+}

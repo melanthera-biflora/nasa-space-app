@@ -1,0 +1,13 @@
+pandas
+numpy
+scipy
+pymannkendall
+requests
+matplotlib
+jupyter
+earthaccess
+xarray
+netCDF4
+h5netcdf
+h5py
+pyarrow

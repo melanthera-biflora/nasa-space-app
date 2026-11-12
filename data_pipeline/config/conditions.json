@@ -1,0 +1,21 @@
+{
+  "_note": "Which cards matter most for each health condition and age group. The website shows these cards first. Keys must match thresholds.json.",
+
+  "conditions": {
+    "none":           {"label": "No specific condition", "priority": ["hot_days", "heavy_rain_days", "pm25"]},
+    "asthma_copd":    {"label": "Asthma / COPD", "priority": ["pm25", "no2", "fires", "dry_days", "muggy_days", "hot_days"]},
+    "heart_disease":  {"label": "Heart disease", "priority": ["hot_days", "warm_nights", "surface_heat", "pm25", "cold_days"]},
+    "diabetes":       {"label": "Diabetes", "priority": ["hot_days", "warm_nights", "surface_heat"]},
+    "kidney_disease": {"label": "Kidney disease", "priority": ["hot_days", "surface_heat", "warm_nights"]},
+    "allergies":      {"label": "Allergies", "priority": ["muggy_days", "pm25", "fires"]},
+    "pregnancy":      {"label": "Pregnancy", "priority": ["hot_days", "pm25", "fires"]},
+    "limited_mobility": {"label": "Limited mobility", "priority": ["heavy_rain_days", "hot_days", "cold_days"]}
+  },
+
+  "age_groups": {
+    "under_5":  {"label": "Young children (under 5)", "priority": ["no2", "pm25", "hot_days", "fires"]},
+    "5_17":     {"label": "Children and teens (5–17)", "priority": ["no2", "pm25"]},
+    "18_64":    {"label": "Adults (18–64)", "priority": []},
+    "65_plus":  {"label": "Older adults (65+)", "priority": ["hot_days", "warm_nights", "cold_days", "heavy_rain_days"]}
+  }
+}
