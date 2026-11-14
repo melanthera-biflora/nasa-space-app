@@ -1,10 +1,291 @@
-.location-map {
+/* ===== Trang loading ===== */
+.loading-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(100deg, #d4e8f4 0%, #e4f0ee 38%, #f6f3e0 62%, #fdeec4 100%);
+}
+
+/* ----- Nền trang trí ----- */
+.loading-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, #c6ddf5 0, transparent 30%),
+    radial-gradient(circle at 12% 95%, #f8ddbd 0, transparent 32%),
+    radial-gradient(circle at 92% 95%, #d9d7f4 0, transparent 34%);
+}
+
+.loading-cloud {
+  position: absolute;
+  height: 60px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  filter: blur(1px);
+}
+
+.loading-cloud-1 { top: -24px; left: -20px; width: 190px; }
+.loading-cloud-2 { top: -28px; left: 26%; width: 170px; opacity: 0.7; }
+
+.loading-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42%;
+  height: 72%;
+}
+
+.loading-rain span {
+  position: absolute;
+  width: 2px;
+  border-radius: 2px;
+  background: #8fb3d9;
+  opacity: 0.55;
+  transform: rotate(12deg);
+  animation: loading-rain-fall 2s linear infinite;
+}
+
+@keyframes loading-rain-fall {
+  0% { translate: 0 -10px; opacity: 0; }
+  20% { opacity: 0.55; }
+  100% { translate: -6px 30px; opacity: 0; }
+}
+
+.loading-sun {
+  position: absolute;
+  top: -90px;
+  right: -70px;
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd77f 0%, #ffe39e 60%, #ffeab3 100%);
+  box-shadow: 0 0 80px 30px rgba(255, 221, 140, 0.45);
+}
+
+/* Tia nắng */
+.loading-sun::before {
+  content: '';
+  position: absolute;
+  inset: -380px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgba(255, 210, 110, 0.18) 0deg 1deg, transparent 1deg 10deg);
+  -webkit-mask-image: radial-gradient(circle, #000 20%, transparent 62%);
+  mask-image: radial-gradient(circle, #000 20%, transparent 62%);
+}
+
+.loading-cracks {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 46%;
+  height: 42%;
+  fill: none;
+  stroke: #d8c4a3;
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+.loading-cracks path { vector-effect: non-scaling-stroke; }
+
+.loading-snow {
+  position: absolute;
+  inset: 0;
+}
+
+.loading-snow span {
+  position: absolute;
+  line-height: 0;
+}
+
+.loading-snow svg {
+  fill: none;
+  stroke: #a3b0e3;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+/* ----- Nội dung chính ----- */
+.loading-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 32px;
+}
+
+/* Footer luôn nằm trên nền trang trí */
+.loading-page > footer {
+  position: relative;
+  z-index: 2;
+}
+
+/* ----- Kính lúp ----- */
+.loading-magnifier {
+  position: relative;
+  width: 470px;
+  height: 470px;
+  flex-shrink: 0;
+}
+
+.loading-handle {
+  position: absolute;
+  top: 395px;
+  left: 375px;
+  width: 52px;
+  height: 160px;
+  border-radius: 4px;
+  background: #1e6b55;
+  transform: rotate(-45deg);
+  transform-origin: top center;
+}
+
+.loading-lens {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 72px;
+  box-sizing: border-box;
+  border: 12px solid #dfe5e1;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 12px 40px rgba(30, 60, 50, 0.12);
+  text-align: center;
+}
+
+.loading-ring {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.loading-ring circle {
+  fill: none;
+  stroke: #1e6b55;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.loading-eyebrow {
+  margin: 0 0 8px;
+  color: #1e6b55;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.loading-title {
+  margin: 0 0 20px;
+  color: #1b1f1d;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.loading-bar {
+  width: 270px;
+  max-width: 100%;
+  height: 6px;
+  margin-bottom: 22px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e6ebe8;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: #1e6b55;
+  transition: width 0.1s linear;
+}
+
+.loading-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.loading-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #6b7570;
+  font-size: 13px;
+}
+
+.loading-step.is-done,
+.loading-step.is-active {
+  color: #1b1f1d;
+}
+
+.loading-step-icon {
   display: grid;
   place-items: center;
-  min-width: 0;
-  min-height: 440px;
-  padding: 24px;
-  border-radius: 24px;
-  background: #e3ece7;
-  color: #64786d;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: 1.5px dashed #c6cec9;
+  border-radius: 50%;
+}
+
+.loading-step.is-active .loading-step-icon {
+  border-color: #1e6b55;
+  animation: loading-spin 1.4s linear infinite;
+}
+
+.loading-step.is-done .loading-step-icon {
+  border: 0;
+  width: 16px;
+  height: 16px;
+  background: #e1efe7;
+}
+
+.loading-step-icon svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: #1e6b55;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@keyframes loading-spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-note {
+  margin: 0;
+  color: #5b625e;
+  font-size: 12px;
+}
+
+/* ----- Màn hình nhỏ (điện thoại) ----- */
+@media (max-width: 600px) {
+  .loading-content { padding: 24px 0 80px; }
+  .loading-magnifier { transform: scale(0.72); margin: -66px; }
+  .loading-rain { width: 70%; }
+  .loading-sun { width: 180px; height: 180px; top: -70px; right: -60px; }
+}
+
+/* Người dùng tắt hiệu ứng chuyển động trong máy */
+@media (prefers-reduced-motion: reduce) {
+  .loading-rain span,
+  .loading-step.is-active .loading-step-icon {
+    animation: none;
+  }
 }
