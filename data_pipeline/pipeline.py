@@ -73,7 +73,7 @@ def make_factor(key, annual, monthly, th, narr, start_year, end_year):
     d = cfg.get("decimals", 1)
     return {
         "key": key, "label": cfg["label"], "available": True,
-        "constant": bool(tr.get("constant", False)),   # true = same value every year (often 0)
+        "constant": bool(tr.get("constant", False)),   
         "parent": cfg.get("parent"), "unit": cfg["unit"], "unit_short": cfg["unit_short"],
         "data_source": cfg.get("data"),
         "definition": narr.get("definition"),
@@ -99,24 +99,48 @@ def make_factor(key, annual, monthly, th, narr, start_year, end_year):
 
 
 def load_extra(lat, lon, sources):
-    """Run the other data-source files. A missing file or data never breaks the report."""
     out, status = {}, {}
     for key in sources:
         module_name, func = EXTRA_SOURCES[key]
         try:
             out.update(getattr(importlib.import_module(module_name), func)(lat, lon))
             status[key] = "ok"
-        except Exception as e:                 # file not built yet, no internet, etc.
+        except Exception as e:             
             status[key] = f"not available: {type(e).__name__}: {e}"
     return out, status
 
+def _as_list(condition, valid):
+    items = condition.split(",") if isinstance(condition, str) else list(condition or [])
+    keys = [c.strip() for c in items if c and c.strip() in valid]
+    keys = list(dict.fromkeys(k for k in keys if k != "none"))
+    return keys or ["none"]
 
+
+def _take_turns(lists):
+    out = []
+    for i in range(max((len(x) for x in lists), default=0)):
+        for x in lists:
+            if i < len(x) and x[i] not in out:
+                out.append(x[i])
+    return out
+
+
+def _join(words):
+    words = list(words)
+    return words[0] if len(words) == 1 else ", ".join(words[:-1]) + " and " + words[-1]
+
+
+def _lower_first(text):
+    return text[:1].lower() + text[1:]
+    
 def build_report(lat, lon, condition="none", age_group="18_64", period_years=None,
                  sources=("pm25", "no2", "fires", "surface_heat"),
                  daily=None, extra=None):
     """Everything the website needs for one location.
 
-    condition / age_group: keys from conditions.json (order the cards, pick actions)
+    condition: one key or a list of keys from conditions.json, e.g. ["asthma_copd", "heart_disease"]
+    age_group: one key from conditions.json
+    
     period_years: 10, 15, 20 or 25 (the "period to analyze" box). Default from thresholds.json.
     sources: which extra data sources to use (MODIS heat is slow the first time for a new place).
     daily / extra: only for testing with fake data.
@@ -145,12 +169,25 @@ def build_report(lat, lon, condition="none", age_group="18_64", period_years=Non
     overall = ("high_risk" if "high_risk" in levels else "caution" if "caution" in levels
                else "suitable")
 
-    # order: cards that matter for this person first, then by risk level
-    prio = cond["conditions"].get(condition, {}).get("priority", []) + \
-        cond["age_groups"].get(age_group, {}).get("priority", [])
-    prio = list(dict.fromkeys(prio))
+    conditions = _as_list(condition, cond["conditions"])
+    groups = [(c, cond["conditions"][c]) for c in conditions if c != "none"]
+    if age_group in cond["age_groups"]:
+        groups.append((age_group, cond["age_groups"][age_group]))
+
+    prio = _take_turns([g["priority"] for _, g in groups if g.get("priority")] or
+                       [cond["conditions"]["none"]["priority"]])
     for f in factors.values():
         f["priority_for_user"] = f["key"] in prio
+        affects = [g["label"] for _, g in groups if f["key"] in g.get("priority", [])]
+        f["affects"] = affects
+        f["health_flag"] = None
+        if f.get("available") and affects:
+            names = _join(_lower_first(a) for a in affects)
+            if f["level"] == "high_risk":
+                f["health_flag"] = {"level": "not_good", "groups": affects, "text": f"Not good for {names}"}
+            elif f["level"] == "caution" or f["trend_direction"] == "worsening":
+                f["health_flag"] = {"level": "take_care", "groups": affects, "text": f"Take care for {names}"}
+                
     order = sorted([f["key"] for f in main],
                    key=lambda k: (factors[k]["constant"],
                                   0 if k in prio else 1,
@@ -165,10 +202,22 @@ def build_report(lat, lon, condition="none", age_group="18_64", period_years=Non
             if n.get("actions"):
                 actions.append({"factor": k, "label": f["label"], "actions": n["actions"],
                                 "source": {"name": n.get("source_name"), "url": n.get("source_url")}})
-
+                
+    not_good_for = []
+    for _, g in groups:
+        bad = [factors[k]["label"] for k in order + [k for k in factors if factors[k].get("parent")]
+               if factors[k].get("health_flag") and g["label"] in factors[k]["health_flag"]["groups"]]
+        if bad:
+            not_good_for.append({"group": g["label"], "factors": bad,
+                                 "text": f"{g['label']}: {_join(bad)}"})
+            
     return clean_json({
         "location": {"lat": lat, "lon": lon},
-        "user": {"condition": condition, "age_group": age_group},
+        "user": {"condition": conditions[0], "conditions": conditions,
+                 "condition_labels": [cond["conditions"][c]["label"] for c in conditions],
+                 "age_group": age_group,
+                 "age_group_label": cond["age_groups"].get(age_group, {}).get("label", age_group)},
+        "not_good_for": not_good_for,
         "period": [start_year, end_year],
         "overall": overall,
         "overall_drivers": [factors[k]["label"] for k in order if factors[k]["level"] == overall],
@@ -201,6 +250,8 @@ def print_report(rep):
         print(f"{star} {f['label'][:34]:34s} {f['then']:>8} -> {f['now']:>8} {f['unit_short'][:8]:8s} "
               f"{f['slope_per_decade']:+.2f}/dec {f['significance_label']:20s} {f['p_label']:11s} "
               f"[{f['level'] or 'trend only'}] {ARROW[f['trend_direction']]}")
+    for item in rep.get("not_good_for", []):
+        print("⚠", item["text"])
     print("Data sources:", rep["data_status"])
 
 
