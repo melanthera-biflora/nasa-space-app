@@ -1,55 +1,37 @@
+import { useState } from 'react'
+import HealthConditionPage from './pages/HealthConditionPage'
+import LocationPage from './pages/LocationPage'
+import LoadingPage from './pages/LoadingPage'
+import ReportPage from './pages/ReportPage'
 import './App.css'
 
-function App() {
+const pages = [
+  { label: '1. Health', component: HealthConditionPage },
+  { label: '2. Location', component: LocationPage },
+  { label: '3. Loading', component: LoadingPage },
+  { label: '4. Report', component: ReportPage },
+]
+
+export default function App() {
+  const [activePage, setActivePage] = useState(0)
+  const Page = pages[activePage].component
+
   return (
-    <div className="app">
-      <main className="questionnaire">
-        <div className="page-container">
-          <header className="hero">
-            <h1>
-              Found a great home?
-              <br />
-              Don’t forget your health.
-            </h1>
+    <>
+      <nav className="preview-nav" aria-label="Page preview">
+        {pages.map((page, index) => (
+          <button
+            key={page.label}
+            type="button"
+            aria-pressed={activePage === index}
+            onClick={() => setActivePage(index)}
+          >
+            {page.label}
+          </button>
+        ))}
+      </nav>
 
-            <p>
-              The climate around your home affects your health more than
-              you might think.
-            </p>
-          </header>
-
-          <div className="questionnaire-layout">
-            <section className="form-card">
-              <div className="form-heading">
-                <h2>About your family</h2>
-                <span>STEP 01 / 02</span>
-              </div>
-
-              <p>Form sẽ nằm ở đây.</p>
-            </section>
-
-            <section
-              className="illustration-card"
-              aria-label="Climate illustration"
-            >
-              <span className="status-badge">
-                <span className="status-dot" />
-                Community response: Active
-              </span>
-            </section>
-          </div>
-        </div>
-      </main>
-
-      <footer className="footer">
-        <p>
-          Climatch is for information only and doesn’t replace a doctor’s
-          advice.
-        </p>
-        <p>Hackathon 2026 · [Team name]</p>
-      </footer>
-    </div>
+      <Page />
+    </>
   )
 }
-
-export default App

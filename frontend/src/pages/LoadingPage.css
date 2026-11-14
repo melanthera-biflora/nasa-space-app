@@ -1,0 +1,10 @@
+.location-map {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 440px;
+  padding: 24px;
+  border-radius: 24px;
+  background: #e3ece7;
+  color: #64786d;
+}
