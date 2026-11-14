@@ -1,10 +1,311 @@
-.location-map {
+.location-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.location-main {
+  flex: 1;
+  padding: 44px 32px 56px;
+  background:
+    radial-gradient(
+      ellipse at 65% 35%,
+      rgba(111, 69, 167, 0.6),
+      transparent 65%
+    ),
+    linear-gradient(120deg, #354b59, #302d59 70%);
+}
+
+.location-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.location-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 200px;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 20px;
+}
+
+.location-hero-copy {
+  position: relative;
+  z-index: 2;
+  width: 52%;
+  color: white;
+}
+
+.location-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.2;
+}
+
+.location-hero p {
+  max-width: 460px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.location-art {
+  position: absolute;
+  inset: 0 0 0 52%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.location-cloud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 135px;
+}
+
+.location-house {
+  position: absolute;
+  right: 12px;
+  bottom: -42px;
+  width: 300px;
+  max-width: 78%;
+}
+
+.location-grid {
+  position: relative;
+  z-index: 3;
   display: grid;
-  place-items: center;
+  grid-template-columns: 1fr 1.08fr;
+  gap: 8px;
+}
+
+.location-card {
   min-width: 0;
-  min-height: 440px;
-  padding: 24px;
-  border-radius: 24px;
+  min-height: 460px;
+  padding: 30px;
+  border-radius: 22px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.location-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #edf0ed;
+}
+
+.location-card-heading h2 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.location-card-heading > span {
+  color: #84948d;
+  font-size: 9px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.location-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.location-form h3 {
+  margin: 0 0 8px;
+  color: #1754c4;
+  font-size: 13px;
+}
+
+.location-description {
+  margin: 0 0 20px;
+  color: #63776c;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.location-form label {
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.location-search {
+  display: flex;
+  gap: 8px;
+}
+
+.location-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #d8e2dc;
+  border-radius: 7px;
+  color: #173b30;
+  background: white;
+}
+
+.location-search input:focus-visible {
+  outline: 2px solid #7465b5;
+  outline-offset: 2px;
+}
+
+.location-search button {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 7px;
+  background: #393365;
+  color: white;
+}
+
+.location-demo-note {
+  margin: 10px 0;
+  color: #718078;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.location-message,
+.location-error {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.location-error {
+  color: #b42318;
+}
+
+.location-selected {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid #dfe9e2;
+  border-radius: 8px;
+  background: #f2f7f4;
+}
+
+.location-selected > span {
+  color: #62766a;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.location-selected strong {
+  font-size: 14px;
+}
+
+.location-selected p {
+  margin: 0;
+  color: #718078;
+  font-size: 12px;
+}
+
+.location-action {
+  margin-top: auto;
+  padding-top: 32px;
+}
+
+.location-result-button {
+  width: 100%;
+  padding: 15px;
+  border: 0;
+  border-radius: 999px;
+  background: #393365;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.location-page button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.location-map-card {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 22px;
   background: #e3ece7;
-  color: #64786d;
+}
+
+.location-map {
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+  z-index: 0;
+}
+
+.location-pin-wrapper {
+  background: transparent;
+  border: 0;
+}
+
+.location-pin {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border: 3px solid white;
+  border-radius: 50% 50% 50% 0;
+  background: #197b62;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px #0004;
+}
+
+.location-pin::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+}
+
+.location-pin-label {
+  max-width: 220px;
+  white-space: normal;
+  text-align: center;
+  font-size: 11px;
+}
+
+@media (max-width: 768px) {
+  .location-main {
+    padding: 24px 18px 36px;
+  }
+
+  .location-hero {
+    min-height: auto;
+    padding-bottom: 24px;
+  }
+
+  .location-hero-copy {
+    width: 100%;
+  }
+
+  .location-art {
+    display: none;
+  }
+
+  .location-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .location-card {
+    padding: 24px;
+  }
+
+  .location-map {
+    height: 360px;
+    min-height: 360px;
+  }
 }
