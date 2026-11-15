@@ -1,19 +1,226 @@
-* {
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9,400&family=Inter:wght@400;500;600;700&family=Lexend+Deca:wght@400;600&family=Manrope:wght@400;600;700;800&display=swap');
+
+:root {
+  --font-display: 'Lexend Deca', sans-serif;
+  --font-form: 'Manrope', sans-serif;
+  --font-option: 'DM Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --text-body: 14px;
+  --line-body: 21px;
+  --text-small: 13px;
+  --line-small: 19px;
 }
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--line-body);
+  font-weight: 400;
   color: #173b30;
 }
 
-button,
-input,
-select {
-  font: inherit;
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+
+/* Shared reading scale. Layout, color and spacing stay in page styles. */
+body :is(p, li) {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--line-body);
+  font-weight: 400;
+}
+body :is(footer, footer p, footer a, small, .helper-text, .help-text, .field-hint) {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--line-small);
+  font-weight: 400;
 }
 
-button {
-  cursor: pointer;
+/* Display heading and supporting intro; explicit utility classes are reusable. */
+body :is(.hero-title, .hero-heading, .health-page h1, .health-condition-page h1, .location-page h1),
+body .type-hero {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.2;
+  font-weight: 600;
+}
+body :is(.hero-subtitle, .hero-description, .supporting-intro),
+body .type-intro {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+body :is(.form-section h2, .form-section h3, .form-section-title, .section-title, fieldset legend),
+body .type-form-title {
+  font-family: var(--font-form);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+body :is(button, .primary-button, .primary-btn, .btn-primary, .submit-button, .submit-btn),
+body .type-action {
+  font-family: var(--font-form);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 800;
+}
+/* Exclude checkboxes/radios from changing control appearance or dimensions. */
+body :is(select, option, .condition-option, .health-option, .option-label, .checkbox-label, .radio-label),
+body .type-option {
+  font-family: var(--font-option);
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 9;
+  font-size: 14px;
+  line-height: 16.5px;
+  font-weight: 400;
+}
+body :is(input:not([type='checkbox']):not([type='radio']), textarea) {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+/* ReportPage selectors match the supplied report implementation. */
+body .report-page {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 21px;
+}
+body .report-page .report-heading h1 {
+  font-family: var(--font-body);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 600;
+}
+body .report-page .report-verdict h2,
+body .type-verdict {
+  font-family: var(--font-body);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 600;
+}
+body .report-page :is(.report-profile h2, .report-action h3, .report-factor-label, .report-chart-header h2),
+body .type-card-heading {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+}
+body .report-page :is(.report-factor-copy, .report-chart-story, .report-profile div > p, .report-action li, .report-details > div, .report-details > div p),
+body .type-body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+}
+body .report-page :is(.report-mini-label, .report-period, .report-demo, .report-heading > p, .report-counts, .report-counts small, .report-chart-legend, .report-action a, .report-details summary > span),
+body .type-helper {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 400;
+}
+body .report-page .report-chart-header select {
+  font-family: var(--font-option);
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 9;
+  font-size: 14px;
+  line-height: 16.5px;
+  font-weight: 400;
+}
+body .report-page .report-chart-header { flex-wrap: wrap; }
+body .report-page .report-counts { min-width: 180px; }
+body .report-page .report-assessment { flex-wrap: wrap; }
+
+
+/* Exact selectors from the supplied Health, Location and Loading pages. */
+body :is(.health-card .questionnaire-card-heading h2,
+         .health-card .health-question,
+         .health-card .health-person-title,
+         .health-card .health-label,
+         .location-page .location-card-heading h2,
+         .location-page .location-form h3) {
+  font-family: var(--font-form);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
+body :is(.health-card .health-check-label,
+         .health-card .health-select,
+         .health-card .health-other-input) {
+  font-family: var(--font-option);
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 9;
+  font-size: 14px;
+  line-height: 16.5px;
+  font-weight: 400;
+}
+body :is(.health-card .health-next,
+         .location-page .location-result-button,
+         .location-page .location-search button) {
+  font-family: var(--font-form);
+  font-size: 13px;
+  line-height: 19.5px;
+  font-weight: 800;
+}
+body :is(.health-card .health-add, .health-card .health-remove) {
+  font-family: var(--font-form);
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 600;
+}
+body :is(.health-card .health-instruction,
+         .location-page .location-description,
+         .location-page .location-demo-note,
+         .location-page .location-message,
+         .location-page .location-error,
+         .location-page .location-selected p,
+         .location-page .location-pin-label) {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 400;
+}
+body .location-page .location-hero-copy h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.2;
+  font-weight: 600;
+}
+body .location-page .location-hero-copy > p {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 400;
+}
+body .location-page .location-form label {
+  font-family: var(--font-form);
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 600;
+}
+body .loading-page .loading-title {
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 600;
+}
+body .loading-page :is(.loading-eyebrow, .loading-season, .loading-note) {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 19px;
+}
+body .loading-page .loading-step {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+}
+body .report-page .report-recommendations > h2 {
+  font-family: var(--font-body);
+  font-weight: 600;
 }

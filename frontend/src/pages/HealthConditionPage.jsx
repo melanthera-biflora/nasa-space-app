@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import QuestionnaireLayout from '../components/QuestionnaireLayout'
 import './HealthConditionPage.css'
 
@@ -19,6 +19,14 @@ const OTHER_ANSWERS = [
   { id: 'none', label: 'None' },
   { id: 'not-sure', label: 'Not sure' },
   { id: 'no-answer', label: 'Prefer not to say' },
+]
+
+// Tin mô phỏng cho live feed (sau này thay bằng dữ liệu API thật)
+const FEED_ITEMS = [
+  { title: 'Air quality alert', meta: 'Zone 4 · 12 min ago' },
+  { title: 'Heat advisory', meta: 'Downtown · 1 hr ago' },
+  { title: 'Pollen count rising', meta: 'North side · today' },
+  { title: 'Flood watch lifted', meta: 'River district · 3 hr ago' },
 ]
 
 let nextId = 1
@@ -44,6 +52,30 @@ function Decoration({ src, className }) {
         e.currentTarget.style.display = 'none'
       }}
     />
+  )
+}
+
+// Chip trạng thái ở góc trên: xoay vòng các tin cộng đồng
+function LiveFeed() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => setIndex((i) => (i + 1) % FEED_ITEMS.length), 3500)
+    return () => clearInterval(timer)
+  }, [])
+
+  return (
+    <div className="health-status" aria-live="off">
+      <span className="health-status-dot" />
+      <div className="health-feed">
+        {FEED_ITEMS.map((item, i) => (
+          <span key={item.title} className={i === index ? 'health-feed-item is-on' : 'health-feed-item'}>
+            <b>{item.title}</b>
+            <i>{item.meta}</i>
+          </span>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -201,6 +233,26 @@ export default function HealthConditionPage({ onNext }) {
     setPeople((prev) => prev.filter((p) => p.id !== id))
   }
 
+  // Một người được tính là đã trả lời khi chọn ít nhất một bệnh hoặc một đáp án đặc biệt
+  const answeredCount = people.filter((p) => p.conditions.length > 0 || p.special).length
+  const hasAnswers = answeredCount > 0
+  const allAnswered = answeredCount === people.length
+
+  let statusTitle = 'Waiting for your answers'
+  let statusSub = 'Pick any health conditions on the left.'
+  let hintTitle = 'Next: your personalized risk map'
+  let hintSub = 'Takes about 10 seconds to build.'
+  if (hasAnswers) {
+    statusTitle = allAnswered
+      ? 'All set'
+      : `Got answers for ${answeredCount} of ${people.length} people`
+    statusSub = allAnswered
+      ? 'Your map will highlight the risks that matter most to you.'
+      : 'Answer for everyone to get the most accurate map.'
+    hintTitle = 'Ready when you are'
+    hintSub = 'Continue to see your personalized risk map.'
+  }
+
   function handleSubmit(e) {
     e.preventDefault()
 
@@ -225,20 +277,28 @@ export default function HealthConditionPage({ onNext }) {
           <Decoration src="/images/house-3d.png" className="health-deco health-deco-house" />
 
           <div className="health-panel">
-            <span className="health-status">
-              <span className="health-status-dot" />
-              Community response: Active
-            </span>
+            <LiveFeed />
 
             <div className="health-rings" aria-hidden="true">
               <span />
               <span />
             </div>
 
-            <div className="health-check" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M6 12.5l4 4 8-9" />
-              </svg>
+            <div className="health-core">
+              <div className={hasAnswers ? 'health-orb has-answers' : 'health-orb'} aria-hidden="true" />
+              <div className="health-msg" role="status" aria-live="polite">
+                <strong>
+                  {statusTitle}
+                  {!hasAnswers && (
+                    <span className="health-dots" aria-hidden="true">
+                      <span>.</span>
+                      <span>.</span>
+                      <span>.</span>
+                    </span>
+                  )}
+                </strong>
+                <small>{statusSub}</small>
+              </div>
             </div>
 
             {/* Ngọn đồi với đường đi, cây và ngôi nhà nhỏ */}
@@ -254,11 +314,15 @@ export default function HealthConditionPage({ onNext }) {
               </span>
             </div>
 
-            <div className="health-stat">
-              <span className="health-stat-label">Avg. response</span>
-              <span className="health-stat-value">
-                24 <small>hrs</small>
-              </span>
+            <div className="health-hint">
+              <div className="health-hint-text">
+                <strong>{hintTitle}</strong>
+                <span>{hintSub}</span>
+              </div>
+              <div className="health-progress" aria-hidden="true">
+                <i style={{ width: hasAnswers ? '75%' : '50%' }} />
+              </div>
+              <span className="health-hint-step">Step 1 of 2</span>
             </div>
           </div>
         </section>
