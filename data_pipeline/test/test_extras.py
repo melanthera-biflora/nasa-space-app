@@ -26,9 +26,7 @@ def files(tmp_path, monkeypatch):
     xr.Dataset({"rain": (("time", "lat", "lon"), np.full((len(rain), 2, 2), 50.0))},
                coords={"time": rain, "lat": lat, "lon": lon}).to_netcdf(tmp_path / "imerg_monthly_us.nc")
     monkeypatch.setattr(extras, "DATA_DIR", tmp_path)
-    extras._open.cache_clear()
     yield
-    extras._open.cache_clear()
 
 
 def test_smoke_days_count_medium_and_heavy_smoke_from_2011(files):

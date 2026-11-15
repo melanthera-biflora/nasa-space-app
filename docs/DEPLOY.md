@@ -8,16 +8,17 @@ needed for that, and the hosted database is not shared with them.
 | Piece | Where | Size |
 | --- | --- | --- |
 | `climatch-web`: the website (Next.js) | Render web service, Oregon | Starter |
-| `climatch-api`: the API and the NASA data files (FastAPI) | Render web service, Oregon | Standard (2 GB) |
+| `climatch-api`: the API and the NASA data files (FastAPI) | Render web service, Oregon | Starter (512 MB) |
 | The cache of finished reports, states and place lookups | The team's Supabase project (us-west-1) | As it is now |
 | The data files (about 600 MB) | Downloaded from the team's Google Drive on every API build | |
 
 `render.yaml` at the repo root describes both services. Visitors only call the website; it reaches the API over
 Render's private network (`API_HOSTPORT`), so there is no cross-site setup.
 
-**Why the API needs 2 GB:** one report for a new place peaks at about 450 MB (pandas and the NetCDF files), so a
-512 MB plan (Free or Starter) would restart as soon as two people open new places at once. Check the current prices
-on [render.com/pricing](https://render.com/pricing) before you start.
+**Why Starter is enough:** the API builds one report at a time and closes each data file after reading it. Measured
+locally, it idles near 175 MB and peaked at 373 MB while building six new places in a row; a second visitor waits a
+few seconds instead of doubling the memory. If `climatch-api`'s Metrics show it near 512 MB, or it restarts with "out
+of memory", change `plan: starter` to `plan: standard` (2 GB) in `render.yaml`. Prices: [render.com/pricing](https://render.com/pricing).
 
 ## One-time setup (the owner)
 

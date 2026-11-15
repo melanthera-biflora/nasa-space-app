@@ -1,15 +1,16 @@
 # Climatch on Render: the API (FastAPI) and the website (Next.js) as two web services in one region. The website
 # reaches the API over Render's private network; people only ever call the website. Steps: docs/DEPLOY.md.
 #
-# Plans: one report build peaks near 450 MB, so the API needs more than the 512 MB plans (free, starter) to serve
-# two people at once; "standard" has 2 GB. The website is light.
+# Plans: the API fits Starter (512 MB). It builds one report at a time (BUILD_SLOT) and closes each data file after
+# reading, so it idles near 175 MB and peaked at 373 MB while building new places; a second visitor waits a few
+# seconds. If Render's Metrics show it near 512 MB, or "out of memory" restarts, move it to "standard" (2 GB).
 
 services:
   - type: web
     name: climatch-api
     runtime: python
     region: oregon                   # closest to the Supabase database (us-west-1)
-    plan: standard
+    plan: starter
     buildCommand: pip install -r backend/requirements-deploy.txt && python -m backend.fetch_data
     startCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/v1/health

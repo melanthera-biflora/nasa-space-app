@@ -2,7 +2,7 @@
 import requests
 
 from backend.errors import ApiError
-from backend.services.reports import DATA_VERSION
+from backend.services.reports import BUILD_SLOT, DATA_VERSION
 from paths import load_json, load_thresholds
 
 LONGER = 45          # "Try a longer series": 1981-2025, NASA POWER variables only
@@ -73,10 +73,14 @@ class RegionService:
         stored = self.store.get_region(key)
         if stored is not None:
             return stored
-        try:
-            body = self.build(code, variable, period) if end == LAST_YEAR else self.build(code, variable, period, end)
-        except requests.RequestException:
-            raise ApiError(502, "upstream_unavailable", "NASA POWER didn't answer. Try again in a minute.")
+        with BUILD_SLOT:                                 # one build at a time, as for reports
+            stored = self.store.get_region(key)
+            if stored is not None:
+                return stored
+            try:
+                body = self.build(code, variable, period) if end == LAST_YEAR else self.build(code, variable, period, end)
+            except requests.RequestException:
+                raise ApiError(502, "upstream_unavailable", "NASA POWER didn't answer. Try again in a minute.")
         if body["factor"].get("available"):
             self.store.put_region(key, {"code": code, "variable": variable, "period": period, "version": self.version}, body)
         return body

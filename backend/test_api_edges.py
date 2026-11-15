@@ -283,3 +283,26 @@ def test_input_errors_are_plain_sentences_not_validator_text(path, params, words
 def test_an_unknown_state_on_events_is_not_found_like_everywhere_else():
     client, _, _, _ = make_client()
     assert_plain_error(client.get("/api/v1/events", params={"region": "ZZ"}), 404, "not_found")
+
+
+def test_two_visitors_asking_for_the_same_new_place_build_it_once():
+    """Builds run one at a time (BUILD_SLOT, for a 512 MB server); the visitor who waited gets the stored copy."""
+    import threading
+    import time
+    from backend.services import ReportService
+    from backend.store.files import FileStore
+    builds = []
+
+    def build(lat, lon, period_years=None, sources=(), **kw):
+        builds.append((lat, lon))
+        time.sleep(0.2)
+        return {"data_status": {"power": "ok"}, "factors": {}}
+
+    svc = ReportService(FileStore(), build, lambda la, lo: False)
+    out = []
+    threads = [threading.Thread(target=lambda: out.append(svc.neutral(40.0, -100.0))) for _ in range(2)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert builds == [(40.0, -100.0)] and len(out) == 2
