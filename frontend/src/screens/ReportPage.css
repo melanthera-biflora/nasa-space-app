@@ -1,0 +1,73 @@
+/* Report page, built on the tokens in index.css: a dusk band for the place and verdict, sage pages below. */
+.report-page { background: var(--bg); color: var(--ink); min-height: 100vh; }
+.report-page h2, .report-page h3 { margin: 0; }
+.eyebrow { margin: 0; font-size: var(--text-12); line-height: 16px; font-weight: 600; color: var(--brand-mid); }
+.note { margin: 0; font-size: var(--text-14); line-height: 20px; color: var(--ink-muted); }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-card); padding: var(--space-5); }
+@media (max-width: 480px) { .panel { padding: var(--space-4); } }
+.dir-up { color: var(--rising); }
+.dir-down { color: var(--falling); }
+.dir-flat { color: var(--flat); }
+
+/* Dusk band: place, years, verdict, household */
+.report-hero { background: var(--hero-gradient); color: var(--on-brand); }
+.report-hero-inner {
+  max-width: 1240px; margin: 0 auto; padding: var(--space-6) var(--space-4);
+  display: grid; gap: var(--space-5); grid-template-areas: 'place' 'verdict' 'profile';
+}
+@media (min-width: 900px) {
+  .report-hero-inner { padding: var(--space-7) var(--space-5) var(--space-6); grid-template-columns: minmax(0, 1fr) minmax(0, 440px); grid-template-areas: 'place verdict' 'profile verdict'; column-gap: var(--space-7); }
+}
+.hero-place { grid-area: place; }
+.hero-verdict { grid-area: verdict; align-self: start; padding: var(--space-5); border: 1px solid var(--on-brand-line); border-radius: var(--radius-card); background: var(--on-brand-wash); }
+.hero-profile { grid-area: profile; align-self: end; display: flex; align-items: center; gap: var(--space-3); }
+.hero-eyebrow { margin: 0; font-size: var(--text-12); line-height: 16px; font-weight: 600; color: var(--on-brand-muted); }
+.report-hero h1 { margin: var(--space-2) 0 0; font-size: var(--text-40); line-height: 1.1; font-weight: 500; letter-spacing: -0.015em; }
+@media (max-width: 480px) { .report-hero h1 { font-size: var(--text-28); } }
+.hero-sub { margin: var(--space-1) 0 0; font-size: var(--text-14); line-height: 20px; color: var(--on-brand-muted); }
+.hero-verdict h2 { margin-top: var(--space-2); font-size: var(--text-28); line-height: 1.2; font-weight: 600; }
+.hero-profile h2 { margin-top: var(--space-1); font-size: var(--text-16); line-height: 24px; font-weight: 600; }
+.hero-tell { display: inline-block; margin-top: 2px; font-size: var(--text-14); color: var(--highlight); text-underline-offset: 3px; }
+.report-avatar { flex: 0 0 auto; width: 56px; height: 72px; display: flex; align-items: flex-end; justify-content: center; }
+.report-avatar :is(img, svg) { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
+
+.periods { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3); margin-top: var(--space-5); font-size: var(--text-14); }
+.periods-status { min-width: 80px; padding-bottom: 6px; font-size: var(--text-12); color: var(--on-brand-muted); }
+.report-hero :focus-visible { outline-color: var(--highlight); }
+
+/* Page body */
+.report { max-width: 1240px; margin: 0 auto; padding: var(--space-5) var(--space-4) var(--space-7); display: grid; gap: var(--space-5); }
+@media (min-width: 900px) { .report { padding: var(--space-6) var(--space-5) var(--space-7); } }
+
+.case { padding: var(--space-4) var(--space-5); border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: var(--radius-card); background: var(--brand-soft); }
+.case h2 { margin-top: var(--space-1); font-size: var(--text-20); line-height: 28px; font-weight: 600; }
+.case p:last-child { margin: var(--space-2) 0 0; font-size: var(--text-16); line-height: 24px; }
+
+/* Resolution map and actions */
+.action { padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+.action:first-of-type { border-top: 0; padding-top: 0; }
+.action h3 { display: flex; gap: var(--space-2); font-size: var(--text-16); line-height: 24px; font-weight: 600; }
+.action ul { margin: var(--space-2) 0; padding-left: 20px; }
+.action li { font-size: var(--text-14) !important; line-height: 20px !important; margin-bottom: var(--space-1); }
+.action a { font-size: var(--text-14); color: var(--accent); }
+
+/* Motion: the header settles in, and the page dims while a new period loads. */
+.report[aria-busy='true'] .rp-section { opacity: 0.55; transition: opacity var(--dur-base); }
+@media (prefers-reduced-motion: no-preference) {
+  .report-hero-inner > * { animation: rise-in var(--dur-slow) var(--ease-out) both; }
+  .report-hero-inner > :nth-child(2) { animation-delay: 120ms; }
+  .report-hero-inner > :nth-child(3) { animation-delay: 220ms; }
+  .case { animation: rise-in var(--dur-slow) var(--ease-out) 200ms both; }
+}
+
+/* The team's page entrance from the loading page (main, "Add transition across page") */
+@media (prefers-reduced-motion: no-preference) {
+  .report-page { animation: appear 700ms var(--ease-out) both; }
+}
+
+/* The team's "Back to home" pill in the dusk band; lime on hover like the period buttons */
+.report-home { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 40px; margin-bottom: var(--space-4); padding: 0 18px 0 14px; border: 1px solid var(--on-brand-line); border-radius: 999px; background: var(--on-brand-wash); color: var(--on-brand); font-size: var(--text-14); font-weight: 600; }
+.report-home:hover { border-color: var(--highlight); background: var(--highlight); color: var(--brand-deep); }
+.report-home svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.link-button { min-height: 32px; padding: 0; border: 0; background: none; color: var(--accent); font-size: var(--text-14); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }

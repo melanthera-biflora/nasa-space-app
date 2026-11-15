@@ -1,0 +1,718 @@
+/* ===== Question card (left) ===== */
+.health-card {
+  display: flex;
+  flex-direction: column;
+  color: var(--ink);
+}
+
+.health-question {
+  margin: 0 0 8px;
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.health-instruction {
+  margin: 0 0 20px;
+  color: var(--ink-muted);
+  font-size: var(--text-14);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ----- One person ----- */
+.health-people {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.health-person {
+  min-width: 0;
+}
+
+/* Divider between people */
+.health-person + .health-person {
+  padding-top: 20px;
+  border-top: 1px dashed var(--line);
+}
+
+.health-person-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.health-person-title {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Nút "Add another person" */
+.health-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 0 14px 0 10px;
+  border: 1.5px solid var(--brand);
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font: inherit;
+  font-size: var(--text-12);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.health-add:hover {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.health-add svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* "Remove" button from the second person on */
+.health-remove {
+  min-height: 28px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: var(--text-12);
+  cursor: pointer;
+}
+
+.health-remove:hover {
+  border-color: var(--rising);
+  color: var(--rising);
+}
+
+.health-add:focus-visible,
+.health-remove:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Nhãn màu xanh: "Age group", "Your health condition" */
+.health-label {
+  margin: 0;
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.health-age {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.health-age .health-select-wrap {
+  flex: 0 1 270px;
+  min-width: 0;
+}
+
+.health-label-conditions {
+  margin-bottom: 6px;
+}
+
+.health-conditions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Hand-drawn round checkbox */
+.health-check-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 34px;
+  color: var(--ink);
+  font-size: var(--text-14);
+  cursor: pointer;
+}
+
+.health-check-label > input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.health-box {
+  position: relative;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.health-check-label:hover > .health-box {
+  border-color: var(--brand-mid);
+}
+
+.health-check-label > input:checked + .health-box {
+  border-color: var(--brand);
+  background: var(--brand);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .health-check-label > input:checked + .health-box { animation: health-pop 280ms var(--ease-out); }
+  .health-person { animation: rise-in var(--dur-slow) var(--ease-out) both; }
+}
+
+@keyframes health-pop {
+  0% { transform: scale(0.8); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.health-check-label > input:checked + .health-box::after {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  box-sizing: border-box;
+  width: 5px;
+  height: 9px;
+  border: solid var(--surface);
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.health-check-label > input:focus-visible + .health-box {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.health-other {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.health-other-input {
+  flex: 1 1 auto;
+  min-width: 8ch;           /* the typed text stays visible (it was 90 px) */
+  width: 100%;
+  padding: 0 2px;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.health-other-input:focus-visible {
+  border-bottom-color: var(--brand);
+  box-shadow: inset 0 -2px 0 var(--brand);   /* a clear underline for keyboard focus (the input has no box) */
+}
+
+/* Age group select */
+.health-select-wrap {
+  position: relative;
+}
+
+.health-select {
+  width: 100%;
+  height: 30px;
+  padding: 0 34px 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.health-select:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.health-select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* None / Not sure / Prefer not to say */
+.health-special {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 10px;
+}
+
+.health-special .health-check-label {
+  flex: 1 1 120px;
+}
+
+/* Minimum space before the Next step button */
+.health-people {
+  margin-bottom: 28px;
+}
+
+/* Nút Next step */
+.health-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 88%;
+  height: 54px;
+  margin: auto auto 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--brand);
+  box-shadow: 0 12px 32px rgba(194, 255, 77, 0.22);
+  color: var(--on-brand);
+  font: inherit;
+  font-size: var(--text-14);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--dur-fast), transform var(--dur-fast), box-shadow var(--dur-base);
+}
+
+.health-next:hover {
+  background: var(--brand-deep);
+  box-shadow: 0 14px 36px rgba(194, 255, 77, 0.38);
+}
+
+.health-next svg {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.health-next:hover svg {
+  transform: translateX(4px);
+}
+
+.health-next:active {
+  transform: translateY(1px);
+}
+
+.health-next:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.health-next svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ===== Illustration panel (right) ===== */
+.health-illustration {
+  --core-y: 168px; /* distance from the panel top to the orb centre (fixed, does not stretch with the panel) */
+  position: relative;
+  min-width: 0;
+  min-height: 640px;
+}
+
+/* 3D image from Figma, sticking out above the panel */
+.health-deco {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.health-deco-house {
+  left: 34%;
+  bottom: calc(100% - 4px);
+  width: 46%;
+  max-width: 300px;
+}
+
+.health-deco-cloud {
+  left: 12%;
+  bottom: calc(100% + 120px);
+  width: 22%;
+  max-width: 140px;
+}
+
+.health-panel {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--radius-panel);
+  background: var(--panel-gradient);
+  box-shadow: 0 24px 60px rgba(15, 10, 40, 0.3);
+}
+
+.health-status {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: min(400px, calc(100% - 48px));
+  padding: 10px 16px;
+  border: 1px solid #ffffff20;
+  border-radius: 999px;
+  background: #ffffff12;
+  backdrop-filter: blur(8px);
+  color: white;
+  font-size: var(--text-12);
+}
+
+.health-status-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--highlight);
+  animation: health-ping 2s infinite;
+}
+
+/* Rotating line: one line at a time */
+.health-status-label {
+  flex: none;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.health-feed {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 18px;
+  overflow: hidden;
+}
+
+.health-feed-item {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+
+.health-feed-item.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+.health-feed-item b {
+  font-weight: 600;
+}
+
+.health-feed-item i {
+  margin-left: 6px;
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.health-rings span {
+  position: absolute;
+  top: var(--core-y);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.health-rings span:nth-child(1) { left: 47%; width: 320px; height: 320px; }
+.health-rings span:nth-child(2) { left: 58%; width: 440px; height: 440px; }
+
+/* Waiting state: the orb "breathes", with a line of text */
+.health-core {
+  position: absolute;
+  top: var(--core-y);
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 280px;
+  /* pull up by half the orb so its centre sits on the rings' centre */
+  transform: translate(-50%, -40px);
+  color: #ffffff;
+  text-align: center;
+}
+
+.health-orb {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--highlight);
+  box-shadow: 0 0 0 10px rgba(194, 255, 77, 0.16), 0 0 48px rgba(194, 255, 77, 0.45);
+  animation: health-breathe 3s ease-in-out infinite;
+  transition: box-shadow var(--dur-slow) var(--ease-out);
+}
+
+/* With answers: brighter, slower breathing */
+.health-orb.has-answers {
+  box-shadow: 0 0 0 14px rgba(194, 255, 77, 0.22), 0 0 70px rgba(194, 255, 77, 0.6);
+  animation-duration: 4.5s;
+}
+
+.health-msg {
+  margin-top: 22px;
+}
+
+.health-msg strong {
+  display: block;
+  font-size: var(--text-20);
+  font-weight: 600;
+}
+
+.health-msg small {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: var(--text-14);
+  line-height: 1.4;
+}
+
+.health-dots span {
+  animation: health-blink 1.4s infinite both;
+}
+.health-dots span:nth-child(2) { animation-delay: 0.2s; }
+.health-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes health-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+
+@keyframes health-blink {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+
+@keyframes health-ping {
+  0% { box-shadow: 0 0 0 0 rgba(194, 255, 77, 0.6); }
+  70%, 100% { box-shadow: 0 0 0 9px rgba(194, 255, 77, 0); }
+}
+
+/* Illustration: takes the space below the orb and text, so it never covers the text.
+   132px = the lower half of the orb plus the text; 76px = room for the hint card at the bottom. */
+.health-art {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 76px;
+  z-index: 0;
+  width: min(86%, 740px);
+  height: calc(100% - var(--core-y) - 132px - 76px);
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 24px 40px rgba(25, 12, 70, 0.4));
+  animation: health-float 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes health-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.health-msg strong,
+.health-msg small {
+  text-shadow: 0 1px 10px rgba(35, 20, 85, 0.55);
+}
+
+/* Progress hint at the bottom of the panel (instead of the "Avg. response" card) */
+.health-hint {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  background: rgba(40, 30, 80, 0.55);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+}
+
+.health-hint-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.health-hint-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.health-hint-text span {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+}
+
+.health-progress {
+  flex: none;
+  width: 100px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.health-progress i {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: var(--highlight);
+  transition: width var(--dur-slow) var(--ease-out);
+}
+
+.health-hint-step {
+  flex: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+}
+
+/* ===== Exit when Next step is pressed ===== */
+.health-card.is-leaving,
+.health-illustration.is-leaving {
+  pointer-events: none;
+  animation: health-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.health-illustration.is-leaving {
+  animation-delay: 0.05s;
+}
+
+/* The orb swells and glows as if "loading" data */
+.health-illustration.is-leaving .health-orb {
+  animation: none;
+  transform: scale(1.5);
+  box-shadow: 0 0 0 22px rgba(194, 255, 77, 0.25), 0 0 110px rgba(194, 255, 77, 0.8);
+  transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
+}
+
+.health-illustration.is-leaving .health-progress i {
+  width: 100% !important;
+}
+
+.health-next:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+@keyframes health-out {
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .health-orb,
+  .health-art,
+  .health-status-dot,
+  .health-dots span {
+    animation: none;
+  }
+
+  .health-feed-item {
+    transition: none;
+  }
+
+  .health-card.is-leaving,
+  .health-illustration.is-leaving {
+    animation: none;
+  }
+}
+
+/* ===== Small screens ===== */
+@media (max-width: 768px) {
+  .health-illustration {
+    --core-y: 150px;
+    min-height: 560px;
+    margin-top: 140px;
+  }
+
+  .health-deco-cloud {
+    bottom: calc(100% + 40px);
+  }
+
+  .health-status {
+    right: 24px;
+    min-width: 0;
+  }
+
+  .health-msg small,
+  .health-hint-text span,
+  .health-progress {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .health-age {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .health-age .health-select-wrap {
+    flex-basis: auto;
+  }
+}
+
+/* Ambient motion in the panel: the rings breathe, the hint rises in (the art floats on its own) */
+@keyframes health-ring {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .health-rings span { animation: health-ring 7s ease-in-out infinite; }
+  .health-rings span:nth-child(2) { animation-delay: -3.5s; }
+  .health-hint { animation: rise-in var(--dur-slow) var(--ease-out) 500ms both; }
+}

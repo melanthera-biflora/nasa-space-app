@@ -37,6 +37,9 @@ from paths import DATA_DIR as DATA
 YEARS_DIR = DATA / "pm25_years"
 RAW_DIR = DATA / "raw_tmp"
 OUT = DATA / "pm25_monthly_global.nc"
+# D41: MERRA-2 PM2.5 steps up in 2009-10 where EPA monitors fell (its fire-emission input changed in 2010), so
+# trends start in 2010 (docs/DATA_CHECKS.md section 2). The file still holds 2001-2025.
+FIRST_TREND_YEAR = 2010
 ENCODING = {"pm25": {"zlib": True, "complevel": 4, "chunksizes": (12, 91, 144)}}
 VARS = ["DUSMASS25", "SSSMASS25", "BCSMASS", "OCSMASS", "SO4SMASS"]
 
@@ -82,7 +85,7 @@ def combine_years():
 
 def build_global_pm25(start_year=2001, end_year=2025):
     import earthaccess
-    earthaccess.login(strategy="interactive", persist=True)  # asks once, then remembers
+    earthaccess.login(persist=True)  # EARTHDATA_USERNAME/PASSWORD env vars or .netrc first, prompt last
     for year in range(start_year, end_year + 1):
         build_year(year, earthaccess)
     combine_years()
@@ -97,9 +100,10 @@ def pm25_monthly_for_point(lat, lon, path=OUT):
 
 
 def pm25_series(lat, lon, path=OUT):
-    """What pipeline.build_report() calls: annual mean + monthly values."""
+    """What pipeline.build_report() calls: annual mean + monthly values, from FIRST_TREND_YEAR (D41)."""
     m = pm25_monthly_for_point(lat, lon, path)
     m.index = pd.to_datetime(m.index)
+    m = m[m.index.year >= FIRST_TREND_YEAR]
     return {"pm25": {"annual": m.groupby(m.index.year).mean(), "monthly": m}}
 
 

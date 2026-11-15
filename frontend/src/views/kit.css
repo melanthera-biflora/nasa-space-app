@@ -1,0 +1,15 @@
+/* /kit only */
+.kit { max-width: 1040px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-8); }
+.kit h1 { font-size: var(--text-28); line-height: var(--line-28); font-weight: 500; letter-spacing: var(--track-28); margin: 0 0 var(--space-2); }
+.kit-section { padding: var(--space-5) 0; border-top: 1px solid var(--line); }
+.kit-section h2 { margin: 0 0 var(--space-1); font-size: var(--text-20); line-height: var(--line-20); font-weight: 500; }
+.kit-note { margin: 0 0 var(--space-3); color: var(--ink-muted); font-size: var(--text-14); }
+.kit-body { display: grid; gap: var(--space-4); }
+.kit-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.kit-key { width: 80px; font-size: var(--text-12); color: var(--ink-muted); }
+.kit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-5); }
+.kit-text { margin: 0; max-width: 65ch; }
+.kit-skel { display: grid; gap: var(--space-2); max-width: 480px; }
+.kit-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-2); margin: 0; padding: 0; list-style: none; font-size: var(--text-12); color: var(--ink-muted); }
+.kit-icons li { display: flex; align-items: center; gap: var(--space-2); }
+.kit-icons .ui-icon { color: var(--ink); }

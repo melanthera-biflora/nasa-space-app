@@ -19,9 +19,10 @@ import requests
 from paths import CACHE_DIR
 
 POWER_URL = "https://power.larc.nasa.gov/api/temporal/daily/point"
-POWER_PARAMS = ["T2M_MAX", "T2M_MIN", "RH2M", "T2MDEW", "PRECTOTCORR"]
+# T2MWET is the daily MEAN wet-bulb temperature (°C); POWER has no daily max (only hourly T2MWET).
+POWER_PARAMS = ["T2M_MAX", "T2M_MIN", "RH2M", "T2MDEW", "PRECTOTCORR", "T2MWET"]
 POWER_START_YEAR = 2001
-DAILY_FACTORS = ["hot_days", "warm_nights", "cold_days", "heavy_rain_days", "dry_days", "muggy_days"]
+DAILY_FACTORS = ["hot_days", "warm_nights", "cold_days", "heavy_rain_days", "dry_days", "muggy_days", "humid_heat_days"]
 
 
 def fetch_power(lat, lon, start_year=POWER_START_YEAR, end_year=2025, cache_dir=CACHE_DIR):
@@ -72,6 +73,9 @@ def daily_flags(df, th):
                                 df["PRECTOTCORR"] >= th["heavy_rain_days"]["rain_mm_per_day"]),
         "dry_days":    flag(df["RH2M"], df["RH2M"] < th["dry_days"]["rh_below_pct"]),
         "muggy_days":  flag(df["T2MDEW"], df["T2MDEW"] >= th["muggy_days"]["dew_point_c"]),
+        # humid heat (A3, D27): daily-mean wet-bulb; an old cache without T2MWET gives an empty card, not an error
+        "humid_heat_days": (flag(df["T2MWET"], df["T2MWET"] >= th["humid_heat_days"]["wet_bulb_c"])
+                            if "T2MWET" in df and "humid_heat_days" in th else pd.Series(np.nan, index=df.index)),
     }, index=df.index)
 
 
@@ -106,6 +110,14 @@ def power_series(daily, th, min_valid_days=330):
     wet_a, wet_m = wettest_day(df, bad_years)
     series["wettest_day"] = {"annual": wet_a, "monthly": wet_m}
     return series, bad_years
+
+
+def wet_bulb_days(daily, threshold_c, min_valid_days=330):
+    """Days per year with daily-mean wet-bulb (T2MWET) at or above threshold_c, scaled and masked like annual_counts."""
+    df, _, bad_years = clean_daily(daily, min_valid_days)
+    wet = df["T2MWET"]
+    flags = (wet >= threshold_c).astype(float).where(wet.notna()).to_frame("wet_bulb_days")
+    return annual_counts(flags, bad_years)["wet_bulb_days"]
 
 
 def compare_heat_cutoffs(lat, lon, temps=(35, 38, 40, 43), daily=None):

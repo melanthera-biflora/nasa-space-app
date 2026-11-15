@@ -14,11 +14,13 @@ import pipeline as p
 
 CITIES = {
     "Phoenix": (33.45, -112.07),
-    "Seattle": (47.61, -122.33),
+    "Houston": (29.76, -95.37),
     "Miami": (25.76, -80.19),
-    "Hanoi": (21.03, 105.85),
-    "Delhi": (28.61, 77.21),
-    "Ho Chi Minh City": (10.82, 106.63),
+    "New York": (40.76, -73.99),
+    "Atlanta": (33.75, -84.39),
+    "Boise": (43.62, -116.20),
+    "Minneapolis": (44.98, -93.27),
+    "Seattle": (47.61, -122.33),
 }
 SHORT = {"suitable": "OK", "caution": "CAUTION", "high_risk": "HIGH", None: "trend"}
 ARROW = {"worsening": "↑", "improving": "↓", "no_clear_trend": "→"}
@@ -48,4 +50,5 @@ def main(sources=("pm25", "no2", "fires", "surface_heat")):
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")   # Windows consoles default to cp1252 and crash on → ↑ ↓
     main(("pm25", "no2", "fires") if "fast" in sys.argv else ("pm25", "no2", "fires", "surface_heat"))

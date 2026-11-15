@@ -1,0 +1,339 @@
+/* Detective pages (SPEC A2): calm, light, built on the tokens in index.css. Prefix dt- so nothing touches the
+   original household flow at /personalize. */
+.dt-page { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); }
+
+/* Header: brand and the main navigation (every page) */
+.dt-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-5); padding: 0 var(--space-5); background: var(--brand); color: var(--on-brand); min-height: 52px; }
+.dt-brand { color: var(--on-brand); font-weight: 600; font-size: var(--text-16); letter-spacing: -0.01em; text-decoration: none; padding: 8px 0; }
+.dt-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.dt-nav > li > a, .dt-header .ui-navmenu-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 10px; border-radius: var(--radius-control); color: var(--on-brand-muted); text-decoration: none; font-size: var(--text-14); font-weight: 500; transition: background-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out); }
+@media (hover: hover) { .dt-nav > li > a:hover, .dt-header .ui-navmenu-btn:hover { color: var(--on-brand); background: var(--on-brand-wash); } }
+.dt-nav > li > a[aria-current='page'], .dt-header .ui-navmenu-btn[aria-current='true'] { color: var(--on-brand); background: rgba(246, 244, 255, 0.12); }
+
+/* Skip link: off screen until a keyboard user tabs to it */
+.dt-header { position: relative; }
+.skip-link { position: absolute; left: var(--space-3); top: -64px; z-index: 1000; padding: 8px 14px; border-radius: var(--radius-control); background: var(--highlight); color: var(--n-12); font-weight: 600; text-decoration: none; }
+.skip-link:focus { top: 8px; }
+
+/* Detective shell (A4 layout): top bar, a side menu (the steps, then the settings panel) and the page.
+   The side menu is a native popover so that on phones and tablets it can open as a drawer; from 1024 px it is a
+   plain sticky column (these rules override the browser's popover styles). */
+.dt-page.has-side { --header-h: 52px; --side-w: 312px; --sticky-top: 69px; }
+.dt-page.has-side:has(.dt-side.is-rail) { --side-w: 64px; }
+.dt-shell { flex: 1; display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); align-items: start; transition: grid-template-columns var(--dur-3) var(--ease-standard); }
+/* The content column: the page, then the footer, so the side menu runs the full height beside both */
+.dt-content { display: flex; flex-direction: column; min-width: 0; min-height: calc(100vh - var(--header-h)); }
+.dt-content > .dt-main { flex: 1; max-width: 1080px; min-height: calc(100vh - var(--header-h)); }   /* the footer starts below the fold, so data arriving never pushes it (layout shift) */
+/* Jumps land below the sticky bars (top bar on wide screens, the strip on phones) */
+.dt-content [id] { scroll-margin-top: var(--sticky-top); }
+.dt-side {
+  inset: auto; position: sticky; top: var(--header-h); width: auto; height: calc(100vh - var(--header-h)); max-height: none;
+  margin: 0; padding: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain;   /* no sideways scroll (round 3) */
+  border: 0; border-right: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+.dt-side-title { margin: 0 0 var(--space-3); font-size: var(--text-14); font-weight: 600; color: var(--ink-muted); }
+.dt-side-fold { display: none; position: absolute; top: 10px; right: 10px; z-index: 1; width: 32px; height: 32px; align-items: center; justify-content: center; border: 0; border-radius: var(--radius-control); background: none; color: var(--ink-muted); cursor: pointer; }
+@media (hover: hover) { .dt-side-fold:hover { background: var(--n-2); color: var(--ink); } }
+
+/* Settings panel */
+.dt-context { display: grid; gap: var(--space-4); padding: var(--space-4) var(--space-5) var(--space-5); }
+.dt-context .dt-side-title { margin: 0; }
+.dt-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.dt-field label, .dt-field-label { font-size: var(--text-14); font-weight: 500; color: var(--ink); }
+/* Selects use the kit's wrapper (.ui-select: quiet border, chevron, focus ring); here only their width */
+.dt-field .ui-select { max-width: 260px; }
+.dt-context .dt-field .ui-select { max-width: none; }
+.dt-inline-field .ui-select select { min-height: 36px; min-width: 96px; }
+.dt-context .addr-field input, .dt-context .addr-row > button { min-height: 40px; }
+.dt-context .addr-hint:not(.is-error) { display: none; }   /* the placeholder gives the example; errors still show */
+.dt-label-row { display: flex; align-items: center; gap: 2px; }
+
+/* Steps */
+.dt-steps { padding: var(--space-4) var(--space-3); border-bottom: 1px solid var(--line); }
+.dt-steps .dt-side-title { padding: 0 var(--space-2); }
+.dt-steps ol { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.dt-steps a { position: relative; display: flex; align-items: flex-start; gap: var(--space-3); padding: 6px var(--space-2); border-radius: var(--radius-control); text-decoration: none; transition: background-color var(--dur-1) var(--ease-out); }
+.dt-steps a .ui-num { margin-top: 1px; }
+.dt-steps a > span { display: grid; gap: 1px; }
+.dt-steps b { font-size: var(--text-14); font-weight: 500; color: var(--ink); }
+.dt-steps small { font-size: var(--text-12); color: var(--ink-muted); }
+@media (hover: hover) { .dt-steps a:hover { background: var(--n-2); } }
+.dt-steps a[aria-current='step'] b { font-weight: 600; color: var(--brand-11); }
+/* The current step's mark slides to the new step on navigation (Motion layoutId); the text sits above it */
+.dt-step-mark { position: absolute; inset: 0; border-radius: var(--radius-control); background: var(--brand-2); }
+.dt-step-mark::before { content: ''; position: absolute; left: calc(-1 * var(--space-3)); top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--brand-9); }
+.dt-steps a > :not(.dt-step-mark), .dt-sections a > :not(.dt-sections-mark) { position: relative; }
+.dt-side-link { display: inline-block; margin: var(--space-2) var(--space-2) 0; font-size: var(--text-14); color: var(--brand); }
+
+/* The open page's sections, under its step: a thin guide line, the section in view marked */
+.dt-sections { display: grid; gap: 1px; margin: 2px 0 var(--space-2) 17px; padding: 0 0 0 var(--space-3); border-left: 1px solid var(--line); list-style: none; }
+.dt-sections a { display: block; padding: 4px var(--space-2); border-radius: var(--radius-xs); overflow: hidden; color: var(--ink-muted); font-size: var(--text-12); text-decoration: none; white-space: nowrap; text-overflow: ellipsis; }
+@media (hover: hover) { .dt-sections a:hover { background: var(--n-2); color: var(--ink); } }
+.dt-sections a { position: relative; }
+.dt-sections a[aria-current='location'] { color: var(--brand-11); font-weight: 600; }
+.dt-sections-mark { position: absolute; inset: 0; border-radius: var(--radius-xs); background: var(--brand-2); box-shadow: inset 2px 0 0 var(--brand-9); }
+.dt-sections-text { display: block; overflow: hidden; text-overflow: ellipsis; }
+a.dt-sections-top { display: inline-flex; align-items: center; gap: 4px; margin-top: 2px; }
+
+/* Reading progress: a thin bar on the top bar (the strip on phones) that fills as the page scrolls. Pure CSS
+   (a scroll-driven animation); browsers without it simply show no bar. */
+.dt-progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .has-side .dt-progress { display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--highlight); transform-origin: 0 50%; transform: scaleX(0); animation: dt-progress linear both; animation-timeline: scroll(root block); pointer-events: none; }
+    .dt-strip .dt-progress { background: var(--brand-9); }
+  }
+}
+@keyframes dt-progress { to { transform: scaleX(1); } }
+
+/* Phones and tablets: a strip under the top bar opens the side menu as a drawer from the left */
+.dt-strip { position: sticky; top: 0; z-index: 550; padding: 4px var(--space-3); background: var(--surface); border-bottom: 1px solid var(--line); }
+.dt-strip-btn { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 48px; padding: 4px var(--space-2); border: 0; border-radius: var(--radius-control); background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+@media (hover: hover) { .dt-strip-btn:hover { background: var(--n-2); } }
+.dt-strip-text { display: grid; flex: 1; min-width: 0; }
+.dt-strip-text b, .dt-strip-text small { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.dt-strip-text b { font-size: var(--text-14); font-weight: 600; }
+.dt-strip-text small { font-size: var(--text-12); color: var(--ink-muted); }
+.dt-strip-change { font-size: var(--text-14); font-weight: 600; color: var(--brand); }
+
+@media (min-width: 1024px) {
+  .dt-page.has-side { --sticky-top: calc(var(--header-h) + var(--space-3)); }
+  .has-side .dt-header { position: sticky; top: 0; z-index: 600; }
+  .dt-side:not(:popover-open) { display: block; }
+  .dt-strip { display: none; }
+  .dt-side-fold { display: inline-flex; }
+  /* Folded to a rail: step numbers only (their names stay for screen readers and show on hover) */
+  .dt-side.is-rail .dt-context, .dt-side.is-rail .dt-sections, .dt-side.is-rail .dt-side-title, .dt-side.is-rail .dt-side-link { display: none; }
+  .dt-side.is-rail .dt-step-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .dt-side.is-rail .dt-steps { padding: 52px var(--space-2) var(--space-4); border-bottom: 0; }
+  .dt-side.is-rail .dt-steps a { justify-content: center; padding: 8px 0; }
+  .dt-side.is-rail .dt-step-mark::before { left: calc(-1 * var(--space-2)); }
+  .dt-side.is-rail .dt-side-fold { right: 16px; }
+}
+@media (max-width: 1023.98px) {
+  .dt-shell { grid-template-columns: minmax(0, 1fr); }
+  .dt-side { position: fixed; inset: 0 auto 0 0; width: min(340px, 88vw); height: 100dvh; box-shadow: var(--shadow-3); }
+  .dt-side::backdrop { background: var(--scrim); }
+}
+@media (max-width: 1023.98px) and (prefers-reduced-motion: no-preference) {
+  .dt-side { transform: translateX(-100%); transition: transform var(--dur-3) var(--ease-standard), overlay var(--dur-3) allow-discrete, display var(--dur-3) allow-discrete; }
+  .dt-side:popover-open { transform: none; }
+  @starting-style { .dt-side:popover-open { transform: translateX(-100%); } }
+}
+.dt-error { margin: var(--space-1) 0 0; color: var(--rising); font-size: var(--text-14); }
+
+/* Page body */
+.dt-main { flex: 1; width: 100%; max-width: 1120px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-7); }
+.dt-main h1 { margin: var(--space-1) 0 var(--space-3); font-size: var(--text-28); line-height: var(--line-28); font-weight: 500; letter-spacing: var(--track-28); color: var(--ink); max-width: 32ch; }
+.dt-main h2 { font-size: var(--text-20); margin: 0 0 var(--space-2); }
+.dt-eyebrow { margin: 0; font-size: var(--text-14); font-weight: 500; color: var(--accent); }
+.dt-lede { max-width: 70ch; font-size: var(--text-16); line-height: 1.6; color: var(--ink); }
+.dt-muted { color: var(--ink-muted); }
+.dt-note { max-width: 75ch; font-size: var(--text-14); color: var(--ink-muted); }
+.dt-status { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-card); background: var(--surface); }
+.dt-status button { min-height: 40px; }
+.dt-spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line-strong); border-top-color: var(--accent); flex: none; }
+.dt-empty { color: var(--ink-muted); }
+
+/* Charts */
+.dt-chart { margin: var(--space-5) 0; padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--surface); }
+.dt-chart-title { font-size: var(--text-20); margin: 0 0 var(--space-1); }
+.dt-takeaway { margin: 0 0 var(--space-3); color: var(--ink-muted); max-width: 80ch; }
+.dt-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.dt-grid { stroke: var(--line); stroke-width: 1; }
+.dt-tick { fill: var(--ink-muted); font-size: 12px; }
+.dt-band { fill: var(--accent-soft); opacity: 0.7; }
+.dt-month-line { fill: none; stroke: var(--ink-muted); stroke-width: 1; opacity: 0.55; }
+.dt-year-dot { fill: var(--surface); stroke: var(--ink); stroke-width: 1.5; }
+.dt-year-dot.is-unusual { stroke: var(--rising); stroke-width: 2.5; }
+.dt-trend-line { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.dt-event-span { fill: var(--warn); opacity: 0.18; }
+.dt-legend { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: var(--space-2) 0 0; padding: 0; list-style: none; font-size: var(--text-12); color: var(--ink-muted); }
+.dt-legend i { display: inline-block; width: 16px; height: 10px; margin-right: 6px; vertical-align: middle; border-radius: 2px; }
+.dt-legend .k-month { height: 2px; background: var(--ink-muted); }
+.dt-legend .k-year { width: 10px; border: 1.5px solid var(--ink); border-radius: 50%; }
+.dt-legend .k-trend { height: 3px; background: var(--accent); }
+.dt-legend .k-event { background: var(--warn); opacity: 0.35; }
+.dt-stripes { margin-bottom: var(--space-2); }
+.dt-stripes-row { display: flex; height: 22px; border-radius: 4px; overflow: hidden; }
+.dt-stripes-row span { flex: 1; }
+.dt-stripes-ends { display: flex; justify-content: space-between; margin: 2px 0 0; font-size: var(--text-12); color: var(--ink-muted); }
+/* The Table tab: the chart's numbers, scrolling under a sticky header (the wrap is a tab stop so keyboards can scroll it) */
+.dt-table-wrap { max-height: 360px; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: var(--radius-control); }
+.dt-table-wrap:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.dt-data table { width: 100%; border-collapse: collapse; font-size: var(--text-14); font-variant-numeric: tabular-nums; }
+.dt-data th, .dt-data td { padding: 6px var(--space-3); text-align: left; border-bottom: 1px solid var(--line); }
+.dt-data thead th { position: sticky; top: 0; z-index: 1; background: var(--surface-sunken); font-weight: 600; }
+.dt-data tbody tr:hover { background: var(--n-1); }
+.dt-chart .ui-tabs { margin-top: var(--space-2); }
+
+/* Seasons */
+.dt-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 0 var(--space-5); }
+.dt-bars { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-2); }
+.dt-bars li { display: grid; grid-template-columns: minmax(110px, 0.9fr) 1.4fr; grid-template-areas: 'label track' 'label text'; column-gap: var(--space-3); align-items: center; }
+.dt-bar-label { grid-area: label; font-size: var(--text-14); font-weight: 600; }
+.dt-bar-track { grid-area: track; position: relative; height: 14px; background: linear-gradient(var(--line-strong), var(--line-strong)) center / 1px 100% no-repeat; }
+.dt-bar-track i { position: absolute; top: 2px; bottom: 2px; border-radius: 2px; }
+.dt-bar-track i.is-up { background: var(--rising); }
+.dt-bar-track i.is-down { background: var(--falling); }
+.dt-bar-track i.is-drier { background: var(--drier); }
+.dt-bar-track i.is-wetter { background: var(--wetter); }
+.dt-bars li.is-faded .dt-bar-track i { opacity: 0.28; }
+.dt-bar-text { grid-area: text; font-size: var(--text-12); color: var(--ink-muted); }
+.dt-bars li.is-clear .dt-bar-text { color: var(--ink); font-weight: 600; }
+.dt-cycle-panel { fill: var(--surface-sunken); }
+.dt-cycle-mean { stroke: var(--ink-muted); stroke-width: 1.5; }
+.dt-cycle-line { fill: none; stroke: var(--ink-muted); stroke-width: 1.4; }
+.dt-cycle .is-clear .dt-cycle-line { stroke-width: 2.2; }
+.dt-cycle .is-clear.is-up .dt-cycle-line { stroke: var(--rising); }
+.dt-cycle .is-clear.is-down .dt-cycle-line { stroke: var(--falling); }
+.dt-cycle .is-clear.is-up .dt-cycle-panel { fill: var(--rising-soft); }
+.dt-cycle .is-clear.is-down .dt-cycle-panel { fill: var(--falling-soft); }
+
+/* Test */
+.dt-verdict { margin: var(--space-4) 0; padding: var(--space-5); border-radius: var(--radius-panel); border: 1px solid var(--line); border-left: 6px solid var(--flat); background: var(--surface); }
+.dt-verdict.is-clear { border-left-color: var(--accent); }
+.dt-verdict h2 { font-size: var(--text-28); margin: var(--space-1) 0; }
+.dt-verdict-kicker { margin: 0; font-size: var(--text-14); color: var(--ink-muted); }
+.dt-verdict-rate { font-size: var(--text-20); font-weight: 600; margin: 0 0 var(--space-2); }
+.dt-verdict-rate .dt-muted { font-size: var(--text-14); font-weight: 400; }
+.dt-years-needed { padding: var(--space-3); border-radius: var(--radius-control); background: var(--surface-sunken); }
+.dt-button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--space-4); border: 0; border-radius: var(--radius-control); background: var(--accent); color: #fff; font-weight: 600; text-decoration: none; cursor: pointer; }
+.dt-button:hover { filter: brightness(1.08); }
+.dt-method { margin: var(--space-4) 0; max-width: 80ch; }
+.dt-method summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+
+/* Events */
+/* The most unusual months: calm rows, a small gauge of how far from usual, events as a quiet attached note */
+.dt-odd { display: grid; margin: 0 0 var(--space-5); padding: 0; list-style: none; border: 1px solid var(--line); border-radius: var(--radius-card); background: var(--surface); overflow: hidden; }
+.dt-odd li { padding: var(--space-3) var(--space-4); }
+.dt-odd li + li { border-top: 1px solid var(--line); }
+.dt-odd-month { width: 100%; display: grid; grid-template-columns: 9rem minmax(5rem, auto) 1fr; align-items: center; gap: var(--space-1) var(--space-4); min-height: 32px; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; border-radius: var(--radius-xs); }
+.dt-odd-month:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.dt-odd-when { font-weight: 500; font-size: var(--text-14); }
+.dt-odd-value { font-size: var(--text-14); font-variant-numeric: tabular-nums; }
+.dt-odd-value small { color: var(--ink-muted); font-size: var(--text-12); }
+.dt-odd-how { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-12); color: var(--ink-muted); }
+.dt-odd-gauge { flex: 0 0 auto; width: 56px; height: 4px; border-radius: 2px; background: var(--n-3); overflow: hidden; }
+.dt-odd-gauge i { display: block; height: 100%; border-radius: 2px; background: var(--rising); opacity: 0.75; }
+.dt-odd li.is-low .dt-odd-gauge i { background: var(--falling); }
+@media (hover: hover) { .dt-odd li:hover { background: var(--n-1); } }
+@media (max-width: 640px) { .dt-odd-month { grid-template-columns: 1fr auto; } .dt-odd-how { grid-column: 1 / -1; } }
+.dt-match { display: flex; gap: var(--space-2); margin: var(--space-2) 0 0; padding: var(--space-2) var(--space-3); border-radius: var(--radius-control); background: var(--n-1); font-size: var(--text-14); line-height: 21px; color: var(--ink-muted); }
+.dt-match .ui-icon { flex: 0 0 auto; margin-top: 4px; color: var(--brand-9); }
+.dt-match-title { color: var(--ink); font-weight: 500; }
+.dt-match a { color: var(--brand); font-size: var(--text-12); }
+.dt-match.is-none { padding: 0; background: none; font-size: var(--text-12); }
+.dt-normal-outer { fill: var(--line); opacity: 0.8; }
+.dt-normal-inner { fill: var(--line-strong); opacity: 0.6; }
+.dt-normal-median { fill: none; stroke: var(--ink-muted); stroke-dasharray: 4 4; }
+.dt-year-line { fill: none; stroke: var(--ink); stroke-width: 2.4; }
+.dt-inline-field { display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); font-weight: 500; font-size: var(--text-14); color: var(--ink-muted); }
+.dt-without { margin: 0; padding-left: var(--space-5); }
+.dt-without li.is-changes { color: var(--rising); }
+.dt-events { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.dt-events li { display: grid; grid-template-columns: 80px 1fr; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-card); background: var(--surface); border: 1px solid var(--line); opacity: 0.75; }
+.dt-events li.is-relevant { opacity: 1; border-color: var(--line-strong); }
+.dt-events p { margin: var(--space-1) 0 0; font-size: var(--text-14); }
+.dt-event-type { align-self: start; justify-self: start; padding: 2px 8px; border-radius: 999px; background: var(--surface-sunken); font-size: var(--text-12); font-weight: 600; text-transform: capitalize; }
+
+/* Guess and next steps */
+.dt-guess { margin: var(--space-5) 0; padding: var(--space-5); border-radius: var(--radius-panel); background: var(--accent-soft); }
+.dt-guess p { max-width: 70ch; }
+.dt-next-row { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+.dt-next { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-4); border: 1px solid var(--line-strong); border-radius: var(--radius-control); background: var(--surface); color: var(--brand); font-weight: 600; text-decoration: none; }
+.dt-next:hover { border-color: var(--brand-mid); }
+.dt-link { color: var(--brand); font-weight: 600; }
+
+/* Home: case files */
+.dt-hero { padding: var(--space-6) 0 var(--space-5); }
+.dt-hero h1 { font-size: var(--text-40); max-width: 22ch; }
+.dt-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); margin-top: var(--space-4); }
+.dt-cases { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-4); margin: 0; padding: 0; list-style: none; }
+.dt-case { display: flex; flex-direction: column; gap: var(--space-2); height: 100%; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--surface); color: var(--ink); text-decoration: none; }
+.dt-case:hover { border-color: var(--brand-mid); }
+.dt-case b { font-size: var(--text-20); }
+.dt-case-step { align-self: flex-start; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: var(--text-12); font-weight: 600; }
+.dt-case-open { margin-top: auto; color: var(--brand); font-weight: 600; }
+.dt-how { margin-top: var(--space-6); max-width: 70ch; }
+
+/* About */
+.dt-about section { max-width: 80ch; margin-bottom: var(--space-5); }
+.dt-defs div { margin-bottom: var(--space-3); }
+.dt-defs dt { font-weight: 600; }
+.dt-defs dd { margin: 2px 0 0; }
+
+@media (max-width: 640px) {
+  .dt-header, .dt-main { padding-left: var(--space-4); padding-right: var(--space-4); }
+  .dt-main h1 { font-size: var(--text-20); }
+  .dt-hero h1 { font-size: var(--text-28); }
+  .dt-chart { padding: var(--space-4); }
+  .dt-bars li { grid-template-columns: 1fr; grid-template-areas: 'label' 'track' 'text'; }
+  .dt-field .ui-select { max-width: 100%; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dt-spinner { animation: dt-spin 0.9s linear infinite; }
+  @keyframes dt-spin { to { transform: rotate(360deg); } }
+}
+.dt-main a:not(.dt-button):not(.dt-next):not(.dt-case) { color: var(--brand); }
+.dt-main h1:focus { outline: none; }
+.dt-source { display: flex; gap: 6px; align-items: flex-start; margin: var(--space-2) 0 0; font-size: var(--text-12); line-height: 18px; color: var(--ink-muted); max-width: 90ch; }
+.dt-source .ui-icon { flex: none; margin-top: 2px; }
+.dt-wait { display: grid; gap: var(--space-3); min-height: 320px; align-content: start; }
+/* the page's shape is in place from the first frame and fades in at 400 ms: a fast answer never flashes, a slow one
+   never jumps (round 5) */
+.skel-fade { animation: skel-in 240ms ease-out 400ms both; }
+@keyframes skel-in { from { opacity: 0; } }
+.skel-stack { display: grid; gap: var(--space-3); }
+.skel-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.skel-card { display: grid; gap: var(--space-2); padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-card); background: var(--surface); }
+.skel-bar { display: grid; grid-template-columns: 10rem minmax(0, 1fr) 8rem; gap: var(--space-3); align-items: center; }
+.skel-def { display: grid; gap: 6px; }
+.skel-split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--space-5); margin-top: var(--space-4); align-items: start; }
+.cs-skel { display: block; height: 380px; border-radius: var(--radius-card); }
+@media (max-width: 900px) { .skel-split { grid-template-columns: 1fr; } .skel-panel { display: none !important; } }
+@media (max-width: 600px) { .skel-bar { grid-template-columns: minmax(0, 1fr); } .skel-bar > :nth-child(3) { display: none; } }
+.dt-wait-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* A3 flow pages */
+.flow-blank { min-height: 100vh; background: var(--dusk-gradient); }
+.flow-paths { justify-content: space-between; gap: var(--space-3); }
+.flow-paths a { display: inline-flex; align-items: center; gap: 6px; color: var(--on-brand); text-decoration: none; font-weight: 500; }
+.flow-paths .flow-or { margin-left: auto; color: var(--on-brand-muted); }
+.flow-compare { padding: 6px 12px; border: 1px solid var(--on-brand-line); border-radius: var(--radius-round); }
+@media (hover: hover) { .flow-compare:hover { background: var(--on-brand-wash); } }
+.flip { transform: rotate(180deg); }
+.look-closer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.look-closer > span { font-size: var(--text-14); color: var(--ink-muted); margin-right: var(--space-1); }
+.dt-steps-list { display: grid; gap: var(--space-2); margin: 0 0 var(--space-3); padding: 0; list-style: none; }
+.dt-steps-list li { display: flex; align-items: center; gap: var(--space-3); }
+.dt-case-step { display: inline-flex; align-items: center; gap: 6px; }
+@media (max-width: 640px) { .dt-header { padding: 4px var(--space-4); } .flow-paths .flow-or { display: none; } }
+.dt-selected { stroke: var(--brand-9); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.dt-week-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-4); margin-bottom: var(--space-3); }
+.dt-week-readout { margin: var(--space-2) 0 0; font-size: var(--text-14); }
+.dt-field-range .ui-range-presets { margin-bottom: 6px; }
+.dt-field-range .ui-range-part { min-width: 92px; }
+/* Chart cursor (MonthlyLine): crosshair, ring and a small label, on hover and keyboard focus */
+.dt-interactive { cursor: crosshair; }
+.dt-interactive:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; border-radius: var(--radius-xs); }
+.dt-cursor line { stroke: var(--ink); stroke-opacity: 0.4; stroke-width: 1; }
+.dt-cursor circle { fill: none; stroke: var(--ink); stroke-width: 2; }
+.dt-cursor rect { fill: var(--n-12); }
+.dt-cursor text { fill: #fff; font-size: 12px; }
+.dt-cursor .dt-cursor-year { font-weight: 600; }
+.dt-readout { margin: var(--space-2) 0 0; min-height: 1.5em; font-size: var(--text-14); color: var(--ink); font-variant-numeric: tabular-nums; }
+.dt-cycle .is-active .dt-cycle-panel { stroke: var(--brand-9); stroke-width: 1.5; }
+
+/* A link whose place or record was replaced says so (M9) */
+.dt-link-note { max-width: 1120px; margin: var(--space-4) auto 0; padding: var(--space-2) var(--space-5); font-size: var(--text-14); line-height: 20px; color: var(--ink-muted); }
+
+/* Phones: the top bar's links lose their icons and padding so the header takes one row of links, not three */
+@media (max-width: 600px) {
+  .dt-header { gap: 0 var(--space-3); padding: 0 var(--space-3); }
+  .dt-nav > li > a, .dt-header .ui-navmenu-btn { padding: 0 6px; font-size: 13px; }
+  .dt-nav > li > a .ui-icon { display: none; }
+}
+.dt-case-report { display: inline-block; margin-top: var(--space-2); font-size: var(--text-14); color: var(--brand-11); text-underline-offset: 3px; }
+.dt-spike path { fill: var(--ink); }
