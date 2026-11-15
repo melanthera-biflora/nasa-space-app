@@ -56,20 +56,22 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 28px;
+  min-height: 30px;
   padding: 0 14px 0 10px;
-  border: 0;
+  border: 1.5px solid #35306a;
   border-radius: 999px;
-  background: #6f7a74;
-  color: #ffffff;
+  background: #efedf9;
+  color: #35306a;
   font: inherit;
   font-size: 11px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 
 .health-add:hover {
-  background: #59635e;
+  background: #35306a;
+  color: #ffffff;
 }
 
 .health-add svg {
@@ -633,6 +635,41 @@
   font-size: 12px;
 }
 
+/* ===== Hiệu ứng thoát khi bấm Next step ===== */
+.health-card.is-leaving,
+.health-illustration.is-leaving {
+  pointer-events: none;
+  animation: health-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.health-illustration.is-leaving {
+  animation-delay: 0.05s;
+}
+
+/* Quả cầu phồng lên và sáng rực như đang "nạp" dữ liệu */
+.health-illustration.is-leaving .health-orb {
+  animation: none;
+  transform: scale(1.5);
+  box-shadow: 0 0 0 22px rgba(194, 255, 77, 0.25), 0 0 110px rgba(194, 255, 77, 0.8);
+  transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
+}
+
+.health-illustration.is-leaving .health-progress i {
+  width: 100% !important;
+}
+
+.health-next:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+@keyframes health-out {
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .health-orb,
   .health-status-dot,
@@ -642,6 +679,11 @@
 
   .health-feed-item {
     transition: none;
+  }
+
+  .health-card.is-leaving,
+  .health-illustration.is-leaving {
+    animation: none;
   }
 }
 

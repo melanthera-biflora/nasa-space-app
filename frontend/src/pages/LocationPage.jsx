@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import Footer from '../components/Footer'
+import QuestionnaireLayout from '../components/QuestionnaireLayout'
 import { searchLocation } from '../api/location'
 import './LocationPage.css'
 
@@ -146,136 +146,96 @@ export default function LocationPage({ onCheckResult }) {
   }
 
   return (
-    <div className="location-page">
-      <main className="location-main">
-        <div className="location-container">
-          <header className="location-hero">
-            <div className="location-hero-copy">
-              <h1>
-                Found a great home?
-                <br />
-                Don’t forget your health.
-              </h1>
-
-              <p>
-                The climate around your home affects your health
-                more than you might think.
-              </p>
-            </div>
-
-            <div className="location-art" aria-hidden="true">
-              <img
-                className="location-cloud"
-                src="/images/cloud-moon.png"
-                alt=""
-              />
-              <img
-                className="location-house"
-                src="/images/house-3d.png"
-                alt=""
-              />
-            </div>
-          </header>
-
-          <div className="location-grid">
-            <section className="location-card">
-              <div className="location-card-heading">
-                <h2>Location information</h2>
-                <span>STEP 02 / 02</span>
-              </div>
-
-              <form
-                className="location-form"
-                onSubmit={handleSearch}
-              >
-                <h3>Where is the home you’re considering?</h3>
-                <p className="location-description">
-                  Enter an address to find it on the map.
-                </p>
-
-                <label htmlFor="home-address">
-                  Address or place
-                </label>
-
-                <div className="location-search">
-                  <input
-                    id="home-address"
-                    type="search"
-                    value={address}
-                    onChange={handleAddressChange}
-                    placeholder="e.g. Phoenix, Arizona"
-                    required
-                  />
-
-                  <button
-                    type="submit"
-                    disabled={isSearching || !address.trim()}
-                  >
-                    {isSearching ? 'Finding…' : 'Search'}
-                  </button>
-                </div>
-
-                <p className="location-demo-note">
-                  Demo mode: searches return the location from
-                  the sample report, regardless of the address entered.
-                </p>
-
-                <div aria-live="polite" aria-atomic="true">
-                  {isSearching && (
-                    <p className="location-message">
-                      Finding your location…
-                    </p>
-                  )}
-
-                  {error && (
-                    <p className="location-error" role="alert">
-                      {error}
-                    </p>
-                  )}
-
-                  {location && (
-                    <div className="location-selected">
-                      <span>SELECTED LOCATION · SAMPLE DATA</span>
-                      <strong>{location.name}</strong>
-                      <p>{formatCoordinates(location)}</p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="location-action">
-                  <button
-                    className="location-result-button"
-                    type="button"
-                    disabled={
-                      !location ||
-                      isSearching ||
-                      !onCheckResult
-                    }
-                    onClick={() => onCheckResult?.(location)}
-                  >
-                    CHECK YOUR RESULT
-                  </button>
-
-                  {!onCheckResult && (
-                    <p className="location-demo-note">
-                      Report navigation will be connected next.
-                    </p>
-                  )}
-                </div>
-              </form>
-            </section>
-
-            <section
-              className="location-map-card"
-              aria-label="Selected location map"
-            >
-              <LocationMap location={location} />
-            </section>
-          </div>
+    <QuestionnaireLayout
+      illustration={
+        <section className="location-map-card" aria-label="Selected location map">
+          <LocationMap location={location} />
+        </section>
+      }
+    >
+      <section className="questionnaire-card location-card">
+        <div className="questionnaire-card-heading">
+          <h2>Location information</h2>
+          <span>STEP 02 / 02</span>
         </div>
-      </main>
 
-      <Footer />
-    </div>
+        <form className="location-form" onSubmit={handleSearch}>
+          <h3>Where is the home you’re considering?</h3>
+          <p className="location-description">
+            Enter an address to find it on the map.
+          </p>
+
+          <label htmlFor="home-address">
+            Address or place
+          </label>
+
+          <div className="location-search">
+            <input
+              id="home-address"
+              type="search"
+              value={address}
+              onChange={handleAddressChange}
+              placeholder="e.g. Phoenix, Arizona"
+              required
+            />
+
+            <button
+              type="submit"
+              disabled={isSearching || !address.trim()}
+            >
+              {isSearching ? 'Finding…' : 'Search'}
+            </button>
+          </div>
+
+          <p className="location-demo-note">
+            Demo mode: searches return the location from
+            the sample report, regardless of the address entered.
+          </p>
+
+          <div aria-live="polite" aria-atomic="true">
+            {isSearching && (
+              <p className="location-message">
+                Finding your location…
+              </p>
+            )}
+
+            {error && (
+              <p className="location-error" role="alert">
+                {error}
+              </p>
+            )}
+
+            {location && (
+              <div className="location-selected">
+                <span>SELECTED LOCATION · SAMPLE DATA</span>
+                <strong>{location.name}</strong>
+                <p>{formatCoordinates(location)}</p>
+              </div>
+            )}
+          </div>
+
+          <div className="location-action">
+            <button
+              className="location-result-button"
+              type="button"
+              disabled={
+                !location ||
+                isSearching ||
+                !onCheckResult
+              }
+              onClick={() => onCheckResult?.(location)}
+            >
+              CHECK YOUR RESULT
+            </button>
+
+            {!onCheckResult && (
+              <p className="location-demo-note">
+                Report navigation will be connected next.
+              </p>
+            )}
+          </div>
+        </form>
+      </section>
+    </QuestionnaireLayout>
   )
 }
