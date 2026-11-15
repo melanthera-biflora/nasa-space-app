@@ -1,0 +1,142 @@
+[
+ {
+  "name": "phoenix",
+  "lat": 33.45,
+  "lon": -112.07,
+  "condition": "heart_disease",
+  "age_group": "65_plus",
+  "period_years": 10,
+  "file": "phoenix_10y.json",
+  "missing": []
+ },
+ {
+  "name": "phoenix",
+  "lat": 33.45,
+  "lon": -112.07,
+  "condition": "heart_disease",
+  "age_group": "65_plus",
+  "period_years": 25,
+  "file": "phoenix_25y.json",
+  "missing": []
+ },
+ {
+  "name": "houston",
+  "lat": 29.76,
+  "lon": -95.37,
+  "condition": "asthma_copd",
+  "age_group": "18_64",
+  "period_years": 10,
+  "file": "houston_10y.json",
+  "missing": []
+ },
+ {
+  "name": "houston",
+  "lat": 29.76,
+  "lon": -95.37,
+  "condition": "asthma_copd",
+  "age_group": "18_64",
+  "period_years": 25,
+  "file": "houston_25y.json",
+  "missing": []
+ },
+ {
+  "name": "miami",
+  "lat": 25.76,
+  "lon": -80.19,
+  "condition": "heart_disease",
+  "age_group": "65_plus",
+  "period_years": 10,
+  "file": "miami_10y.json",
+  "missing": []
+ },
+ {
+  "name": "miami",
+  "lat": 25.76,
+  "lon": -80.19,
+  "condition": "heart_disease",
+  "age_group": "65_plus",
+  "period_years": 25,
+  "file": "miami_25y.json",
+  "missing": []
+ },
+ {
+  "name": "new_york",
+  "lat": 40.76,
+  "lon": -73.99,
+  "condition": "asthma_copd",
+  "age_group": "5_17",
+  "period_years": 10,
+  "file": "new_york_10y.json",
+  "missing": []
+ },
+ {
+  "name": "new_york",
+  "lat": 40.76,
+  "lon": -73.99,
+  "condition": "asthma_copd",
+  "age_group": "5_17",
+  "period_years": 25,
+  "file": "new_york_25y.json",
+  "missing": []
+ },
+ {
+  "name": "atlanta",
+  "lat": 33.75,
+  "lon": -84.39,
+  "condition": "allergies",
+  "age_group": "18_64",
+  "period_years": 10,
+  "file": "atlanta_10y.json",
+  "missing": []
+ },
+ {
+  "name": "atlanta",
+  "lat": 33.75,
+  "lon": -84.39,
+  "condition": "allergies",
+  "age_group": "18_64",
+  "period_years": 25,
+  "file": "atlanta_25y.json",
+  "missing": []
+ },
+ {
+  "name": "boise",
+  "lat": 43.62,
+  "lon": -116.2,
+  "condition": "asthma_copd",
+  "age_group": "under_5",
+  "period_years": 10,
+  "file": "boise_10y.json",
+  "missing": []
+ },
+ {
+  "name": "boise",
+  "lat": 43.62,
+  "lon": -116.2,
+  "condition": "asthma_copd",
+  "age_group": "under_5",
+  "period_years": 25,
+  "file": "boise_25y.json",
+  "missing": []
+ },
+ {
+  "name": "minneapolis",
+  "lat": 44.98,
+  "lon": -93.27,
+  "condition": "limited_mobility",
+  "age_group": "65_plus",
+  "period_years": 10,
+  "file": "minneapolis_10y.json",
+  "missing": []
+ },
+ {
+  "name": "minneapolis",
+  "lat": 44.98,
+  "lon": -93.27,
+  "condition": "limited_mobility",
+  "age_group": "65_plus",
+  "period_years": 25,
+  "file": "minneapolis_25y.json",
+  "missing": []
+ }
+]

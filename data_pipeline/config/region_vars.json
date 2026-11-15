@@ -1,0 +1,42 @@
+{
+  "t2m": {
+    "label": "Average temperature", "unit": "°C (yearly average)", "unit_short": "°C", "decimals": 1,
+    "power": "T2M", "agg": "mean", "higher_is_worse": true,
+    "data": "NASA POWER (MERRA-2 reanalysis), ~50 km grid, averaged over the state",
+    "definition": "The air temperature 2 m above the ground, averaged over every hour of the month and every grid square in the state.",
+    "caveat": "A state average blends cities, farms, mountains and coasts; one town can warm faster or slower.",
+    "source_name": "NASA POWER", "source_url": "https://power.larc.nasa.gov/"
+  },
+  "t2m_max": {
+    "label": "Hottest day of the month", "unit": "°C (hottest day of the year)", "unit_short": "°C", "decimals": 1,
+    "power": "T2M_MAX", "agg": "max", "higher_is_worse": true,
+    "data": "NASA POWER (MERRA-2 reanalysis), ~50 km grid, averaged over the state",
+    "definition": "The highest daily temperature reached in the month, as a state average of each grid square's hottest day.",
+    "caveat": "A ~50 km grid square runs cooler than a hot parking lot or city street on the same day.",
+    "source_name": "NASA POWER", "source_url": "https://power.larc.nasa.gov/"
+  },
+  "precip": {
+    "label": "Rain and snow", "unit": "mm / year", "unit_short": "mm", "decimals": 0,
+    "power": "PRECTOTCORR", "per_day": true, "agg": "sum", "higher_is_worse": false,
+    "data": "NASA POWER (MERRA-2, bias-corrected with gauges and satellites), ~50 km grid, averaged over the state",
+    "definition": "All rain and melted snow that fell in the month, in millimetres of water.",
+    "caveat": "Storms are patchy; a state average smooths out the worst local downpours.",
+    "source_name": "NASA POWER", "source_url": "https://power.larc.nasa.gov/"
+  },
+  "gwetroot": {
+    "label": "Soil wetness (root zone)", "unit": "0 (dry) to 1 (soaked)", "unit_short": "", "decimals": 2,
+    "power": "GWETROOT", "agg": "mean", "higher_is_worse": false,
+    "data": "NASA POWER (MERRA-2 land model), ~50 km grid, averaged over the state",
+    "definition": "How full of water the soil is where plant roots grow (top ~1 m): 0 is bone dry, 1 is soaked.",
+    "caveat": "Modelled from weather, not measured in the ground; irrigation is not included.",
+    "source_name": "NASA POWER", "source_url": "https://power.larc.nasa.gov/"
+  },
+  "frost_days": {
+    "label": "Frost days", "unit": "days / year", "unit_short": "days", "decimals": 0,
+    "power": "FROST_DAYS", "agg": "sum", "higher_is_worse": true,
+    "data": "NASA POWER (MERRA-2 reanalysis), ~50 km grid, averaged over the state",
+    "definition": "Days when the air near the ground dropped below 0 °C, averaged over the state's grid squares.",
+    "caveat": "Valleys and open fields frost more often than the grid square average.",
+    "source_name": "NASA POWER", "source_url": "https://power.larc.nasa.gov/"
+  }
+}

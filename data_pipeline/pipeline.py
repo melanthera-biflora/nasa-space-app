@@ -28,9 +28,10 @@ from sources.power import POWER_START_YEAR, fetch_power, power_series
 from sources.power import (clean_daily, daily_flags, annual_counts, monthly_counts,  # noqa: F401
                            wettest_day, compare_heat_cutoffs)
 from analysis.trends import monthly_anomaly, trend_stats
+from analysis.seasonal import leave_one_out, monthly_z, seasonal_block
 from analysis.verdict import level_for, trend_direction
 from analysis.story import describe
-from analysis.timeline import timeline_extras, notable_years
+from analysis.timeline import monthly_classes, timeline_extras, notable_years
 
 # extra data sources: factor -> (module, function). Each function returns
 # {factor_key: {"annual": Series(index=year), "monthly": Series(index=dates)}}
@@ -39,7 +40,14 @@ EXTRA_SOURCES = {
     "no2": ("sources.no2_omi", "no2_series"),
     "fires": ("sources.fires_firms", "fires_series"),
     "surface_heat": ("sources.modis_lst", "surface_heat_series"),
+    # A3 data additions (docs/DATA_ADDITIONS.md)
+    "smoke": ("sources.extras", "smoke_days_series"),
+    "aod": ("sources.extras", "aod_series"),
+    "rain_sat": ("sources.extras", "rain_sat_series"),
+    "surface_heat_5km": ("sources.extras", "surface_heat_5km_series"),
+    "water": ("sources.extras", "water_storage_series"),
 }
+ADDED_SOURCES = ("smoke", "aod", "rain_sat", "surface_heat_5km", "water")
 LEVEL_ORDER = {"high_risk": 0, "caution": 1, "suitable": 2, None: 3}
 
 
@@ -77,6 +85,7 @@ def make_factor(key, annual, monthly, th, narr, start_year, end_year):
         "parent": cfg.get("parent"), "unit": cfg["unit"], "unit_short": cfg["unit_short"],
         "data_source": cfg.get("data"),
         "definition": narr.get("definition"),
+        "caveat": narr.get("caveat"),
         **{k: tr[k] for k in ("period", "n_years", "then_years", "now_years", "significant",
                               "significance_label", "p_label", "mk_p", "points", "line")},
         "then": _r(tr["then"], d), "now": _r(tr["now"], d),
@@ -93,9 +102,18 @@ def make_factor(key, annual, monthly, th, narr, start_year, end_year):
         "story": describe(tr, cfg, narr),
         "timeline": timeline_extras(tr["points"], cfg),
         "source": {"name": narr.get("source_name"), "url": narr.get("source_url")},
-        "monthly": [{"month": t.strftime("%Y-%m"), "value": round(float(v), 3),
-                     "anomaly": round(float(a), 3)} for t, v, a in zip(m.index, m.values, anom.values)],
+        "monthly": [{"month": t.strftime("%Y-%m"), "value": round(float(v), 3), "anomaly": round(float(a), 3),
+                     "z": _r(z, 2)} for t, v, a, z in zip(m.index, m.values, anom.values, monthly_z(m).values)],
+        "monthly_classes": monthly_classes(m.values, anom.values),
+        "seasonal": seasonal_block(m, agg=season_agg(key, cfg), alpha=st["significance_alpha"],
+                                   min_years=st["min_years_for_trend"], decimals=d),
+        "leave_one_out": leave_one_out(tr["points"], st["significance_alpha"], d),
     }
+
+
+def season_agg(key, cfg):
+    """How three months make a season: counts add up, the wettest day is the biggest, levels average."""
+    return cfg.get("agg") or ("sum" if "/ year" in cfg["unit"] else "max" if key == "wettest_day" else "mean")
 
 
 def load_extra(lat, lon, sources):
@@ -133,26 +151,27 @@ def _join(words):
 def _lower_first(text):
     return text[:1].lower() + text[1:]
     
-def build_report(lat, lon, condition="none", age_group="18_64", period_years=None,
-                 sources=("pm25", "no2", "fires", "surface_heat"),
-                 daily=None, extra=None):
-    """Everything the website needs for one location.
+def build_neutral_report(lat, lon, period_years=None, sources=("pm25", "no2", "fires", "surface_heat") + ADDED_SOURCES,
+                         daily=None, extra=None, end_year=None):
+    """Everything the website needs for one location that is the same for every household (SPEC A3: this is what
+    gets stored; apply_household adds the household part per request and is never stored).
 
     condition: one key or a list of keys from conditions.json, e.g. ["asthma_copd", "heart_disease"]
-    age_group: one key from conditions.json
-    
+    age_group: one key, a list of keys or "a,b" from conditions.json (every household member counts)
+
     period_years: 10, 15, 20 or 25 (the "period to analyze" box). Default from thresholds.json.
     sources: which extra data sources to use (MODIS heat is slow the first time for a new place).
     daily / extra: only for testing with fake data.
     """
-    th, narr, cond = load_thresholds(), load_json("narratives.json"), load_json("conditions.json")
+    th, narr = load_thresholds(), load_json("narratives.json")
     st = th["settings"]
     period = int(period_years or st["default_period"])
-    end_year = st["data_end_year"]
+    data_end = st["data_end_year"]
+    end_year = min(int(end_year or data_end), data_end)     # custom periods end earlier (A3, custom-period)
     start_year = end_year - period + 1
 
     if daily is None:
-        daily = fetch_power(lat, lon, POWER_START_YEAR, end_year)
+        daily = fetch_power(lat, lon, POWER_START_YEAR, data_end)
     series, bad_years = power_series(daily, th, st["min_valid_days_per_year"])
 
     status = {"power": "ok"}
@@ -169,10 +188,49 @@ def build_report(lat, lon, condition="none", age_group="18_64", period_years=Non
     overall = ("high_risk" if "high_risk" in levels else "caution" if "caution" in levels
                else "suitable")
 
+    return clean_json({
+        "location": {"lat": lat, "lon": lon},
+        "period": [start_year, end_year],
+        "overall": overall,
+        "verdict_rule": st["verdict_rule"],
+        "notable_years": notable_years(factors),
+        "factors": factors,
+        "other_checks": narr.get("other_checks", []),
+        "data_status": status,
+        "data_quality": {"incomplete_years": bad_years},
+        "thresholds_version": th["version"],
+    })
+
+
+HOUSEHOLD_KEYS = ("user", "not_good_for", "overall_drivers", "worsening_factors", "card_order", "actions")
+HOUSEHOLD_FACTOR_KEYS = ("priority_for_user", "affects", "health_flag")
+
+
+def strip_household(report):
+    """A full report back to its household-neutral part (to store a saved demo report without its household)."""
+    out = {k: v for k, v in report.items() if k not in HOUSEHOLD_KEYS}
+    out["factors"] = {k: {a: b for a, b in f.items() if a not in HOUSEHOLD_FACTOR_KEYS} for k, f in report["factors"].items()}
+    return out
+
+
+def apply_household(neutral, condition="none", age_group="18_64", cond=None, narr=None):
+    """Add one household's view to a neutral report: card order, priorities, health notes and actions.
+    Pure: returns a new report and leaves `neutral` (the stored one) untouched.
+
+    condition: one key or a list of keys from conditions.json, e.g. ["asthma_copd", "heart_disease"]
+    age_group: one key, a list of keys or "a,b" from conditions.json (every household member counts)
+    """
+    cond = cond or load_json("conditions.json")
+    narr = narr or load_json("narratives.json")
+    factors = {k: dict(f) for k, f in neutral["factors"].items()}
+    main = [f for f in factors.values() if f["available"] and not f.get("parent")]
+    overall = neutral["overall"]
     conditions = _as_list(condition, cond["conditions"])
     groups = [(c, cond["conditions"][c]) for c in conditions if c != "none"]
-    if age_group in cond["age_groups"]:
-        groups.append((age_group, cond["age_groups"][age_group]))
+    # a household can have several age groups: one key, a list, or "a,b"
+    raw_ages = age_group.split(",") if isinstance(age_group, str) else list(age_group or [])
+    ages = list(dict.fromkeys(a.strip() for a in raw_ages if a.strip() in cond["age_groups"]))
+    groups += [(a, cond["age_groups"][a]) for a in ages]
 
     prio = _take_turns([g["priority"] for _, g in groups if g.get("priority")] or
                        [cond["conditions"]["none"]["priority"]])
@@ -201,7 +259,8 @@ def build_report(lat, lon, condition="none", age_group="18_64", period_years=Non
             n = narr.get(k, {})
             if n.get("actions"):
                 actions.append({"factor": k, "label": f["label"], "actions": n["actions"],
-                                "source": {"name": n.get("source_name"), "url": n.get("source_url")}})
+                                "source": {"name": n.get("actions_source_name") or n.get("source_name"),     # health guidance
+                                           "url": n.get("actions_source_url") or n.get("source_url")}})       # over the data source
                 
     not_good_for = []
     for _, g in groups:
@@ -212,27 +271,34 @@ def build_report(lat, lon, condition="none", age_group="18_64", period_years=Non
                                  "text": f"{g['label']}: {_join(bad)}"})
             
     return clean_json({
-        "location": {"lat": lat, "lon": lon},
+        "location": neutral["location"],
         "user": {"condition": conditions[0], "conditions": conditions,
                  "condition_labels": [cond["conditions"][c]["label"] for c in conditions],
-                 "age_group": age_group,
-                 "age_group_label": cond["age_groups"].get(age_group, {}).get("label", age_group)},
+                 "age_group": ages[0] if ages else age_group, "age_groups": ages,
+                 "age_group_label": cond["age_groups"].get(ages[0], {}).get("label") if ages else age_group,
+                 "age_group_labels": [cond["age_groups"][a]["label"] for a in ages]},
         "not_good_for": not_good_for,
-        "period": [start_year, end_year],
+        "period": neutral["period"],
         "overall": overall,
         "overall_drivers": [factors[k]["label"] for k in order if factors[k]["level"] == overall],
         "worsening_factors": [factors[k]["label"] for k in order
                               if factors[k]["trend_direction"] == "worsening"],
-        "verdict_rule": st["verdict_rule"],
+        "verdict_rule": neutral["verdict_rule"],
         "card_order": order,
-        "notable_years": notable_years(factors),
+        "notable_years": neutral["notable_years"],
         "factors": factors,
         "actions": actions,
-        "other_checks": narr.get("other_checks", []),
-        "data_status": status,
-        "data_quality": {"incomplete_years": bad_years},
-        "thresholds_version": th["version"],
+        "other_checks": neutral["other_checks"],
+        "data_status": neutral["data_status"],
+        "data_quality": neutral["data_quality"],
+        "thresholds_version": neutral["thresholds_version"],
     })
+
+
+def build_report(lat, lon, condition="none", age_group="18_64", period_years=None,
+                 sources=("pm25", "no2", "fires", "surface_heat"), daily=None, extra=None, end_year=None):
+    """The full report for one location and household (the neutral report plus the household's view)."""
+    return apply_household(build_neutral_report(lat, lon, period_years, sources, daily, extra, end_year), condition, age_group)
 
 
 ARROW = {"worsening": "↑ worse", "improving": "↓ better", "no_clear_trend": "→ no clear trend"}
@@ -256,6 +322,7 @@ def print_report(rep):
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")   # Windows consoles default to cp1252 and crash on ★ → ↑ ↓
     a = sys.argv[1:]
     lat, lon = (float(a[0]), float(a[1])) if len(a) >= 2 else (33.45, -112.07)
     condition = a[2] if len(a) >= 3 else "none"
@@ -271,3 +338,94 @@ if __name__ == "__main__":
     with open(out, "w", encoding="utf-8") as fh:
         json.dump(rep, fh, indent=1, ensure_ascii=False, allow_nan=False)
     print("\nSaved", out)
+
+
+REGION_START_YEAR = 1981            # POWER's first year; lets "Try a longer series" go back further than 2001
+GRID_FILES = {"pm25": "sources.pm25_merra2", "no2": "sources.no2_omi"}
+
+
+def _annual(monthly, agg):
+    """Yearly values from complete years only (12 months)."""
+    g = monthly.groupby(monthly.index.year)
+    full = g.count() == 12
+    return getattr(g, agg)()[full]
+
+
+def build_region(code, var, period_years=None, end_year=None):
+    """One variable averaged over a US state, in the same shape as a report card (make_factor), so the website
+    can show it with the same charts. POWER variables come live from its regional API; PM2.5 and NO2 from our files."""
+    from sources import extras, power_region
+    import xarray as xr
+
+    th, narr = load_thresholds(), load_json("narratives.json")
+    states, region_vars = power_region.load_states(), load_json("region_vars.json")
+    if code not in states:
+        raise ValueError(f"unknown state {code}")
+    st = th["settings"]
+    end_year = min(int(end_year or st["data_end_year"]), st["data_end_year"])
+    if var in region_vars:
+        cfg, note = region_vars[var], region_vars[var]
+        monthly = power_region.fetch_state_monthly(code, cfg, REGION_START_YEAR, st["data_end_year"])   # one cache; the period cuts it
+        first = REGION_START_YEAR
+    elif var in GRID_FILES:
+        cfg, note = th[var], narr.get(var, {})
+        mod = importlib.import_module(GRID_FILES[var])
+        with xr.open_dataarray(mod.OUT) as da:
+            monthly = power_region.grid_state_monthly(da, code)
+        if getattr(mod, "FIRST_TREND_YEAR", None):          # PM2.5 from 2010 (D41)
+            monthly = monthly[pd.to_datetime(monthly.index).year >= mod.FIRST_TREND_YEAR]
+    elif var in extras.GRID:                        # A3 data additions: their own yearly rules (sources/extras.py)
+        cfg, note = th[var], narr.get(var, {})
+        s = extras.state_series(code, var)
+        monthly, given_annual = s["monthly"], s["annual"]
+    else:
+        raise ValueError(f"unknown variable {var}")
+    region = {"code": code, "name": states[code]["name"], "kind": "state", "bbox": states[code]["bbox"]}
+    if var not in region_vars:
+        if pd.Series(monthly, dtype=float).dropna().empty:      # the grids cover the lower 48 (not Alaska, Hawaii, PR)
+            return clean_json({"region": region, "variable": var, "period_years": None, "first_year_available": None,
+                               "factor": {"key": var, "label": cfg["label"], "available": False, "parent": cfg.get("parent"),
+                                          "reason": "this dataset's grid covers the lower 48 states only"}})
+        first = int(monthly.dropna().index.year.min())
+    period = int(period_years or st["default_period"])
+    start_year = max(first, end_year - period + 1)
+    agg = cfg.get("agg") or ("sum" if "/ year" in cfg["unit"] else "mean")
+    annual = given_annual if var in extras.GRID else _annual(monthly, agg)
+    factor = make_factor(var, annual, monthly, {var: {**cfg, "agg": agg}, "settings": st},
+                         note, start_year, end_year)
+    return clean_json({
+        "region": region, "variable": var, "period_years": end_year - start_year + 1, "first_year_available": first,
+        "factor": factor,
+    })
+
+
+# Week-by-week view (SPEC A3 weekly-view): daily NASA POWER columns, how a week is summed up, and the words.
+WEEKLY_VARS = {
+    "t2m_max": {"column": "T2M_MAX", "agg": "mean", "label": "Daily high", "unit": "°C", "about": "the average of the 7 daily highs"},
+    "t2m_min": {"column": "T2M_MIN", "agg": "mean", "label": "Night low", "unit": "°C", "about": "the average of the 7 nightly lows"},
+    "precip": {"column": "PRECTOTCORR", "agg": "sum", "label": "Rain and snow", "unit": "mm", "about": "the week's total"},
+    "rh": {"column": "RH2M", "agg": "mean", "label": "Humidity", "unit": "%", "about": "the week's average relative humidity"},
+    "wetbulb": {"column": "T2MWET", "agg": "mean", "label": "Wet-bulb temperature", "unit": "°C", "about": "the average of the 7 daily-mean wet-bulb temperatures"},
+}
+
+
+def build_weekly(lat, lon, variable, year, period_years=None, daily=None):
+    """One year of one daily NASA POWER variable as 52 weeks, against each week's usual range over the period."""
+    from analysis.weekly import weekly_blocks
+
+    if variable not in WEEKLY_VARS:
+        raise ValueError(f"unknown weekly variable {variable}")
+    st = load_thresholds()["settings"]
+    end_year = st["data_end_year"]
+    start_year = end_year - int(period_years or st["default_period"]) + 1
+    if daily is None:
+        daily = fetch_power(lat, lon, POWER_START_YEAR, end_year)
+    df, _, _ = clean_daily(daily, st["min_valid_days_per_year"])
+    cfg = WEEKLY_VARS[variable]
+    if cfg["column"] not in df:
+        return None
+    out = weekly_blocks(df[cfg["column"]], year, start_year, end_year, cfg["agg"])
+    if out is None:
+        return None
+    return clean_json({**out, "variable": variable, "label": cfg["label"], "unit": cfg["unit"], "about": cfg["about"],
+                       "location": {"lat": lat, "lon": lon}, "source": "NASA POWER daily (MERRA-2), ~50 km grid"})
