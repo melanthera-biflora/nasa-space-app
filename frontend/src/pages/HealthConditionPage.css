@@ -1,5 +1,7 @@
 /* ===== Thẻ câu hỏi (bên trái) ===== */
 .health-card {
+  display: flex;
+  flex-direction: column;
   color: #24302a;
 }
 
@@ -144,7 +146,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 30px;
+  min-height: 34px;
   color: #3f4a45;
   font-size: 13px;
   cursor: pointer;
@@ -265,9 +267,9 @@
   flex: 1 1 120px;
 }
 
-/* Khoảng cách trước nút Next step */
-.health-people + .health-next {
-  margin-top: 24px;
+/* Khoảng cách tối thiểu trước nút Next step */
+.health-people {
+  margin-bottom: 28px;
 }
 
 /* Nút Next step */
@@ -278,7 +280,7 @@
   gap: 10px;
   width: 88%;
   height: 54px;
-  margin: 0 auto;
+  margin: auto auto 0;
   border: 0;
   border-radius: 999px;
   background: #35306a;
@@ -318,9 +320,10 @@
 
 /* ===== Khung minh họa (bên phải) ===== */
 .health-illustration {
+  --core-y: 168px; /* khoảng cách từ đỉnh khung tới tâm quả cầu (cố định, không giãn theo chiều cao khung) */
   position: relative;
   min-width: 0;
-  min-height: 510px;
+  min-height: 640px;
 }
 
 /* Ảnh 3D từ Figma, nằm nhô lên trên khung */
@@ -412,7 +415,7 @@
 
 .health-rings span {
   position: absolute;
-  top: 34%;
+  top: var(--core-y);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -424,9 +427,9 @@
 /* Trạng thái chờ: quả cầu "thở" + dòng chữ */
 .health-core {
   position: absolute;
-  top: 34%;
+  top: var(--core-y);
   left: 50%;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -491,91 +494,32 @@
   70%, 100% { box-shadow: 0 0 0 9px rgba(194, 255, 77, 0); }
 }
 
-.health-hill {
+/* Hình minh họa: chiếm phần còn lại phía dưới quả cầu + chữ, nên không đè lên chữ.
+   132px = chiều cao nửa dưới của quả cầu và dòng chữ; 76px = chừa chỗ cho thẻ gợi ý ở đáy. */
+.health-art {
   position: absolute;
-  left: 12%;
-  right: 15%;
-  bottom: 0;
-  height: 240px;
-  overflow: hidden;
-  border-radius: 160px 160px 0 0;
-  background: #8f7cdb;
+  left: 0;
+  right: 0;
+  bottom: 76px;
+  z-index: 0;
+  width: min(86%, 740px);
+  height: calc(100% - var(--core-y) - 132px - 76px);
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 24px 40px rgba(25, 12, 70, 0.4));
+  animation: health-float 7s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.health-road {
-  position: absolute;
-  left: 30%;
-  bottom: -20px;
-  width: 15%;
-  height: 120%;
-  background: #d5dcc8;
-  transform: rotate(8deg);
-  transform-origin: bottom left;
+@keyframes health-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
-.health-tree {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #5ecb5e;
-}
-
-.health-tree::after {
-  content: '';
-  position: absolute;
-  top: 46px;
-  left: 50%;
-  width: 7px;
-  height: 40px;
-  background: #7a4a2c;
-  transform: translateX(-50%);
-}
-
-.health-tree-left { left: 15%; bottom: 36%; }
-.health-tree-right { left: 82%; bottom: 58%; width: 40px; height: 40px; }
-.health-tree-right::after { top: 36px; height: 30px; width: 6px; }
-
-.health-small-house {
-  position: absolute;
-  right: 18%;
-  bottom: 0;
-  width: 70px;
-  height: 56px;
-  background: #f8eed8;
-}
-
-.health-small-house::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 18px;
-  height: 32px;
-  background: #7a4a2c;
-  transform: translateX(-50%);
-}
-
-.health-bin {
-  position: absolute;
-  left: 22%;
-  bottom: 8%;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 42px;
-  border-radius: 4px;
-  background: #1f7a45;
-}
-
-.health-bin svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: #ffffff;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.health-msg strong,
+.health-msg small {
+  text-shadow: 0 1px 10px rgba(35, 20, 85, 0.55);
 }
 
 /* Gợi ý tiến trình ở đáy panel (thay cho thẻ "Avg. response") */
@@ -672,6 +616,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .health-orb,
+  .health-art,
   .health-status-dot,
   .health-dots span {
     animation: none;
@@ -690,7 +635,8 @@
 /* ===== Màn hình nhỏ ===== */
 @media (max-width: 768px) {
   .health-illustration {
-    min-height: 360px;
+    --core-y: 150px;
+    min-height: 560px;
     margin-top: 140px;
   }
 

@@ -316,18 +316,8 @@ export default function HealthConditionPage({ onNext }) {
               </div>
             </div>
 
-            {/* Ngọn đồi với đường đi, cây và ngôi nhà nhỏ */}
-            <div className="health-hill" aria-hidden="true">
-              <span className="health-road" />
-              <span className="health-tree health-tree-left" />
-              <span className="health-tree health-tree-right" />
-              <span className="health-small-house" />
-              <span className="health-bin">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6" />
-                </svg>
-              </span>
-            </div>
+            {/* Hình minh họa người ôm trái đất, nằm trên nền tím */}
+            <Decoration src="/images/earth-hug.png" className="health-art" />
 
             <div className="health-hint">
               <div className="health-hint-text">
