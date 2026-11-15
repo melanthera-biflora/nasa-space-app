@@ -1,15 +1,143 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9,400&family=Inter:wght@400;500;600;700&family=Lexend+Deca:wght@400;600&family=Manrope:wght@400;600;700;800&display=swap');
-
+/* Design tokens (docs/UI_REFINE_PLAN.md). Pages use these instead of raw values. */
 :root {
-  --font-display: 'Lexend Deca', sans-serif;
-  --font-form: 'Manrope', sans-serif;
-  --font-option: 'DM Sans', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --text-body: 14px;
-  --line-body: 21px;
-  --text-small: 13px;
-  --line-small: 19px;
+  /* One family; the old names stay so existing page CSS keeps working */
+  --font-body: var(--font-inter, 'Inter'), system-ui, -apple-system, 'Segoe UI', sans-serif;   /* self-hosted by next/font (app/layout.jsx) */
+  --font-display: var(--font-body);
+  --font-form: var(--font-body);
+  --font-option: var(--font-body);
+
+  /* Type scale: 6 steps, nothing smaller than 12px */
+  --text-12: 12px;
+  --text-14: 14px;
+  --text-16: 16px;
+  --text-20: 20px;
+  --text-28: 28px;
+  --text-40: 40px;
+  --text-body: var(--text-16);
+  --line-body: 24px;
+  --text-small: var(--text-14);
+  --line-small: 20px;
+  --line-12: 16px; --line-14: 20px; --line-16: 24px; --line-20: 28px; --line-28: 34px; --line-40: 44px;
+  --track-20: -0.01em; --track-28: -0.015em; --track-40: -0.02em;
+
+  /* Colour: "dusk and sage", the team's original palette made calmer.
+     Sage mist pages, forest-green ink, a dusk-indigo band for identity, lime only on indigo.
+     Direction colours always come with an arrow and a word. */
+  --bg: #eef2ee;
+  --surface: #fbfcfa;
+  --surface-sunken: #e5ece7;
+  --line: #d6e0da;
+  --line-strong: #adbdb4;
+  --ink: #173b30;
+  --ink-muted: #4f6359;
+  --accent: #14785f;            /* A3: was #197b62; 4.5:1 as text on --accent-soft */
+  --accent-soft: #dcefe7;
+  --brand: #35306a;
+  --brand-deep: #262251;
+  --brand-mid: #5b4fa8;
+  --brand-soft: #ebe8f7;
+  --on-brand: #f6f4ff;
+  --on-brand-muted: #c8c2ec;
+  --on-brand-line: rgba(246, 244, 255, 0.2);
+  --on-brand-wash: rgba(246, 244, 255, 0.07);
+  --rising-on-brand: #ff9d8f;
+  --falling-on-brand: #9dbcff;
+  --highlight: #c2ff4d;
+  --hero-gradient: radial-gradient(ellipse at 88% 0%, rgba(91, 79, 168, 0.55), transparent 58%), linear-gradient(120deg, #2f4554 0%, #35306a 72%);
+  /* The first pages' dusk scene, from the team's original design */
+  --dusk-gradient: radial-gradient(ellipse at 65% 35%, rgba(111, 69, 167, 0.55), transparent 65%), linear-gradient(120deg, #354b59, #302d59 70%);
+  --panel-gradient: radial-gradient(circle at 50% 40%, #856cc6, #493775 75%);
+  /* Trend maps: ColorBrewer RdBu, 9 classes, blue = falling, red = rising (direction, not good or bad) */
+  --div-1: #2166ac;
+  --div-2: #4393c3;
+  --div-3: #92c5de;
+  --div-4: #d1e5f0;
+  --div-5: #ebe8e2;
+  --div-6: #fddbc7;
+  --div-7: #f4a582;
+  --div-8: #d6604d;
+  --div-9: #b2182b;
+  /* Then and Now maps: ColorBrewer BuPu, 7 classes, lighter = lower (a level, not a direction) */
+  --seq-1: #edf8fb;
+  --seq-2: #bfd3e6;
+  --seq-3: #9ebcda;
+  --seq-4: #8c96c6;
+  --seq-5: #8c6bb1;
+  --seq-6: #88419d;
+  --seq-7: #6e016b;
+  /* Water records: ColorBrewer BrBG, 9 classes, brown = drier, teal = wetter (blue for "below" read as wet on rain) */
+  --dw-1: #8c510a;
+  --dw-2: #bf812d;
+  --dw-3: #dfc27d;
+  --dw-4: #f6e8c3;
+  --dw-5: #ebe8e2;
+  --dw-6: #c7eae5;
+  --dw-7: #80cdc1;
+  --dw-8: #35978f;
+  --dw-9: #01665e;
+  --drier: #8c510a;
+  --wetter: #01665e;
+  --rising: #b42318;
+  --rising-soft: #fbe9e6;
+  --falling: #1754c4;
+  --falling-soft: #e6eefb;
+  --flat: #5f7168;              /* A3: was #687a71; 4.5:1 as text on --bg */
+  --flat-soft: #e3e9e5;
+  --compare: #c4560a;           /* lines and marks */
+  --compare-text: #b64d00;      /* A3: the same orange as text, 4.5:1 on --bg */
+  /* Several places on one chart: indigo, teal, ochre, terracotta (each >= 3.6:1 on surface; lines also differ by dash) */
+  --cat-1: #5d55a9; --cat-2: #1e8469; --cat-3: #b77610; --cat-4: #b8492e;
+  --period-mark: var(--brand-mid);
+  --warn: #b54708;
+  --focus: #5b4fa8;             /* on dark bands it becomes --highlight (see the rule below :root) */
+
+  /* A3 tonal scales (OKLCH steps, research_notes/Climatch UI and place finder/modern_ui.md 1.1).
+     1-2 backgrounds, 3-5 fills (normal, hover, selected), 6-8 borders, 9-10 solids, 11-12 text. */
+  --brand-1: #f9f9ff; --brand-2: #f3f3ff; --brand-3: #e9e9ff; --brand-4: #e0dfff; --brand-5: #d5d4fe; --brand-6: #c8c6f8;
+  --brand-7: #b4b1ee; --brand-8: #9994e0; --brand-9: #5b4fa8; --brand-10: #4f429a; --brand-11: #453889; --brand-12: #35306a;
+  --sage-1: #f4fcf9; --sage-2: #ebf8f3; --sage-3: #dcf1e9; --sage-4: #cfeae0; --sage-5: #c0e2d5; --sage-6: #aed7c8;
+  --sage-7: #93c6b4; --sage-8: #6bae98; --sage-9: #14785f; --sage-10: #006d56; --sage-11: #00614c; --sage-12: #003d2f;
+  --n-1: #f8fbf9; --n-2: #f0f5f2; --n-3: #e7ede9; --n-4: #dee5e1; --n-5: #d4dbd7; --n-6: #c8d0cb;
+  --n-7: #b4bdb8; --n-8: #949e98; --n-9: #6d7771; --n-10: #5f6963; --n-11: #535e58; --n-12: #1e2a23;
+
+  /* Space and shape */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --radius-control: 6px;
+  --radius-xs: 4px;
+  --radius-card: 10px;    /* A3: was 12 */
+  --radius-panel: 16px;   /* A3: was 20; the large cards on the dusk pages */
+  --radius-round: 999px;
+  --space-8: 64px;
+  --control: 36px;        /* control height; 44 on touch (below) */
+  --control-sm: 28px;
+
+  /* Motion: one easing and three durations */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+  /* A3 motion: enter with --ease-out, exit with --ease-in at about 70% of the enter time */
+  --dur-1: 100ms; --dur-2: 150ms; --dur-3: 200ms; --dur-4: 300ms; --dur-5: 500ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in: cubic-bezier(0.3, 0, 1, 1);
+
+  /* A3 elevation: tonal surfaces first; shadows only on layers that float (menus, popovers, sheets) */
+  --shadow-1: 0 1px 2px oklch(0.32 0.05 170 / 0.06);
+  --shadow-2: 0 1px 2px oklch(0.32 0.05 170 / 0.06), 0 4px 12px oklch(0.32 0.05 170 / 0.08);
+  --shadow-3: 0 2px 4px oklch(0.32 0.05 170 / 0.06), 0 12px 32px oklch(0.32 0.05 170 / 0.12);
+  --scrim: oklch(0.27 0.02 160 / 0.32);
 }
+
+@media (pointer: coarse) { :root { --control: 44px; } }
+
+/* On the dark dusk and indigo bands the brand focus colour is too dark (1.8:1), so focus rings turn lime there */
+:where(.report-hero, .dt-header, .questionnaire, .app-nav, .health-panel, .dusk-band) { --focus: var(--highlight); }
 
 * { box-sizing: border-box; }
 
@@ -19,159 +147,114 @@ body {
   font-size: var(--text-body);
   line-height: var(--line-body);
   font-weight: 400;
-  color: #173b30;
+  color: var(--ink);
+  background: var(--bg);
+  font-variant-numeric: tabular-nums;   /* A3: numbers line up and don't jump when they change */
+  -webkit-font-smoothing: antialiased;
 }
 
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
-/* Shared reading scale. Layout, color and spacing stay in page styles. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Motion. Entrances and ambient loops run only when the user hasn't asked for less motion.
+   .rise-in staggers by --i (set inline: style={{ '--i': 2 }}). */
+@keyframes rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes appear { from { opacity: 0; } }   /* fades in to whatever opacity the element already has */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes drift { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-5%, 4%) scale(1.08); } }
+@keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.85; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .rise-in { animation: rise-in var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 70ms); }
+}
+button { transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast), transform var(--dur-fast) var(--ease-out); }
+button:active:not(:disabled) { transform: translateY(1px); }
+
+/* Shared reading scale. Layout, colour and spacing stay in page styles. */
 body :is(p, li) {
-  font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--line-body);
   font-weight: 400;
 }
 body :is(footer, footer p, footer a, small, .helper-text, .help-text, .field-hint) {
-  font-family: var(--font-body);
   font-size: var(--text-small);
   line-height: var(--line-small);
   font-weight: 400;
 }
 
-/* Display heading and supporting intro; explicit utility classes are reusable. */
+/* Hero heading and intro */
 body :is(.hero-title, .hero-heading, .health-page h1, .health-condition-page h1, .location-page h1),
 body .type-hero {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(var(--text-28), 4.5vw, var(--text-40));
   line-height: 1.2;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 body :is(.hero-subtitle, .hero-description, .supporting-intro),
 body .type-intro {
-  font-family: var(--font-display);
-  font-size: 20px;
+  font-size: var(--text-20);
   line-height: 1.5;
   font-weight: 400;
 }
 body :is(.form-section h2, .form-section h3, .form-section-title, .section-title, fieldset legend),
 body .type-form-title {
-  font-family: var(--font-form);
-  font-size: 16px;
+  font-size: var(--text-16);
   line-height: 1.5;
-  font-weight: 700;
+  font-weight: 600;
 }
 body :is(button, .primary-button, .primary-btn, .btn-primary, .submit-button, .submit-btn),
 body .type-action {
-  font-family: var(--font-form);
-  font-size: 13px;
+  font-size: var(--text-14);
   line-height: 1.5;
-  font-weight: 800;
+  font-weight: 500;
 }
-/* Exclude checkboxes/radios from changing control appearance or dimensions. */
 body :is(select, option, .condition-option, .health-option, .option-label, .checkbox-label, .radio-label),
 body .type-option {
-  font-family: var(--font-option);
-  font-optical-sizing: none;
-  font-variation-settings: 'opsz' 9;
-  font-size: 14px;
-  line-height: 16.5px;
+  font-size: var(--text-14);
+  line-height: 20px;
   font-weight: 400;
 }
 body :is(input:not([type='checkbox']):not([type='radio']), textarea) {
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 21px;
+  font-size: var(--text-16);
+  line-height: 24px;
 }
 
-/* ReportPage selectors match the supplied report implementation. */
-body .report-page {
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 21px;
-}
-body .report-page .report-heading h1 {
-  font-family: var(--font-body);
-  font-size: 32px;
-  line-height: 40px;
-  font-weight: 600;
-}
-body .report-page .report-verdict h2,
-body .type-verdict {
-  font-family: var(--font-body);
-  font-size: 32px;
-  line-height: 40px;
-  font-weight: 600;
-}
-body .report-page :is(.report-profile h2, .report-action h3, .report-factor-label, .report-chart-header h2),
-body .type-card-heading {
-  font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 22px;
-  font-weight: 600;
-}
-body .report-page :is(.report-factor-copy, .report-chart-story, .report-profile div > p, .report-action li, .report-details > div, .report-details > div p),
-body .type-body {
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 400;
-}
-body .report-page :is(.report-mini-label, .report-period, .report-demo, .report-heading > p, .report-counts, .report-counts small, .report-chart-legend, .report-action a, .report-details summary > span),
-body .type-helper {
-  font-family: var(--font-body);
-  font-size: 13px;
-  line-height: 19px;
-  font-weight: 400;
-}
-body .report-page .report-chart-header select {
-  font-family: var(--font-option);
-  font-optical-sizing: none;
-  font-variation-settings: 'opsz' 9;
-  font-size: 14px;
-  line-height: 16.5px;
-  font-weight: 400;
-}
-body .report-page .report-chart-header { flex-wrap: wrap; }
-body .report-page .report-counts { min-width: 180px; }
-body .report-page .report-assessment { flex-wrap: wrap; }
-
-
-/* Exact selectors from the supplied Health, Location and Loading pages. */
+/* Health, Location and Loading pages (selectors from the team's pages) */
 body :is(.health-card .questionnaire-card-heading h2,
          .health-card .health-question,
          .health-card .health-person-title,
          .health-card .health-label,
          .location-page .location-card-heading h2,
          .location-page .location-form h3) {
-  font-family: var(--font-form);
-  font-size: 16px;
+  font-size: var(--text-16);
   line-height: 24px;
-  font-weight: 700;
+  font-weight: 600;
 }
 body :is(.health-card .health-check-label,
          .health-card .health-select,
          .health-card .health-other-input) {
-  font-family: var(--font-option);
-  font-optical-sizing: none;
-  font-variation-settings: 'opsz' 9;
-  font-size: 14px;
-  line-height: 16.5px;
+  font-size: var(--text-14);
+  line-height: 20px;
   font-weight: 400;
 }
 body :is(.health-card .health-next,
          .location-page .location-result-button,
          .location-page .location-search button) {
-  font-family: var(--font-form);
-  font-size: 13px;
-  line-height: 19.5px;
-  font-weight: 800;
+  font-size: var(--text-14);
+  line-height: 20px;
+  font-weight: 600;
 }
 body :is(.health-card .health-add, .health-card .health-remove) {
-  font-family: var(--font-form);
-  font-size: 13px;
-  line-height: 19px;
-  font-weight: 600;
+  font-size: var(--text-14);
+  line-height: 20px;
+  font-weight: 500;
 }
 body :is(.health-card .health-instruction,
          .location-page .location-description,
@@ -180,47 +263,57 @@ body :is(.health-card .health-instruction,
          .location-page .location-error,
          .location-page .location-selected p,
          .location-page .location-pin-label) {
-  font-family: var(--font-body);
-  font-size: 13px;
-  line-height: 19px;
+  font-size: var(--text-14);
+  line-height: 20px;
   font-weight: 400;
 }
 body .location-page .location-hero-copy h1 {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(var(--text-28), 4.5vw, var(--text-40));
   line-height: 1.2;
   font-weight: 600;
 }
 body .location-page .location-hero-copy > p {
-  font-family: var(--font-display);
-  font-size: 20px;
+  font-size: var(--text-20);
   line-height: 30px;
   font-weight: 400;
 }
 body .location-page .location-form label {
-  font-family: var(--font-form);
-  font-size: 14px;
-  line-height: 21px;
+  font-size: var(--text-14);
+  line-height: 20px;
   font-weight: 600;
 }
 body .loading-page .loading-title {
-  font-family: var(--font-body);
-  font-size: 22px;
-  line-height: 30px;
+  font-size: var(--text-20);
+  line-height: 28px;
   font-weight: 600;
 }
 body .loading-page :is(.loading-eyebrow, .loading-season, .loading-note) {
-  font-family: var(--font-body);
-  font-size: 13px;
-  line-height: 19px;
+  font-size: var(--text-14);
+  line-height: 20px;
 }
 body .loading-page .loading-step {
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 21px;
+  font-size: var(--text-14);
+  line-height: 20px;
   font-weight: 400;
 }
-body .report-page .report-recommendations > h2 {
-  font-family: var(--font-body);
-  font-weight: 600;
+
+/* Headings that receive focus on a page change (App.jsx) aren't controls: no focus ring */
+[tabindex='-1']:focus { outline: none; }
+
+/* Visually hidden, still read by screen readers */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Segmented control (map layer, map view, month view) */
+.segmented { display: inline-flex; padding: 2px; border: 1px solid var(--line-strong); border-radius: var(--radius-control); background: var(--surface-sunken); }
+.segmented button { min-width: 64px; min-height: 40px; padding: 0 var(--space-3); border: 0; border-radius: 4px; background: transparent; color: var(--ink); }
+.segmented button[aria-pressed='true'] { background: var(--surface); color: var(--brand); font-weight: 600; box-shadow: 0 0 0 1px var(--line-strong); }
+
+/* Maps: the cooperative-zoom hint, the "wheel goes to the map now" ring, and keyboard keys (lib/mapGestures.js) */
+.leaflet-container .map-hint {
+  position: absolute; inset: 0; z-index: 1000; display: grid; place-items: center; padding: var(--space-4);
+  background: rgba(23, 27, 48, 0.45); color: #fff; font-size: var(--text-16); line-height: 24px; font-weight: 600; text-align: center;
+  opacity: 0; pointer-events: none; transition: opacity var(--dur-base);
 }
+.leaflet-container .map-hint.is-on { opacity: 1; }
+.leaflet-container.is-map-active { box-shadow: inset 0 0 0 2px var(--brand-mid); }
+kbd { display: inline-block; min-width: 20px; padding: 0 5px; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 4px; background: var(--surface); color: var(--ink); font: 600 var(--text-12)/18px var(--font-body); text-align: center; }

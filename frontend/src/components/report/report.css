@@ -1,0 +1,105 @@
+/* The friendlier report (SPEC A5): the hero chips, "Most important for you" cards, records by theme that slide open,
+   and the yearly bars. Built on the tokens in index.css; colour always comes with an arrow and words. */
+
+/* Hero additions: one sentence, the records behind it as chips, the household line */
+.rp-sentence { margin: var(--space-2) 0 0; font-size: 26px; line-height: 1.25; font-weight: 500; letter-spacing: var(--track-28); color: var(--on-brand); text-wrap: balance; }
+.rp-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+.rp-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border: 1px solid var(--on-brand-line); border-radius: var(--radius-round); background: transparent; color: var(--on-brand); font: inherit; font-size: 13px; font-weight: 400; cursor: pointer; transition: background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out); }
+@media (hover: hover) { .rp-chip:hover { background: var(--on-brand-wash); border-color: rgba(246, 244, 255, 0.4); } }
+.rp-chip.is-up .ui-icon { color: var(--rising-on-brand); }
+.rp-chip.is-down .ui-icon { color: var(--falling-on-brand); }
+.rp-chip small { color: var(--on-brand-muted); font-size: var(--text-12); }
+.rp-rest { margin: var(--space-3) 0 0; font-size: var(--text-14); color: var(--on-brand-muted); }
+
+/* Sections of the body */
+.rp-section { display: grid; gap: var(--space-4); }
+.rp-section > h2 { font-size: var(--text-20); line-height: 28px; font-weight: 500; letter-spacing: -0.005em; }
+.rp-section > .note { margin-top: calc(-1 * var(--space-3)); }
+
+/* "Most important for you": the one bold element of the page */
+.rp-tops { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: var(--space-4); }
+.rp-top { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--surface); transition: border-color var(--dur-2) var(--ease-out); }
+@media (hover: hover) { .rp-top:hover { border-color: var(--n-6); } }
+.rp-top-head { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.rp-top-head h3 { flex: 1; min-width: 0; font-size: 15px; line-height: 22px; font-weight: 500; }
+.rp-mine { align-self: flex-start; padding: 1px 8px; border: 1px solid var(--brand-4); border-radius: var(--radius-round); color: var(--brand-11); font-size: var(--text-12); font-weight: 500; }
+.rp-icon { display: inline-grid; place-items: center; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; background: var(--sage-2, var(--n-2)); color: var(--sage-10, var(--ink)); }
+.rp-numbers { margin: var(--space-1) 0 0; font-size: var(--text-16); color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.rp-numbers b { font-size: 24px; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; }
+.rp-years { margin: 0; font-size: var(--text-12); color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.rp-unclear { margin: 0; font-size: var(--text-12); line-height: 18px; color: var(--ink-muted); }
+.rp-why { margin: 0; font-size: var(--text-14); line-height: 20px; color: var(--ink-muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.rp-open { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; min-height: 36px; margin-top: auto; padding: 0 2px; border: 0; background: none; color: var(--brand); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
+@media (hover: hover) { .rp-open:hover { text-decoration: underline; text-underline-offset: 3px; } }
+
+/* Verdict chips: arrow + words + tone */
+.rp-verdicts { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.rp-verdict { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: var(--radius-round); font-size: 12px; font-weight: 500; white-space: nowrap; }
+.rp-verdict.is-up { background: var(--rising-soft); color: var(--rising); }
+.rp-verdict.is-down { background: var(--falling-soft); color: var(--falling); }
+.rp-verdict.is-flat { background: var(--flat-soft); color: var(--ink-muted); }
+.rp-level { padding: 0 8px; border: 1px solid var(--line); border-radius: var(--radius-round); font-size: 12px; color: var(--ink-muted); white-space: nowrap; }
+.rp-level.is-over { border-color: var(--warn); color: var(--ink); }
+
+/* "Everything we checked": themes of rows that slide open */
+.rp-themes { display: grid; gap: var(--space-5); }
+.rp-theme h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.rp-rows { margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: var(--radius-card); background: var(--surface); overflow: hidden; }
+.rp-row + .rp-row { border-top: 1px solid var(--line); }
+.rp-row-btn { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-3); min-height: 56px; padding: var(--space-2) var(--space-4); border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background-color var(--dur-1) var(--ease-out); }
+@media (hover: hover) { .rp-row-btn:hover { background: var(--n-1); } }
+.rp-row.is-open .rp-row-btn { background: var(--brand-1, var(--n-1)); }
+.rp-row-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.rp-row-name { font-weight: 500; font-size: var(--text-14); }
+.rp-quality { display: block; margin: 0; font-size: var(--text-12); font-weight: 400; color: var(--ink-muted); }
+.rp-row-numbers { font-size: var(--text-14); font-variant-numeric: tabular-nums; }
+.rp-row-numbers small { color: var(--ink-muted); font-size: var(--text-12); }
+.rp-chev { color: var(--ink-muted); transition: transform var(--dur-2) var(--ease-standard); }
+.rp-row.is-open .rp-chev { transform: rotate(180deg); }
+.rp-row-btn:active { transform: scale(0.995); }
+.rp-detail { overflow: hidden; }
+.rp-detail-inner { display: grid; gap: var(--space-4); padding: var(--space-2) var(--space-4) var(--space-5) calc(var(--space-4) + 32px + var(--space-3)); }
+.rp-words { display: grid; gap: var(--space-2); max-width: 72ch; }
+.rp-words p { margin: 0; font-size: var(--text-16); line-height: 24px; color: var(--ink); }   /* rule 7: readable for 65+ */
+.rp-words b { font-weight: 500; }
+.rp-meaning { color: var(--ink-muted); }
+.rp-closer { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.rp-missing { margin: var(--space-2) 0 0; font-size: var(--text-14); color: var(--ink-muted); }
+
+/* Yearly bars */
+.yb { display: block; width: 100%; height: auto; overflow: visible; }
+.yb-wrap { max-width: 640px; }   /* about 640 × 200 at desktop widths: a full-width row drew it 1114 × 313 with 19 px labels */
+.yb-compact { height: 56px; }
+.yb-bar { fill: var(--n-4); transition: fill var(--dur-1) var(--ease-out); }
+.yb-bar.is-early { fill: var(--sage-5, var(--n-5)); }
+.yb-bar.is-late { fill: var(--brand-5); }
+.yb-bar.is-active { fill: var(--brand-9); }
+.yb-dot { stroke: var(--surface); stroke-width: 1.5; }
+.yb-mark.is-early .yb-dot { fill: var(--sage-10, var(--ink)); }
+.yb-mark.is-late .yb-dot { fill: var(--brand-11); }
+.yb-mark line { stroke-width: 1.5; stroke-linecap: round; }
+.yb-mark.is-early line { stroke: var(--sage-10, var(--ink)); }
+.yb-mark.is-late line { stroke: var(--brand-11); }
+.yb-mark text { font-size: 12px; font-weight: 500; fill: var(--ink-muted); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+.yb-base { stroke: var(--line-strong); }
+.yb-tick { font-size: 12px; fill: var(--ink-muted); }
+.yb-readout { margin: var(--space-1) 0 0; min-height: 1.5em; font-size: 13px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+
+/* "How we know" */
+.rp-how p { margin: 0 0 var(--space-2); max-width: 75ch; font-size: var(--text-14); line-height: 21px; }
+.rp-how ul { margin: 0 0 var(--space-2); padding-left: var(--space-5); font-size: var(--text-14); color: var(--ink-muted); }
+
+@media (max-width: 720px) {
+  .rp-sentence { font-size: var(--text-20); }
+  .rp-row-btn { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'icon name chev' 'icon numbers chev' 'icon verdict chev'; row-gap: 2px; }
+  .rp-row-btn > .rp-icon { grid-area: icon; }
+  .rp-row-name { grid-area: name; }
+  .rp-row-numbers { grid-area: numbers; }
+  .rp-row-btn > .rp-verdicts { grid-area: verdict; }
+  .rp-chev { grid-area: chev; }
+  .rp-detail-inner { padding-left: var(--space-4); }
+}
+
+/* A year switch that failed keeps the old report on screen (no dead end) */
+.rp-failed { margin: var(--space-2) 0 0; max-width: 44ch; font-size: var(--text-12); line-height: 18px; color: var(--on-brand); }
+.rp-failed button { padding: 0; border: 0; background: none; color: var(--highlight); font: inherit; font-weight: 500; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }

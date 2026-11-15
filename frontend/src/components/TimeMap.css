@@ -1,0 +1,73 @@
+/* The animated US map (D36): the record and view switches, the map with the year on it, the player (play, step,
+   slider under the lower-48 average line, speed), the sentence for the frame and the colour key. */
+.tl-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-3); }
+
+.tl-stage { position: relative; isolation: isolate; }
+.tl-frame { image-rendering: pixelated; }
+@media (prefers-reduced-motion: no-preference) {
+  .tl-frame { transition: opacity var(--tl-fade, 300ms) var(--ease-standard); }   /* slow-in slow-out; shorter at Fast */
+}
+.tl-year {
+  position: absolute; top: var(--space-3); right: var(--space-3); z-index: 500; display: grid; justify-items: end; gap: 2px;
+  margin: 0; padding: 6px 10px; border-radius: var(--radius-control); background: rgba(255, 255, 255, 0.82);
+  font-size: 28px; line-height: 1; font-weight: 400; letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.tl-year small { font-size: var(--text-12); line-height: 14px; letter-spacing: 0; color: var(--ink-muted); }
+
+/* Player: buttons | line + slider | speed */
+.tl-player { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: end; gap: var(--space-4); margin-top: var(--space-4); }
+.tl-buttons { display: flex; align-items: center; gap: 2px; padding-bottom: 18px; }
+.tl-play, .tl-step { display: inline-grid; place-items: center; padding: 0; border: 0; cursor: pointer; transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out); }
+.tl-play { width: 40px; height: 40px; margin-right: 6px; border-radius: 50%; background: var(--brand); color: var(--on-brand); }
+@media (hover: hover) { .tl-play:hover { background: var(--brand-10); } }
+.tl-step { width: 32px; height: 32px; border-radius: var(--radius-control); background: transparent; color: var(--ink-muted); }
+@media (hover: hover) { .tl-step:not(:disabled):hover { background: var(--n-3); color: var(--ink); } }
+.tl-step:disabled { color: var(--n-7); cursor: default; }
+.tl-play:focus-visible, .tl-step:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* The line, the slider and the ticks share one inset (half the thumb), so a year's dot sits over its thumb position */
+.tl-track { --thumb: 16px; min-width: 0; }
+.tl-spark-head { display: flex; justify-content: space-between; gap: var(--space-3); margin: 0 0 2px; font-size: var(--text-12); line-height: 16px; color: var(--ink-muted); }
+.tl-spark-head b { font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tl-spark { position: relative; height: 32px; margin: 0 calc(var(--thumb) / 2); }
+.tl-spark svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.tl-spark polyline { fill: none; stroke: var(--brand-9); stroke-width: 1.25; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.tl-zero { stroke: var(--n-6); stroke-dasharray: 2 3; vector-effect: non-scaling-stroke; }
+.tl-dot { position: absolute; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: var(--brand-9); box-shadow: 0 0 0 2px var(--surface); }
+@media (prefers-reduced-motion: no-preference) { .tl-dot { transition: left var(--dur-4) var(--ease-out), top var(--dur-4) var(--ease-out); } }
+
+.tl-range { display: block; width: 100%; height: 24px; margin: 4px 0 0; background: transparent; cursor: pointer; -webkit-appearance: none; appearance: none; }
+.tl-range::-webkit-slider-runnable-track {
+  height: 2px; border-radius: 1px;
+  background: linear-gradient(to right, var(--brand-9) calc(var(--thumb) / 2 + var(--p) * (100% - var(--thumb))), var(--n-5) 0);
+}
+.tl-range::-moz-range-track { height: 2px; border-radius: 1px; background: var(--n-5); }
+.tl-range::-moz-range-progress { height: 2px; border-radius: 1px; background: var(--brand-9); }
+.tl-range::-webkit-slider-thumb {
+  width: var(--thumb); height: var(--thumb); margin-top: -7px; border: 1.5px solid var(--brand-9); border-radius: 50%;
+  background: var(--surface); box-shadow: 0 1px 2px rgba(23, 20, 51, 0.16); -webkit-appearance: none; appearance: none;
+}
+.tl-range::-moz-range-thumb { box-sizing: border-box; width: var(--thumb); height: var(--thumb); border: 1.5px solid var(--brand-9); border-radius: 50%; background: var(--surface); }
+.tl-range:focus-visible { outline: none; }
+.tl-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--focus); }
+.tl-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--focus); }
+.tl-ticks { position: relative; height: 16px; margin: 0 calc(var(--thumb) / 2); font-size: var(--text-12); line-height: 16px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.tl-ticks span { position: absolute; top: 0; transform: translateX(-50%); }
+.tl-player > .ui-seg { padding-bottom: 18px; }
+
+.tl-caption { margin: var(--space-3) 0 0; font-size: var(--text-14); line-height: 21px; color: var(--ink); }
+.tl-readout { min-height: 21px; margin: var(--space-1) 0 0; font-size: var(--text-14); line-height: 21px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.tl .tm-ramp { height: 10px; }
+.tl-swatch { display: block; height: 100%; }
+.tl-swatch:first-child { border-radius: 3px 0 0 3px; }
+.tl-swatch:last-child { border-radius: 0 3px 3px 0; }
+.tl .map-note a { color: var(--brand-11); text-underline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .tl-player { grid-template-columns: auto auto; grid-template-areas: 'track track' 'buttons speed'; align-items: center; gap: var(--space-2) var(--space-3); }
+  .tl-track { grid-area: track; }
+  .tl-buttons { grid-area: buttons; padding-bottom: 0; }
+  .tl-player > .ui-seg { grid-area: speed; justify-self: end; padding-bottom: 0; }
+  .tl-year { font-size: 22px; }
+}

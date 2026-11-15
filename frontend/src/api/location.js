@@ -1,35 +1,35 @@
-// Bản thử: đọc location từ file mẫu.
-// Khi backend sẵn sàng, thay nội dung hàm này bằng lời gọi API.
+import { getJson } from './http'
+
+// Address search (GET /api/v1/places/search: OpenStreetMap Nominatim, US only).
+/** @returns {Promise<import('./types').Place>} */
 export async function searchLocation(address, signal) {
-  if (!address.trim()) {
-    throw new Error('Please enter an address.')
+  const q = address.trim()
+  if (!q) {
+    throw new Error('Type an address, a city or a ZIP code.')
   }
 
-  const response = await fetch(
-    `${import.meta.env.BASE_URL}FReport_Multiple_disease.json`,
-    { signal }
-  )
-
-  if (!response.ok) {
-    throw new Error('Could not load sample-report.json.')
+  const results = await getJson(`/places/search?${new URLSearchParams({ q })}`, signal)
+  if (!results.length) {
+    throw new Error('No US place found. Try a city and state, for example "Phoenix, AZ".')
   }
 
-  const report = await response.json()
-  const location = report.location
+  // shortcut: takes the first match; add a pick-list if users often get the wrong place
+  const { name, lat, lon } = results[0]
+  return { name: name.split(', ').slice(0, 3).join(', '), lat, lon }
+}
 
-  if (
-    !location ||
-    !Number.isFinite(location.lat) ||
-    !Number.isFinite(location.lon) ||
-    Math.abs(location.lat) > 90 ||
-    Math.abs(location.lon) > 180
-  ) {
-    throw new Error('The sample report contains invalid coordinates.')
-  }
+// Suggestions while typing (GET /api/v1/places/suggest, Photon). Short input returns [] without a request.
+/** @returns {Promise<import('./types').Suggestion[]>} */
+export function suggestPlaces(q, signal) {
+  return q.trim().length < 3 ? Promise.resolve([]) : getJson(`/places/suggest?${new URLSearchParams({ q: q.trim() })}`, signal)
+}
 
-  return {
-    name: location.name || 'Sample location',
-    lat: location.lat,
-    lon: location.lon,
-  }
+/** The place at a spot picked on the map (GET /api/v1/places/reverse, Photon): a named place or "Picked spot". */
+export function reversePlace(lat, lon, signal) {
+  return getJson(`/places/reverse?${new URLSearchParams({ lat: lat.toFixed(4), lon: lon.toFixed(4) })}`, signal)
+}
+
+/** A state's outline for the map ({ code, name, bbox, rings: [[[lon, lat]]] }). */
+export function fetchStateOutline(code, signal) {
+  return getJson(`/regions/${encodeURIComponent(code)}/outline`, signal)
 }
