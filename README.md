@@ -165,6 +165,30 @@ yourself. Never commit it; `.gitignore` already excludes it.
 | `DATABASE_URL` | A shared Postgres cache (Supabase Session pooler connection string). Without it, the backend uses files and everything still works |
 | `EARTHDATA_TOKEN` | Only for Option B's NASA downloads; set it in the terminal |
 
+**Shared database (optional).** The app doesn't need one: without `DATABASE_URL` the backend keeps everything in
+files, and http://localhost:8000/api/v1/health says `"store": "files"`. A database only shares finished reports and
+place lookups between the team's machines, so a city one person opened loads at once for everyone.
+
+To use the team's Supabase database:
+
+1. Ask the project owner for the **Session pooler** connection string (Supabase → the project → **Connect** →
+   **Session pooler**). It holds the database password, so it's sent privately (a direct message or a password
+   manager), never in a group chat, an issue or a commit. If Supabase shows `[YOUR-PASSWORD]` in the string, the owner
+   puts the password there (or resets it under **Project Settings → Database**).
+2. In the repo root, create a file named `.env` (no other name, no extension) with one line:
+   `DATABASE_URL=postgresql://…` with the string pasted after the `=`.
+3. Restart the backend and open http://localhost:8000/api/v1/health: it should say `"store": "postgres"`. If it says
+   `"files"`, the backend's terminal shows why in a `database unavailable (…)` line. After several wrong passwords
+   Supabase refuses new connections for a few minutes, so fix the string and wait before trying again.
+
+To use your own free Supabase project instead:
+
+1. Create a project at [supabase.com](https://supabase.com/).
+2. In its **SQL Editor**, run `backend/migrations/001_init.sql`, `002_region_series.sql` and `003_cleanup.sql`, in
+   that order.
+3. Put that project's Session pooler string in `.env` as above, then fill it with the demo reports and maps:
+   `.venv/Scripts/python -m backend.store.seed`.
+
 ## 5. Test
 
 ```bash
