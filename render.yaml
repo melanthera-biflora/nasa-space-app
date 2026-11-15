@@ -27,6 +27,8 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.9
+      - key: MALLOC_ARENA_MAX         # fewer glibc memory pools for the server's threads: less unused memory kept
+        value: "2"
       - key: DATABASE_URL            # the Supabase Session pooler string: pasted in Render's dashboard, never in git
         sync: false
 

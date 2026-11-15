@@ -7,7 +7,7 @@
 .questionnaire {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
+  overflow: clip;   /* clips the glow like hidden, but isn't a scroll box, so the household panel can stay in view (sticky) */
   flex: 1;
   padding: 44px 32px 56px;
   background: var(--dusk-gradient);
