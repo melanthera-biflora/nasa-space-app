@@ -1,25 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import QuestionnaireLayout from '../components/QuestionnaireLayout'
+import { AGE_GROUPS, CONDITIONS, faceFor, isAnswered, OTHER_ANSWERS, personSummary } from '../presenters/householdForm'
 import './HealthConditionPage.css'
-
-// The health conditions shown for each person
-const CONDITIONS = [
-  { id: 'asthma', label: 'Asthma or lung disease' },
-  { id: 'heart', label: 'Heart disease or high blood pressure' },
-  { id: 'allergy', label: 'Pollen, dust, or mold allergies' },
-  { id: 'diabetes', label: 'Diabetes' },
-  { id: 'kidney', label: 'Kidney disease' },
-]
-
-// The choices in the "Age group" select
-const AGE_GROUPS = ['Children (0–12)', 'Teens (13–17)', 'Adults (18–64)', '65 and older']
-
-// The "no condition" answers (choosing one clears the conditions above)
-const OTHER_ANSWERS = [
-  { id: 'none', label: 'None' },
-  { id: 'not-sure', label: 'Not sure' },
-  { id: 'no-answer', label: 'Prefer not to say' },
-]
 
 // What the report checks, shown one at a time in the panel's top chip (real content, not alerts).
 const TOPICS = [
@@ -75,9 +57,16 @@ function AddPersonIcon() {
   )
 }
 
-// One person's questions
-function PersonFields({ person, index, total, onChange, onAdd, onRemove }) {
+function Chevron() {
+  return <svg className="health-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+}
+
+// One person (round 6): an accordion row. Only the person being edited is open; the others fold to one line (face,
+// name, age group and answers), so adding people no longer stretches the card. With one person there is nothing
+// to fold, so the row is a plain heading.
+function PersonFields({ person, index, total, open, onToggle, onChange, onRemove }) {
   const prefix = `person-${person.id}`
+  const single = total === 1
 
   function toggleCondition(id) {
     const has = person.conditions.includes(id)
@@ -96,110 +85,118 @@ function PersonFields({ person, index, total, onChange, onAdd, onRemove }) {
     }
   }
 
-  return (
-    <section className="health-person" role="group" aria-labelledby={`${prefix}-title`}>
-      <div className="health-person-head">
-        <h3 className="health-person-title" id={`${prefix}-title`}>
-          Person {index + 1}
-        </h3>
+  const head = (
+    <>
+      <img className="health-face" src={faceFor(person.age, person.id)} alt="" width="40" height="40" />
+      <span className="health-person-text">
+        <span className="health-person-title" id={`${prefix}-title`}>Person {index + 1}</span>
+        <span className="health-person-sum">{person.age} · {personSummary(person)}</span>
+      </span>
+    </>
+  )
 
-        {index === 0 ? (
-          <button type="button" className="health-add" onClick={onAdd}>
-            <AddPersonIcon />
-            Add another person
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="health-remove"
-            onClick={onRemove}
-            aria-label={`Remove person ${index + 1}`}
-          >
-            Remove
+  return (
+    <section className={`health-person${open ? ' is-open' : ''}`} role="group" aria-labelledby={`${prefix}-title`}>
+      <div className="health-person-head">
+        {single ? <div className="health-person-row">{head}</div> : (
+          <button type="button" className="health-person-row" aria-expanded={open} aria-controls={`${prefix}-body`} onClick={onToggle}>
+            {head}
+            <Chevron />
           </button>
         )}
       </div>
 
-      <div className="health-age">
-        <label htmlFor={`${prefix}-age`} className="health-label">
-          Age group
-        </label>
-        <div className="health-select-wrap">
-          <select
-            id={`${prefix}-age`}
-            className="health-select"
-            value={person.age}
-            onChange={(e) => onChange({ ...person, age: e.target.value })}
-          >
-            {AGE_GROUPS.map((age) => (
-              <option key={age} value={age}>
-                {age}
-              </option>
+      {open && (
+        <div className="health-person-body" id={`${prefix}-body`}>
+          <div className="health-age">
+            <label htmlFor={`${prefix}-age`} className="health-label">
+              Age group
+            </label>
+            <div className="health-select-wrap">
+              <select
+                id={`${prefix}-age`}
+                className="health-select"
+                value={person.age}
+                onChange={(e) => onChange({ ...person, age: e.target.value })}
+              >
+                {AGE_GROUPS.map((age) => (
+                  <option key={age} value={age}>
+                    {age}
+                  </option>
+                ))}
+              </select>
+              <svg className="health-select-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 10l5 5 5-5" />
+              </svg>
+            </div>
+          </div>
+
+          <p className="health-label health-label-conditions" id={`${prefix}-conditions`}>
+            {single ? 'Your health condition' : 'Health condition'}
+          </p>
+
+          <div className="health-conditions" role="group" aria-labelledby={`${prefix}-conditions`}>
+            {CONDITIONS.map((c) => (
+              <label className="health-check-label" key={c.id}>
+                <input
+                  type="checkbox"
+                  checked={person.conditions.includes(c.id)}
+                  onChange={() => toggleCondition(c.id)}
+                />
+                <span className="health-box" aria-hidden="true" />
+                {c.label}
+              </label>
             ))}
-          </select>
-          <svg className="health-select-arrow" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 10l5 5 5-5" />
-          </svg>
+
+            <label className="health-check-label">
+              <input
+                type="checkbox"
+                checked={person.conditions.includes('other')}
+                onChange={() => toggleCondition('other')}
+              />
+              <span className="health-box" aria-hidden="true" />
+              <span className="health-other">
+                Other:
+                <input
+                  type="text"
+                  className="health-other-input"
+                  aria-label={`Other health condition for person ${index + 1}`}
+                  value={person.otherText}
+                  onChange={(e) => {
+                    const text = e.target.value
+                    const conditions =
+                      text && !person.conditions.includes('other')
+                        ? [...person.conditions, 'other']
+                        : person.conditions
+                    onChange({ ...person, otherText: text, conditions, special: null })
+                  }}
+                />
+              </span>
+            </label>
+          </div>
+
+          <div className="health-special">
+            {OTHER_ANSWERS.map((item) => (
+              <label className="health-check-label" key={item.id}>
+                <input
+                  type="checkbox"
+                  checked={person.special === item.id}
+                  onChange={() => chooseSpecial(item.id)}
+                />
+                <span className="health-box" aria-hidden="true" />
+                {item.label}
+              </label>
+            ))}
+          </div>
+
+          {/* inside the open person only: folded rows stay quiet, and nobody is removed by a stray tap */}
+          {!single && (
+            <button type="button" className="health-remove" onClick={onRemove}>
+              Remove person {index + 1}
+            </button>
+          )}
         </div>
-      </div>
-
-      <p className="health-label health-label-conditions" id={`${prefix}-conditions`}>
-        {total > 1 ? 'Health condition' : 'Your health condition'}
-      </p>
-
-      <div className="health-conditions" role="group" aria-labelledby={`${prefix}-conditions`}>
-        {CONDITIONS.map((c) => (
-          <label className="health-check-label" key={c.id}>
-            <input
-              type="checkbox"
-              checked={person.conditions.includes(c.id)}
-              onChange={() => toggleCondition(c.id)}
-            />
-            <span className="health-box" aria-hidden="true" />
-            {c.label}
-          </label>
-        ))}
-
-        <label className="health-check-label">
-          <input
-            type="checkbox"
-            checked={person.conditions.includes('other')}
-            onChange={() => toggleCondition('other')}
-          />
-          <span className="health-box" aria-hidden="true" />
-          <span className="health-other">
-            Other:
-            <input
-              type="text"
-              className="health-other-input"
-              aria-label={`Other health condition for person ${index + 1}`}
-              value={person.otherText}
-              onChange={(e) => {
-                const text = e.target.value
-                const conditions =
-                  text && !person.conditions.includes('other')
-                    ? [...person.conditions, 'other']
-                    : person.conditions
-                onChange({ ...person, otherText: text, conditions, special: null })
-              }}
-            />
-          </span>
-        </label>
-      </div>
-
-      <div className="health-special">
-        {OTHER_ANSWERS.map((item) => (
-          <label className="health-check-label" key={item.id}>
-            <input
-              type="checkbox"
-              checked={person.special === item.id}
-              onChange={() => chooseSpecial(item.id)}
-            />
-            <span className="health-box" aria-hidden="true" />
-            {item.label}
-          </label>
-        ))}
-      </div>
+      )}
     </section>
   )
 }
@@ -207,25 +204,40 @@ function PersonFields({ person, index, total, onChange, onAdd, onRemove }) {
 export default function HealthConditionPage({ onNext, initial = [] }) {
   // the saved household when there is one (each person gets a fresh id), else one new person
   const [people, setPeople] = useState(() => (initial.length ? initial.map((p) => ({ ...newPerson(), ...p, id: nextId++ })) : [newPerson()]))
+  const [openId, setOpenId] = useState(() => people[0].id)
   const [leaving, setLeaving] = useState(false)
   const timerRef = useRef(null)
+  const focusRef = useRef(null)     // after adding someone, their age group takes focus; after removing, the add button
+  const addRef = useRef(null)
 
   useEffect(() => () => clearTimeout(timerRef.current), [])
+  useEffect(() => {
+    if (focusRef.current == null) return
+    const target = focusRef.current === 'add' ? addRef.current : document.getElementById(`person-${focusRef.current}-age`)
+    focusRef.current = null
+    target?.focus()
+  })
 
   function updatePerson(updated) {
     setPeople((prev) => prev.map((p) => (p.id === updated.id ? updated : p)))
   }
 
+  // a new person opens and the others fold to one line each
   function addPerson() {
-    setPeople((prev) => [...prev, newPerson()])
+    const person = newPerson()
+    setPeople((prev) => [...prev, person])
+    setOpenId(person.id)
+    focusRef.current = person.id
   }
 
   function removePerson(id) {
-    setPeople((prev) => prev.filter((p) => p.id !== id))
+    const rest = people.filter((p) => p.id !== id)
+    setPeople(rest)
+    if (openId === id) setOpenId(rest.at(-1).id)
+    focusRef.current = 'add'
   }
 
-  // A person counts as answered with at least one condition or one of the special answers
-  const answeredCount = people.filter((p) => p.conditions.length > 0 || p.special).length
+  const answeredCount = people.filter(isAnswered).length
   const hasAnswers = answeredCount > 0
   const allAnswered = answeredCount === people.length
 
@@ -302,9 +314,15 @@ export default function HealthConditionPage({ onNext, initial = [] }) {
             </div>
 
             {/* The team's illustration: a person hugging the Earth, on the purple panel */}
-            <img className="health-art" src="/images/earth-hug.png" alt="" aria-hidden="true" />
+            <img className="health-art" src="/images/earth-hug.webp" alt="" aria-hidden="true" />
 
             <div className="health-hint">
+              {/* who lives here, one face each: a new person pops in, an answered one gets a ring */}
+              <ul className="health-family" aria-hidden="true">
+                {people.map((p) => (
+                  <li key={p.id} className={isAnswered(p) ? 'is-answered' : ''}><img src={faceFor(p.age, p.id)} alt="" width="36" height="36" /></li>
+                ))}
+              </ul>
               <div className="health-hint-text">
                 <strong>{hintTitle}</strong>
                 <span>{hintSub}</span>
@@ -334,11 +352,16 @@ export default function HealthConditionPage({ onNext, initial = [] }) {
               person={person}
               index={i}
               total={people.length}
+              open={people.length === 1 || openId === person.id}
+              onToggle={() => setOpenId(openId === person.id ? null : person.id)}
               onChange={updatePerson}
-              onAdd={addPerson}
               onRemove={() => removePerson(person.id)}
             />
           ))}
+          <button type="button" className="health-add" ref={addRef} onClick={addPerson}>
+            <AddPersonIcon />
+            Add another person
+          </button>
         </div>
 
         <button type="submit" className="health-next" disabled={leaving}>

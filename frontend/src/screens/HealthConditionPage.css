@@ -21,36 +21,108 @@
   line-height: 1.5;
 }
 
-/* ----- One person ----- */
+/* ----- People: an accordion (round 6). One person open; the others fold to a line, so the card stays short ----- */
 .health-people {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
 }
 
 .health-person {
   min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
 
-/* Divider between people */
-.health-person + .health-person {
-  padding-top: 20px;
-  border-top: 1px dashed var(--line);
+.health-person.is-open {
+  border-color: var(--brand-6);
+  box-shadow: 0 6px 18px rgba(40, 30, 80, 0.08);
 }
 
 .health-person-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px 8px 8px;
+}
+
+.health-person-row {
+  display: flex;
+  flex: 1;
+  align-items: center;
   gap: 12px;
-  margin-bottom: 10px;
+  min-width: 0;
+  padding: 2px;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+button.health-person-row { cursor: pointer; }
+button.health-person-row:hover .health-person-title { color: var(--brand-mid); }
+button.health-person-row:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.health-face {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--brand-3);
+  object-fit: cover;
+}
+
+.health-person-text {
+  display: grid;
+  min-width: 0;
 }
 
 .health-person-title {
-  margin: 0;
   color: var(--ink);
   font-size: 14px;
   font-weight: 600;
+  line-height: 20px;
+}
+
+.health-person-sum {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--ink-muted);
+  font-size: var(--text-12);
+  line-height: 18px;
+  -webkit-line-clamp: 2;   /* two lines at most, so a long list of conditions still reads on a phone */
+  -webkit-box-orient: vertical;
+}
+
+.health-person-body > .health-remove { margin-top: 12px; }
+
+.health-chev {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-left: auto;
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+[aria-expanded='true'] > .health-chev { transform: rotate(90deg); }
+
+.health-person-body {
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+}
+
+.health-people > .health-add {
+  align-self: flex-start;
+  margin-top: 4px;
 }
 
 /* Nút "Add another person" */
@@ -134,10 +206,11 @@
   margin-bottom: 6px;
 }
 
+/* two columns: half the height of one long list */
 .health-conditions {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
 }
 
 /* Hand-drawn round checkbox */
@@ -182,7 +255,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .health-check-label > input:checked + .health-box { animation: health-pop 280ms var(--ease-out); }
-  .health-person { animation: rise-in var(--dur-slow) var(--ease-out) both; }
+  .health-person-body { animation: rise-in var(--dur-base) var(--ease-out) both; }
 }
 
 @keyframes health-pop {
@@ -347,9 +420,11 @@
 /* ===== Illustration panel (right) ===== */
 .health-illustration {
   --core-y: 168px; /* distance from the panel top to the orb centre (fixed, does not stretch with the panel) */
-  position: relative;
+  position: sticky;   /* round 6: a fixed height that stays in view, instead of stretching with the form */
+  top: var(--space-4);
+  align-self: start;
   min-width: 0;
-  min-height: 640px;
+  height: 640px;
 }
 
 /* 3D image from Figma, sticking out above the panel */
@@ -386,12 +461,14 @@
   position: absolute;
   top: 24px;
   left: 24px;
+  right: 24px;
   z-index: 3;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  width: min(400px, calc(100% - 48px));
-  padding: 10px 16px;
+  gap: 10px;
+  max-width: 480px;
+  padding: 8px 16px;
+  line-height: 18px;
   border: 1px solid #ffffff20;
   border-radius: 999px;
   background: #ffffff12;
@@ -412,6 +489,8 @@
 /* Rotating line: one line at a time */
 .health-status-label {
   flex: none;
+  padding-right: 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.22);
   color: rgba(255, 255, 255, 0.72);
 }
 
@@ -423,6 +502,7 @@
   overflow: hidden;
 }
 
+/* one topic at a time on the same line: the old one fades out first, then the new one slides up, so two never overlap */
 .health-feed-item {
   position: absolute;
   inset: 0;
@@ -430,13 +510,14 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transform: translateY(-6px);
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out);
 }
 
 .health-feed-item.is-on {
   opacity: 1;
   transform: none;
+  transition: opacity 0.35s var(--ease-out) 0.2s, transform 0.35s var(--ease-out) 0.2s;
 }
 
 .health-feed-item b {
@@ -469,7 +550,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 280px;
+  width: min(400px, calc(100% - 48px));   /* round 6: wide enough that "Got answers for 2 of 5 people" stays on one line above the art */
   /* pull up by half the orb so its centre sits on the rings' centre */
   transform: translate(-50%, -40px);
   color: #ffffff;
@@ -582,6 +663,39 @@
   min-width: 0;
 }
 
+/* the household as faces, overlapping a little; a new face pops in, an answered one gets the highlight ring */
+.health-family {
+  display: flex;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.health-family li + li { margin-left: -10px; }
+
+.health-family img {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background: var(--brand-3);
+  object-fit: cover;
+}
+
+.health-family li.is-answered img { border-color: var(--highlight); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .health-family li { animation: health-face-in 420ms var(--ease-out) both; }
+}
+
+@keyframes health-face-in {
+  0% { transform: scale(0.4) translateY(8px); opacity: 0; }
+  70% { transform: scale(1.08); opacity: 1; }
+  100% { transform: none; }
+}
+
 .health-hint-text strong {
   display: block;
   font-size: 14px;
@@ -673,7 +787,9 @@
 @media (max-width: 768px) {
   .health-illustration {
     --core-y: 150px;
-    min-height: 560px;
+    position: relative;
+    top: auto;
+    height: 560px;
     margin-top: 140px;
   }
 
@@ -694,6 +810,9 @@
 }
 
 @media (max-width: 520px) {
+  .health-conditions { grid-template-columns: minmax(0, 1fr); }
+  .health-family li:nth-child(n + 5) { display: none; }   /* four faces fit beside the hint on a phone */
+
   .health-age {
     flex-direction: column;
     align-items: stretch;

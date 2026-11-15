@@ -87,6 +87,10 @@ def _load_all():
             raise FileNotFoundError("no fire files yet - run: python -m sources.fires_firms <Country>")
         metas = [json.loads(f.read_text()) for f in FIRE_DIR.glob("modis_*_meta.json")]
         _cache["all"] = (pd.concat([pd.read_parquet(f) for f in files], ignore_index=True), metas)
+        # the Parquet reader keeps its freed read buffers in its own pool (about 60 MB for the US file); hand them back,
+        # since the API runs in 512 MB on Render
+        import pyarrow as pa
+        pa.default_memory_pool().release_unused()
     return _cache["all"]
 
 

@@ -1,11 +1,12 @@
 import { useState } from 'react'
 
-// Exported PNG assets in public/images/people/ (from the team's design).
+// The team's portraits (public/images/people/), as 144 px WebP copies in small/: about 5 KB each instead of about
+// 700 KB, for a face shown 56 px wide.
 const PERSON_ASSETS = {
-  '65_plus': ['/images/people/senior-man.png', '/images/people/senior-woman.png'],
-  '18_64': ['/images/people/adult-man.png', '/images/people/adult-woman.png'],
-  teens: ['/images/people/teen-boy.png', '/images/people/teen-girl.png'],
-  children: ['/images/people/child-boy.png', '/images/people/child-girl.png'],
+  '65_plus': ['/images/people/small/senior-man.webp', '/images/people/small/senior-woman.webp'],
+  '18_64': ['/images/people/small/adult-man.webp', '/images/people/small/adult-woman.webp'],
+  teens: ['/images/people/small/teen-boy.webp', '/images/people/small/teen-girl.webp'],
+  children: ['/images/people/small/child-boy.webp', '/images/people/small/child-girl.webp'],
 }
 
 function avatarGroup(value) {
