@@ -55,9 +55,11 @@ them in one of two ways.
 
 ### Option A: download the team's copy from Google Drive (recommended, about 600 MB)
 
-1. Open the team folder: **[Climatch data on Google Drive](DRIVE_LINK_HERE)**.
+1. Open the team folder: **[Climatch data on Google Drive](https://drive.google.com/drive/folders/14ufVW-LEGdij8n6UJzTwrwU3apgdAPkw?usp=sharing)**.
 2. Download `climatch-data.zip` and unzip it **into the repo root**. The zip holds the same folders as the repo
-   (`data_pipeline/data/…` and `data_pipeline/cache/…`), so the files land in the right place.
+   (`data_pipeline/data/…` and `data_pipeline/cache/…`), so the files land in the right place. Only the zip is
+   needed to run the app: the folder's `fires/`, `no2_years/` and `pm25_years/` are the raw parts the files were
+   built from.
 3. Check that these files are there, then start (or restart) the backend:
 
 | File in the repo | Size | Used for |
@@ -160,8 +162,44 @@ yourself. Never commit it; `.gitignore` already excludes it.
 
 | Variable | What for |
 | --- | --- |
-| `DATABASE_URL` | A shared Postgres cache (Supabase Session pooler connection string). Without it, the backend uses files and everything still works |
+| `DATABASE_URL` | A Postgres database for the cache (see below). Without it, the backend uses files and everything still works |
 | `EARTHDATA_TOKEN` | Only for Option B's NASA downloads; set it in the terminal |
+
+**Full setup with a local database (optional).** The app doesn't need a database: without `DATABASE_URL` the backend
+keeps everything in files, and http://localhost:8000/api/v1/health says `"store": "files"`. With a database, finished
+reports, state averages and place lookups are kept, so anything opened once loads at once. Everything below runs on
+your own computer; it never connects to the team's hosted app.
+
+1. Start Postgres. With [Docker Desktop](https://www.docker.com/products/docker-desktop/) (the password is only for
+   this local copy):
+
+   ```bash
+   docker run -d --name climatch-db -e POSTGRES_PASSWORD=climatch -p 5433:5432 postgres:17
+   ```
+
+   Any Postgres 14 or newer that you already run works too.
+2. In the repo root, create a file named `.env` (no other name, no extension) with this one line, changing the
+   password or port if yours differ:
+
+   ```
+   DATABASE_URL=postgresql://postgres:climatch@localhost:5433/postgres
+   ```
+
+3. Create the tables, then fill them with the demo reports and maps:
+
+   ```bash
+   .venv/Scripts/python -m backend.store.migrate
+   ```
+
+   ```bash
+   .venv/Scripts/python -m backend.store.seed
+   ```
+
+4. Restart the backend: http://localhost:8000/api/v1/health now says `"store": "postgres"`.
+
+Later, `docker stop climatch-db` and `docker start climatch-db` pause and resume it, and `docker rm -f climatch-db`
+deletes it. To go back to files, delete the line from `.env`. `migrate` only changes a database on this computer; it
+refuses any other unless you add `--remote`.
 
 ## 5. Test
 
