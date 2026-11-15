@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import QuestionnaireLayout from '../components/QuestionnaireLayout'
 import './HealthConditionPage.css'
 
@@ -220,6 +220,10 @@ function PersonFields({ person, index, total, onChange, onAdd, onRemove }) {
 
 export default function HealthConditionPage({ onNext }) {
   const [people, setPeople] = useState(() => [newPerson()])
+  const [leaving, setLeaving] = useState(false)
+  const timerRef = useRef(null)
+
+  useEffect(() => () => clearTimeout(timerRef.current), [])
 
   function updatePerson(updated) {
     setPeople((prev) => prev.map((p) => (p.id === updated.id ? updated : p)))
@@ -255,6 +259,7 @@ export default function HealthConditionPage({ onNext }) {
 
   function handleSubmit(e) {
     e.preventDefault()
+    if (leaving) return
 
     // Dữ liệu gửi sang bước tiếp theo: mỗi người gồm nhóm tuổi và danh sách bệnh
     const household = people.map((p) => ({
@@ -264,14 +269,24 @@ export default function HealthConditionPage({ onNext }) {
       answer: p.special,
     }))
 
-    if (onNext) onNext(household)
-    else console.log('Household:', household)
+    const go = () => (onNext ? onNext(household) : console.log('Household:', household))
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      go()
+      return
+    }
+
+    setLeaving(true)
+    timerRef.current = setTimeout(go, 550) // khớp thời gian animation trong CSS
   }
 
   return (
     <QuestionnaireLayout
       illustration={
-        <section className="health-illustration" aria-label="Climate illustration">
+        <section
+          className={`health-illustration${leaving ? ' is-leaving' : ''}`}
+          aria-label="Climate illustration"
+        >
           <Decoration src="/images/cloud-moon.png" className="health-deco health-deco-cloud" />
           {/* Ảnh nhà đã có sẵn cơn lốc bên trong */}
           <Decoration src="/images/house-3d.png" className="health-deco health-deco-house" />
@@ -328,7 +343,10 @@ export default function HealthConditionPage({ onNext }) {
         </section>
       }
     >
-      <form className="questionnaire-card health-card" onSubmit={handleSubmit}>
+      <form
+        className={`questionnaire-card health-card${leaving ? ' is-leaving' : ''}`}
+        onSubmit={handleSubmit}
+      >
         <div className="questionnaire-card-heading">
           <h2>About your family</h2>
           <span>STEP 01 / 02</span>
@@ -351,7 +369,7 @@ export default function HealthConditionPage({ onNext }) {
           ))}
         </div>
 
-        <button type="submit" className="health-next">
+        <button type="submit" className="health-next" disabled={leaving}>
           Next step
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M5 12h14M13 6l6 6-6 6" />

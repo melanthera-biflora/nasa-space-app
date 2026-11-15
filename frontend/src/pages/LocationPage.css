@@ -1,116 +1,8 @@
-.location-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.location-main {
-  flex: 1;
-  padding: 44px 32px 56px;
-  background:
-    radial-gradient(
-      ellipse at 65% 35%,
-      rgba(111, 69, 167, 0.6),
-      transparent 65%
-    ),
-    linear-gradient(120deg, #354b59, #302d59 70%);
-}
-
-.location-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.location-hero {
-  position: relative;
-  isolation: isolate;
-  min-height: 200px;
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 20px;
-}
-
-.location-hero-copy {
-  position: relative;
-  z-index: 2;
-  width: 52%;
-  color: white;
-}
-
-.location-hero h1 {
-  margin: 0 0 12px;
-  font-size: clamp(28px, 3.2vw, 42px);
-  line-height: 1.2;
-}
-
-.location-hero p {
-  max-width: 460px;
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.5;
-}
-
-.location-art {
-  position: absolute;
-  inset: 0 0 0 52%;
-  overflow: hidden;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.location-cloud {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 135px;
-}
-
-.location-house {
-  position: absolute;
-  right: 12px;
-  bottom: -42px;
-  width: 300px;
-  max-width: 78%;
-}
-
-.location-grid {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  grid-template-columns: 1fr 1.08fr;
-  gap: 8px;
-}
+/* Header, nền, 2 cột và tiêu đề card đã nằm trong QuestionnaireLayout.css */
 
 .location-card {
-  min-width: 0;
-  min-height: 460px;
-  padding: 30px;
-  border-radius: 22px;
-  background: white;
   display: flex;
   flex-direction: column;
-}
-
-.location-card-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 20px;
-  margin-bottom: 18px;
-  border-bottom: 1px solid #edf0ed;
-}
-
-.location-card-heading h2 {
-  margin: 0;
-  font-size: 15px;
-}
-
-.location-card-heading > span {
-  color: #84948d;
-  font-size: 9px;
-  letter-spacing: 1px;
-  white-space: nowrap;
 }
 
 .location-form {
@@ -224,7 +116,7 @@
   font-weight: 600;
 }
 
-.location-page button:disabled {
+.location-card button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
@@ -277,33 +169,31 @@
   font-size: 11px;
 }
 
+/* ===== Hiệu ứng vào ===== */
+.location-card,
+.location-map-card {
+  animation: location-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.location-map-card {
+  animation-delay: 0.1s;
+}
+
+@keyframes location-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .location-card,
+  .location-map-card {
+    animation: none;
+  }
+}
+
 @media (max-width: 768px) {
-  .location-main {
-    padding: 24px 18px 36px;
-  }
-
-  .location-hero {
-    min-height: auto;
-    padding-bottom: 24px;
-  }
-
-  .location-hero-copy {
-    width: 100%;
-  }
-
-  .location-art {
-    display: none;
-  }
-
-  .location-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .location-card {
-    padding: 24px;
-  }
-
   .location-map {
     height: 360px;
     min-height: 360px;

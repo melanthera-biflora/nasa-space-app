@@ -183,8 +183,21 @@ function HistoryCharts({ factor }) {
   </>
 }
 
+function pickRecommendations(actions, seed) {
+  const pool = [...(actions || [])]
+  let state = seed >>> 0
+  for (let i = pool.length - 1; i > 0; i--) {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0
+    const j = Math.floor((state / 4294967296) * (i + 1))
+    ;[pool[i], pool[j]] = [pool[j], pool[i]]
+  }
+  return pool.slice(0, 3)
+}
+
 export default function ReportPage({ report = SAMPLE_REPORT, avatarAssets = PERSON_ASSETS }) {
   const [selected, setSelected] = useState('pm25')
+  const [recommendationSeed] = useState(() => Math.floor(Math.random() * 4294967296))
+  const recommendations = pickRecommendations(report?.actions, recommendationSeed)
   const factors = report?.factors || {}
   const ordered = [...new Set([...(report?.card_order || []), ...Object.keys(factors)])].filter(key => factors[key]?.available)
   const featured = ['pm25', 'hot_days', 'heavy_rain_days', 'dry_days'].filter(key => factors[key]?.available)
@@ -226,7 +239,7 @@ export default function ReportPage({ report = SAMPLE_REPORT, avatarAssets = PERS
         </div>
         {factor ? <HistoryCharts key={current} factor={factor} /> : <p>No historical data available.</p>}
       </section>
-      <section className="report-recommendations"><h2>Recommended actions</h2><div className="report-action-grid">{(report?.actions || []).map(item => <article className="report-action report-white" key={item.factor}><h3><span aria-hidden="true">{({hot_days:'♨',warm_nights:'☾',pm25:'≋',fires:'♨',no2:'≋',surface_heat:'☀'})[item.factor] || '✦'}</span>{item.label}</h3><ul>{item.actions?.map(action => <li key={action}>{action}</li>)}</ul>{item.source?.url && <a href={item.source.url} target="_blank" rel="noreferrer">{item.source.name} ↗</a>}</article>)}</div>{!report?.actions?.length && <p>No recommendations available.</p>}</section>
+      <section className="report-recommendations"><h2>Recommended actions</h2><div className="report-action-grid">{recommendations.map(item => <article className="report-action report-white" key={item.factor}><h3><span aria-hidden="true">{({hot_days:'♨',warm_nights:'☾',pm25:'≋',fires:'♨',no2:'≋',surface_heat:'☀'})[item.factor] || '✦'}</span>{item.label}</h3><ul>{item.actions?.map(action => <li key={action}>{action}</li>)}</ul>{item.source?.url && <a href={item.source.url} target="_blank" rel="noreferrer">{item.source.name} ↗</a>}</article>)}</div>{!recommendations.length && <p>No recommendations available.</p>}</section>
     </main><Footer />
   </div>
 }
