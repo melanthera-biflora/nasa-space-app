@@ -316,3 +316,73 @@ body .report-page .report-year-slider-row input[type='range'] {
   .report-year-slider-row output, .report-latest-year { min-width: 52px; font-size: 14px; }
   .report-monthly-svg { min-height: 0; }
 }
+
+/* ===== Hiệu ứng vào khi từ trang Loading sang ===== */
+.report-page {
+  animation: report-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.report-page .report-content > * {
+  animation: report-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.report-page .report-content > *:nth-child(2) { animation-delay: 0.08s; }
+.report-page .report-content > *:nth-child(3) { animation-delay: 0.16s; }
+.report-page .report-content > *:nth-child(4) { animation-delay: 0.24s; }
+.report-page .report-content > *:nth-child(n + 5) { animation-delay: 0.32s; }
+
+@keyframes report-in {
+  from { opacity: 0; }
+}
+
+@keyframes report-rise {
+  from { opacity: 0; transform: translateY(24px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .report-page,
+  .report-page .report-content > * {
+    animation: none;
+  }
+}
+
+/* ===== Nút quay về trang chủ ===== */
+.report-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  margin: 0 0 20px;
+  padding: 0 18px 0 14px;
+  border: 1px solid #ffffff4d;
+  border-radius: 999px;
+  background: #ffffff14;
+  color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.report-home:hover {
+  border-color: #c2ff4d;
+  background: #c2ff4d;
+  color: #173b30;
+}
+
+.report-home:focus-visible {
+  outline: 2px solid #c2ff4d;
+  outline-offset: 3px;
+}
+
+.report-home svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+

@@ -100,11 +100,29 @@ export default function LocationPage({ onCheckResult }) {
   const [location, setLocation] = useState(null)
   const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState('')
+  const [leaving, setLeaving] = useState(false)
   const requestRef = useRef(null)
+  const leaveTimerRef = useRef(null)
 
   useEffect(() => {
-    return () => requestRef.current?.abort()
+    return () => {
+      requestRef.current?.abort()
+      clearTimeout(leaveTimerRef.current)
+    }
   }, [])
+
+  // Chạy hiệu ứng thoát rồi mới chuyển sang trang Loading
+  function handleCheckResult() {
+    if (leaving || !location) return
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      onCheckResult?.(location)
+      return
+    }
+
+    setLeaving(true)
+    leaveTimerRef.current = setTimeout(() => onCheckResult?.(location), 500) // khớp questionnaire-out
+  }
 
   async function handleSearch(event) {
     event.preventDefault()
@@ -147,6 +165,7 @@ export default function LocationPage({ onCheckResult }) {
 
   return (
     <QuestionnaireLayout
+      leaving={leaving}
       illustration={
         <section className="location-map-card" aria-label="Selected location map">
           <LocationMap location={location} />
@@ -221,9 +240,10 @@ export default function LocationPage({ onCheckResult }) {
               disabled={
                 !location ||
                 isSearching ||
+                leaving ||
                 !onCheckResult
               }
-              onClick={() => onCheckResult?.(location)}
+              onClick={handleCheckResult}
             >
               CHECK YOUR RESULT
             </button>

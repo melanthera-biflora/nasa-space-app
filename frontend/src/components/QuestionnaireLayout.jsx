@@ -1,9 +1,9 @@
 import Footer from './Footer'
 import './QuestionnaireLayout.css'
 
-export default function QuestionnaireLayout({ children, illustration }) {
+export default function QuestionnaireLayout({ children, illustration, leaving = false }) {
   return (
-    <div className="questionnaire-app">
+    <div className={leaving ? 'questionnaire-app is-leaving' : 'questionnaire-app'}>
       <main className="questionnaire">
         <div className="questionnaire-container">
           <header className="questionnaire-hero">

@@ -5,6 +5,9 @@ import './LoadingPage.css'
 // Thời gian chạy hết 1 vòng 4 mùa (mili giây). Đổi số này nếu muốn nhanh/chậm hơn.
 const DURATION = 8000
 
+// Thời gian hiệu ứng mờ dần khi kết thúc (mili giây). Khớp với loading-out trong CSS.
+const EXIT_MS = 700
+
 // Các bước hiển thị trong kính lúp. "doneAt" = tiến độ (0 → 1) mà bước đó được đánh dấu xong.
 const STEPS = [
   { label: 'Loading climate data', doneAt: 0.3 },
@@ -90,19 +93,33 @@ function CheckIcon() {
 
 export default function LoadingPage({ location = 'Phoenix, Arizona', onComplete }) {
   const [progress, setProgress] = useState(0)
+  const [leaving, setLeaving] = useState(false)
 
-  // Chạy tiến độ từ 0 đến 1 trong DURATION mili giây
+  // Chạy tiến độ từ 0 đến 1 trong DURATION mili giây,
+  // rồi giữ trạng thái "hoàn tất" một chút và mờ dần trước khi sang trang kế
   useEffect(() => {
     const start = Date.now()
+    let exitTimer
     const timer = setInterval(() => {
       const next = Math.min((Date.now() - start) / DURATION, 1)
       setProgress(next)
       if (next >= 1) {
         clearInterval(timer)
-        if (onComplete) onComplete()
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        if (reduceMotion) {
+          if (onComplete) onComplete()
+          return
+        }
+        setLeaving(true)
+        exitTimer = setTimeout(() => {
+          if (onComplete) onComplete()
+        }, EXIT_MS)
       }
     }, 50)
-    return () => clearInterval(timer)
+    return () => {
+      clearInterval(timer)
+      clearTimeout(exitTimer)
+    }
   }, [onComplete])
 
   // t chạy từ 0 → 4 (mỗi đơn vị là 1 mùa)
@@ -119,7 +136,7 @@ export default function LoadingPage({ location = 'Phoenix, Arizona', onComplete 
   const currentStep = STEPS.findIndex((step) => progress < step.doneAt)
 
   return (
-    <div className="loading-page">
+    <div className={leaving ? 'loading-page is-leaving' : 'loading-page'}>
       {/* Nền đổi màu theo mùa */}
       <div className="loading-scene" aria-hidden="true">
         {SEASONS.map((s, i) => (

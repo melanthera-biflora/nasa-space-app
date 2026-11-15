@@ -126,3 +126,28 @@ body .questionnaire-app .questionnaire-card-heading span {
 @media (max-width: 420px) {
   .questionnaire-card-heading { flex-wrap: wrap; gap: 8px; }
 }
+
+/* ===== Hiệu ứng thoát toàn trang (dùng khi sang trang không cùng layout) ===== */
+/* Chỉ làm mờ nội dung, giữ nguyên nền tím để không bị chớp khi đổi trang */
+.questionnaire-app.is-leaving {
+  pointer-events: none;
+}
+
+.questionnaire-app.is-leaving .questionnaire-container,
+.questionnaire-app.is-leaving > footer {
+  animation: questionnaire-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes questionnaire-out {
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .questionnaire-app.is-leaving .questionnaire-container,
+  .questionnaire-app.is-leaving > footer {
+    animation: none;
+  }
+}
