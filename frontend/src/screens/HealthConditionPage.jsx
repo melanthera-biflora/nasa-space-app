@@ -132,7 +132,7 @@ function PersonFields({ person, index, total, open, onToggle, onChange, onRemove
           </div>
 
           <p className="health-label health-label-conditions" id={`${prefix}-conditions`}>
-            {single ? 'Your health condition' : 'Health condition'}
+            Health conditions <span className="health-label-hint">any that apply</span>
           </p>
 
           <div className="health-conditions" role="group" aria-labelledby={`${prefix}-conditions`}>
@@ -175,7 +175,9 @@ function PersonFields({ person, index, total, open, onToggle, onChange, onRemove
             </label>
           </div>
 
-          <div className="health-special">
+          {/* pick-one answers: round boxes, after an "Or", so they don't read as more conditions */}
+          <div className="health-special" role="group" aria-label={`Or, for person ${index + 1}`}>
+            <span className="health-or" aria-hidden="true">Or</span>
             {OTHER_ANSWERS.map((item) => (
               <label className="health-check-label" key={item.id}>
                 <input
@@ -242,7 +244,7 @@ export default function HealthConditionPage({ onNext, initial = [] }) {
   const allAnswered = answeredCount === people.length
 
   let statusTitle = 'Waiting for your answers'
-  let statusSub = 'Pick any health conditions on the left.'
+  let statusSub = 'Add who lives there to begin.'
   let hintTitle = 'Next: choose a place'
   let hintSub = 'Then we test 25 years of NASA data for it.'
   if (hasAnswers) {
@@ -338,12 +340,11 @@ export default function HealthConditionPage({ onNext, initial = [] }) {
     >
       <form className={`questionnaire-card health-card rise-in${leaving ? ' is-leaving' : ''}`} style={{ '--i': 1 }} onSubmit={handleSubmit}>
         <div className="questionnaire-card-heading">
-          <h2>About your family</h2>
+          <h2>Who will live there?</h2>
           <span>Step 1 of 2</span>
         </div>
 
-        <p className="health-question">Who will be living here?</p>
-        <p className="health-instruction">Add household members to personalize your results. Your answers stay in this browser tab and are never stored.</p>
+        <p className="health-instruction">Add each person. Their age and health decide which changes we show first; the numbers stay the same for everyone. Answers stay in this browser tab and are never stored.</p>
 
         <div className="health-people">
           {people.map((person, i) => (
@@ -365,7 +366,7 @@ export default function HealthConditionPage({ onNext, initial = [] }) {
         </div>
 
         <button type="submit" className="health-next" disabled={leaving}>
-          Next step
+          Next: choose a place
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>

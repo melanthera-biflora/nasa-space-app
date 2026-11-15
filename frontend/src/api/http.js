@@ -8,7 +8,9 @@
 const BASE = '/api/v1'
 const FRESH_MS = 5 * 60_000
 const MAX_ENTRIES = 50
-const TIMEOUT_MS = 30_000
+// 90 s: on the hosted API new places are built one at a time (a 512 MB server), so the fourth person to open a new place
+// at the same moment waits about 30 s in the queue; the wait screen says what is happening meanwhile.
+const TIMEOUT_MS = 90_000
 // Two more tries, a little apart (with jitter, so many tabs don't knock at once), when Climatch is busy (429, 503,
 // 504), the line drops, or something in front of the API failed (a 5xx without the API's error body). The API's own
 // errors (a NASA source that didn't answer, a bad input) come back at once: asking again wouldn't change them.

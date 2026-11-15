@@ -227,11 +227,7 @@ body :is(input:not([type='checkbox']):not([type='radio']), textarea) {
 }
 
 /* Health, Location and Loading pages (selectors from the team's pages) */
-body :is(.health-card .questionnaire-card-heading h2,
-         .health-card .health-question,
-         .health-card .health-person-title,
-         .health-card .health-label,
-         .location-page .location-card-heading h2,
+body :is(.location-page .location-card-heading h2,
          .location-page .location-form h3) {
   font-size: var(--text-16);
   line-height: 24px;
@@ -256,8 +252,7 @@ body :is(.health-card .health-add, .health-card .health-remove) {
   line-height: 20px;
   font-weight: 500;
 }
-body :is(.health-card .health-instruction,
-         .location-page .location-description,
+body :is(.location-page .location-description,
          .location-page .location-demo-note,
          .location-page .location-message,
          .location-page .location-error,

@@ -5,20 +5,19 @@
   color: var(--ink);
 }
 
-.health-question {
-  margin: 0 0 8px;
-  color: var(--brand);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.5;
-}
+/* Type scale for this card (round 7): one title, a plain intro, quiet labels. `body .health-card` outranks the old
+   shared rule in index.css that made every heading and label here the same 16 px semibold. */
+body .health-card .questionnaire-card-heading h2 { font-size: var(--text-20, 20px); line-height: 28px; font-weight: 600; }
+body .health-card .questionnaire-card-heading span { font-size: var(--text-12); line-height: 18px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+body .health-card .questionnaire-card-heading { padding-bottom: 14px; margin-bottom: 14px; }
 
-.health-instruction {
-  margin: 0 0 20px;
+body .health-card .health-instruction {
+  max-width: 58ch;
+  margin: 0 0 18px;
   color: var(--ink-muted);
   font-size: var(--text-14);
-  font-style: italic;
-  line-height: 1.5;
+  font-style: normal;
+  line-height: 20px;
 }
 
 /* ----- People: an accordion (round 6). One person open; the others fold to a line, so the card stays short ----- */
@@ -81,9 +80,9 @@ button.health-person-row:focus-visible { outline: 2px solid var(--focus); outlin
   min-width: 0;
 }
 
-.health-person-title {
+body .health-card .health-person-title {
   color: var(--ink);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   line-height: 20px;
 }
@@ -120,10 +119,20 @@ button.health-person-row:focus-visible { outline: 2px solid var(--focus); outlin
   border-top: 1px solid var(--line);
 }
 
-.health-people > .health-add {
-  align-self: flex-start;
-  margin-top: 4px;
+/* a full-width dashed row under the people: plainly "one more of these" */
+body .health-card .health-people > .health-add {
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 2px;
+  border: 1.5px dashed var(--brand-6);
+  border-radius: var(--radius-card);
+  background: transparent;
+  color: var(--brand);
+  font-weight: 600;
 }
+
+body .health-card .health-people > .health-add:hover { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
 
 /* Nút "Add another person" */
 .health-add {
@@ -182,12 +191,19 @@ button.health-person-row:focus-visible { outline: 2px solid var(--focus); outlin
   outline-offset: 2px;
 }
 
-/* Nhãn màu xanh: "Age group", "Your health condition" */
-.health-label {
+/* Labels: "Age group", "Health conditions" (14 px, ink: quieter than the title and the person's name) */
+body .health-card .health-label {
   margin: 0;
-  color: var(--brand);
-  font-size: 14px;
-  font-weight: 700;
+  color: var(--ink);
+  font-size: var(--text-14);
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.health-label-hint {
+  margin-left: 6px;
+  color: var(--ink-muted);
+  font-weight: 400;
 }
 
 .health-age {
@@ -206,20 +222,22 @@ button.health-person-row:focus-visible { outline: 2px solid var(--focus); outlin
   margin-bottom: 6px;
 }
 
-/* two columns: half the height of one long list */
+/* two columns where the card is wide enough, one where it isn't (phones, narrow tablets) */
 .health-conditions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
   column-gap: 16px;
 }
 
 /* Hand-drawn round checkbox */
+/* the box sits on the first line of a label that wraps ("Heart disease or high blood pressure") */
 .health-check-label {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-start;
+  gap: 10px;
   min-height: 34px;
+  padding: 7px 0;
   color: var(--ink);
   font-size: var(--text-14);
   cursor: pointer;
@@ -238,8 +256,9 @@ button.health-person-row:focus-visible { outline: 2px solid var(--focus); outlin
   flex-shrink: 0;
   width: 18px;
   height: 18px;
+  margin-top: 1px;
   border: 1.5px solid var(--line-strong);
-  border-radius: 50%;
+  border-radius: 5px;            /* square: pick any; the "Or" answers below are round (pick one) */
   background: var(--surface);
   transition: background 0.15s, border-color 0.15s;
 }
@@ -351,12 +370,23 @@ button.health-person-row:focus-visible { outline: 2px solid var(--focus); outlin
 .health-special {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 24px;
-  margin-top: 10px;
+  align-items: center;
+  gap: 0 20px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.health-special .health-box { border-radius: 50%; }
+
+.health-or {
+  color: var(--ink-muted);
+  font-size: var(--text-12);
+  line-height: 18px;
 }
 
 .health-special .health-check-label {
-  flex: 1 1 120px;
+  flex: 0 1 auto;
 }
 
 /* Minimum space before the Next step button */
@@ -370,9 +400,9 @@ button.health-person-row:focus-visible { outline: 2px solid var(--focus); outlin
   align-items: center;
   justify-content: center;
   gap: 10px;
-  width: 88%;
-  height: 54px;
-  margin: auto auto 0;
+  width: 100%;
+  height: 50px;
+  margin: auto 0 0;
   border: 0;
   border-radius: 999px;
   background: var(--brand);
