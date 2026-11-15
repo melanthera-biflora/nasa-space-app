@@ -6,7 +6,7 @@ export async function searchLocation(address, signal) {
   }
 
   const response = await fetch(
-    `${import.meta.env.BASE_URL}sample-report.json`,
+    `${import.meta.env.BASE_URL}FReport_Multiple_disease.json`,
     { signal }
   )
 
