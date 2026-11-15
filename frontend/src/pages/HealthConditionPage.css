@@ -358,24 +358,59 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 12px;
+  min-width: 260px;
+  padding: 10px 16px;
   border: 1px solid #ffffff20;
   border-radius: 999px;
   background: #ffffff12;
+  backdrop-filter: blur(8px);
   color: white;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .health-status-dot {
+  flex: none;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #c2ff4d;
+  animation: health-ping 2s infinite;
+}
+
+/* Live feed: mỗi lần chỉ hiện một dòng */
+.health-feed {
+  position: relative;
+  flex: 1;
+  height: 18px;
+}
+
+.health-feed-item {
+  position: absolute;
+  inset: 0;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.health-feed-item.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+.health-feed-item b {
+  font-weight: 600;
+}
+
+.health-feed-item i {
+  margin-left: 6px;
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .health-rings span {
   position: absolute;
-  top: 42%;
+  top: 34%;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -384,30 +419,74 @@
 .health-rings span:nth-child(1) { left: 47%; width: 320px; height: 320px; }
 .health-rings span:nth-child(2) { left: 58%; width: 440px; height: 440px; }
 
-.health-check {
+/* Trạng thái chờ: quả cầu "thở" + dòng chữ */
+.health-core {
   position: absolute;
-  top: 42%;
+  top: 34%;
   left: 50%;
   z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 80px;
-  height: 80px;
-  border: 6px solid #a8e83a;
-  border-radius: 50%;
-  background: #c2ff4d;
-  box-shadow: 0 0 48px rgba(194, 255, 77, 0.45);
-  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 280px;
+  /* kéo lên nửa quả cầu để tâm quả cầu trùng tâm các vòng tròn */
+  transform: translate(-50%, -40px);
+  color: #ffffff;
+  text-align: center;
 }
 
-.health-check svg {
-  width: 30px;
-  height: 30px;
-  fill: none;
-  stroke: #1d2a12;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.health-orb {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e2ff8f, #c2ff4d 60%);
+  box-shadow: 0 0 0 10px rgba(194, 255, 77, 0.16), 0 0 48px rgba(194, 255, 77, 0.45);
+  animation: health-breathe 3s ease-in-out infinite;
+}
+
+/* Khi đã có câu trả lời: sáng hơn, thở chậm lại */
+.health-orb.has-answers {
+  box-shadow: 0 0 0 14px rgba(194, 255, 77, 0.22), 0 0 70px rgba(194, 255, 77, 0.6);
+  animation-duration: 4.5s;
+}
+
+.health-msg {
+  margin-top: 22px;
+}
+
+.health-msg strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.health-msg small {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.health-dots span {
+  animation: health-blink 1.4s infinite both;
+}
+.health-dots span:nth-child(2) { animation-delay: 0.2s; }
+.health-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes health-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+
+@keyframes health-blink {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+
+@keyframes health-ping {
+  0% { box-shadow: 0 0 0 0 rgba(194, 255, 77, 0.6); }
+  70%, 100% { box-shadow: 0 0 0 9px rgba(194, 255, 77, 0); }
 }
 
 .health-hill {
@@ -497,37 +576,73 @@
   stroke-linejoin: round;
 }
 
-.health-stat {
+/* Gợi ý tiến trình ở đáy panel (thay cho thẻ "Avg. response") */
+.health-hint {
   position: absolute;
-  left: 5%;
-  bottom: 6%;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
   z-index: 3;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 16px;
   padding: 14px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  background: rgba(30, 40, 55, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  background: rgba(40, 30, 80, 0.55);
+  backdrop-filter: blur(10px);
   color: #ffffff;
 }
 
-.health-stat-label {
-  color: #c9d0dc;
-  font-size: 9px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.health-hint-text {
+  flex: 1;
+  min-width: 0;
 }
 
-.health-stat-value {
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.health-stat-value small {
-  font-size: 11px;
+.health-hint-text strong {
+  display: block;
+  font-size: 14px;
   font-weight: 600;
+}
+
+.health-hint-text span {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+}
+
+.health-progress {
+  flex: none;
+  width: 100px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.health-progress i {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: #c2ff4d;
+  transition: width 0.5s;
+}
+
+.health-hint-step {
+  flex: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .health-orb,
+  .health-status-dot,
+  .health-dots span {
+    animation: none;
+  }
+
+  .health-feed-item {
+    transition: none;
+  }
 }
 
 /* ===== Màn hình nhỏ ===== */
@@ -539,6 +654,17 @@
 
   .health-deco-cloud {
     bottom: calc(100% + 40px);
+  }
+
+  .health-status {
+    right: 24px;
+    min-width: 0;
+  }
+
+  .health-msg small,
+  .health-hint-text span,
+  .health-progress {
+    display: none;
   }
 }
 
