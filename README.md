@@ -162,32 +162,44 @@ yourself. Never commit it; `.gitignore` already excludes it.
 
 | Variable | What for |
 | --- | --- |
-| `DATABASE_URL` | A shared Postgres cache (Supabase Session pooler connection string). Without it, the backend uses files and everything still works |
+| `DATABASE_URL` | A Postgres database for the cache (see below). Without it, the backend uses files and everything still works |
 | `EARTHDATA_TOKEN` | Only for Option B's NASA downloads; set it in the terminal |
 
-**Shared database (optional).** The app doesn't need one: without `DATABASE_URL` the backend keeps everything in
-files, and http://localhost:8000/api/v1/health says `"store": "files"`. A database only shares finished reports and
-place lookups between the team's machines, so a city one person opened loads at once for everyone.
+**Full setup with a local database (optional).** The app doesn't need a database: without `DATABASE_URL` the backend
+keeps everything in files, and http://localhost:8000/api/v1/health says `"store": "files"`. With a database, finished
+reports, state averages and place lookups are kept, so anything opened once loads at once. Everything below runs on
+your own computer; it never connects to the team's hosted app.
 
-To use the team's Supabase database:
+1. Start Postgres. With [Docker Desktop](https://www.docker.com/products/docker-desktop/) (the password is only for
+   this local copy):
 
-1. Ask the project owner for the **Session pooler** connection string (Supabase → the project → **Connect** →
-   **Session pooler**). It holds the database password, so it's sent privately (a direct message or a password
-   manager), never in a group chat, an issue or a commit. If Supabase shows `[YOUR-PASSWORD]` in the string, the owner
-   puts the password there (or resets it under **Project Settings → Database**).
-2. In the repo root, create a file named `.env` (no other name, no extension) with one line:
-   `DATABASE_URL=postgresql://…` with the string pasted after the `=`.
-3. Restart the backend and open http://localhost:8000/api/v1/health: it should say `"store": "postgres"`. If it says
-   `"files"`, the backend's terminal shows why in a `database unavailable (…)` line. After several wrong passwords
-   Supabase refuses new connections for a few minutes, so fix the string and wait before trying again.
+   ```bash
+   docker run -d --name climatch-db -e POSTGRES_PASSWORD=climatch -p 5433:5432 postgres:17
+   ```
 
-To use your own free Supabase project instead:
+   Any Postgres 14 or newer that you already run works too.
+2. In the repo root, create a file named `.env` (no other name, no extension) with this one line, changing the
+   password or port if yours differ:
 
-1. Create a project at [supabase.com](https://supabase.com/).
-2. In its **SQL Editor**, run `backend/migrations/001_init.sql`, `002_region_series.sql` and `003_cleanup.sql`, in
-   that order.
-3. Put that project's Session pooler string in `.env` as above, then fill it with the demo reports and maps:
-   `.venv/Scripts/python -m backend.store.seed`.
+   ```
+   DATABASE_URL=postgresql://postgres:climatch@localhost:5433/postgres
+   ```
+
+3. Create the tables, then fill them with the demo reports and maps:
+
+   ```bash
+   .venv/Scripts/python -m backend.store.migrate
+   ```
+
+   ```bash
+   .venv/Scripts/python -m backend.store.seed
+   ```
+
+4. Restart the backend: http://localhost:8000/api/v1/health now says `"store": "postgres"`.
+
+Later, `docker stop climatch-db` and `docker start climatch-db` pause and resume it, and `docker rm -f climatch-db`
+deletes it. To go back to files, delete the line from `.env`. `migrate` only changes a database on this computer; it
+refuses any other unless you add `--remote`.
 
 ## 5. Test
 

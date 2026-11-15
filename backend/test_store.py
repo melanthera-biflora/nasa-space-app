@@ -101,3 +101,13 @@ def test_round_trip_against_the_real_database():
             conn.execute("delete from public.report_cache where key = %s", (key,))
             conn.execute("delete from public.place_cache where query = %s", (key,))
         store.pool.close()
+
+
+def test_migrate_changes_only_a_local_database_unless_told_otherwise(monkeypatch):
+    from backend.store import migrate
+    assert migrate.is_local("postgresql://postgres:x@localhost:5433/postgres")
+    assert not migrate.is_local("postgresql://u:x@aws-0-us-west-1.pooler.supabase.com:5432/postgres")
+    monkeypatch.setattr(migrate, "setting", lambda name: "postgresql://u:x@db.example.com:5432/postgres")
+    with pytest.raises(SystemExit, match="not this computer"):
+        migrate.main([])
+    assert [p.name for p in sorted(migrate.MIGRATIONS.glob("*.sql"))][0] == "000_roles.sql"   # roles before the revokes
