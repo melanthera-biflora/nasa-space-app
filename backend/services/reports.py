@@ -2,12 +2,19 @@
 
 Only the household-neutral report is stored (SPEC A3, D25): the household (conditions, age groups) is applied per
 request by `personalize` and never written to the store, the logs or a key."""
+import threading
+
 import requests
 
 from backend.errors import ApiError
 from paths import load_json, load_thresholds
 
 DATA_VERSION = "2026-11-15-a6"      # bump when the pipeline's output or the NASA data files change, so stored reports aren't reused
+
+# One build at a time (reports and state series): a build reads the big NetCDF files and adds about 300 MB on top of
+# the running API, so two at once would overrun a 512 MB server (Render Starter). A second visitor waits a few seconds;
+# one asking for the same place then gets the finished copy from the store.
+BUILD_SLOT = threading.Lock()
 
 
 class ReportService:
@@ -64,10 +71,14 @@ class ReportService:
         # a new MODIS place takes 25-50 min, so surface heat is shown only where it was precomputed
         heat = self.heat_ready(lat, lon)
         sources = ("pm25", "no2", "fires", "smoke", "aod", "rain_sat", "surface_heat_5km", "water") + (("surface_heat",) if heat else ())
-        try:
-            rep = self.build(lat, lon, period_years=period, sources=sources, **({} if end == self.last_year else {"end_year": end}))
-        except requests.RequestException:
-            raise ApiError(502, "upstream_unavailable", "NASA POWER didn't answer. Try again in a minute, or pick a demo city.")
+        with BUILD_SLOT:
+            stored = self.store.get_report(key)          # built by the visitor ahead in the queue?
+            if stored is not None:
+                return stored
+            try:
+                rep = self.build(lat, lon, period_years=period, sources=sources, **({} if end == self.last_year else {"end_year": end}))
+            except requests.RequestException:
+                raise ApiError(502, "upstream_unavailable", "NASA POWER didn't answer. Try again in a minute, or pick a demo city.")
         # never send exception text (file paths, internals) to the browser
         status = {k: "ok" if v == "ok" else "not available" for k, v in rep["data_status"].items()}
         if not heat:

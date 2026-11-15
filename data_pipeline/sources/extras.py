@@ -9,7 +9,6 @@ as {factor: {"annual": Series(index=year), "monthly": Series(index=month start)}
     surface_heat_5km MODIS MOD11C3 day land-surface temperature, ~5 km; trend stops at 2022 (Terra drift)
     water_storage    GRACE/GRACE-FO water storage anomaly (regional, ~300 km), from 2002
 """
-from functools import lru_cache
 
 import pandas as pd
 import xarray as xr
@@ -19,17 +18,19 @@ from paths import DATA_DIR
 LAST_CLEAN_LST_YEAR = 2022      # same Terra drift cut as sources/modis_lst.py
 
 
-@lru_cache(maxsize=8)
 def _open(name):
+    """Opened for one read and closed after (with), not kept open: an open file holds its decompressed blocks, tens
+    of MB each for the 5 km grids, which kept the API near 500 MB on a 512 MB server. Opening again costs milliseconds."""
     return xr.open_dataset(DATA_DIR / name)
 
 
 def _point(name, var, lat, lon):
     """The nearest grid square, but only within one square of the point: the grids cover the lower 48 states, and a
     point outside them (Alaska, Hawaii) must not borrow the edge square, so sel raises and the card is 'not available'."""
-    da = _open(name)[var]
-    step = max(abs(float(da.lat[1] - da.lat[0])), abs(float(da.lon[1] - da.lon[0])))
-    s = da.sel(lat=lat, lon=lon, method="nearest", tolerance=step).load().to_series().astype(float)
+    with _open(name) as ds:
+        da = ds[var]
+        step = max(abs(float(da.lat[1] - da.lat[0])), abs(float(da.lon[1] - da.lon[0])))
+        s = da.sel(lat=lat, lon=lon, method="nearest", tolerance=step).load().to_series().astype(float)
     s.index = pd.to_datetime(s.index).to_period("M").to_timestamp()
     return s.groupby(level=0).mean()          # GRACE can have two solutions in one calendar month
 
@@ -47,7 +48,8 @@ SMOKE_FROM = "2011-01-01"        # density tags are patchy before June 2010, so 
 
 
 def smoke_days_series(lat, lon):
-    _open("hms_smoke_days.nc")                      # fail early if the file isn't built
+    with _open("hms_smoke_days.nc"):                # fail early if the file isn't built
+        pass
     m = _point("hms_smoke_days.nc", "smoke_days_mh", lat, lon)
     m = m[m.index >= SMOKE_FROM]
     return {"smoke_days": {"annual": _yearly(m, "sum"), "monthly": m}}
@@ -88,7 +90,8 @@ FIRST_YEAR = {"smoke_days": 2011, "aod": 2001, "rain_sat": 2001, "surface_heat_5
 def state_series(code, key):
     from sources.power_region import grid_state_monthly
     name, var, agg, months, min_months = GRID[key]
-    m = grid_state_monthly(_open(name)[var], code).astype(float)
+    with _open(name) as ds:
+        m = grid_state_monthly(ds[var], code).astype(float)
     m.index = pd.to_datetime(m.index).to_period("M").to_timestamp()
     m = m.groupby(level=0).mean()
     if key == "smoke_days":
