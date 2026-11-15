@@ -21,6 +21,7 @@ env/
 # Secrets: API keys, passwords. NEVER commit these
 .env
 .env.*
+!.env.example
 *.key
 .netrc
 _netrc
@@ -47,6 +48,10 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Personal agent settings and notes, never shared
+.claude/
+notes/
 
 # Keep these (they are small and the team needs them):
 #   demo_reports/            (real demo reports)
