@@ -11,6 +11,8 @@ Clean:  keep type == 0 (vegetation fire; drops volcanoes, factories, offshore ga
 Lookup: count detections within 50 km of the address, per month and per year
 
 Run:    python -m sources.fires_firms United_States Vietnam India      (country names as FIRMS spells them)
+        python -m sources.fires_firms --na Canada Mexico                (into data/fires/na/: the North America maps
+                                                                         only; reports never read that folder)
         Each year is saved in data/fires/years/ as soon as it downloads, so a crash or
         Ctrl+C never loses finished years: run the same command again to continue.
         If a year fails to download, see GUIDE.md part G (manual download).
@@ -26,7 +28,9 @@ import requests
 from paths import DATA_DIR
 
 FIRE_DIR = DATA_DIR / "fires"
+NA_DIR = FIRE_DIR / "na"   # neighbours' files: _load_all() reads only FIRE_DIR itself, so reports stay US-only
 URL = "https://firms.modaps.eosdis.nasa.gov/data/country/modis/{y}/modis_{y}_{c}.csv"
+FIRST_TREND_YEAR = 2003   # only Terra flew before July 2002 (half the overpasses), so earlier counts are too low
 _cache = {}
 
 
@@ -40,12 +44,13 @@ def clean_firms(df, min_conf=30):
                          "date": pd.to_datetime(df["acq_date"])})
 
 
-def download_country(country, start_year=2001, end_year=2025, min_conf=30):
-    FIRE_DIR.mkdir(parents=True, exist_ok=True)
+def download_country(country, start_year=2001, end_year=2025, min_conf=30, fire_dir=None):
+    fire_dir = fire_dir or FIRE_DIR
+    fire_dir.mkdir(parents=True, exist_ok=True)
     parts, years_ok = [], []
     for y in range(start_year, end_year + 1):
-        manual = FIRE_DIR / "manual" / f"modis_{y}_{country}.csv"
-        done = FIRE_DIR / "years" / f"{country}_{y}.csv.gz"     # saved right after download
+        manual = fire_dir / "manual" / f"modis_{y}_{country}.csv"
+        done = fire_dir / "years" / f"{country}_{y}.csv.gz"     # saved right after download
         try:
             if done.exists():
                 parts.append(pd.read_csv(done, parse_dates=["date"]))
@@ -68,10 +73,10 @@ def download_country(country, start_year=2001, end_year=2025, min_conf=30):
     if not parts:
         return
     out = pd.concat(parts, ignore_index=True)
-    out.to_parquet(FIRE_DIR / f"modis_{country}.parquet", index=False)
+    out.to_parquet(fire_dir / f"modis_{country}.parquet", index=False)
     meta = {"country": country, "years": years_ok,
             "bbox": [float(out.lat.min()), float(out.lat.max()), float(out.lon.min()), float(out.lon.max())]}
-    (FIRE_DIR / f"modis_{country}_meta.json").write_text(json.dumps(meta))
+    (fire_dir / f"modis_{country}_meta.json").write_text(json.dumps(meta))
     print(f"Saved {country}: {len(out):,} fires, years {years_ok[0]}-{years_ok[-1]}")
 
 
@@ -102,7 +107,7 @@ def fires_series(lat, lon, radius_km=50):
     a = np.sin((p2 - p1) / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(dl / 2) ** 2
     near = box[6371 * 2 * np.arcsin(np.sqrt(a)) <= radius_km]
 
-    years = sorted(years)
+    years = sorted(y for y in years if y >= FIRST_TREND_YEAR)
     months = pd.date_range(f"{years[0]}-01-01", f"{years[-1]}-12-01", freq="MS")
     monthly = near.groupby(near.date.dt.to_period("M").dt.to_timestamp()).size()
     monthly = monthly.reindex(months, fill_value=0).astype(float)
@@ -112,7 +117,8 @@ def fires_series(lat, lon, radius_km=50):
 
 
 if __name__ == "__main__":
-    countries = sys.argv[1:] or ["United_States"]
+    na = sys.argv[1:2] == ["--na"]
+    countries = sys.argv[1 + na:] or ["United_States"]
     for c in countries:
-        download_country(c)
+        download_country(c, fire_dir=NA_DIR if na else None)
     print(fires_series(33.45, -112.07)["fires"]["annual"].to_string())

@@ -10,7 +10,9 @@ How:    1. ask the service which 8-day dates exist for this point
         4. "neighborhood" = 3 x 3 km around the address; "surroundings" = the whole 11 x 11 km box
         5. per year: summer daytime average (Jun-Aug north of the equator, Dec-Feb south)
 
-Speed:  ~115 requests for 2001-2025, roughly 2-6 minutes for a NEW location; then cached in cache/.
+Speed:  only summer dates are fetched (~50 requests for 2001-2025). The service took 30-60 s per
+        request on 2026-11-14, so a NEW location can take 25-50 minutes; then cached in cache/.
+        Progress is saved after each request, so a failed run continues where it stopped.
         For the demo, run it once for each demo city beforehand.
 
 Test:   python -m sources.modis_lst 33.45 -112.07      (run from the data_pipeline folder)
@@ -26,6 +28,7 @@ from paths import CACHE_DIR
 API = "https://modis.ornl.gov/rst/api/v1"
 PRODUCT, BAND = "MOD11A2", "LST_Day_1km"
 KM = 5                       # 5 km each side -> 11 x 11 pixels
+LAST_CLEAN_YEAR = 2022       # Terra's overpass drifted >1 h earlier after 2020, so later summers read cool
 HEADERS = {"Accept": "application/json"}
 
 
@@ -41,18 +44,25 @@ def _get(url, params, tries=4):
             time.sleep(2 ** (i + 1))          # wait 2, 4, 8 s and try again
 
 
+def cache_file(lat, lon, start_year=2001, end_year=2025, cache_dir=CACHE_DIR):
+    """Where a finished MODIS download for this point is saved (the backend checks it exists)."""
+    return cache_dir / f"modis_lst_{lat:.3f}_{lon:.3f}_{start_year}_{end_year}.csv"
+
+
 def fetch_lst(lat, lon, start_year=2001, end_year=2025, cache_dir=CACHE_DIR):
     """8-day series: center (3x3 km) and area (11x11 km) daytime surface temperature, °C."""
     cache_dir.mkdir(exist_ok=True)
-    cache = cache_dir / f"modis_lst_{lat:.3f}_{lon:.3f}_{start_year}_{end_year}.csv"
+    cache = cache_file(lat, lon, start_year, end_year, cache_dir)
     if cache.exists():
         return pd.read_csv(cache, index_col="date", parse_dates=True)
 
     dates = _get(f"{API}/{PRODUCT}/dates", {"latitude": lat, "longitude": lon})["dates"]
     dates = [d for d in dates if start_year <= int(d["calendar_date"][:4]) <= end_year]
-    rows = []
-    for i in range(0, len(dates), 10):
-        chunk = dates[i:i + 10]
+    part = cache.with_suffix(".part.csv")         # progress so far: a failed run resumes here
+    rows = pd.read_csv(part).to_dict("records") if part.exists() else []
+    done = {r["date"] for r in rows}
+    chunks = [c for c in summer_chunks(dates, lat) if c[-1]["calendar_date"] not in done]
+    for i, chunk in enumerate(chunks, 1):
         j = _get(f"{API}/{PRODUCT}/subset", {
             "latitude": lat, "longitude": lon, "band": BAND,
             "startDate": chunk[0]["modis_date"], "endDate": chunk[-1]["modis_date"],
@@ -70,13 +80,27 @@ def fetch_lst(lat, lon, start_year=2001, end_year=2025, cache_dir=CACHE_DIR):
                 a[r0 - 1:r0 + 2, c0 - 1:c0 + 2]).any() else np.nan
             area = np.nanmean(a) if np.isfinite(a).any() else np.nan
             rows.append({"date": item["calendar_date"], "center_c": center, "area_c": area})
-        print(f"  MODIS {min(i + 10, len(dates))}/{len(dates)} dates", end="\r")
+        pd.DataFrame(rows).to_csv(part, index=False)
+        print(f"  MODIS {i}/{len(chunks)} requests", end="\r")
     print()
     df = pd.DataFrame(rows).drop_duplicates("date")
     df["date"] = pd.to_datetime(df["date"])
     df = df.set_index("date").sort_index()
     df.to_csv(cache)
+    part.unlink(missing_ok=True)
     return df
+
+
+def summer_chunks(dates, lat, size=10):
+    """Only the summer composites summer_mean() uses, in runs of <= 10 inside one summer:
+    the service limits the date RANGE of a request to 10 composites, not just the dates asked for."""
+    months = (6, 7, 8) if lat >= 0 else (12, 1, 2)
+    seasons = {}
+    for d in dates:
+        y, m = int(d["calendar_date"][:4]), int(d["calendar_date"][5:7])
+        if m in months:
+            seasons.setdefault(y + (m == 12 and lat < 0), []).append(d)
+    return [s[i:i + size] for s in seasons.values() for i in range(0, len(s), size)]
 
 
 def summer_mean(s, lat, min_obs=3):
@@ -94,7 +118,8 @@ def surface_heat_series(lat, lon):
     df = fetch_lst(lat, lon)
     island = df["center_c"] - df["area_c"]
     return {
-        "surface_heat": {"annual": summer_mean(df["center_c"], lat),
+        # heat_island keeps 2023-25: center and area come from the same pass, so the drift mostly cancels
+        "surface_heat": {"annual": summer_mean(df["center_c"], lat).loc[:LAST_CLEAN_YEAR],
                          "monthly": df["center_c"].resample("MS").mean()},
         "heat_island": {"annual": summer_mean(island, lat),
                         "monthly": island.resample("MS").mean()},

@@ -55,3 +55,21 @@ def notable_years(factors, min_factors=2):
             out.append({"year": y, "factors": labels,
                         "text": f"{y}: {names} were {word} unusually bad that year."})
     return out
+
+
+def class_edges(values, classes=7):
+    """Edges that split values into `classes` groups of about equal size, each rounded to 2 significant
+    figures (zero and repeated edges dropped). Colour classes for the US map and the month heatmap."""
+    v = np.asarray(values, float)
+    v = v[np.isfinite(v)]
+    if not len(v):
+        return []
+    edges = np.quantile(v, np.arange(1, classes) / classes)
+    return sorted({float(f"{e:.2g}") for e in edges if e > 0})
+
+
+def monthly_classes(values, anomalies):
+    """Heatmap colours: 7 equal-count levels of the monthly values, and 4 steps of anomaly size (used on both
+    sides of zero), so one extreme month (a smoke August) doesn't wash out every other month."""
+    return {"value": class_edges(values, 7), "anomaly": class_edges(np.abs(np.asarray(anomalies, float)), 5)}
+

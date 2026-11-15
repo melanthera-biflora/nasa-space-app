@@ -1,96 +1,103 @@
 {
-  "_note": "ONE shared file. The pipeline, the backend and the website all read limits from here. Change numbers here, never in code. TEAM_TODO = placeholder the team must confirm. caution_from/high_from = null means 'trend only' (no official health limit exists).",
-  "version": "2026-11-11",
+  "_note": "ONE shared file. The pipeline, the backend and the website all read limits from here. Change numbers here, never in code. caution_from/high_from = null means 'trend only' (no US health limit fits this card). Reasons and sources: docs/US_DATA_RESEARCH.md.",
+  "version": "2026-11-14",
 
   "hot_days": {
     "label": "Very hot days", "unit": "days / year", "unit_short": "days", "decimals": 0,
     "data": "NASA POWER (MERRA-2) daily max temperature T2M_MAX, ~50 km grid",
-    "rule": "daily max temperature >= day_temp_c", "day_temp_c": 35, "day_temp_source": "team-defined",
-    "higher_is_worse": true, "caution_from": 30, "high_from": 60, "cutoff_source": "team-defined",
-    "TEAM_TODO": "Suggested 30 / 60 (~1 / ~2 months a year). Or use day_temp_c 40 with 10 / 30. Decide with compare_cities.py."
+    "rule": "daily max temperature >= day_temp_c", "day_temp_c": 35,
+    "day_temp_source": "95 °F, one of the fixed extreme-heat levels (90/95/100/105 °F) used in US Environmental Public Health Tracking",
+    "higher_is_worse": true, "caution_from": 30, "high_from": 60,
+    "cutoff_source": "95 °F is one of the fixed hot-day levels (90, 95, 100, 105 °F) used in US environmental public health tracking; 30 and 60 days (about one and two months a year) are team-defined."
   },
   "warm_nights": {
     "label": "Warm nights", "unit": "nights / year", "unit_short": "nights", "decimals": 0,
     "data": "NASA POWER (MERRA-2) daily min temperature T2M_MIN, ~50 km grid",
-    "rule": "daily min temperature >= night_temp_c", "night_temp_c": 20,
-    "night_temp_source": "official: ETCCDI index TR (tropical nights, min >= 20 C)",
-    "higher_is_worse": true, "caution_from": 30, "high_from": 60, "cutoff_source": "team-defined",
-    "TEAM_TODO": "Suggested 30 / 60."
+    "rule": "daily min temperature >= night_temp_c", "night_temp_c": 24,
+    "night_temp_source": "team-defined: 75 °F; NWS HeatRisk treats unusually warm overnight lows as adding to heat stress",
+    "higher_is_worse": true, "caution_from": 30, "high_from": 90,
+    "cutoff_source": "NWS HeatRisk counts unusually warm overnight lows as adding to heat stress; the 75 °F level and the 30/90-night cutoffs are team-defined to pick out the warmest US night climates."
   },
   "cold_days": {
-    "label": "Frost days", "unit": "days / year", "unit_short": "days", "decimals": 0,
+    "label": "Very cold nights", "unit": "nights / year", "unit_short": "nights", "decimals": 0,
     "data": "NASA POWER (MERRA-2) daily min temperature T2M_MIN, ~50 km grid",
-    "rule": "daily min temperature < frost_temp_c", "frost_temp_c": 0,
-    "frost_source": "official: ETCCDI index FD (frost days, min < 0 C)",
-    "higher_is_worse": true, "caution_from": 60, "high_from": 120, "cutoff_source": "team-defined",
-    "TEAM_TODO": "Suggested 60 / 120 (~2 / ~4 months of frost)."
+    "rule": "daily min temperature < frost_temp_c", "frost_temp_c": -12,
+    "frost_source": "team-defined: -12 °C (about 10 °F)",
+    "higher_is_worse": true, "caution_from": 10, "high_from": 30,
+    "cutoff_source": "Cold causes more US deaths than heat (JAMA Network Open, 2025), but no US agency sets one cold-night health limit, so 10 °F and the 10/30-night cutoffs are team-defined."
   },
   "heavy_rain_days": {
     "label": "Heavy rain days", "unit": "days / year", "unit_short": "days", "decimals": 0,
     "data": "NASA POWER daily precipitation PRECTOTCORR, ~50 km grid",
     "rule": "daily rain >= rain_mm_per_day", "rain_mm_per_day": 20,
     "rain_source": "official: ETCCDI index R20mm (very heavy precipitation days)",
-    "higher_is_worse": true, "caution_from": 10, "high_from": 20, "cutoff_source": "team-defined",
-    "TEAM_TODO": "10 / 20 are placeholders. A 50 km average smooths local downpours, so counts are lower than a rain gauge."
+    "higher_is_worse": true, "caution_from": null, "high_from": null,
+    "cutoff_source": "US agencies define heavy rain against each place's own history (its top 1% of days), not one national count, and a 50 km grid smooths local downpours, so this card shows the trend only."
   },
   "wettest_day": {
     "label": "Wettest day of the year", "unit": "mm in one day", "unit_short": "mm", "decimals": 0,
     "parent": "heavy_rain_days",
     "data": "NASA POWER daily precipitation PRECTOTCORR, ~50 km grid",
     "rule": "maximum daily rain in each year", "rule_source": "official: ETCCDI index Rx1day",
-    "higher_is_worse": true, "caution_from": 100, "high_from": 150, "cutoff_source": "team-defined",
-    "TEAM_TODO": "100 / 150 mm are placeholders. Sub-line only."
+    "higher_is_worse": true, "caution_from": null, "high_from": null,
+    "cutoff_source": "US agencies define heavy rain against each place's own history (its top 1% of days), not one national count, and a 50 km grid smooths local downpours, so this card shows the trend only."
   },
   "dry_days": {
     "label": "Very dry days", "unit": "days / year", "unit_short": "days", "decimals": 0,
     "data": "NASA POWER (MERRA-2) relative humidity RH2M, ~50 km grid",
     "rule": "daily mean relative humidity < rh_below_pct", "rh_below_pct": 20, "rh_source": "team-defined",
-    "higher_is_worse": true, "caution_from": 90, "high_from": 180, "cutoff_source": "team-defined",
-    "TEAM_TODO": "Suggested 90 / 180."
+    "higher_is_worse": true, "caution_from": null, "high_from": null,
+    "cutoff_source": "There is no US health limit for outdoor humidity; NWS fire-weather warnings start near 15% humidity together with strong wind, so this card shows the trend only."
   },
   "muggy_days": {
     "label": "Muggy days", "unit": "days / year", "unit_short": "days", "decimals": 0,
     "parent": "dry_days",
     "data": "NASA POWER (MERRA-2) dew point T2MDEW, ~50 km grid",
-    "rule": "daily mean dew point >= dew_point_c", "dew_point_c": 21, "dew_source": "team-defined",
-    "higher_is_worse": true, "caution_from": 30, "high_from": 90, "cutoff_source": "team-defined",
-    "TEAM_TODO": "Suggested 30 / 90. Sub-line only."
+    "rule": "daily mean dew point >= dew_point_c", "dew_point_c": 21, "dew_source": "team-defined: 70 °F",
+    "higher_is_worse": true, "caution_from": 30, "high_from": 90,
+    "cutoff_source": "Meteorologists call dew points of 70 °F uncomfortable and 75 °F oppressive; 30 and 90 days are team-defined comfort cutoffs, not a health limit."
   },
+  "humid_heat_days": {"label": "Humid-heat days", "unit": "days / year", "unit_short": "days", "decimals": 0, "data": "NASA POWER (MERRA-2) daily-mean wet-bulb temperature T2MWET, ~50 km grid", "rule": "daily mean wet-bulb >= wet_bulb_c", "wet_bulb_c": 24, "wet_bulb_source": "owner decision 2026-11-15 (D27): a daily-mean wet-bulb of 24 °C or more is a humid-heat day (docs/DATA_ADDITIONS.md)", "higher_is_worse": true, "caution_from": null, "high_from": null, "cutoff_source": "Trend only: there is no US health limit for a yearly count of humid-heat days."},
+  "smoke_days": {"label": "Smoke days", "unit": "days / year with medium or thick smoke overhead", "unit_short": "days", "decimals": 0, "data": "NOAA Hazard Mapping System smoke polygons (drawn by analysts from satellite images), medium and heavy outlines only, on the ~50 km MERRA-2 grid; from 2011. Light outlines are left out: that smoke is often high above the ground, and NOAA changed how it labels smoke density in 2022 (Liu et al. 2024, International Journal of Wildland Fire)", "higher_is_worse": true, "caution_from": null, "high_from": null, "cutoff_source": "Trend only: smoke overhead is not always smoke at ground level, so no health limit applies."},
+  "aod": {"label": "Haze (aerosol optical depth)", "unit": "aerosol optical depth (annual mean)", "unit_short": "AOD", "decimals": 3, "data": "NASA MERRA-2 M2TMNXAER total aerosol extinction (TOTEXTTAU, 550 nm), ~50 km grid", "higher_is_worse": true, "caution_from": null, "high_from": null, "cutoff_source": "Trend only: optical depth measures haze through the whole air column, not the air people breathe."},
+  "rain_sat": {"label": "Rain seen from satellites (IMERG)", "unit": "mm / year", "unit_short": "mm", "decimals": 0, "parent": "heavy_rain_days", "data": "NASA GPM IMERG Final V07 monthly precipitation, ~10 km grid, to September 2025", "higher_is_worse": true, "caution_from": null, "high_from": null, "cutoff_source": "Trend only: a second, satellite-based rain record beside NASA POWER."},
+  "surface_heat_5km": {"label": "Summer ground heat (5 km)", "unit": "°C (summer daytime land surface, ~5 km)", "unit_short": "°C", "decimals": 1, "data": "NASA MODIS MOD11C3 v061 monthly daytime land-surface temperature (Terra), 0.05° grid; trend to 2022 (orbit drift after)", "higher_is_worse": true, "caution_from": null, "high_from": null, "cutoff_source": "Trend only: ground temperature is not air temperature; it shows how hot streets and fields get in the sun."},
+  "water_storage": {"label": "Water storage (ground, soil, snow)", "unit": "cm of water vs the 2004–2009 average", "unit_short": "cm", "decimals": 1, "data": "NASA/DLR GRACE and GRACE-FO JPL mascons RL06.3 (gravity satellites), ~300 km effective; gap mid-2017 to mid-2018", "higher_is_worse": false, "caution_from": null, "high_from": null, "cutoff_source": "Trend only: a regional water budget; falling means the area is losing stored water."},
   "pm25": {
     "label": "Fine particle pollution (PM2.5)", "unit": "µg/m³ (annual mean)", "unit_short": "µg/m³", "decimals": 1,
-    "data": "NASA MERRA-2 aerosol diagnostics M2TMNXAER (monthly), PM2.5 rebuilt from dust, sea salt, sulfate, black and organic carbon, ~50 km grid",
+    "data": "NASA MERRA-2 aerosol diagnostics M2TMNXAER (monthly), PM2.5 rebuilt from dust, sea salt, sulfate, black and organic carbon (no nitrate), ~50 km grid; from 2010, because the model's fire-smoke input changed that year and its PM2.5 jumps in 2009–10 where EPA ground monitors fell (D41)",
     "higher_is_worse": true,
-    "caution_from": 9, "caution_source": "official: US EPA annual standard (2024)",
-    "high_from": 15, "high_source": "official: WHO interim target 4",
+    "caution_from": 9, "caution_source": "official: US EPA primary annual standard (2024), upheld by the D.C. Circuit in June 2026",
+    "high_from": 15, "high_source": "official: US EPA secondary annual standard and WHO interim target 3 (15 µg/m³)",
     "reference_only": 5, "reference_source": "official: WHO 2021 guideline (reference only)"
   },
   "no2": {
     "label": "Traffic & industry pollution (NO₂)", "unit": "×10¹⁵ molecules/cm² (annual mean)", "unit_short": "×10¹⁵ molec/cm²", "decimals": 2,
-    "data": "NASA OMI/Aura tropospheric NO2 column OMNO2d (daily, 0.25° ≈ 25 km), 2005 onward",
+    "data": "NASA OMI/Aura tropospheric NO2 column OMNO2d (daily, 0.25° ≈ 25 km), 2005 onward; the team files' version (003 or 004) is not yet confirmed (D10)",
     "higher_is_worse": true, "caution_from": null, "high_from": null,
     "cutoff_source": "none: there is no official health limit for satellite NO2 columns, so this card shows the trend only"
   },
   "fires": {
-    "label": "Wildfire activity nearby", "unit": "fire detections / year within radius", "unit_short": "fires", "decimals": 0,
-    "data": "NASA FIRMS MODIS active fire detections (vegetation fires, confidence >= 30), 1 km",
+    "label": "Fire detections nearby", "unit": "fire detections / year within 50 km", "unit_short": "detections", "decimals": 0,
+    "data": "NASA FIRMS MODIS active fires (Terra + Aqua, C6.1, 1 km; vegetation type 0, confidence >= 30 = nominal + high); trend from 2003",
     "radius_km": 50, "min_confidence": 30,
-    "higher_is_worse": true, "caution_from": 50, "high_from": 200, "cutoff_source": "team-defined",
-    "TEAM_TODO": "50 / 200 detections a year within 50 km are placeholders."
+    "higher_is_worse": true, "caution_from": null, "high_from": null,
+    "cutoff_source": "A detection is a 1 km satellite pixel with one or more fires, often a farm or prescribed burn, and smoke travels far beyond 50 km, so the count shows nearby fire activity as a trend, not a health level."
   },
   "surface_heat": {
-    "label": "Neighborhood surface heat", "unit": "°C (summer daytime land surface)", "unit_short": "°C", "decimals": 1,
-    "data": "NASA MODIS/Terra land surface temperature MOD11A2 (8-day, 1 km), via ORNL DAAC",
+    "label": "Neighborhood surface heat", "unit": "°C (summer late-morning land surface)", "unit_short": "°C", "decimals": 1,
+    "data": "NASA MODIS/Terra MOD11A2 v061 (8-day, 1 km, ~10:30 am overpass), via ORNL DAAC; trend 2001-2022 because Terra's orbit drifted after 2020",
     "rule": "average daytime land surface temperature in summer (Jun-Aug north, Dec-Feb south), 3 x 3 km around the address",
-    "higher_is_worse": true, "caution_from": 45, "high_from": 55, "cutoff_source": "team-defined",
-    "TEAM_TODO": "Surface temperature (ground, roofs, roads) is much hotter than air temperature. 45 / 55 C are placeholders."
+    "higher_is_worse": true, "caution_from": null, "high_from": null,
+    "cutoff_source": "No health limit exists for ground temperature, and EPA says air temperature, not surface temperature, best reflects what people feel, so this card shows the trend only."
   },
   "heat_island": {
-    "label": "Hotter than surroundings by", "unit": "°C vs 11 x 11 km area", "unit_short": "°C", "decimals": 1,
+    "label": "Heat island vs surroundings", "unit": "°C vs 11 x 11 km area", "unit_short": "°C", "decimals": 1,
     "parent": "surface_heat",
     "data": "NASA MODIS/Terra MOD11A2, 1 km",
     "rule": "summer daytime surface temperature: 3 x 3 km around the address minus the 11 x 11 km area around it",
-    "higher_is_worse": true, "caution_from": 2, "high_from": 4, "cutoff_source": "team-defined",
-    "TEAM_TODO": "2 / 4 C are placeholders. Sub-line only."
+    "higher_is_worse": true, "caution_from": 2, "high_from": 4,
+    "cutoff_source": "Across 38 US cities, built-up land was on average 4.3 °C hotter at the surface than surrounding land on summer days (NASA MODIS, Imhoff et al. 2010), so +4 °C marks a typical city-scale heat island and +2 °C half of it; both cutoffs are team-defined."
   },
 
   "settings": {

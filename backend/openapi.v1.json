@@ -1,0 +1,4756 @@
+{
+ "components": {
+  "schemas": {
+   "Action": {
+    "additionalProperties": true,
+    "properties": {
+     "actions": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Actions",
+      "type": "array"
+     },
+     "factor": {
+      "title": "Factor",
+      "type": "string"
+     },
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "source": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/SourceLink"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "required": [
+     "factor",
+     "label"
+    ],
+    "title": "Action",
+    "type": "object"
+   },
+   "AnomalyTest": {
+    "properties": {
+     "method": {
+      "title": "Method",
+      "type": "string"
+     },
+     "p": {
+      "title": "P",
+      "type": "number"
+     },
+     "p_label": {
+      "title": "P Label",
+      "type": "string"
+     },
+     "slope_per_decade": {
+      "title": "Slope Per Decade",
+      "type": "number"
+     }
+    },
+    "required": [
+     "p",
+     "p_label",
+     "slope_per_decade",
+     "method"
+    ],
+    "title": "AnomalyTest",
+    "type": "object"
+   },
+   "CompareCell": {
+    "properties": {
+     "clear": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Clear"
+     },
+     "direction": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Direction"
+     },
+     "last5": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/YearValue"
+      },
+      "title": "Last5",
+      "type": "array"
+     },
+     "level": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Level"
+     },
+     "now": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Now"
+     },
+     "p": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P"
+     },
+     "q": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Q"
+     },
+     "slope_per_decade": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Slope Per Decade"
+     },
+     "then": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Then"
+     }
+    },
+    "title": "CompareCell",
+    "type": "object"
+   },
+   "CompareCity": {
+    "properties": {
+     "factors": {
+      "additionalProperties": {
+       "$ref": "#/components/schemas/CompareCell"
+      },
+      "title": "Factors",
+      "type": "object"
+     },
+     "lat": {
+      "title": "Lat",
+      "type": "number"
+     },
+     "lon": {
+      "title": "Lon",
+      "type": "number"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     },
+     "state": {
+      "title": "State",
+      "type": "string"
+     }
+    },
+    "required": [
+     "name",
+     "state",
+     "lat",
+     "lon",
+     "factors"
+    ],
+    "title": "CompareCity",
+    "type": "object"
+   },
+   "CompareFactor": {
+    "properties": {
+     "caution_from": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Caution From"
+     },
+     "decimals": {
+      "default": 1,
+      "title": "Decimals",
+      "type": "integer"
+     },
+     "high_from": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "High From"
+     },
+     "higher_is_worse": {
+      "default": true,
+      "title": "Higher Is Worse",
+      "type": "boolean"
+     },
+     "key": {
+      "title": "Key",
+      "type": "string"
+     },
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "unit": {
+      "title": "Unit",
+      "type": "string"
+     },
+     "unit_short": {
+      "title": "Unit Short",
+      "type": "string"
+     }
+    },
+    "required": [
+     "key",
+     "label",
+     "unit",
+     "unit_short"
+    ],
+    "title": "CompareFactor",
+    "type": "object"
+   },
+   "CompareTable": {
+    "properties": {
+     "cities": {
+      "items": {
+       "$ref": "#/components/schemas/CompareCity"
+      },
+      "title": "Cities",
+      "type": "array"
+     },
+     "factors": {
+      "items": {
+       "$ref": "#/components/schemas/CompareFactor"
+      },
+      "title": "Factors",
+      "type": "array"
+     },
+     "period": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Period",
+      "type": "array"
+     },
+     "thresholds_version": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Thresholds Version"
+     }
+    },
+    "required": [
+     "period",
+     "cities",
+     "factors"
+    ],
+    "title": "CompareTable",
+    "type": "object"
+   },
+   "Decade": {
+    "properties": {
+     "average": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Average"
+     },
+     "decade": {
+      "title": "Decade",
+      "type": "string"
+     },
+     "n_years": {
+      "title": "N Years",
+      "type": "integer"
+     },
+     "years": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Years",
+      "type": "array"
+     }
+    },
+    "required": [
+     "decade",
+     "years",
+     "n_years"
+    ],
+    "title": "Decade",
+    "type": "object"
+   },
+   "Demo": {
+    "properties": {
+     "age_groups": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Age Groups",
+      "type": "array"
+     },
+     "conditions": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Conditions",
+      "type": "array"
+     },
+     "lat": {
+      "title": "Lat",
+      "type": "number"
+     },
+     "lon": {
+      "title": "Lon",
+      "type": "number"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     }
+    },
+    "required": [
+     "name",
+     "lat",
+     "lon",
+     "conditions",
+     "age_groups"
+    ],
+    "title": "Demo",
+    "type": "object"
+   },
+   "ErrorDetail": {
+    "properties": {
+     "code": {
+      "title": "Code",
+      "type": "string"
+     },
+     "message": {
+      "title": "Message",
+      "type": "string"
+     }
+    },
+    "required": [
+     "code",
+     "message"
+    ],
+    "title": "ErrorDetail",
+    "type": "object"
+   },
+   "ErrorOut": {
+    "properties": {
+     "error": {
+      "$ref": "#/components/schemas/ErrorDetail"
+     }
+    },
+    "required": [
+     "error"
+    ],
+    "title": "ErrorOut",
+    "type": "object"
+   },
+   "Event": {
+    "properties": {
+     "end": {
+      "title": "End",
+      "type": "string"
+     },
+     "id": {
+      "title": "Id",
+      "type": "string"
+     },
+     "precision": {
+      "enum": [
+       "day",
+       "month"
+      ],
+      "title": "Precision",
+      "type": "string"
+     },
+     "source": {
+      "$ref": "#/components/schemas/EventSource"
+     },
+     "start": {
+      "title": "Start",
+      "type": "string"
+     },
+     "states": {
+      "items": {
+       "type": "string"
+      },
+      "title": "States",
+      "type": "array"
+     },
+     "summary": {
+      "title": "Summary",
+      "type": "string"
+     },
+     "title": {
+      "title": "Title",
+      "type": "string"
+     },
+     "type": {
+      "enum": [
+       "smoke",
+       "heat",
+       "cold",
+       "rain",
+       "drought",
+       "fire"
+      ],
+      "title": "Type",
+      "type": "string"
+     },
+     "variables": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Variables",
+      "type": "array"
+     }
+    },
+    "required": [
+     "id",
+     "title",
+     "type",
+     "start",
+     "end",
+     "precision",
+     "states",
+     "variables",
+     "summary",
+     "source"
+    ],
+    "title": "Event",
+    "type": "object"
+   },
+   "EventList": {
+    "properties": {
+     "events": {
+      "items": {
+       "$ref": "#/components/schemas/Event"
+      },
+      "title": "Events",
+      "type": "array"
+     },
+     "region": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Region"
+     }
+    },
+    "required": [
+     "events"
+    ],
+    "title": "EventList",
+    "type": "object"
+   },
+   "EventSource": {
+    "properties": {
+     "name": {
+      "title": "Name",
+      "type": "string"
+     },
+     "url": {
+      "title": "Url",
+      "type": "string"
+     }
+    },
+    "required": [
+     "name",
+     "url"
+    ],
+    "title": "EventSource",
+    "type": "object"
+   },
+   "Factor": {
+    "additionalProperties": true,
+    "properties": {
+     "affects": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Affects",
+      "type": "array"
+     },
+     "available": {
+      "title": "Available",
+      "type": "boolean"
+     },
+     "caveat": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Caveat"
+     },
+     "change_then_to_now": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Change Then To Now"
+     },
+     "constant": {
+      "default": false,
+      "title": "Constant",
+      "type": "boolean"
+     },
+     "data_source": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Data Source"
+     },
+     "definition": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Definition"
+     },
+     "health_flag": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/HealthFlag"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "key": {
+      "title": "Key",
+      "type": "string"
+     },
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "leave_one_out": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/LeaveOneOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "level": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Level"
+     },
+     "limits": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Limits"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "line": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/TrendPoint"
+      },
+      "title": "Line",
+      "type": "array"
+     },
+     "mk_p": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Mk P"
+     },
+     "monthly": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/MonthValue"
+      },
+      "title": "Monthly",
+      "type": "array"
+     },
+     "monthly_classes": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/MonthlyClasses"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "n_years": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "N Years"
+     },
+     "now": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Now"
+     },
+     "now_years": {
+      "default": [],
+      "items": {
+       "type": "integer"
+      },
+      "title": "Now Years",
+      "type": "array"
+     },
+     "p_label": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P Label"
+     },
+     "parent": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Parent"
+     },
+     "period": {
+      "default": [],
+      "items": {
+       "type": "integer"
+      },
+      "title": "Period",
+      "type": "array"
+     },
+     "points": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/YearValue"
+      },
+      "title": "Points",
+      "type": "array"
+     },
+     "priority_for_user": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Priority For User"
+     },
+     "reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reason"
+     },
+     "seasonal": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Seasonal"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "significance_label": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Significance Label"
+     },
+     "significant": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Significant"
+     },
+     "slope_ci95_per_decade": {
+      "default": [],
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "title": "Slope Ci95 Per Decade",
+      "type": "array"
+     },
+     "slope_per_decade": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Slope Per Decade"
+     },
+     "source": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/SourceLink"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "story": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Story"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "then": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Then"
+     },
+     "then_years": {
+      "default": [],
+      "items": {
+       "type": "integer"
+      },
+      "title": "Then Years",
+      "type": "array"
+     },
+     "timeline": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Timeline"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "trend_direction": {
+      "anyOf": [
+       {
+        "enum": [
+         "worsening",
+         "improving",
+         "no_clear_trend"
+        ],
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Trend Direction"
+     },
+     "unit": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unit"
+     },
+     "unit_short": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unit Short"
+     },
+     "usual_range": {
+      "default": [],
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "title": "Usual Range",
+      "type": "array"
+     }
+    },
+    "required": [
+     "key",
+     "label",
+     "available"
+    ],
+    "title": "Factor",
+    "type": "object"
+   },
+   "FieldSummary": {
+    "additionalProperties": true,
+    "properties": {
+     "cells": {
+      "title": "Cells",
+      "type": "integer"
+     },
+     "falling_fdr_pct": {
+      "title": "Falling Fdr Pct",
+      "type": "number"
+     },
+     "falling_pct": {
+      "title": "Falling Pct",
+      "type": "number"
+     },
+     "rising_fdr_pct": {
+      "title": "Rising Fdr Pct",
+      "type": "number"
+     },
+     "rising_pct": {
+      "title": "Rising Pct",
+      "type": "number"
+     },
+     "strongest_fall": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Strongest"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "strongest_rise": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Strongest"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "required": [
+     "cells",
+     "rising_pct",
+     "falling_pct",
+     "rising_fdr_pct",
+     "falling_fdr_pct"
+    ],
+    "title": "FieldSummary",
+    "type": "object"
+   },
+   "Grid": {
+    "properties": {
+     "dlat": {
+      "title": "Dlat",
+      "type": "number"
+     },
+     "dlon": {
+      "title": "Dlon",
+      "type": "number"
+     },
+     "lats": {
+      "items": {
+       "type": "number"
+      },
+      "title": "Lats",
+      "type": "array"
+     },
+     "lons": {
+      "items": {
+       "type": "number"
+      },
+      "title": "Lons",
+      "type": "array"
+     }
+    },
+    "required": [
+     "lats",
+     "lons",
+     "dlat",
+     "dlon"
+    ],
+    "title": "Grid",
+    "type": "object"
+   },
+   "GroupNote": {
+    "additionalProperties": true,
+    "properties": {
+     "factors": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Factors",
+      "type": "array"
+     },
+     "group": {
+      "title": "Group",
+      "type": "string"
+     },
+     "text": {
+      "title": "Text",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group",
+     "text"
+    ],
+    "title": "GroupNote",
+    "type": "object"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "title": "Detail",
+      "type": "array"
+     }
+    },
+    "title": "HTTPValidationError",
+    "type": "object"
+   },
+   "Health": {
+    "properties": {
+     "ok": {
+      "title": "Ok",
+      "type": "boolean"
+     },
+     "store": {
+      "enum": [
+       "postgres",
+       "files"
+      ],
+      "title": "Store",
+      "type": "string"
+     }
+    },
+    "required": [
+     "ok",
+     "store"
+    ],
+    "title": "Health",
+    "type": "object"
+   },
+   "HealthFlag": {
+    "additionalProperties": true,
+    "properties": {
+     "groups": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Groups",
+      "type": "array"
+     },
+     "level": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Level"
+     },
+     "text": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Text"
+     }
+    },
+    "title": "HealthFlag",
+    "type": "object"
+   },
+   "Highlights": {
+    "additionalProperties": true,
+    "properties": {
+     "best_year": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/YearValue"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "top3_worst": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/YearValue"
+      },
+      "title": "Top3 Worst",
+      "type": "array"
+     },
+     "worst_year": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/YearValue"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "title": "Highlights",
+    "type": "object"
+   },
+   "LeaveOneOut": {
+    "properties": {
+     "clear": {
+      "title": "Clear",
+      "type": "boolean"
+     },
+     "flips": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Flips",
+      "type": "array"
+     },
+     "years": {
+      "items": {
+       "$ref": "#/components/schemas/LeaveOneOutYear"
+      },
+      "title": "Years",
+      "type": "array"
+     }
+    },
+    "required": [
+     "clear",
+     "years",
+     "flips"
+    ],
+    "title": "LeaveOneOut",
+    "type": "object"
+   },
+   "LeaveOneOutYear": {
+    "properties": {
+     "clear": {
+      "title": "Clear",
+      "type": "boolean"
+     },
+     "p": {
+      "title": "P",
+      "type": "number"
+     },
+     "slope_per_decade": {
+      "title": "Slope Per Decade",
+      "type": "number"
+     },
+     "year": {
+      "title": "Year",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "year",
+     "p",
+     "clear",
+     "slope_per_decade"
+    ],
+    "title": "LeaveOneOutYear",
+    "type": "object"
+   },
+   "Limits": {
+    "additionalProperties": true,
+    "properties": {
+     "caution_from": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Caution From"
+     },
+     "high_from": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "High From"
+     },
+     "high_source": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "High Source"
+     },
+     "reference_only": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reference Only"
+     },
+     "source": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source"
+     }
+    },
+    "title": "Limits",
+    "type": "object"
+   },
+   "Location": {
+    "additionalProperties": true,
+    "properties": {
+     "lat": {
+      "title": "Lat",
+      "type": "number"
+     },
+     "lon": {
+      "title": "Lon",
+      "type": "number"
+     },
+     "name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Name"
+     }
+    },
+    "required": [
+     "lat",
+     "lon"
+    ],
+    "title": "Location",
+    "type": "object"
+   },
+   "MapFrames": {
+    "additionalProperties": true,
+    "properties": {
+     "base_years": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Base Years",
+      "type": "array"
+     },
+     "change": {
+      "items": {
+       "items": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "type": "array"
+      },
+      "title": "Change",
+      "type": "array"
+     },
+     "change_breaks": {
+      "items": {
+       "type": "number"
+      },
+      "title": "Change Breaks",
+      "type": "array"
+     },
+     "factor": {
+      "title": "Factor",
+      "type": "string"
+     },
+     "grid": {
+      "additionalProperties": true,
+      "title": "Grid",
+      "type": "object"
+     },
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "level_breaks": {
+      "items": {
+       "type": "number"
+      },
+      "title": "Level Breaks",
+      "type": "array"
+     },
+     "span": {
+      "default": 1,
+      "title": "Span",
+      "type": "integer"
+     },
+     "unit": {
+      "title": "Unit",
+      "type": "string"
+     },
+     "us_change": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "title": "Us Change",
+      "type": "array"
+     },
+     "us_mean": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "title": "Us Mean",
+      "type": "array"
+     },
+     "values": {
+      "items": {
+       "items": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "type": "array"
+      },
+      "title": "Values",
+      "type": "array"
+     },
+     "years": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Years",
+      "type": "array"
+     }
+    },
+    "required": [
+     "factor",
+     "label",
+     "unit",
+     "grid",
+     "years",
+     "base_years",
+     "level_breaks",
+     "change_breaks",
+     "values",
+     "change",
+     "us_mean",
+     "us_change"
+    ],
+    "title": "MapFrames",
+    "type": "object"
+   },
+   "MonthNormal": {
+    "properties": {
+     "month": {
+      "title": "Month",
+      "type": "integer"
+     },
+     "p10": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P10"
+     },
+     "p25": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P25"
+     },
+     "p50": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P50"
+     },
+     "p75": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P75"
+     },
+     "p90": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P90"
+     }
+    },
+    "required": [
+     "month"
+    ],
+    "title": "MonthNormal",
+    "type": "object"
+   },
+   "MonthValue": {
+    "properties": {
+     "anomaly": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Anomaly"
+     },
+     "month": {
+      "title": "Month",
+      "type": "string"
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value"
+     },
+     "z": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Z"
+     }
+    },
+    "required": [
+     "month"
+    ],
+    "title": "MonthValue",
+    "type": "object"
+   },
+   "MonthlyClasses": {
+    "properties": {
+     "anomaly": {
+      "default": [],
+      "items": {
+       "type": "number"
+      },
+      "title": "Anomaly",
+      "type": "array"
+     },
+     "value": {
+      "default": [],
+      "items": {
+       "type": "number"
+      },
+      "title": "Value",
+      "type": "array"
+     }
+    },
+    "title": "MonthlyClasses",
+    "type": "object"
+   },
+   "NotableYear": {
+    "properties": {
+     "factors": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Factors",
+      "type": "array"
+     },
+     "text": {
+      "title": "Text",
+      "type": "string"
+     },
+     "year": {
+      "title": "Year",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "year",
+     "factors",
+     "text"
+    ],
+    "title": "NotableYear",
+    "type": "object"
+   },
+   "OtherCheck": {
+    "additionalProperties": true,
+    "properties": {
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "text": {
+      "title": "Text",
+      "type": "string"
+     },
+     "url": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Url"
+     }
+    },
+    "required": [
+     "label",
+     "text"
+    ],
+    "title": "OtherCheck",
+    "type": "object"
+   },
+   "PatternPair": {
+    "properties": {
+     "a": {
+      "title": "A",
+      "type": "string"
+     },
+     "b": {
+      "title": "B",
+      "type": "string"
+     },
+     "months": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "title": "Months",
+      "type": "array"
+     }
+    },
+    "required": [
+     "a",
+     "b",
+     "months"
+    ],
+    "title": "PatternPair",
+    "type": "object"
+   },
+   "Patterns": {
+    "additionalProperties": true,
+    "properties": {
+     "complete": {
+      "default": true,
+      "title": "Complete",
+      "type": "boolean"
+     },
+     "compound": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "title": "Compound",
+      "type": "array"
+     },
+     "labels": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "default": {},
+      "title": "Labels",
+      "type": "object"
+     },
+     "period": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "integer"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Period"
+     },
+     "place": {
+      "additionalProperties": true,
+      "title": "Place",
+      "type": "object"
+     },
+     "relations": {
+      "items": {
+       "$ref": "#/components/schemas/Relation"
+      },
+      "title": "Relations",
+      "type": "array"
+     },
+     "relations_tested": {
+      "title": "Relations Tested",
+      "type": "integer"
+     },
+     "units": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "default": {},
+      "title": "Units",
+      "type": "object"
+     },
+     "warnings": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "title": "Warnings",
+      "type": "array"
+     },
+     "winters": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Winters"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "required": [
+     "place",
+     "relations",
+     "relations_tested",
+     "warnings",
+     "compound"
+    ],
+    "title": "Patterns",
+    "type": "object"
+   },
+   "Place": {
+    "properties": {
+     "lat": {
+      "title": "Lat",
+      "type": "number"
+     },
+     "lon": {
+      "title": "Lon",
+      "type": "number"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     }
+    },
+    "required": [
+     "name",
+     "lat",
+     "lon"
+    ],
+    "title": "Place",
+    "type": "object"
+   },
+   "RegionInfo": {
+    "properties": {
+     "bbox": {
+      "items": {
+       "type": "number"
+      },
+      "title": "Bbox",
+      "type": "array"
+     },
+     "code": {
+      "title": "Code",
+      "type": "string"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     }
+    },
+    "required": [
+     "code",
+     "name",
+     "bbox"
+    ],
+    "title": "RegionInfo",
+    "type": "object"
+   },
+   "RegionList": {
+    "properties": {
+     "periods": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Periods",
+      "type": "array"
+     },
+     "regions": {
+      "items": {
+       "$ref": "#/components/schemas/RegionInfo"
+      },
+      "title": "Regions",
+      "type": "array"
+     },
+     "variables": {
+      "items": {
+       "$ref": "#/components/schemas/RegionVariable"
+      },
+      "title": "Variables",
+      "type": "array"
+     }
+    },
+    "required": [
+     "regions",
+     "variables",
+     "periods"
+    ],
+    "title": "RegionList",
+    "type": "object"
+   },
+   "RegionOutline": {
+    "properties": {
+     "bbox": {
+      "items": {
+       "type": "number"
+      },
+      "title": "Bbox",
+      "type": "array"
+     },
+     "code": {
+      "title": "Code",
+      "type": "string"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     },
+     "rings": {
+      "items": {
+       "items": {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       },
+       "type": "array"
+      },
+      "title": "Rings",
+      "type": "array"
+     }
+    },
+    "required": [
+     "code",
+     "name",
+     "bbox",
+     "rings"
+    ],
+    "title": "RegionOutline",
+    "type": "object"
+   },
+   "RegionRef": {
+    "properties": {
+     "bbox": {
+      "items": {
+       "type": "number"
+      },
+      "title": "Bbox",
+      "type": "array"
+     },
+     "code": {
+      "title": "Code",
+      "type": "string"
+     },
+     "kind": {
+      "const": "state",
+      "title": "Kind",
+      "type": "string"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     }
+    },
+    "required": [
+     "code",
+     "name",
+     "bbox",
+     "kind"
+    ],
+    "title": "RegionRef",
+    "type": "object"
+   },
+   "RegionSeries": {
+    "additionalProperties": true,
+    "properties": {
+     "factor": {
+      "$ref": "#/components/schemas/Factor"
+     },
+     "first_year_available": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "First Year Available"
+     },
+     "period_years": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Period Years"
+     },
+     "region": {
+      "$ref": "#/components/schemas/RegionRef"
+     },
+     "variable": {
+      "title": "Variable",
+      "type": "string"
+     }
+    },
+    "required": [
+     "region",
+     "variable",
+     "factor"
+    ],
+    "title": "RegionSeries",
+    "type": "object"
+   },
+   "RegionVariable": {
+    "properties": {
+     "definition": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Definition"
+     },
+     "first_year": {
+      "title": "First Year",
+      "type": "integer"
+     },
+     "key": {
+      "title": "Key",
+      "type": "string"
+     },
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "unit": {
+      "title": "Unit",
+      "type": "string"
+     }
+    },
+    "required": [
+     "key",
+     "label",
+     "unit",
+     "first_year"
+    ],
+    "title": "RegionVariable",
+    "type": "object"
+   },
+   "Relation": {
+    "properties": {
+     "a": {
+      "title": "A",
+      "type": "string"
+     },
+     "b": {
+      "title": "B",
+      "type": "string"
+     },
+     "clear": {
+      "title": "Clear",
+      "type": "boolean"
+     },
+     "lag": {
+      "title": "Lag",
+      "type": "integer"
+     },
+     "lead_hits": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lead Hits"
+     },
+     "n": {
+      "title": "N",
+      "type": "integer"
+     },
+     "p": {
+      "title": "P",
+      "type": "number"
+     },
+     "q": {
+      "title": "Q",
+      "type": "number"
+     },
+     "r": {
+      "title": "R",
+      "type": "number"
+     },
+     "same_source": {
+      "default": false,
+      "title": "Same Source",
+      "type": "boolean"
+     },
+     "sentence": {
+      "title": "Sentence",
+      "type": "string"
+     }
+    },
+    "required": [
+     "a",
+     "b",
+     "lag",
+     "r",
+     "p",
+     "q",
+     "n",
+     "clear",
+     "sentence"
+    ],
+    "title": "Relation",
+    "type": "object"
+   },
+   "Report": {
+    "additionalProperties": true,
+    "properties": {
+     "actions": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/Action"
+      },
+      "title": "Actions",
+      "type": "array"
+     },
+     "card_order": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Card Order",
+      "type": "array"
+     },
+     "data_quality": {
+      "additionalProperties": true,
+      "default": {},
+      "title": "Data Quality",
+      "type": "object"
+     },
+     "data_status": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "default": {},
+      "title": "Data Status",
+      "type": "object"
+     },
+     "factors": {
+      "additionalProperties": {
+       "$ref": "#/components/schemas/Factor"
+      },
+      "title": "Factors",
+      "type": "object"
+     },
+     "location": {
+      "$ref": "#/components/schemas/Location"
+     },
+     "not_good_for": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/GroupNote"
+      },
+      "title": "Not Good For",
+      "type": "array"
+     },
+     "notable_years": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/NotableYear"
+      },
+      "title": "Notable Years",
+      "type": "array"
+     },
+     "other_checks": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/OtherCheck"
+      },
+      "title": "Other Checks",
+      "type": "array"
+     },
+     "overall": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Overall"
+     },
+     "overall_drivers": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Overall Drivers",
+      "type": "array"
+     },
+     "period": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Period",
+      "type": "array"
+     },
+     "thresholds_version": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Thresholds Version"
+     },
+     "user": {
+      "$ref": "#/components/schemas/UserProfile"
+     },
+     "verdict_rule": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Verdict Rule"
+     },
+     "worsening_factors": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Worsening Factors",
+      "type": "array"
+     }
+    },
+    "required": [
+     "location",
+     "user",
+     "period",
+     "factors"
+    ],
+    "title": "Report",
+    "type": "object"
+   },
+   "ReportRequest": {
+    "additionalProperties": false,
+    "description": "POST /reports: the point, the period and the household. The household rides in the body so it is never in a URL\nor an access log (D38). Keys are from data_pipeline/config/conditions.json; the service checks them.",
+    "properties": {
+     "age_groups": {
+      "default": [
+       "18_64"
+      ],
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "title": "Age Groups",
+      "type": "array"
+     },
+     "conditions": {
+      "default": [
+       "none"
+      ],
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 10,
+      "minItems": 1,
+      "title": "Conditions",
+      "type": "array"
+     },
+     "end": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "End"
+     },
+     "lat": {
+      "maximum": 72.0,
+      "minimum": 18.0,
+      "title": "Lat",
+      "type": "number"
+     },
+     "lon": {
+      "maximum": -65.0,
+      "minimum": -180.0,
+      "title": "Lon",
+      "type": "number"
+     },
+     "period": {
+      "default": 25,
+      "title": "Period",
+      "type": "integer"
+     },
+     "start": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Start"
+     }
+    },
+    "required": [
+     "lat",
+     "lon"
+    ],
+    "title": "ReportRequest",
+    "type": "object"
+   },
+   "Seasonal": {
+    "properties": {
+     "anomaly_test": {
+      "$ref": "#/components/schemas/AnomalyTest"
+     },
+     "months": {
+      "items": {
+       "$ref": "#/components/schemas/SeasonalTrend"
+      },
+      "title": "Months",
+      "type": "array"
+     },
+     "normals": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/MonthNormal"
+      },
+      "title": "Normals",
+      "type": "array"
+     },
+     "overall": {
+      "$ref": "#/components/schemas/SeasonalOverall"
+     },
+     "season_agg": {
+      "enum": [
+       "sum",
+       "mean",
+       "max"
+      ],
+      "title": "Season Agg",
+      "type": "string"
+     },
+     "seasons": {
+      "items": {
+       "$ref": "#/components/schemas/SeasonalTrend"
+      },
+      "title": "Seasons",
+      "type": "array"
+     },
+     "years_needed": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/YearsNeeded"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "required": [
+     "overall",
+     "seasons",
+     "months",
+     "anomaly_test",
+     "season_agg"
+    ],
+    "title": "Seasonal",
+    "type": "object"
+   },
+   "SeasonalOverall": {
+    "properties": {
+     "clear": {
+      "title": "Clear",
+      "type": "boolean"
+     },
+     "method": {
+      "title": "Method",
+      "type": "string"
+     },
+     "n_years": {
+      "title": "N Years",
+      "type": "integer"
+     },
+     "p": {
+      "title": "P",
+      "type": "number"
+     },
+     "p_label": {
+      "title": "P Label",
+      "type": "string"
+     },
+     "slope_per_decade": {
+      "title": "Slope Per Decade",
+      "type": "number"
+     },
+     "slope_per_year": {
+      "title": "Slope Per Year",
+      "type": "number"
+     }
+    },
+    "required": [
+     "slope_per_year",
+     "slope_per_decade",
+     "p",
+     "p_label",
+     "clear",
+     "n_years",
+     "method"
+    ],
+    "title": "SeasonalOverall",
+    "type": "object"
+   },
+   "SeasonalTrend": {
+    "properties": {
+     "available": {
+      "title": "Available",
+      "type": "boolean"
+     },
+     "clear": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Clear"
+     },
+     "n_years": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "N Years"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     },
+     "p": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P"
+     },
+     "q": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Q"
+     },
+     "slope_per_decade": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Slope Per Decade"
+     }
+    },
+    "required": [
+     "name",
+     "available"
+    ],
+    "title": "SeasonalTrend",
+    "type": "object"
+   },
+   "SourceLink": {
+    "additionalProperties": true,
+    "properties": {
+     "name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Name"
+     },
+     "url": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Url"
+     }
+    },
+    "title": "SourceLink",
+    "type": "object"
+   },
+   "Story": {
+    "additionalProperties": true,
+    "properties": {
+     "happened": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Happened"
+     },
+     "is_it_real": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Is It Real"
+     },
+     "what_it_likely_means": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "What It Likely Means"
+     },
+     "why_it_matters": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Why It Matters"
+     }
+    },
+    "title": "Story",
+    "type": "object"
+   },
+   "Strongest": {
+    "additionalProperties": true,
+    "properties": {
+     "lat": {
+      "title": "Lat",
+      "type": "number"
+     },
+     "lon": {
+      "title": "Lon",
+      "type": "number"
+     },
+     "slope_per_decade": {
+      "title": "Slope Per Decade",
+      "type": "number"
+     },
+     "where": {
+      "title": "Where",
+      "type": "string"
+     }
+    },
+    "required": [
+     "lat",
+     "lon",
+     "slope_per_decade",
+     "where"
+    ],
+    "title": "Strongest",
+    "type": "object"
+   },
+   "Suggestion": {
+    "properties": {
+     "extent": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Extent"
+     },
+     "kind": {
+      "title": "Kind",
+      "type": "string"
+     },
+     "lat": {
+      "title": "Lat",
+      "type": "number"
+     },
+     "lon": {
+      "title": "Lon",
+      "type": "number"
+     },
+     "main": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Main"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     },
+     "region": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Region"
+     },
+     "secondary": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Secondary"
+     }
+    },
+    "required": [
+     "name",
+     "lat",
+     "lon",
+     "kind"
+    ],
+    "title": "Suggestion",
+    "type": "object"
+   },
+   "Timeline": {
+    "additionalProperties": true,
+    "properties": {
+     "decades": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/Decade"
+      },
+      "title": "Decades",
+      "type": "array"
+     },
+     "highlights": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Highlights"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "rolling_5yr": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/YearValue"
+      },
+      "title": "Rolling 5Yr",
+      "type": "array"
+     },
+     "unusual_years": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/YearValue"
+      },
+      "title": "Unusual Years",
+      "type": "array"
+     }
+    },
+    "title": "Timeline",
+    "type": "object"
+   },
+   "TrendField": {
+    "additionalProperties": true,
+    "properties": {
+     "alpha": {
+      "title": "Alpha",
+      "type": "number"
+     },
+     "alpha_fdr": {
+      "title": "Alpha Fdr",
+      "type": "number"
+     },
+     "breaks": {
+      "items": {
+       "type": "number"
+      },
+      "title": "Breaks",
+      "type": "array"
+     },
+     "factor": {
+      "enum": [
+       "pm25",
+       "no2",
+       "fires",
+       "smoke_days",
+       "aod"
+      ],
+      "title": "Factor",
+      "type": "string"
+     },
+     "fdr": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Fdr",
+      "type": "array"
+     },
+     "grid": {
+      "$ref": "#/components/schemas/Grid"
+     },
+     "higher_is_worse": {
+      "default": true,
+      "title": "Higher Is Worse",
+      "type": "boolean"
+     },
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "level_breaks": {
+      "default": [],
+      "items": {
+       "type": "number"
+      },
+      "title": "Level Breaks",
+      "type": "array"
+     },
+     "now": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "title": "Now",
+      "type": "array"
+     },
+     "now_years": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Now Years",
+      "type": "array"
+     },
+     "p": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "title": "P",
+      "type": "array"
+     },
+     "period": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Period",
+      "type": "array"
+     },
+     "sig": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Sig",
+      "type": "array"
+     },
+     "slope": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "title": "Slope",
+      "type": "array"
+     },
+     "source": {
+      "title": "Source",
+      "type": "string"
+     },
+     "summary": {
+      "$ref": "#/components/schemas/FieldSummary"
+     },
+     "then": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "title": "Then",
+      "type": "array"
+     },
+     "then_years": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Then Years",
+      "type": "array"
+     },
+     "unit": {
+      "title": "Unit",
+      "type": "string"
+     }
+    },
+    "required": [
+     "factor",
+     "label",
+     "unit",
+     "period",
+     "then_years",
+     "now_years",
+     "grid",
+     "breaks",
+     "alpha",
+     "alpha_fdr",
+     "slope",
+     "p",
+     "then",
+     "now",
+     "sig",
+     "fdr",
+     "summary",
+     "source"
+    ],
+    "title": "TrendField",
+    "type": "object"
+   },
+   "TrendPoint": {
+    "properties": {
+     "hi95": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hi95"
+     },
+     "lo95": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lo95"
+     },
+     "trend": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Trend"
+     },
+     "year": {
+      "title": "Year",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "year"
+    ],
+    "title": "TrendPoint",
+    "type": "object"
+   },
+   "UserProfile": {
+    "additionalProperties": true,
+    "properties": {
+     "age_group_labels": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Age Group Labels",
+      "type": "array"
+     },
+     "age_groups": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Age Groups",
+      "type": "array"
+     },
+     "condition_labels": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Condition Labels",
+      "type": "array"
+     },
+     "conditions": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Conditions",
+      "type": "array"
+     }
+    },
+    "title": "UserProfile",
+    "type": "object"
+   },
+   "ValidationError": {
+    "properties": {
+     "ctx": {
+      "title": "Context",
+      "type": "object"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "title": "Location",
+      "type": "array"
+     },
+     "msg": {
+      "title": "Message",
+      "type": "string"
+     },
+     "type": {
+      "title": "Error Type",
+      "type": "string"
+     }
+    },
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError",
+    "type": "object"
+   },
+   "WeekBlock": {
+    "properties": {
+     "end": {
+      "title": "End",
+      "type": "string"
+     },
+     "p10": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P10"
+     },
+     "p25": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P25"
+     },
+     "p50": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P50"
+     },
+     "p75": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P75"
+     },
+     "p90": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P90"
+     },
+     "start": {
+      "title": "Start",
+      "type": "string"
+     },
+     "unusual": {
+      "anyOf": [
+       {
+        "enum": [
+         "high",
+         "low"
+        ],
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unusual"
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value"
+     },
+     "week": {
+      "title": "Week",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "week",
+     "start",
+     "end"
+    ],
+    "title": "WeekBlock",
+    "type": "object"
+   },
+   "Weekly": {
+    "properties": {
+     "about": {
+      "title": "About",
+      "type": "string"
+     },
+     "blocks": {
+      "items": {
+       "$ref": "#/components/schemas/WeekBlock"
+      },
+      "title": "Blocks",
+      "type": "array"
+     },
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "location": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "title": "Location",
+      "type": "object"
+     },
+     "period": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Period",
+      "type": "array"
+     },
+     "source": {
+      "title": "Source",
+      "type": "string"
+     },
+     "unit": {
+      "title": "Unit",
+      "type": "string"
+     },
+     "variable": {
+      "title": "Variable",
+      "type": "string"
+     },
+     "year": {
+      "title": "Year",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "variable",
+     "label",
+     "unit",
+     "about",
+     "year",
+     "period",
+     "location",
+     "source",
+     "blocks"
+    ],
+    "title": "Weekly",
+    "type": "object"
+   },
+   "Winter": {
+    "additionalProperties": true,
+    "properties": {
+     "index": {
+      "title": "Index",
+      "type": "number"
+     },
+     "phase": {
+      "title": "Phase",
+      "type": "string"
+     },
+     "year": {
+      "title": "Year",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "year",
+     "phase",
+     "index"
+    ],
+    "title": "Winter",
+    "type": "object"
+   },
+   "WinterPhase": {
+    "additionalProperties": true,
+    "properties": {
+     "above": {
+      "title": "Above",
+      "type": "integer"
+     },
+     "below": {
+      "title": "Below",
+      "type": "integer"
+     },
+     "clear": {
+      "title": "Clear",
+      "type": "boolean"
+     },
+     "diff": {
+      "title": "Diff",
+      "type": "number"
+     },
+     "n": {
+      "title": "N",
+      "type": "integer"
+     },
+     "p": {
+      "title": "P",
+      "type": "number"
+     },
+     "phase": {
+      "title": "Phase",
+      "type": "string"
+     },
+     "q": {
+      "title": "Q",
+      "type": "number"
+     },
+     "sentence": {
+      "title": "Sentence",
+      "type": "string"
+     }
+    },
+    "required": [
+     "phase",
+     "n",
+     "above",
+     "below",
+     "diff",
+     "p",
+     "q",
+     "clear",
+     "sentence"
+    ],
+    "title": "WinterPhase",
+    "type": "object"
+   },
+   "WinterRecord": {
+    "additionalProperties": true,
+    "properties": {
+     "key": {
+      "title": "Key",
+      "type": "string"
+     },
+     "label": {
+      "title": "Label",
+      "type": "string"
+     },
+     "phases": {
+      "items": {
+       "$ref": "#/components/schemas/WinterPhase"
+      },
+      "title": "Phases",
+      "type": "array"
+     },
+     "unit": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unit"
+     },
+     "values": {
+      "items": {
+       "$ref": "#/components/schemas/WinterValue"
+      },
+      "title": "Values",
+      "type": "array"
+     }
+    },
+    "required": [
+     "key",
+     "label",
+     "values",
+     "phases"
+    ],
+    "title": "WinterRecord",
+    "type": "object"
+   },
+   "WinterValue": {
+    "additionalProperties": true,
+    "properties": {
+     "phase": {
+      "title": "Phase",
+      "type": "string"
+     },
+     "value": {
+      "title": "Value",
+      "type": "number"
+     },
+     "year": {
+      "title": "Year",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "year",
+     "phase",
+     "value"
+    ],
+    "title": "WinterValue",
+    "type": "object"
+   },
+   "Winters": {
+    "additionalProperties": true,
+    "description": "El Nino and La Nina winters (round 4, D42): how a place's records sat in each phase's winters against the other\nwinters, detrended, 2001-2025. Describes the past; not a seasonal outlook.",
+    "properties": {
+     "edge": {
+      "title": "Edge",
+      "type": "number"
+     },
+     "first": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "First"
+     },
+     "index": {
+      "title": "Index",
+      "type": "string"
+     },
+     "last": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Last"
+     },
+     "records": {
+      "items": {
+       "$ref": "#/components/schemas/WinterRecord"
+      },
+      "title": "Records",
+      "type": "array"
+     },
+     "tested": {
+      "title": "Tested",
+      "type": "integer"
+     },
+     "winters": {
+      "items": {
+       "$ref": "#/components/schemas/Winter"
+      },
+      "title": "Winters",
+      "type": "array"
+     }
+    },
+    "required": [
+     "index",
+     "edge",
+     "winters",
+     "records",
+     "tested"
+    ],
+    "title": "Winters",
+    "type": "object"
+   },
+   "YearValue": {
+    "properties": {
+     "value": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value"
+     },
+     "year": {
+      "title": "Year",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "year"
+    ],
+    "title": "YearValue",
+    "type": "object"
+   },
+   "YearsNeeded": {
+    "properties": {
+     "even_odds": {
+      "title": "Even Odds",
+      "type": "integer"
+     },
+     "likely": {
+      "title": "Likely",
+      "type": "integer"
+     },
+     "phi": {
+      "title": "Phi",
+      "type": "number"
+     },
+     "sigma": {
+      "title": "Sigma",
+      "type": "number"
+     }
+    },
+    "required": [
+     "even_odds",
+     "likely",
+     "sigma",
+     "phi"
+    ],
+    "title": "YearsNeeded",
+    "type": "object"
+   }
+  }
+ },
+ "info": {
+  "title": "Climatch API",
+  "version": "1.0.0"
+ },
+ "openapi": "3.1.0",
+ "paths": {
+  "/api/v1/demos": {
+   "get": {
+    "description": "The demo cities and their household presets.",
+    "operationId": "demos_api_v1_demos_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/Demo"
+         },
+         "title": "Response Demos Api V1 Demos Get",
+         "type": "array"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Demos",
+    "tags": [
+     "meta"
+    ]
+   }
+  },
+  "/api/v1/events": {
+   "get": {
+    "description": "Curated, sourced US events (smoke, heat, cold, rain, drought, fire) for a state or the state of a point.",
+    "operationId": "events_api_v1_events_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "region",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 2,
+         "minLength": 2,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Region"
+      }
+     },
+     {
+      "in": "query",
+      "name": "lat",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": 72,
+         "minimum": 18,
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Lat"
+      }
+     },
+     {
+      "in": "query",
+      "name": "lon",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": -65,
+         "minimum": -180,
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Lon"
+      }
+     },
+     {
+      "in": "query",
+      "name": "start",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": 2100,
+         "minimum": 1981,
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Start"
+      }
+     },
+     {
+      "in": "query",
+      "name": "end",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": 2100,
+         "minimum": 1981,
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "End"
+      }
+     },
+     {
+      "in": "query",
+      "name": "variable",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Variable"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/EventList"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Events",
+    "tags": [
+     "regions"
+    ]
+   }
+  },
+  "/api/v1/health": {
+   "get": {
+    "operationId": "health_api_v1_health_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Health"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Health",
+    "tags": [
+     "meta"
+    ]
+   }
+  },
+  "/api/v1/maps/{factor}": {
+   "get": {
+    "description": "Trend per NASA grid cell over the lower 48 (built by `python -m tools.trend_field`).",
+    "operationId": "trend_field_api_v1_maps__factor__get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "factor",
+      "required": true,
+      "schema": {
+       "enum": [
+        "pm25",
+        "no2",
+        "fires",
+        "smoke_days",
+        "aod"
+       ],
+       "title": "Factor",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TrendField"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Trend Field",
+    "tags": [
+     "maps"
+    ]
+   }
+  },
+  "/api/v1/maps/{factor}/frames": {
+   "get": {
+    "description": "Every grid cell's value for each year on one colour scale, so the map can play through time. Display data:\nthe trend tests are on /maps/{factor} (built by `python -m tools.map_frames`).",
+    "operationId": "map_frames_api_v1_maps__factor__frames_get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "factor",
+      "required": true,
+      "schema": {
+       "enum": [
+        "pm25",
+        "no2",
+        "fires",
+        "smoke_days",
+        "aod"
+       ],
+       "title": "Factor",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MapFrames"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Map Frames",
+    "tags": [
+     "maps"
+    ]
+   }
+  },
+  "/api/v1/patterns": {
+   "get": {
+    "description": "How a place's variables move together (with lead times), signs that its ups and downs are changing, how often\nmonths pass the old top 10%, and compound extremes (hot and dry, hot and smoky). Describes the past; no forecast.",
+    "operationId": "patterns_api_v1_patterns_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "lat",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": 72,
+         "minimum": 18,
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Lat"
+      }
+     },
+     {
+      "in": "query",
+      "name": "lon",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": -65,
+         "minimum": -180,
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Lon"
+      }
+     },
+     {
+      "in": "query",
+      "name": "region",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 2,
+         "minLength": 2,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Region"
+      }
+     },
+     {
+      "in": "query",
+      "name": "period",
+      "required": false,
+      "schema": {
+       "default": 25,
+       "title": "Period",
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Patterns"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Patterns",
+    "tags": [
+     "patterns"
+    ]
+   }
+  },
+  "/api/v1/patterns/pair": {
+   "get": {
+    "description": "The two records of one link as the test saw them (detrended calendar-month z, 3-month average), for drawing.",
+    "operationId": "pattern_pair_api_v1_patterns_pair_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "a",
+      "required": true,
+      "schema": {
+       "maxLength": 40,
+       "pattern": "^[a-z0-9_]+$",
+       "title": "A",
+       "type": "string"
+      }
+     },
+     {
+      "in": "query",
+      "name": "b",
+      "required": true,
+      "schema": {
+       "maxLength": 40,
+       "pattern": "^[a-z0-9_]+$",
+       "title": "B",
+       "type": "string"
+      }
+     },
+     {
+      "in": "query",
+      "name": "lat",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": 72,
+         "minimum": 18,
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Lat"
+      }
+     },
+     {
+      "in": "query",
+      "name": "lon",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": -65,
+         "minimum": -180,
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Lon"
+      }
+     },
+     {
+      "in": "query",
+      "name": "region",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 2,
+         "minLength": 2,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Region"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PatternPair"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Pattern Pair",
+    "tags": [
+     "patterns"
+    ]
+   }
+  },
+  "/api/v1/places/compare": {
+   "get": {
+    "description": "Every factor of 51 US cities, for comparing places in the browser: level, then and now, rate, the city's own\nMann-Kendall p and the Benjamini-Hochberg q across all cities (built by `python -m tools.compare_export`).",
+    "operationId": "compare_api_v1_places_compare_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CompareTable"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Not Found"
+     }
+    },
+    "summary": "Compare",
+    "tags": [
+     "places"
+    ]
+   }
+  },
+  "/api/v1/places/reverse": {
+   "get": {
+    "description": "The place at a spot picked on the map (Photon reverse), or a plain \"Picked spot\" when it has no name.",
+    "operationId": "reverse_api_v1_places_reverse_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "lat",
+      "required": true,
+      "schema": {
+       "maximum": 72,
+       "minimum": 18,
+       "title": "Lat",
+       "type": "number"
+      }
+     },
+     {
+      "in": "query",
+      "name": "lon",
+      "required": true,
+      "schema": {
+       "maximum": -65,
+       "minimum": -180,
+       "title": "Lon",
+       "type": "number"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Suggestion"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Reverse",
+    "tags": [
+     "places"
+    ]
+   }
+  },
+  "/api/v1/places/search": {
+   "get": {
+    "description": "Up to 5 US matches from OpenStreetMap Nominatim (1 request per second, stored).",
+    "operationId": "search_api_v1_places_search_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "q",
+      "required": true,
+      "schema": {
+       "maxLength": 200,
+       "minLength": 2,
+       "title": "Q",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/Place"
+         },
+         "title": "Response Search Api V1 Places Search Get",
+         "type": "array"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Search",
+    "tags": [
+     "places"
+    ]
+   }
+  },
+  "/api/v1/places/suggest": {
+   "get": {
+    "description": "Up to 6 US suggestions while typing (3+ characters, else an empty list), from Photon.",
+    "operationId": "suggest_api_v1_places_suggest_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "q",
+      "required": true,
+      "schema": {
+       "maxLength": 200,
+       "title": "Q",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/Suggestion"
+         },
+         "title": "Response Suggest Api V1 Places Suggest Get",
+         "type": "array"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Suggest",
+    "tags": [
+     "places"
+    ]
+   }
+  },
+  "/api/v1/regions": {
+   "get": {
+    "description": "US states (with DC and Puerto Rico), the variables a state can be averaged for, and the allowed periods.",
+    "operationId": "regions_api_v1_regions_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RegionList"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Regions",
+    "tags": [
+     "regions"
+    ]
+   }
+  },
+  "/api/v1/regions/{code}/outline": {
+   "get": {
+    "description": "A state's outline, to draw it on a map when someone picks the whole state.",
+    "operationId": "region_outline_api_v1_regions__code__outline_get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "code",
+      "required": true,
+      "schema": {
+       "title": "Code",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RegionOutline"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Region Outline",
+    "tags": [
+     "regions"
+    ]
+   }
+  },
+  "/api/v1/regions/{code}/series": {
+   "get": {
+    "description": "One variable averaged over a state, as a report card with the yearly and seasonal tests. NASA POWER weather\nis fetched live the first time (about 1-5 s), then stored.",
+    "operationId": "region_series_api_v1_regions__code__series_get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "code",
+      "required": true,
+      "schema": {
+       "title": "Code",
+       "type": "string"
+      }
+     },
+     {
+      "in": "query",
+      "name": "variable",
+      "required": false,
+      "schema": {
+       "default": "t2m",
+       "title": "Variable",
+       "type": "string"
+      }
+     },
+     {
+      "in": "query",
+      "name": "period",
+      "required": false,
+      "schema": {
+       "default": 25,
+       "title": "Period",
+       "type": "integer"
+      }
+     },
+     {
+      "in": "query",
+      "name": "start",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Start"
+      }
+     },
+     {
+      "in": "query",
+      "name": "end",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "End"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RegionSeries"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Region Series",
+    "tags": [
+     "regions"
+    ]
+   }
+  },
+  "/api/v1/reports": {
+   "get": {
+    "description": "The trend report for a US point with no household (period is 10, 15, 20 or 25 years, or any start-end of at least\n8 years within 2001-2025). Household keys in the address are ignored: send them with POST (D38).",
+    "operationId": "get_report_api_v1_reports_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "lat",
+      "required": true,
+      "schema": {
+       "maximum": 72,
+       "minimum": 18,
+       "title": "Lat",
+       "type": "number"
+      }
+     },
+     {
+      "in": "query",
+      "name": "lon",
+      "required": true,
+      "schema": {
+       "maximum": -65,
+       "minimum": -180,
+       "title": "Lon",
+       "type": "number"
+      }
+     },
+     {
+      "in": "query",
+      "name": "period",
+      "required": false,
+      "schema": {
+       "default": 25,
+       "title": "Period",
+       "type": "integer"
+      }
+     },
+     {
+      "in": "query",
+      "name": "start",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Start"
+      }
+     },
+     {
+      "in": "query",
+      "name": "end",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "End"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Report"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Get Report",
+    "tags": [
+     "reports"
+    ]
+   },
+   "post": {
+    "description": "The trend report for a US point and household, with the household in the body. Reused from the store when the\nhousehold-neutral report exists; the household only orders and flags the cards in the answer.",
+    "operationId": "post_report_api_v1_reports_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ReportRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Report"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Post Report",
+    "tags": [
+     "reports"
+    ]
+   }
+  },
+  "/api/v1/weekly": {
+   "get": {
+    "description": "One year at a US point as 52 fixed 7-day weeks from 1 January, each with its usual range (10th-90th percentile)\nover the period. A view for heat waves, cold snaps and wet weeks; not a trend test.",
+    "operationId": "weekly_api_v1_weekly_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "lat",
+      "required": true,
+      "schema": {
+       "maximum": 72,
+       "minimum": 18,
+       "title": "Lat",
+       "type": "number"
+      }
+     },
+     {
+      "in": "query",
+      "name": "lon",
+      "required": true,
+      "schema": {
+       "maximum": -65,
+       "minimum": -180,
+       "title": "Lon",
+       "type": "number"
+      }
+     },
+     {
+      "in": "query",
+      "name": "variable",
+      "required": false,
+      "schema": {
+       "default": "t2m_max",
+       "title": "Variable",
+       "type": "string"
+      }
+     },
+     {
+      "in": "query",
+      "name": "year",
+      "required": false,
+      "schema": {
+       "default": 2025,
+       "title": "Year",
+       "type": "integer"
+      }
+     },
+     {
+      "in": "query",
+      "name": "period",
+      "required": false,
+      "schema": {
+       "default": 25,
+       "title": "Period",
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Weekly"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Unprocessable Entity"
+     },
+     "502": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorOut"
+        }
+       }
+      },
+      "description": "Bad Gateway"
+     }
+    },
+    "summary": "Weekly",
+    "tags": [
+     "weekly"
+    ]
+   }
+  }
+ }
+}
