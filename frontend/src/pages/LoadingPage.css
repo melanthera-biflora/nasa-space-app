@@ -444,3 +444,49 @@
     bottom: auto;
   }
 }
+
+/* ===== Hiệu ứng thoát khi chạy xong ===== */
+.loading-page.is-leaving {
+  pointer-events: none;
+  animation: loading-out 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Kính lúp nở nhẹ ra như "mở" sang báo cáo */
+.loading-page.is-leaving .loading-lens {
+  transform: scale(1.06);
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes loading-out {
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-page.is-leaving {
+    animation: none;
+  }
+
+  .loading-page.is-leaving .loading-lens {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ===== Hiệu ứng vào từ trang Location ===== */
+/* Chỉ làm hiện nội dung, nền đổi mùa vẫn có sẵn nên không bị chớp */
+.loading-content {
+  animation: loading-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.05s both;
+}
+
+@keyframes loading-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-content {
+    animation: none;
+  }
+}

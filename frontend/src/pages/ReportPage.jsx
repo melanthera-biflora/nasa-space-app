@@ -194,7 +194,7 @@ function pickRecommendations(actions, seed) {
   return pool.slice(0, 3)
 }
 
-export default function ReportPage({ report = SAMPLE_REPORT, avatarAssets = PERSON_ASSETS }) {
+export default function ReportPage({ report = SAMPLE_REPORT, avatarAssets = PERSON_ASSETS, onHome }) {
   const [selected, setSelected] = useState('pm25')
   const [recommendationSeed] = useState(() => Math.floor(Math.random() * 4294967296))
   const recommendations = pickRecommendations(report?.actions, recommendationSeed)
@@ -211,6 +211,10 @@ export default function ReportPage({ report = SAMPLE_REPORT, avatarAssets = PERS
   const overall = STATUS[report?.overall] ? report.overall : null
   return <div className="report-page">
     <main className="report-content">
+      <button type="button" className="report-home" onClick={onHome}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+        Back to home
+      </button>
       <header className="report-heading"><h1>Your result</h1><p>{report?.location?.name || 'Your selected location'}{report?.period?.length === 2 && ` · ${report.period[0]}–${report.period[1]}`}</p></header>
       {report?._WARNING && <p className="report-demo">Demo report · Illustrative numbers for layout testing.</p>}
       <div className="report-summary">
