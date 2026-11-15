@@ -55,9 +55,11 @@ them in one of two ways.
 
 ### Option A: download the team's copy from Google Drive (recommended, about 600 MB)
 
-1. Open the team folder: **[Climatch data on Google Drive](DRIVE_LINK_HERE)**.
+1. Open the team folder: **[Climatch data on Google Drive](https://drive.google.com/drive/folders/14ufVW-LEGdij8n6UJzTwrwU3apgdAPkw?usp=sharing)**.
 2. Download `climatch-data.zip` and unzip it **into the repo root**. The zip holds the same folders as the repo
-   (`data_pipeline/data/…` and `data_pipeline/cache/…`), so the files land in the right place.
+   (`data_pipeline/data/…` and `data_pipeline/cache/…`), so the files land in the right place. Only the zip is
+   needed to run the app: the folder's `fires/`, `no2_years/` and `pm25_years/` are the raw parts the files were
+   built from.
 3. Check that these files are there, then start (or restart) the backend:
 
 | File in the repo | Size | Used for |
