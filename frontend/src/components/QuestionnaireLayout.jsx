@@ -10,7 +10,7 @@ export default function QuestionnaireLayout({ children, illustration }) {
             <h1>
               Found a great home?
               <br />
-              Don’t forget your health.
+              Forget your health.
             </h1>
 
             <p>
