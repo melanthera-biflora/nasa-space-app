@@ -8,7 +8,7 @@ export default function Footer() {
         advice.
       </p>
 
-      <p>Hackathon 2026 · [Team name]</p>
+      <p>NASA Space Challenge 2026 · SNSD</p>
     </footer>
   )
 }
