@@ -12,33 +12,128 @@
 }
 
 .health-instruction {
-  margin: 0 0 28px;
+  margin: 0 0 20px;
   color: #5f6d66;
   font-size: 13px;
   font-style: italic;
   line-height: 1.5;
 }
 
-/* Bảng 2 cột: bệnh | ai bị */
-.health-table {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  column-gap: 16px;
-  row-gap: 5px;
+/* ----- Phần của từng người ----- */
+.health-people {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.health-person {
+  min-width: 0;
+}
+
+/* Kẻ ngăn cách giữa các người */
+.health-person + .health-person {
+  padding-top: 20px;
+  border-top: 1px dashed #dfe3e1;
+}
+
+.health-person-head {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
-.health-row {
-  display: contents;
-}
-
-.health-col-title {
-  margin-bottom: 4px;
+.health-person-title {
+  margin: 0;
   color: #3a4842;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Nút "Add another person" */
+.health-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 14px 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: #6f7a74;
+  color: #ffffff;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.health-add:hover {
+  background: #59635e;
+}
+
+.health-add svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Nút "Remove" cho người thứ 2 trở đi */
+.health-remove {
+  min-height: 28px;
+  padding: 0 12px;
+  border: 1px solid #d5dad7;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #5f6d66;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.health-remove:hover {
+  border-color: #b23b3b;
+  color: #b23b3b;
+}
+
+.health-add:focus-visible,
+.health-remove:focus-visible {
+  outline: 2px solid #1754c4;
+  outline-offset: 2px;
+}
+
+/* Nhãn màu xanh: "Age group", "Your health condition" */
+.health-label {
+  margin: 0;
+  color: #1754c4;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+}
+
+.health-age {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.health-age .health-select-wrap {
+  flex: 0 1 270px;
+  min-width: 0;
+}
+
+.health-label-conditions {
+  margin-bottom: 6px;
+}
+
+.health-conditions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 /* Checkbox tròn tự vẽ */
@@ -160,9 +255,17 @@
 .health-special {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 12px 24px;
-  margin: 28px 0 22px;
+  gap: 8px 24px;
+  margin-top: 10px;
+}
+
+.health-special .health-check-label {
+  flex: 1 1 120px;
+}
+
+/* Khoảng cách trước nút Next step */
+.health-people + .health-next {
+  margin-top: 24px;
 }
 
 /* Nút Next step */
@@ -312,7 +415,7 @@
   left: 12%;
   right: 15%;
   bottom: 0;
-  height: 40%;
+  height: 240px;
   overflow: hidden;
   border-radius: 160px 160px 0 0;
   background: #8f7cdb;
@@ -440,15 +543,13 @@
 }
 
 @media (max-width: 520px) {
-  .health-table.health-table {
-    grid-template-columns: minmax(0, 1fr);
+  .health-age {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
   }
 
-  .health-col-title:nth-child(2) {
-    display: none;
-  }
-
-  .health-select-wrap {
-    margin-bottom: 10px;
+  .health-age .health-select-wrap {
+    flex-basis: auto;
   }
 }
