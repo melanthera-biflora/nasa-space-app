@@ -1,0 +1,39 @@
+#!/bin/sh
+# Blocks secrets, local-only files and big files before they reach a commit (the repo is public).
+# Enable once per clone: git config core.hooksPath .githooks
+
+staged=$(git diff --cached --name-only --diff-filter=d)
+
+blocked=$(printf '%s\n' "$staged" |
+  grep -iE '(^|/)\.env(\.[^/]*)?$|(^|/)\.claude/|^notes/|^data_pipeline/(data|cache|output)/|\.(nc|nc4|h5|he5|hdf|parquet)$|(^|/)_?netrc$|(^|/)\.netrc$' |
+  grep -viE '(^|/)\.env\.example$')
+if [ -n "$blocked" ]; then
+  echo "pre-commit: these files must never be committed:" >&2
+  printf '%s\n' "$blocked" | sed 's/^/  /' >&2
+  echo "Unstage them with: git restore --staged <path>" >&2
+  exit 1
+fi
+
+# GitHub warns at 50 MB; demo reports and images should be far smaller.
+big=$(printf '%s\n' "$staged" | while IFS= read -r f; do
+  if [ -f "$f" ]; then
+    size=$(wc -c < "$f" | tr -d ' ')
+    [ "$size" -gt 5000000 ] && echo "$f ($size bytes)"
+  fi
+done)
+if [ -n "$big" ]; then
+  echo "pre-commit: files over 5 MB (data belongs in Google Drive, not git):" >&2
+  printf '%s\n' "$big" | sed 's/^/  /' >&2
+  exit 1
+fi
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks is not installed, so staged files were not scanned for secrets. Install it (winget install gitleaks or brew install gitleaks)." >&2
+  exit 0
+fi
+# gitleaks 8.19+ has the git subcommand; older 8.x only has protect.
+if gitleaks git --help >/dev/null 2>&1; then
+  gitleaks git --staged --redact --no-banner . || exit 1
+else
+  gitleaks protect --staged --redact --no-banner || exit 1
+fi
