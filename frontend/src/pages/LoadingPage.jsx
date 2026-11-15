@@ -2,52 +2,88 @@ import { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import './LoadingPage.css'
 
-// Thời gian chạy hiệu ứng loading (mili giây). Đổi số này nếu muốn nhanh/chậm hơn.
-const DURATION = 7000
+// Thời gian chạy hết 1 vòng 4 mùa (mili giây). Đổi số này nếu muốn nhanh/chậm hơn.
+const DURATION = 8000
 
 // Các bước hiển thị trong kính lúp. "doneAt" = tiến độ (0 → 1) mà bước đó được đánh dấu xong.
 const STEPS = [
   { label: 'Loading climate data', doneAt: 0.3 },
-  { label: 'Removing normal seasonal variation', doneAt: 0.6 },
-  { label: 'Comparing with WHO / CDC limits', doneAt: 0.95 },
+  { label: 'Removing normal seasonal variation', doneAt: 0.65 },
+  { label: 'Comparing with WHO / CDC limits', doneAt: 0.97 },
 ]
 
-// Kích thước vòng tiến trình quanh kính lúp (khớp với CSS)
-const RING_SIZE = 470
-const RING_STROKE = 8
-const RING_RADIUS = (RING_SIZE - RING_STROKE) / 2
-const RING_LENGTH = 2 * Math.PI * RING_RADIUS
-
-// Vị trí cố định cho các hạt mưa và bông tuyết (cố định để giao diện không nhảy lung tung)
-const RAIN = Array.from({ length: 42 }, (_, i) => ({
-  left: (i * 37) % 100,
-  top: (i * 53) % 90,
-  length: 22 + ((i * 7) % 4) * 8,
-  delay: ((i * 13) % 20) / 10,
-}))
-
-const SNOW = [
-  { right: 26, bottom: 30, size: 22 },
-  { right: 23, bottom: 24, size: 26 },
-  { right: 20, bottom: 25, size: 22 },
-  { right: 1.5, bottom: 26, size: 28 },
-  { right: 14, bottom: 6, size: 26 },
-  { right: 9, bottom: 2, size: 20 },
-  { right: 4, bottom: 9, size: 18 },
+// 4 mùa theo thứ tự chấm sáng chạy qua
+const SEASONS = [
+  { id: 'spring', name: 'Spring', months: 'Mar – May', color: '#8fe3a8' },
+  { id: 'summer', name: 'Summer', months: 'Jun – Aug', color: '#ffd36b' },
+  { id: 'autumn', name: 'Autumn', months: 'Sep – Nov', color: '#ffa06e' },
+  { id: 'winter', name: 'Winter', months: 'Dec – Feb', color: '#a9d4ff' },
 ]
+
+// Hình vẽ biểu tượng từng mùa (khung 24×24)
+const SEASON_ICONS = {
+  spring: (
+    <>
+      <path d="M12 21v-8" />
+      <path d="M12 13c0-4 3-7 7-7 0 4-3 7-7 7z" />
+      <path d="M12 15.5c0-3.2-2.6-5.7-6.2-5.7 0 3.5 2.6 5.7 6.2 5.7z" />
+    </>
+  ),
+  summer: (
+    <>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" />
+    </>
+  ),
+  autumn: (
+    <>
+      <path d="M5 19c0-8 6-14 15-14 0 9-6 15-14 15" />
+      <path d="M5 19l8-8" />
+    </>
+  ),
+  winter: (
+    <>
+      <path d="M12 2.5v19M3.8 7.2l16.4 9.6M3.8 16.8l16.4-9.6" />
+      <path d="M9.5 4l2.5 2 2.5-2M9.5 20l2.5-2 2.5 2" />
+    </>
+  ),
+}
+
+// Kích thước vòng quỹ đạo (khớp với CSS)
+const DIAL = 640
+const CENTER = DIAL / 2
+const ORBIT_R = 290
+const ORBIT_LENGTH = 2 * Math.PI * ORBIT_R
+
+// Điểm trên vòng tròn theo góc (0° = đỉnh, quay theo chiều kim đồng hồ)
+function pointAt(deg, r = ORBIT_R) {
+  const rad = ((deg - 90) * Math.PI) / 180
+  return { x: CENTER + r * Math.cos(rad), y: CENTER + r * Math.sin(rad) }
+}
+
+const clamp = (v) => Math.min(1, Math.max(0, v))
+
+// Vị trí cố định cho hạt hiệu ứng. "y" chỉ dùng khi máy tắt hiệu ứng chuyển động.
+const makeParticles = (count, seed) =>
+  Array.from({ length: count }, (_, i) => ({
+    left: (i * 37 + seed) % 100,
+    y: (i * 53 + seed) % 88,
+    size: 0.7 + ((i * 7 + seed) % 5) * 0.15,
+    duration: 6 + ((i * 11 + seed) % 7) * 0.8,
+    delay: -(((i * 29 + seed) % 97) / 10),
+  }))
+
+const PARTICLES = {
+  spring: makeParticles(18, 3),
+  summer: makeParticles(16, 11),
+  autumn: makeParticles(18, 19),
+  winter: makeParticles(32, 27),
+}
 
 function CheckIcon() {
   return (
     <svg viewBox="0 0 16 16" aria-hidden="true">
       <path d="M4.5 8.2l2.3 2.3 4.7-5" />
-    </svg>
-  )
-}
-
-function Snowflake({ size }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M12 2l-2.5 2.5M12 2l2.5 2.5M12 22l-2.5-2.5M12 22l2.5-2.5" />
     </svg>
   )
 }
@@ -65,82 +101,119 @@ export default function LoadingPage({ location = 'Phoenix, Arizona', onComplete 
         clearInterval(timer)
         if (onComplete) onComplete()
       }
-    }, 100)
+    }, 50)
     return () => clearInterval(timer)
   }, [onComplete])
 
+  // t chạy từ 0 → 4 (mỗi đơn vị là 1 mùa)
+  const t = progress * 4
+  const seasonIndex = Math.min(3, Math.floor(t))
+  const season = SEASONS[seasonIndex]
+
+  // Độ hiện của nền từng mùa: mùa sau hiện dần lên phủ mùa trước
+  const layerOpacity = SEASONS.map((_, i) => (i === 0 ? 1 : clamp((t - i + 0.25) / 0.5)))
+  // Độ hiện của hiệu ứng thời tiết từng mùa
+  const weatherOpacity = layerOpacity.map((o, i) => o * (1 - (layerOpacity[i + 1] ?? 0)))
+
+  const marker = pointAt(progress * 360)
   const currentStep = STEPS.findIndex((step) => progress < step.doneAt)
 
   return (
     <div className="loading-page">
-      {/* Nền trang trí: mưa, nắng, tuyết, đất nứt */}
+      {/* Nền đổi màu theo mùa */}
       <div className="loading-scene" aria-hidden="true">
-        <div className="loading-cloud loading-cloud-1" />
-        <div className="loading-cloud loading-cloud-2" />
-        <div className="loading-rain">
-          {RAIN.map((drop, i) => (
-            <span
-              key={i}
-              style={{
-                left: `${drop.left}%`,
-                top: `${drop.top}%`,
-                height: `${drop.length}px`,
-                animationDelay: `${drop.delay}s`,
-              }}
-            />
-          ))}
-        </div>
-        <div className="loading-sun" />
-        <svg className="loading-cracks" viewBox="0 0 600 260" preserveAspectRatio="none">
-          <path d="M0 60 L80 90 L120 70 L190 120 L260 100 L330 150 L420 130 L520 190 L600 170" />
-          <path d="M80 90 L95 160 L60 230 M190 120 L170 200 L210 260 M330 150 L350 220 M420 130 L460 60 M120 70 L140 10" />
-          <path d="M0 150 L60 230 L130 210 L170 200 L260 240 L350 220 L440 250" />
-        </svg>
-        <div className="loading-snow">
-          {SNOW.map((flake, i) => (
-            <span key={i} style={{ right: `${flake.right}%`, bottom: `${flake.bottom}%` }}>
-              <Snowflake size={flake.size} />
-            </span>
-          ))}
-        </div>
+        {SEASONS.map((s, i) => (
+          <div
+            key={s.id}
+            className={`loading-season-bg is-${s.id}`}
+            style={{ opacity: layerOpacity[i] }}
+          />
+        ))}
+
+        {/* Hiệu ứng thời tiết theo mùa */}
+        {SEASONS.map((s, i) => (
+          <div
+            key={s.id}
+            className={`loading-weather is-${s.id}`}
+            style={{ opacity: weatherOpacity[i] }}
+          >
+            {s.id === 'summer' && <div className="loading-summer-sun" />}
+            {PARTICLES[s.id].map((p, j) => (
+              <span
+                key={j}
+                style={{
+                  left: `${p.left}%`,
+                  '--y': `${p.y}%`,
+                  '--s': p.size,
+                  animationDuration: `${p.duration}s`,
+                  animationDelay: `${p.delay}s`,
+                }}
+              />
+            ))}
+          </div>
+        ))}
+
+        <div className="loading-hill loading-hill-back" />
+        <div className="loading-hill loading-hill-front" />
       </div>
 
       <main className="loading-content">
-        {/* Kính lúp */}
-        <div className="loading-magnifier">
-          <div className="loading-handle" aria-hidden="true" />
+        <div className="loading-dial">
+          {/* Quỹ đạo 4 mùa: thay cho vòng tiến trình */}
+          <svg className="loading-orbit" viewBox={`0 0 ${DIAL} ${DIAL}`} aria-hidden="true">
+            {/* 12 chấm nhỏ = 12 tháng */}
+            {Array.from({ length: 12 }, (_, i) => {
+              const p = pointAt(i * 30)
+              return <circle key={i} className="loading-month" cx={p.x} cy={p.y} r="2.5" />
+            })}
 
-          <svg
-            className="loading-ring"
-            width={RING_SIZE}
-            height={RING_SIZE}
-            viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`}
-            aria-hidden="true"
-          >
+            <circle className="loading-track" cx={CENTER} cy={CENTER} r={ORBIT_R} />
             <circle
-              cx={RING_SIZE / 2}
-              cy={RING_SIZE / 2}
-              r={RING_RADIUS}
-              strokeWidth={RING_STROKE}
-              strokeDasharray={RING_LENGTH}
-              strokeDashoffset={RING_LENGTH * (1 - progress)}
+              className="loading-trail"
+              cx={CENTER}
+              cy={CENTER}
+              r={ORBIT_R}
+              stroke={season.color}
+              strokeDasharray={ORBIT_LENGTH}
+              strokeDashoffset={ORBIT_LENGTH * (1 - progress)}
+              transform={`rotate(-90 ${CENTER} ${CENTER})`}
             />
+
+            {/* Chấm sáng chạy quanh vòng (vẽ trước để đi phía sau biểu tượng mùa) */}
+            <g className="loading-marker" style={{ '--c': season.color }}>
+              <circle cx={marker.x} cy={marker.y} r="16" className="loading-marker-glow" />
+              <circle cx={marker.x} cy={marker.y} r="9" className="loading-marker-core" />
+            </g>
+
+            {/* Biểu tượng 4 mùa, đặt giữa mỗi phần tư vòng */}
+            {SEASONS.map((s, i) => {
+              const p = pointAt(i * 90 + 45)
+              const active = i === seasonIndex
+              const passed = i < seasonIndex
+              return (
+                <g key={s.id} transform={`translate(${p.x} ${p.y})`}>
+                  <g
+                    className={`loading-badge ${active ? 'is-active' : ''} ${passed ? 'is-passed' : ''}`}
+                    style={{ '--c': s.color }}
+                  >
+                    <circle r="30" />
+                    <g transform="translate(-12 -12)" className="loading-badge-icon">
+                      {SEASON_ICONS[s.id]}
+                    </g>
+                  </g>
+                </g>
+              )
+            })}
           </svg>
 
           <section className="loading-lens" aria-live="polite">
             <p className="loading-eyebrow">Analyzing</p>
             <h1 className="loading-title">{location}</h1>
 
-            <div
-              className="loading-bar"
-              role="progressbar"
-              aria-label="Analysis progress"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={Math.round(progress * 100)}
-            >
-              <div className="loading-bar-fill" style={{ width: `${progress * 100}%` }} />
-            </div>
+            <p className="loading-season" style={{ '--c': season.color }}>
+              <span className="loading-season-dot" />
+              {season.name} · {season.months}
+            </p>
 
             <ul className="loading-steps">
               {STEPS.map((step, i) => {
@@ -158,7 +231,17 @@ export default function LoadingPage({ location = 'Phoenix, Arizona', onComplete 
               })}
             </ul>
 
-            <p className="loading-note">This usually takes 5–10 seconds.</p>
+            <p className="loading-note">Reviewing a full year of climate data…</p>
+
+            {/* Thông báo tiến độ cho trình đọc màn hình */}
+            <span
+              className="loading-sr-only"
+              role="progressbar"
+              aria-label="Analysis progress"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(progress * 100)}
+            />
           </section>
         </div>
       </main>
