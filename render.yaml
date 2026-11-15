@@ -1,0 +1,56 @@
+# Climatch on Render: the API (FastAPI) and the website (Next.js) as two web services in one region. The website
+# reaches the API over Render's private network; people only ever call the website. Steps: docs/DEPLOY.md.
+#
+# Plans: one report build peaks near 450 MB, so the API needs more than the 512 MB plans (free, starter) to serve
+# two people at once; "standard" has 2 GB. The website is light.
+
+services:
+  - type: web
+    name: climatch-api
+    runtime: python
+    region: oregon                   # closest to the Supabase database (us-west-1)
+    plan: standard
+    buildCommand: pip install -r backend/requirements-deploy.txt && python -m backend.fetch_data
+    startCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    autoDeployTrigger: commit
+    buildFilter:
+      paths:
+        - backend/**
+        - data_pipeline/**
+        - render.yaml
+      ignoredPaths:
+        - "**/*.md"
+        - data_pipeline/test/**
+        - backend/test_*.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.9
+      - key: DATABASE_URL            # the Supabase Session pooler string: pasted in Render's dashboard, never in git
+        sync: false
+
+  - type: web
+    name: climatch-web
+    runtime: node
+    region: oregon
+    plan: starter
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npx next start -p $PORT
+    healthCheckPath: /
+    autoDeployTrigger: commit
+    buildFilter:
+      paths:
+        - frontend/**
+        - render.yaml
+      ignoredPaths:
+        - "**/*.md"
+        - "frontend/src/**/*.test.js"
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.0
+      - key: API_HOSTPORT            # the API's private host:port, read by next.config.mjs at build time
+        fromService:
+          type: web
+          name: climatch-api
+          property: hostport
