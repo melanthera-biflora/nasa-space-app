@@ -1,0 +1,15 @@
+.mh { margin: 0; }
+.mh-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); }
+.mh-readout { margin: 0; min-height: 20px; font-size: var(--text-14); line-height: 20px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.mh-svg { display: block; width: 100%; height: auto; margin-top: var(--space-3); }
+.mh-axis { font-size: 12px; fill: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.mh-cell { stroke: transparent; stroke-width: 2; transition: stroke var(--dur-fast); }
+.mh-cell.is-active { stroke: var(--ink); }
+.mh-legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-3); font-size: var(--text-12); line-height: 18px; color: var(--ink-muted); }
+.mh-ramp { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 18px; height: 12px; border-radius: 3px; overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .mh-svg g { animation: appear var(--dur-slow) var(--ease-out) both; }
+}
+.mh-steps { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 2px 0; font-variant-numeric: tabular-nums; color: var(--ink); }
+.mh-steps > span { display: inline-flex; align-items: center; gap: 4px; margin-right: 4px; }
+.mh-steps i { display: inline-block; width: 18px; height: 12px; border-radius: 2px; }

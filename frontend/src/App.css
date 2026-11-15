@@ -1,23 +1,76 @@
-.preview-nav {
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--brand-deep);
+  border-bottom: 1px solid var(--on-brand-line);
+}
+
+.app-nav span {
+  color: var(--on-brand-muted);
+  font-size: var(--text-14);
+}
+
+.app-nav button {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--on-brand-line);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--on-brand);
+  font-size: var(--text-14);
+  font-weight: 500;
+}
+
+.app-nav button:hover { background: var(--on-brand-wash); }
+.app-nav :focus-visible { outline-color: var(--highlight); }
+
+.app-error button {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--text-14);
+  font-weight: 500;
+}
+
+.app-error {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+  background: var(--bg);
+  color: var(--ink);
+  text-align: center;
+}
+
+.app-error h1 {
+  margin: 0;
+  font-size: var(--text-28);
+  font-weight: 600;
+}
+
+.app-error p {
+  max-width: 520px;
+  margin: 0 auto;
+  color: var(--ink-muted);
+}
+
+.app-error div {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  padding: 12px;
-  background: #17172c;
+  gap: var(--space-2);
 }
 
-.preview-nav button {
-  padding: 10px 16px;
-  border: 1px solid #ffffff40;
-  border-radius: 8px;
-  background: transparent;
-  color: white;
-  cursor: pointer;
-}
-
-.preview-nav button[aria-pressed='true'] {
-  border-color: #c2ff4d;
-  background: #c2ff4d;
-  color: #173b30;
+.app-error button:first-child {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--surface);
 }

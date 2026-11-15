@@ -1,0 +1,327 @@
+/* ===== Loading page: the analyzing card over the changing-season scene ===== */
+.loading-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 65% 45%, rgba(110, 63, 169, 0.65), transparent 65%),
+    linear-gradient(120deg, #354b59, #302d59 65%);
+}
+
+/* ----- Background that changes with the season ----- */
+.loading-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.loading-season-bg {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.3s linear;
+}
+
+.loading-season-bg.is-spring {
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(96, 200, 150, 0.35), transparent 60%),
+    radial-gradient(ellipse at 65% 45%, rgba(110, 63, 169, 0.55), transparent 65%),
+    linear-gradient(120deg, #2f5257, #302d59 65%);
+}
+
+.loading-season-bg.is-summer {
+  background:
+    radial-gradient(ellipse at 80% 15%, rgba(255, 196, 92, 0.42), transparent 55%),
+    radial-gradient(ellipse at 40% 60%, rgba(150, 70, 160, 0.5), transparent 65%),
+    linear-gradient(120deg, #4b4a62, #3b2d5c 65%);
+}
+
+.loading-season-bg.is-autumn {
+  background:
+    radial-gradient(ellipse at 30% 75%, rgba(240, 120, 80, 0.4), transparent 60%),
+    radial-gradient(ellipse at 65% 40%, rgba(130, 60, 140, 0.55), transparent 65%),
+    linear-gradient(120deg, #4a3a52, #34284f 65%);
+}
+
+.loading-season-bg.is-winter {
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(140, 190, 255, 0.35), transparent 60%),
+    radial-gradient(ellipse at 65% 50%, rgba(90, 80, 170, 0.5), transparent 65%),
+    linear-gradient(120deg, #2e4560, #29295a 65%);
+}
+
+/* ----- Weather effects ----- */
+.loading-weather {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.3s linear;
+}
+
+.loading-weather span {
+  position: absolute;
+  top: -30px;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Spring: pink petals drifting down */
+.loading-weather.is-spring span {
+  width: calc(12px * var(--s));
+  height: calc(8px * var(--s));
+  border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, #ffe1ee, #f7a6c6);
+  opacity: 0.9;
+  animation-name: loading-petal;
+}
+
+@keyframes loading-petal {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(30px, 26vh) rotate(90deg); }
+  50% { transform: translate(-10px, 52vh) rotate(180deg); }
+  75% { transform: translate(26px, 78vh) rotate(270deg); }
+  100% { transform: translate(0, 105vh) rotate(360deg); }
+}
+
+/* Summer: the sun in the right corner and rising specks of light */
+.loading-summer-sun {
+  position: absolute;
+  top: -110px;
+  right: -60px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe7a3 0%, #ffcf6a 45%, rgba(255, 196, 92, 0) 70%);
+  animation: loading-sun-pulse 4s ease-in-out infinite;
+}
+
+@keyframes loading-sun-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.loading-weather.is-summer span {
+  top: auto;
+  bottom: -20px;
+  width: calc(6px * var(--s));
+  height: calc(6px * var(--s));
+  border-radius: 50%;
+  background: #fff1c2;
+  box-shadow: 0 0 10px 2px rgba(255, 214, 120, 0.8);
+  animation-name: loading-mote;
+}
+
+@keyframes loading-mote {
+  0% { transform: translate(0, 0); opacity: 0; }
+  20% { opacity: 0.9; }
+  100% { transform: translate(20px, -70vh); opacity: 0; }
+}
+
+/* Autumn: orange leaves spinning down */
+.loading-weather.is-autumn span {
+  width: calc(16px * var(--s));
+  height: calc(10px * var(--s));
+  border-radius: 0 100% 0 100%;
+  background: linear-gradient(135deg, #ffb36b, #d9612f);
+  opacity: 0.9;
+  animation-name: loading-leaf;
+}
+
+.loading-weather.is-autumn span:nth-child(3n) {
+  background: linear-gradient(135deg, #ffd27a, #e08a2c);
+}
+
+@keyframes loading-leaf {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  30% { transform: translate(-40px, 30vh) rotate(140deg); }
+  60% { transform: translate(20px, 62vh) rotate(260deg); }
+  100% { transform: translate(-20px, 105vh) rotate(420deg); }
+}
+
+/* Winter: snow swaying down */
+.loading-weather.is-winter span {
+  width: calc(6px * var(--s));
+  height: calc(6px * var(--s));
+  border-radius: 50%;
+  background: #f4f7ff;
+  box-shadow: 0 0 6px rgba(244, 247, 255, 0.8);
+  animation-name: loading-snow;
+}
+
+@keyframes loading-snow {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(14px, 26vh); }
+  50% { transform: translate(-10px, 52vh); }
+  75% { transform: translate(12px, 78vh); }
+  100% { transform: translate(-6px, 105vh); }
+}
+
+/* Purple hills at the bottom */
+.loading-hill {
+  position: absolute;
+  bottom: -40px;
+  border-radius: 50% 50% 0 0;
+}
+
+.loading-hill-back {
+  left: -10%;
+  width: 70%;
+  height: 180px;
+  background: #3f3577;
+  opacity: 0.75;
+}
+
+.loading-hill-front {
+  right: -12%;
+  width: 75%;
+  height: 140px;
+  background: #4b3d8a;
+  opacity: 0.8;
+}
+
+/* ----- Main content ----- */
+.loading-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+}
+
+.loading-page > footer {
+  position: relative;
+  z-index: 3;
+}
+
+/* ----- The analyzing card: frosted, solid icons, the method sketch, honest progress ----- */
+.loading-card {
+  width: min(560px, 100%);
+  padding: var(--space-6);
+  border: 1px solid var(--on-brand-line);
+  border-radius: var(--radius-panel);
+  background: rgba(24, 21, 56, 0.72);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 30px 80px rgba(10, 8, 30, 0.35);
+  color: var(--on-brand);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.loading-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.loading-eyebrow { margin: 0; font-size: var(--text-12); line-height: 16px; font-weight: 600; color: var(--on-brand-muted); }
+.loading-title { margin: var(--space-2) 0 var(--space-5); font-size: var(--text-28); line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; color: var(--on-brand); }
+
+/* Season chip: a solid colour disc with a dark icon (no see-through icons) */
+.loading-season { display: inline-flex; align-items: center; gap: var(--space-2); margin: 0; padding: 4px 12px 4px 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: var(--text-12); line-height: 20px; font-weight: 600; color: var(--on-brand); }
+.loading-season-icon { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--c); transition: background-color var(--dur-slow); }
+.loading-season-icon svg { width: 16px; height: 16px; fill: none; stroke: var(--brand-deep); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* The method sketch (components/MethodSketch.jsx) */
+.loading-sketch { margin: 0; padding: var(--space-3) var(--space-3) var(--space-2); border-radius: var(--radius-card); background: rgba(255, 255, 255, 0.06); }
+.loading-sketch figcaption { margin-top: var(--space-1); font-size: var(--text-12); line-height: 16px; color: var(--on-brand-muted); }
+.ms { display: block; width: 100%; height: auto; overflow: visible; }
+.ms-base { stroke: rgba(255, 255, 255, 0.16); stroke-dasharray: 3 5; }
+.ms-series { fill: none; stroke: var(--on-brand); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; opacity: 0.9; }
+.ms-band { fill: var(--highlight); fill-opacity: 0.18; }
+.ms-trend { stroke: var(--highlight); stroke-width: 3; stroke-linecap: round; }
+.ms-head { stroke: var(--brand-deep); stroke-width: 2; }
+.ms-end { fill: var(--highlight); stroke: var(--brand-deep); stroke-width: 2; }
+
+/* Steps: todo = a clear ring, active = a turning lime arc, done = a solid lime disc with a check */
+.loading-steps { list-style: none; margin: var(--space-5) 0 0; padding: 0; display: grid; gap: var(--space-3); }
+.loading-step { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-14); line-height: 20px; color: var(--on-brand-muted); transition: color var(--dur-base); }
+.loading-step.is-active { color: var(--on-brand); font-weight: 600; }
+.loading-step.is-done { color: var(--on-brand); }
+.loading-step-icon { position: relative; flex: 0 0 auto; display: grid; place-items: center; width: 22px; height: 22px; border: 2px solid rgba(255, 255, 255, 0.45); border-radius: 50%; }
+.loading-step.is-active .loading-step-icon { border-color: rgba(255, 255, 255, 0.25); border-top-color: var(--highlight); }
+.loading-step.is-done .loading-step-icon { border-color: var(--highlight); background: var(--highlight); }
+.loading-step-icon svg { width: 14px; height: 14px; fill: none; stroke: var(--brand-deep); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.loading-note { min-height: 40px; margin: var(--space-4) 0 0; font-size: var(--text-14); line-height: 20px; color: var(--on-brand-muted); }
+
+/* Progress: fills with the sketch; while still waiting for the backend it shimmers instead of claiming 100% */
+.loading-bar { position: relative; height: 4px; margin-top: var(--space-4); overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.14); }
+.loading-bar i { position: absolute; inset: 0; transform-origin: left; background: var(--highlight); border-radius: inherit; }
+.loading-bar.is-waiting i { background: linear-gradient(90deg, transparent, var(--highlight), transparent); background-size: 50% 100%; background-repeat: no-repeat; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .loading-card { animation: rise-in var(--dur-slow) var(--ease-out) both; }
+  .loading-step.is-active .loading-step-icon { animation: loading-spin 0.9s linear infinite; }
+  .loading-step.is-done .loading-step-icon { animation: loading-pop 300ms var(--ease-out); }
+  .loading-bar.is-waiting i { animation: loading-shimmer 1.2s ease-in-out infinite; }
+  .ms-end { animation: loading-pulse 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .loading-note { animation: appear var(--dur-base) var(--ease-out); }
+}
+@keyframes loading-spin { to { transform: rotate(360deg); } }
+@keyframes loading-pop { 0% { transform: scale(0.6); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@keyframes loading-shimmer { from { background-position: -50% 0; } to { background-position: 150% 0; } }
+@keyframes loading-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
+
+/* ----- Small screens ----- */
+@media (max-width: 720px) {
+  .loading-content { padding: var(--space-4) var(--space-4) 72px; }
+  .loading-card { padding: var(--space-5) var(--space-4); }
+  .loading-title { font-size: var(--text-20); }
+  .loading-summer-sun { width: 200px; height: 200px; top: -80px; right: -60px; }
+}
+
+/* Reduced motion: weather particles stand still; the light dot still moves to show progress */
+@media (prefers-reduced-motion: reduce) {
+  .loading-weather span,
+  .loading-summer-sun {
+    animation: none;
+  }
+
+  .loading-weather span {
+    top: var(--y);
+  }
+
+  .loading-weather.is-summer span {
+    top: var(--y);
+    bottom: auto;
+  }
+}
+
+/* ===== Exit when done ===== */
+.loading-page.is-leaving {
+  pointer-events: none;
+  animation: loading-out 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* The card opens up slightly as it hands over to the report */
+@media (prefers-reduced-motion: no-preference) {
+  .loading-page.is-leaving .loading-card { animation: loading-card-out 0.7s var(--ease-out) forwards; }
+}
+@keyframes loading-card-out { to { transform: scale(1.03); } }
+
+@keyframes loading-out {
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-page.is-leaving {
+    animation: none;
+  }
+
+}
+
+/* ===== Entrance from the location page ===== */
+/* Only the content fades in; the seasonal background is already there, so nothing flashes */
+.loading-content {
+  animation: loading-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.05s both;
+}
+
+@keyframes loading-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-content {
+    animation: none;
+  }
+}

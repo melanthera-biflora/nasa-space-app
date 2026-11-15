@@ -5,8 +5,8 @@
   gap: 16px;
   padding: 16px 5%;
   background: white;
-  color: #75847c;
-  font-size: 11px;
+  color: var(--ink-muted);
+  font-size: var(--text-12);
 }
 
 .footer p {

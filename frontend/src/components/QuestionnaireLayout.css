@@ -1,30 +1,64 @@
+/* The dusk scene from the team's first design: gradient sky, drifting glow, a few stars, the 3D house and cloud. */
 .questionnaire-app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: var(--font-body, 'Inter', sans-serif);
 }
 .questionnaire {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   flex: 1;
   padding: 44px 32px 56px;
-  background:
-    radial-gradient(ellipse at 65% 35%, rgba(111, 69, 167, 0.6), transparent 65%),
-    linear-gradient(120deg, #354b59, #302d59 70%);
+  background: var(--dusk-gradient);
 }
+/* drifting violet glow */
+.questionnaire::before {
+  content: '';
+  position: absolute;
+  inset: -25% -10% auto auto;
+  z-index: -1;
+  width: 70%;
+  height: 90%;
+  background: radial-gradient(closest-side, rgba(133, 108, 198, 0.42), transparent);
+  pointer-events: none;
+}
+/* a few stars, fading out toward the cards */
+.questionnaire::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 50% 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 18%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 22% 62%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 38% 12%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 47% 44%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 61% 8%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 73% 30%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 86% 14%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 94% 52%, rgba(255, 255, 255, 0.7), transparent);
+  -webkit-mask-image: linear-gradient(#000, transparent);
+  mask-image: linear-gradient(#000, transparent);
+  opacity: 0.6;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+}
+
 .questionnaire-container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
-/* Match the Location page hero and artwork positioning. */
 .questionnaire-hero {
   position: relative;
   isolation: isolate;
   min-height: 200px;
   display: flex;
   align-items: flex-end;
-  padding-bottom: 20px;
-  color: white;
+  padding-bottom: 24px;
+  color: var(--on-brand);
 }
 .questionnaire-hero-copy {
   position: relative;
@@ -33,32 +67,33 @@
 }
 body .questionnaire-app .questionnaire-hero h1 {
   margin: 0 0 12px;
-  font-family: var(--font-display, 'Lexend Deca', sans-serif);
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(var(--text-28), 4.5vw, var(--text-40));
   line-height: 1.2;
   font-weight: 600;
-  letter-spacing: normal;
+  letter-spacing: -0.01em;
 }
 body .questionnaire-app .questionnaire-hero .questionnaire-description {
   max-width: 460px;
   margin: 0;
-  font-family: var(--font-display, 'Lexend Deca', sans-serif);
-  font-size: 20px;
+  font-size: var(--text-20);
   line-height: 30px;
   font-weight: 400;
+  color: var(--on-brand-muted);
 }
+
+/* Art: the cloud and house float gently; the house rests on the cards' edge */
 .questionnaire-art {
   position: absolute;
   inset: 0 0 0 52%;
-  overflow: hidden;
   z-index: 1;
   pointer-events: none;
 }
 .questionnaire-cloud {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 4%;
   width: 135px;
+  filter: drop-shadow(0 12px 24px rgba(15, 10, 40, 0.35));
 }
 .questionnaire-house {
   position: absolute;
@@ -66,21 +101,28 @@ body .questionnaire-app .questionnaire-hero .questionnaire-description {
   bottom: -42px;
   width: 300px;
   max-width: 78%;
+  filter: drop-shadow(0 18px 30px rgba(15, 10, 40, 0.45));
 }
+@media (prefers-reduced-motion: no-preference) {
+  .questionnaire-cloud { animation: rise-in 0.9s var(--ease-out) 0.2s both; }   /* one ambient loop only: the house */
+  .questionnaire-house { animation: rise-in 1s var(--ease-out) 0.35s both, float 9s ease-in-out 1.4s infinite; }
+}
+
 .questionnaire-columns {
   position: relative;
   z-index: 3;
   display: grid;
   grid-template-columns: 1fr 1.08fr;
-  gap: 8px;
+  gap: var(--space-2);
   align-items: stretch;
 }
 .questionnaire-card {
   min-width: 0;
   min-height: 460px;
   padding: 30px;
-  border-radius: 22px;
-  background: white;
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgba(15, 10, 40, 0.28);
 }
 .questionnaire-card-heading {
   display: flex;
@@ -89,25 +131,23 @@ body .questionnaire-app .questionnaire-hero .questionnaire-description {
   gap: 12px;
   padding-bottom: 20px;
   margin-bottom: 18px;
-  border-bottom: 1px solid #edf0ed;
+  border-bottom: 1px solid var(--line);
 }
 body .questionnaire-app .questionnaire-card-heading h2 {
   margin: 0;
-  font-family: var(--font-form, 'Manrope', sans-serif);
-  font-size: 16px;
+  font-size: var(--text-16);
   line-height: 24px;
   font-weight: 700;
 }
 body .questionnaire-app .questionnaire-card-heading span {
-  color: #84948d;
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 13px;
+  color: var(--ink-muted);
+  font-size: var(--text-14);
   line-height: 19px;
   font-weight: 400;
   letter-spacing: 1px;
   white-space: nowrap;
 }
-/* Artwork now belongs to the header; suppress the older panel decorations. */
+/* The house and cloud live in the header; the panel's own copies stay hidden. */
 .questionnaire-app .health-illustration .health-deco {
   display: none;
 }
@@ -127,8 +167,8 @@ body .questionnaire-app .questionnaire-card-heading span {
   .questionnaire-card-heading { flex-wrap: wrap; gap: 8px; }
 }
 
-/* ===== Hiệu ứng thoát toàn trang (dùng khi sang trang không cùng layout) ===== */
-/* Chỉ làm mờ nội dung, giữ nguyên nền tím để không bị chớp khi đổi trang */
+/* ===== Whole-page exit (used when moving to a page with another layout) ===== */
+/* Fade only the content and keep the purple background, so the page change does not flash */
 .questionnaire-app.is-leaving {
   pointer-events: none;
 }
@@ -151,3 +191,7 @@ body .questionnaire-app .questionnaire-card-heading span {
     animation: none;
   }
 }
+
+/* A later step's own short heading: no art, no tall band, so the task is in view at once */
+.questionnaire-hero.is-compact { min-height: 0; padding-bottom: var(--space-4); }
+body .questionnaire-app .questionnaire-hero.is-compact h1 { font-size: var(--text-28, 28px); line-height: 1.2; }

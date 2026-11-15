@@ -1,0 +1,115 @@
+/* /patterns (SPEC A4): the link web and its list, the pair chart, and word-sized charts in the lists. */
+
+.pt-toggles { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin: 0 0 var(--space-3); font-size: var(--text-14); color: var(--ink-muted); }
+.pt-toggles label { display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; }
+.pt-toggles input { accent-color: var(--brand-9); width: 16px; height: 16px; }
+
+.pt-links { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; }
+/* El Niño and La Niña winters: three labelled lanes of winter dots around a usual winter */
+.pt-wn { list-style: none; margin: 0; padding: 0; }
+.pt-wn > li { display: grid; grid-template-columns: 11rem minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-2) var(--space-4); align-items: start; padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+.pt-wn > li.is-faint { color: var(--ink-muted); }
+.pt-wn > li.is-faint .pt-wn-dot { opacity: 0.55; }
+.pt-wn-plot { display: grid; gap: 2px; }
+.pt-wn-lane { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: center; column-gap: var(--space-2); }
+.pt-wn-lab { font-size: var(--text-12); color: var(--ink-muted); }
+.pt-wn-track { position: relative; height: 18px; border-radius: 9px; background: var(--n-2); }
+.pt-wn-track::before { content: ''; position: absolute; left: 50%; top: 2px; bottom: 2px; border-left: 1px solid var(--n-7); }
+.pt-wn-dot { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; border: 1.5px solid var(--surface); }
+.pt-wn-dot.is-el_nino { background: var(--cat-4); }
+.pt-wn-dot.is-la_nina { background: var(--cat-1); }
+.pt-wn-dot.is-neutral { background: var(--n-8); }
+.pt-wn-axis .pt-wn-track { height: auto; background: none; display: flex; justify-content: space-between; font-size: var(--text-12); color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.pt-wn-axis .pt-wn-track::before { display: none; }
+.pt-wn-text { margin: 0; padding-left: var(--space-4); font-size: var(--text-14); }
+.pt-wn-text li + li { margin-top: 4px; }
+
+@media (max-width: 760px) { .pt-links { grid-template-columns: 1fr; } }
+
+/* Web */
+.pt-web { width: 100%; max-width: 520px; height: auto; justify-self: center; overflow: visible; }
+.pt-edge { cursor: pointer; transition: opacity var(--dur-2) var(--ease-standard); }
+.pt-edge.is-dim { opacity: 0.12; }
+.pt-edge-hit { fill: none; stroke: transparent; stroke-width: 14; }
+.pt-edge-line { fill: none; stroke: var(--cat-1); stroke-linecap: round; opacity: 0.55; transition: opacity var(--dur-2) var(--ease-standard), stroke var(--dur-2) var(--ease-standard); }
+.pt-edge-line.is-opposite { stroke: var(--cat-3); stroke-dasharray: 6 5; }
+.pt-edge:hover .pt-edge-line, .pt-edge.is-on .pt-edge-line, .pt-edge.is-hot .pt-edge-line { opacity: 1; }
+.pt-edge:focus { outline: none; }
+.pt-edge:focus-visible .pt-edge-hit { stroke: var(--focus); stroke-opacity: 0.3; }
+.pt-arrow { fill: var(--n-10); }
+.pt-node circle { fill: var(--surface); stroke: var(--n-10); stroke-width: 2; transition: r var(--dur-2) var(--ease-standard), fill var(--dur-2) var(--ease-standard); }
+.pt-node text { font-size: 12.5px; fill: var(--ink); font-weight: 500; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+.pt-node { cursor: default; }
+.pt-node.is-on circle { fill: var(--brand-9); stroke: var(--brand-9); r: 9; }
+
+/* List of pairs: each row is a button, so Tab and Enter pick a pair (the web follows) */
+.pt-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; max-height: 360px; overflow-y: auto; overscroll-behavior: contain; }
+.pt-row {
+  width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 72px 56px; grid-template-areas: "pair meter r" "when when when";
+  gap: 2px var(--space-3); align-items: center; padding: var(--space-2) var(--space-3); border: 1px solid transparent;
+  border-radius: var(--radius-control); background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+  transition: background var(--dur-1) var(--ease-standard), border-color var(--dur-1) var(--ease-standard);
+}
+.pt-row:hover, .pt-row.is-hover { background: var(--surface-sunken); }
+.pt-row.is-on { background: var(--brand-2); border-color: var(--brand-6); }
+.pt-row.is-faint { color: var(--ink-muted); }
+.pt-row:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.pt-pair { grid-area: pair; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--text-14); min-width: 0; flex-wrap: wrap; }
+.pt-pair .ui-icon { color: var(--ink-muted); }
+.pt-meter { grid-area: meter; height: 6px; border-radius: 3px; background: var(--n-3); overflow: hidden; }
+.pt-meter span { display: block; height: 100%; background: var(--cat-1); border-radius: 3px; transition: width var(--dur-3) var(--ease-standard); }
+.pt-meter span.is-opposite { background: repeating-linear-gradient(90deg, var(--cat-3) 0 6px, transparent 6px 9px); }
+.pt-r { grid-area: r; font-size: var(--text-12); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-muted); }
+.pt-when { grid-area: when; font-size: var(--text-12); color: var(--ink-muted); }
+
+/* The chosen pair */
+.pt-detail { margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
+.pt-sentence { margin: 0 0 var(--space-3); max-width: 75ch; }
+.pt-q { color: var(--ink-muted); font-size: var(--text-14); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pt-hits { margin: 0 0 var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-card); background: var(--surface-sunken); max-width: 75ch; }
+.pt-hits p { margin: 0 0 var(--space-2); font-size: var(--text-14); }
+.pt-hitbars { display: grid; gap: var(--space-2); }
+.pt-hitbar { display: grid; gap: 2px; }
+.pt-hitbar em { font-style: normal; font-size: var(--text-12); font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.pt-track { display: block; height: 8px; border-radius: 4px; background: var(--n-3); overflow: hidden; }
+.pt-track > span { display: block; height: 100%; border-radius: 4px; background: var(--cat-2); transition: width var(--dur-3) var(--ease-standard); }
+.pt-hitbar.is-chance .pt-track > span { background: var(--n-7); }
+.pt-pairchart { margin: 0; }
+.pt-pairchart figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-4); margin-bottom: var(--space-2); font-size: var(--text-14); }
+.pt-key { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 600; }
+.pt-key i { width: 18px; height: 0; border-top: 2px solid var(--cat-1); }
+.pt-key i.is-b { border-top: 2px dashed var(--cat-2); }
+.pt-axis-note { color: var(--ink-muted); font-size: var(--text-12); }
+
+/* Lists with word-sized charts */
+.pt-ex, .pt-signs { list-style: none; margin: 0; padding: 0; }
+.pt-ex li, .pt-signs li {
+  display: grid; grid-template-columns: 9.5rem minmax(120px, 200px) minmax(0, 1fr) auto; gap: var(--space-2) var(--space-4);
+  align-items: center; padding: var(--space-2) 0; border-bottom: 1px solid var(--line);
+}
+.pt-signs li { grid-template-columns: 9.5rem 1fr 1fr; }
+#pt-tg-h ~ .pt-ex li { grid-template-columns: 11rem auto minmax(0, 1fr); }
+.pt-ex li.is-faint { color: var(--ink-muted); }
+.pt-ex li.is-faint .pt-db-now, .pt-ex li.is-faint .pt-spark-bar { opacity: 0.5; }
+.pt-ex-name { font-weight: 600; font-size: var(--text-14); }
+.pt-ex-text { font-size: var(--text-14); font-variant-numeric: tabular-nums; }
+.pt-dumbbell { width: 100%; height: 20px; overflow: visible; }
+.pt-db-axis { stroke: var(--n-4); stroke-width: 2; stroke-linecap: round; }
+.pt-db-span { stroke: var(--cat-1); stroke-width: 3; opacity: 0.45; }
+.pt-db-then { fill: var(--surface); stroke: var(--n-9); stroke-width: 2; }
+.pt-db-now { fill: var(--cat-1); }
+.pt-spark { display: block; overflow: visible; }
+.pt-spark-bar { fill: var(--cat-1); opacity: 0.8; }
+.pt-spark-bar:hover { opacity: 1; }
+.pt-spark-mark { stroke: var(--n-9); stroke-width: 1; stroke-dasharray: 2 2; }
+.pt-sparkline path { fill: none; stroke: var(--n-8); stroke-width: 1.5; }
+.pt-sparkline circle { fill: var(--n-8); }
+.pt-sparkline.is-rising path { stroke: var(--cat-4); }
+.pt-sparkline.is-rising circle { fill: var(--cat-4); }
+.pt-sign { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-14); }
+.pt-method { margin: 0; padding-left: var(--space-5); display: grid; gap: var(--space-2); font-size: var(--text-14); color: var(--ink-muted); max-width: 80ch; }
+
+@media (max-width: 640px) {
+  .pt-ex li, .pt-signs li, #pt-tg-h ~ .pt-ex li, .pt-wn > li { grid-template-columns: 1fr; gap: var(--space-1); }
+  .pt-sign { flex-wrap: wrap; }
+}
