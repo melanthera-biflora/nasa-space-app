@@ -479,3 +479,16 @@ def test_the_lower_48_outline_joins_every_contiguous_state_for_the_map_mask():
     body = c.get("/api/v1/regions/L48/outline").json()
     assert body["code"] == "L48" and len(body["rings"]) == 2                     # Texas and Wisconsin, not Alaska or Puerto Rico
     assert body["bbox"] == [-106.6, 25.8, -86.8, 47.1]
+
+
+def test_season_and_month_rows_keep_their_early_and_recent_averages():
+    from backend.schemas import Seasonal
+    row = {"name": "Jul", "available": True, "slope_per_decade": 2.0, "p": 0.01, "q": 0.03, "clear": True, "n_years": 25,
+           "then": 10.0, "now": 14.0}
+    s = Seasonal.model_validate({
+        "overall": {"slope_per_year": 0.2, "slope_per_decade": 2.0, "p": 0.01, "p_label": "p = 0.010", "clear": True,
+                    "n_years": 25, "method": "x"},
+        "seasons": [], "months": [row], "anomaly_test": {"p": 0.01, "p_label": "p = 0.010", "slope_per_decade": 2.0, "method": "x"},
+        "season_agg": "mean", "windows": {"then": [2001, 2005], "now": [2021, 2025]}}).model_dump()
+    assert s["months"][0]["then"] == 10.0 and s["months"][0]["now"] == 14.0
+    assert s["windows"] == {"then": [2001, 2005], "now": [2021, 2025]}

@@ -229,3 +229,27 @@ export const metaByKey = (table) => Object.fromEntries((table?.factors || []).ma
 
 /** The list item's id for a city, so the map and scatter can scroll to it. */
 export const cityId = (name) => `city-${name.replace(/\W+/g, '-')}`
+
+// ---- Finding a city, one page at a time --------------------------------------------------------------------------
+
+export const PAGE_SIZE = 6
+const plain = (t) => String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
+
+/** The groups with only the cities whose name holds the words typed, or whose state is them ("ca", "San Diego, CA");
+ *  groups left empty drop out. An empty search gives the groups back unchanged. */
+export function findCities(groups, query) {
+  const q = plain(query)
+  if (!q) return groups
+  const hit = ({ city }) => plain(city.name).includes(q) || plain(city.state) === q || plain(`${city.name}, ${city.state}`).includes(q)
+  return groups.map((g) => ({ ...g, cities: g.cities.filter(hit) })).filter((g) => g.cities.length)
+}
+
+/** One page of a list (the page is kept inside the list's range), and how many pages there are. */
+export function pageOf(list, page, size = PAGE_SIZE) {
+  const pages = Math.max(1, Math.ceil(list.length / size))
+  const p = Math.min(Math.max(0, page), pages - 1)
+  return { items: list.slice(p * size, (p + 1) * size), page: p, pages }
+}
+
+/** The page a city is on in a group's list (0 when it isn't there). */
+export const pageWith = (list, name, size = PAGE_SIZE) => Math.max(0, Math.floor(list.findIndex((j) => j.city.name === name) / size))

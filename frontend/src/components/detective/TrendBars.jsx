@@ -1,7 +1,9 @@
+import { format } from '../../lib/format'
 import { waterSense } from '../../presenters/detective'
 
-// Trend per season or month as bars from a centre line; bars that aren't clear after the correction are faded and
-// say so in words (colour is never the only cue). Water records draw drier in brown and wetter in teal.
+// Trend per season or month as bars from a centre line, on one scale for seasons and months (the scale row under them).
+// A clear change is a solid bar with an arrow in its words; one that isn't clear after the correction is only an
+// outline and says "not clear yet" (colour is never the only cue). Water records draw drier in brown, wetter in teal.
 export default function TrendBars({ rows, max, label, variable }) {
   const sense = waterSense(variable)
   const tone = (up) => (sense === 'wet' ? (up ? 'is-wetter' : 'is-drier') : sense === 'dry' ? (up ? 'is-drier' : 'is-wetter') : up ? 'is-up' : 'is-down')
@@ -20,6 +22,10 @@ export default function TrendBars({ rows, max, label, variable }) {
           </li>
         )
       })}
+      <li className="dt-bars-scale" aria-hidden="true">
+        <span />
+        <span className="dt-bar-scale"><span>−{format(max)}</span><span>0</span><span>+{format(max)}</span></span>
+      </li>
     </ul>
   )
 }

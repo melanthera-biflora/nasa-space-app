@@ -145,3 +145,22 @@ def test_normals_give_each_calendar_month_its_usual_range():
     july = s[s.index.month == 7]
     assert n[6]["p50"] == pytest.approx(np.percentile(july, 50), abs=0.01)
     assert all(m["p10"] <= m["p25"] <= m["p50"] <= m["p75"] <= m["p90"] for m in n)
+
+
+def test_each_season_and_month_carries_its_early_and_recent_averages():
+    out = seasonal.seasonal_block(monthly_series(trend_per_year=0.2, noise=0.0, july_only=True))
+    assert out["windows"] == {"then": [2001, 2005], "now": [2021, 2025]}
+    july = next(m for m in out["months"] if m["name"] == "Jul")
+    jan = next(m for m in out["months"] if m["name"] == "Jan")
+    assert july["now"] - july["then"] == pytest.approx(0.2 * 20, abs=0.05)    # 20 years apart, 0.2 a year
+    assert jan["now"] == pytest.approx(jan["then"], abs=0.01)
+    assert all("then" in s and "now" in s for s in out["seasons"] if s["available"])
+
+
+def test_a_month_with_a_rate_of_zero_is_never_clear():
+    # a count that is 0 in most Januaries and rises only in the last years: the test sees it, the median slope is 0
+    idx = pd.date_range("2001-01-01", "2025-12-01", freq="MS")
+    v = pd.Series(np.where(idx.month == 7, 10.0 + (idx.year - 2001) * 0.5, 0.0), index=idx)
+    v[(idx.month == 1) & (idx.year >= 2019)] = [1, 2, 2, 3, 4, 5, 6]
+    jan = next(m for m in seasonal.seasonal_block(v, agg="sum")["months"] if m["name"] == "Jan")
+    assert jan["slope_per_decade"] == 0 and not jan["clear"]

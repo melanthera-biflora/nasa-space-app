@@ -9,7 +9,7 @@ import requests
 from backend.errors import ApiError
 from paths import load_json, load_thresholds
 
-DATA_VERSION = "2026-11-15-a7"      # bump when the pipeline's output or the NASA data files change, so stored reports aren't reused
+DATA_VERSION = "2026-11-15-a8"      # bump when the pipeline's output or the NASA data files change, so stored reports aren't reused
 
 # One build at a time (reports and state series): a build reads the big NetCDF files and adds about 300 MB on top of
 # the running API, so two at once would overrun a 512 MB server (Render Starter). A second visitor waits a few seconds;

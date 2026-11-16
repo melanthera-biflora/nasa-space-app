@@ -5,15 +5,16 @@ import { useCallback, useMemo, useState } from 'react'
 import CompareCity from '../components/CompareCity'
 import Button, { ButtonLink } from '../components/ui/Button'
 import Disclosure from '../components/ui/Disclosure'
-import { SelectField } from '../components/ui/Field'
+import { SelectField, TextField } from '../components/ui/Field'
 import Icon from '../components/ui/Icon'
 import NumBadge from '../components/ui/NumBadge'
+import Pager from '../components/ui/Pager'
 import Segmented from '../components/ui/Segmented'
 import Skeleton from '../components/ui/Skeleton'
 import Tabs from '../components/ui/Tabs'
 import { format } from '../lib/format'
 import { useHousehold } from '../lib/household'
-import { cardScales, cityId, compareRows, defaultLimit, everywhere, groupCities, limitOptions, MAX_TOPICS, metaByKey, RULE, scatterNote, scatterPoints, thenNow, TOPICS, topicsFor, verdict } from '../presenters/compare'
+import { cardScales, cityId, compareRows, defaultLimit, everywhere, findCities, groupCities, limitOptions, MAX_TOPICS, metaByKey, PAGE_SIZE, pageOf, pageWith, RULE, scatterNote, scatterPoints, thenNow, TOPICS, topicsFor, verdict } from '../presenters/compare'
 import { useComparePoints, useCompareTable } from '../presenters/useCompareTable'
 import { Waiting } from './common'
 
@@ -46,6 +47,13 @@ export default function CompareView() {
   const [open, setOpen] = useState(false)
   const [panel, setPanel] = useState('map')            // the right-hand panel: map or chart of all 51
   const [showList, setShowList] = useState(true)       // phones show one pane at a time
+  const [query, setQuery] = useState('')
+  const shown = useMemo(() => findCities(groups, query), [groups, query])
+  // each group shows one page of cards; the pages start over when the search, limits, topics or starting place change
+  const sigOf = (q) => `${q}|${startName}|${topicIds.join()}|${JSON.stringify(limits)}`
+  const [paging, setPaging] = useState({ for: '', pages: {} })
+  const pageFor = (met) => (paging.for === sigOf(query) ? paging.pages[met] || 0 : 0)
+  const setPage = (met, p, q = query) => setPaging((s) => ({ for: sigOf(q), pages: { ...(s.for === sigOf(q) ? s.pages : {}), [met]: p } }))
 
   const toggleTopic = (id) => {
     const next = topicIds.includes(id) ? topicIds.filter((t) => t !== id) : [...topicIds, id].slice(0, MAX_TOPICS)
@@ -53,11 +61,15 @@ export default function CompareView() {
   }
   // at the cap, Add is disabled with a reason: a fourth city used to drop the first one silently (round 3)
   const toggleCompare = useCallback((name) => setSelected((s) => (s.includes(name) ? s.filter((n) => n !== name) : s.length >= MAX_COMPARE ? s : [...s, name])), [])
-  // a dot on the map or chart: show that city's card (unfolding its group, which draws its cards on first open)
+  // a dot on the map or chart: show that city's card (on its page, unfolding its group, clearing a search that hides it)
   const onPick = useCallback((name) => {
     setHovered(name)
     setShowList(true)
-    const met = groups.find((g) => g.cities.some((j) => j.city.name === name))?.met
+    const group = groups.find((g) => g.cities.some((j) => j.city.name === name))
+    const met = group?.met
+    const keep = findCities(groups, query).some((g) => g.cities.some((j) => j.city.name === name))
+    if (!keep) setQuery('')
+    if (group) setPage(met, pageWith(keep ? findCities([group], query)[0].cities : group.cities, name), keep ? query : '')
     const fold = document.getElementById(`g-${met}`)?.closest('details')
     if (fold) fold.open = true
     let tries = 0
@@ -67,7 +79,7 @@ export default function CompareView() {
       else if (tries++ < 20) requestAnimationFrame(show)
     }
     show()
-  }, [groups])
+  }, [groups, query])   // eslint-disable-line react-hooks/exhaustive-deps -- setPage only reads state through its updater
   const flat = useMemo(() => groups.flatMap((g) => g.cities.map((j) => ({ name: j.city.name, lat: j.city.lat, lon: j.city.lon, met: j.met, total: j.total }))), [groups])
   const places = [...(start && !selected.includes(start.name) ? [start] : []), ...selected.map((n) => table?.cities.find((c) => c.name === n)).filter(Boolean)]
   const rows = places.length > 1 ? compareRows(places, chosen, meta) : []
@@ -101,17 +113,18 @@ export default function CompareView() {
     </>
   )
   const chartPanel = (
-    <>
-      <p className="cmp-panel-lede">Across: the 2021–2025 level. Up: the change per decade. Point at a dot to find the city in the list; click to add it to your comparison.</p>
-      <Segmented legend="Topic" hideLegend name="cmp-scatter" size="sm" value={scatterKey} onChange={setScatterPick}
-        options={scatterKeys.map((k) => ({ value: k, label: meta[k]?.label?.replace(/ \(.*\)$/, '') || k }))} />
-      {dotsNote && <p className="dt-link-note" role="status">{dotsNote}</p>}
+    <div className="cs-panel">
+      <div className="cs-pick">
+        <SelectField label="Record" value={scatterKey} onChange={(e) => setScatterPick(e.target.value)}
+          options={scatterKeys.map((k) => ({ value: k, label: meta[k]?.label?.replace(/ \(.*\)$/, '') || k }))} />
+        <p className="cs-read">Each dot is a city. <b>Across:</b> its 2021–2025 level. <b>Up:</b> how fast it changes per decade. Point at a dot to find the city in the list; click it to add it to your comparison.</p>
+      </div>
       <CityScatter points={dots} limit={scatterLimit} unit={meta[scatterKey]?.unit_short || ''} xLabel="2021–2025 level"
-        hovered={hovered} selected={selected} onHover={setHovered} onToggle={toggleCompare} resetKey={scatterKey} />
-      <ul className="cmp-legend" aria-hidden="true">
+        hovered={hovered} selected={selected} onHover={setHovered} onToggle={toggleCompare} resetKey={scatterKey} note={dotsNote} />
+      <ul className="cmp-legend cs-key" aria-hidden="true">
         <li><i className="is-all" />Under all your limits</li><li><i className="is-one" />Misses one</li><li><i className="is-more" />Misses more</li><li><i className="is-on" />In your comparison</li><li><i className="is-faded" />Faded: no clear trend yet</li>
       </ul>
-    </>
+    </div>
   )
 
   return (
@@ -189,6 +202,18 @@ export default function CompareView() {
                   ))}
                 </ul>
               </nav>
+              <div className="cmp-find" role="search">
+                <TextField label="Find a city" type="search" value={query} autoComplete="off" spellCheck={false}
+                  hint="A name or a state, like Denver or CO" onChange={(e) => setQuery(e.target.value)} />
+                {query.trim() && (
+                  <p className="cmp-find-result" role="status">
+                    {shown.length
+                      ? `${shown.reduce((n, g) => n + g.cities.length, 0)} of 51 cities match “${query.trim()}”.`
+                      : `No city matches “${query.trim()}”. Try a city name or a two-letter state.`}
+                    {' '}<Button size="sm" variant="ghost" onClick={() => setQuery('')}>Clear</Button>
+                  </p>
+                )}
+              </div>
               {/* what doesn't help choose: first but folded, so the groups lead (rounds 3 and 4) */}
               <Disclosure className="cmp-context" summary={<h2 className="cmp-h2">True almost everywhere, so it doesn't help choose</h2>}>
                 <ul>{everywhere(table, meta).map((t) => <li key={t}>{t}</li>)}</ul>
@@ -199,18 +224,27 @@ export default function CompareView() {
                 <li><i className="k-limit" />Your limit</li><li><i className="k-unclear" />No clear trend yet</li>
                 <li>One scale per topic for all 51 cities</li>
               </ul>
-              {groups.map((g, k) => {
+              {shown.map((g, k) => {
                 const title = <><NumBadge tone={g.met === g.total ? 'solid' : 'brand'}>{g.met}</NumBadge><span>{g.title}<span className="dt-muted">, {g.cities.length} {g.cities.length === 1 ? 'city' : 'cities'}</span></span></>
+                const pg = pageOf(g.cities, pageFor(g.met))
+                const turn = (p) => {
+                  setPage(g.met, p)
+                  requestAnimationFrame(() => document.getElementById(`g-${g.met}`)?.scrollIntoView({ block: 'start', behavior: 'smooth' }))
+                }
                 const list = (
-                  <ul className="cmp-cities">
-                    {g.cities.map((j) => (
-                      <CompareCity key={j.city.name} entry={j} chosen={chosen} meta={meta} scales={scales} hot={hovered === j.city.name}
-                        on={selected.includes(j.city.name)} full={selected.length >= MAX_COMPARE} onHover={setHovered} onToggle={toggleCompare} />
-                    ))}
-                  </ul>
+                  <>
+                    <ul className="cmp-cities">
+                      {pg.items.map((j) => (
+                        <CompareCity key={j.city.name} entry={j} chosen={chosen} meta={meta} scales={scales} hot={hovered === j.city.name}
+                          on={selected.includes(j.city.name)} full={selected.length >= MAX_COMPARE} onHover={setHovered} onToggle={toggleCompare} />
+                      ))}
+                    </ul>
+                    <Pager page={pg.page} pages={pg.pages} total={g.cities.length} size={PAGE_SIZE} onChange={turn} label={`${g.title}: pages`} />
+                  </>
                 )
-                // the first group is open; the rest fold, so the page is a list of groups before it is 51 cards
-                return k === 0 ? (
+                // the first group is open; the rest fold, so the page is a list of groups before it is 51 cards. While
+                // searching, every group with a match is open.
+                return k === 0 || query.trim() ? (
                   <section key={g.met} className="cmp-group" aria-labelledby={`g-${g.met}`}>
                     <h2 id={`g-${g.met}`} className="cmp-group-title">{title}</h2>{list}
                   </section>
@@ -221,7 +255,7 @@ export default function CompareView() {
             </div>
             <aside className="cmp-side" aria-label="All 51 cities on a map or a chart">
               <Tabs label="Show the 51 cities as" value={panel} onChange={setPanel}
-                tabs={[{ id: 'map', label: 'Map', content: mapPanel }, { id: 'chart', label: 'Chart: level and change', content: chartPanel }]} />
+                tabs={[{ id: 'map', label: 'Map', content: mapPanel }, { id: 'chart', label: 'Level and change', content: chartPanel }]} />
             </aside>
           </div>
 

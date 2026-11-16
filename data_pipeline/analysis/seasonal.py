@@ -61,7 +61,10 @@ def _trend(col, min_years):
             "p": float(mk.original_test(v.to_numpy()).p), "n_years": len(v)}
 
 
-def _family(table, names, alpha, min_years, d):
+def _family(table, names, alpha, min_years, d, window=5):
+    """One test per season or month, corrected across the family. Each row also carries its early and recent
+    `window`-year averages (then, now; 3 of the years needed), so the page can draw a typical year then and now. A
+    rate of 0 (mostly-zero counts) is never a clear change, as for the yearly verdict (D47)."""
     rows = [(name, _trend(table[c], min_years)) for name, c in zip(names, table.columns)]
     p = [r["p"] for _, r in rows if r]
     q = iter(false_discovery_control(p) if p else [])
@@ -71,8 +74,12 @@ def _family(table, names, alpha, min_years, d):
             out.append({"name": name, "available": False})
             continue
         qv = float(next(q))
+        col = table[table.columns[names.index(name)]]
+        ends = {k: (round(float(v.mean()), d) if v.notna().sum() >= 3 else None)
+                for k, v in (("then", col.iloc[:window]), ("now", col.iloc[-window:]))}
         out.append({"name": name, "available": True, "slope_per_decade": round(r["slope_per_year"] * 10, d),
-                    "p": round(r["p"], 4), "q": round(qv, 4), "clear": qv < alpha, "n_years": r["n_years"]})
+                    "p": round(r["p"], 4), "q": round(qv, 4), "clear": bool(qv < alpha and r["slope_per_year"] != 0),
+                    "n_years": r["n_years"], **ends})
     return out
 
 
@@ -145,6 +152,8 @@ def seasonal_block(monthly, agg="mean", alpha=0.05, min_years=8, decimals=2):
         "anomaly_test": {**anomaly, "slope_per_decade": round(anomaly["slope_per_decade"], d)},
         "years_needed": years_needed(table, per_month),
         "normals": normals(table, d),
+        "windows": {"then": [int(table.index[0]), int(table.index[min(4, len(table) - 1)])],
+                    "now": [int(table.index[max(0, len(table) - 5)]), int(table.index[-1])]},
         "season_agg": agg,
     }
 

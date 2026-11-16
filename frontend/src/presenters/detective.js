@@ -271,7 +271,7 @@ export function seasonBars(factor) {
   if (!s) return null
   const shape = (rows, labelOf) => rows.map((r) => ({
     name: r.name, label: labelOf(r.name), available: r.available, value: r.slope_per_decade, clear: Boolean(r.clear),
-    q: r.q, text: r.available ? `${perDecade(factor, r.slope_per_decade)}${r.clear ? ', clear' : ', not clear yet'}` : 'not enough data',
+    q: r.q, text: r.available ? `${r.clear ? (r.slope_per_decade > 0 ? '↑ ' : '↓ ') : ''}${perDecade(factor, r.slope_per_decade)}${r.clear ? ', clear' : ', not clear yet'}` : 'not enough data',
   }))
   const all = [...s.seasons, ...s.months].filter((r) => r.available).map((r) => Math.abs(r.slope_per_decade))
   const clearSeasons = s.seasons.filter((r) => r.clear).map((r) => r.name)
@@ -334,6 +334,30 @@ export function cycle(factor) {
       clear: Boolean(s?.months?.[i]?.clear), slope: s?.months?.[i]?.slope_per_decade ?? null,
     })),
   }
+}
+
+const yearsLabel = ([a, b] = []) => `${a}–${String(b).slice(2)}`
+
+/** The typical year then and now: each calendar month's early and recent 5-year averages (from the pipeline), its usual
+ *  range (10th to 90th percentile over every year) and its own corrected trend. Null for a report made before the
+ *  pipeline sent the averages, so the page just leaves the chart out. */
+export function typicalYear(factor) {
+  const s = factor?.seasonal
+  if (!s?.windows || !s.months?.some((m) => Number.isFinite(m.then) && Number.isFinite(m.now))) return null
+  const thenLabel = yearsLabel(s.windows.then), nowLabel = yearsLabel(s.windows.now)
+  const unit = unitOf(factor)
+  const months = s.months.map((m, i) => {
+    const n = (s.normals || []).find((x) => x.month === i + 1) || {}
+    const ok = Number.isFinite(m.then) && Number.isFinite(m.now)
+    const trend = m.available ? `${perDecade(factor, m.slope_per_decade)}, ${m.clear ? 'a clear change' : 'not clear yet'}` : 'too few years to test'
+    return {
+      label: MONTHS[i], then: ok ? m.then : null, now: ok ? m.now : null, lo: n.p10 ?? null, hi: n.p90 ?? null,
+      clear: Boolean(m.clear), up: (m.slope_per_decade || 0) > 0,
+      text: ok ? `${MONTH_NAMES[i]}: ${thenLabel} average ${format(m.then)}, ${nowLabel} average ${format(m.now)} ${unit}; ${trend}.` : `${MONTH_NAMES[i]}: no average.`,
+    }
+  })
+  const values = months.flatMap((m) => [m.then, m.now, m.lo, m.hi]).filter(Number.isFinite)
+  return { thenLabel, nowLabel, months, min: Math.min(...values), max: Math.max(...values) }
 }
 
 // ---- Events ------------------------------------------------------------------------------------------------------

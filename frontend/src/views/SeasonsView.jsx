@@ -3,8 +3,9 @@ import MonthHeatmap from '../components/MonthHeatmap'
 import ChartFrame from '../components/detective/ChartFrame'
 import CyclePlot from '../components/detective/CyclePlot'
 import TrendBars from '../components/detective/TrendBars'
+import TypicalYear from '../components/detective/TypicalYear'
 import { format, sign, unitOf } from '../lib/format'
-import { cycle, monthTable, MONTHS, seasonBars } from '../presenters/detective'
+import { cycle, monthTable, MONTHS, seasonBars, typicalYear } from '../presenters/detective'
 import { useCurrent } from '../lib/query'
 import { NextStep, Status } from './common'
 
@@ -14,6 +15,7 @@ export default function SeasonsView() {
   const f = c.factor
   const bars = f?.available ? seasonBars(f) : null
   const cyc = f?.available ? cycle(f) : null
+  const typical = f?.available ? typicalYear(f) : null
   return (
     <main className="dt-main" id="main">
       <h1 tabIndex={-1}>{c.label} in {c.placeName}: when in the year is it changing?</h1>
@@ -24,8 +26,15 @@ export default function SeasonsView() {
         {bars && (
           <>
             <p className="dt-lede"><b>{bars.summary}</b></p>
+            {typical && (
+              <ChartFrame wide live title="The typical year, then and now"
+                takeaway={`Each month's ${typical.thenLabel} average against its ${typical.nowLabel} average. Months with an arrow changed clearly on their own; the grey band is where most years fall.`}
+                table={{ columns: ['Month', `${typical.thenLabel} average`, `${typical.nowLabel} average`, 'Clear change?'], rows: typical.months.map((m) => [m.label, format(m.then), format(m.now), m.clear ? (m.up ? 'yes, up' : 'yes, down') : 'not yet']) }}>
+                <TypicalYear data={typical} unit={unitOf(f)} variable={c.variable} />
+              </ChartFrame>
+            )}
             <div className="dt-grid-2">
-              <ChartFrame title="Trend by season" takeaway={bars.summary}
+              <ChartFrame title="Trend by season" takeaway="Each season tested on its own, across the years."
                 table={{ columns: ['Season', 'Change per decade', 'q', 'Clear?'], rows: bars.seasons.map((s) => [s.label, sign(s.value), s.q ?? '—', s.clear ? 'yes' : 'not yet']) }}>
                 <TrendBars rows={bars.seasons} max={bars.max} label="Trend by season" variable={c.variable} />
               </ChartFrame>
