@@ -49,17 +49,21 @@ def change_edges(change):
 
 
 def _wmean(frame, weight, decimals):
-    ok = np.isfinite(frame)
+    ok = np.isfinite(frame) & (weight > 0)
     return round(float((frame[ok] * weight[ok]).sum() / weight[ok].sum()), decimals + 1) if ok.any() else None
 
 
-def frames(years, lats, lons, cube, inside, decimals, smooth=1, base=5):
+def frames(years, lats, lons, cube, inside, decimals, smooth=1, base=5, focus=None, scale=None):
     """Pure: the yearly values inside the US on one shared set of colour classes, the change from each cell's first
     `base` years (it needs 3 of them), and the area-weighted US mean of both per year. smooth > 1 makes each frame the
     trailing mean of `smooth` years (every year present), labelled by its last year. cube[year, lat, lon]; inside[lat,
-    lon] is True for US cells. Returns lists ready for JSON (None for no value)."""
+    lon] is True for US cells. focus (default: inside) is where the line is averaged, scale (default: focus) where the
+    colour classes come from, so a wider map can keep the lower 48's colours (tools.map_frames_na). Returns lists ready
+    for JSON (None for no value)."""
     cube = np.where(inside[None, :, :], cube, np.nan)
-    weight = np.cos(np.radians(lats))[:, None] * np.ones((len(lats), len(lons)))
+    focus = inside if focus is None else focus & inside
+    scale = focus if scale is None else scale & inside
+    weight = np.cos(np.radians(lats))[:, None] * np.where(focus, 1.0, 0.0)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)                   # cells with no early years: NaN, dropped below
         baseline = np.nanmean(cube[:base], axis=0)
@@ -69,14 +73,14 @@ def frames(years, lats, lons, cube, inside, decimals, smooth=1, base=5):
         cube = np.stack([cube[k - smooth + 1:k + 1].mean(axis=0) for k in range(smooth - 1, len(years))])
         years = years[smooth - 1:]
     change = cube - baseline[None]
-    keep = np.isfinite(cube).any(axis=0)                                  # cells that ever have a value
+    keep = np.isfinite(cube).any(axis=0) & scale                          # cells that ever have a value
     rnd = lambda a: [None if not np.isfinite(v) else (int(round(v)) if decimals == 0 else round(float(v), decimals)) for v in a.ravel()]  # noqa: E731
     return {
         "years": [int(y) for y in years],
         "span": smooth,
         "base_years": base_years,
         "level_breaks": class_edges(cube[:, keep].ravel()),               # shared by every frame
-        "change_breaks": change_edges(change[np.isfinite(change)]),
+        "change_breaks": change_edges(change[:, scale][np.isfinite(change[:, scale])]),
         "values": [rnd(frame) for frame in cube],
         "change": [rnd(frame) for frame in change],
         "us_mean": [_wmean(frame, weight, decimals) for frame in cube],

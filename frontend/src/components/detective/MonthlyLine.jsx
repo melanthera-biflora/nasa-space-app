@@ -9,7 +9,8 @@ import { axisCap } from '../../presenters/detective'
 const MAX_W = 720, H = 260, L = 44, R = 12, B = 28
 
 // Every month as a thin line, the yearly averages as dots, and the trend with its shaded 95% band (all from the
-// API). Event months are shaded behind, so a spike can be read against its cause.
+// API). Event months are shaded behind, so a spike can be read against its cause. A yearly-only record (the frost-free
+// season) shows its yearly dots alone.
 // Reading it (SPEC A3, S45): the pointer snaps a crosshair to the nearest year; the chart is one tab stop where Left and
 // Right step a year, Page Up and Page Down five, Home and End jump; a polite line reads the year out.
 export default function MonthlyLine({ factor, spans = [], trend = true }) {
@@ -17,22 +18,23 @@ export default function MonthlyLine({ factor, spans = [], trend = true }) {
   const [active, setActive] = useState(null)        // index into the yearly points
   const clip = useId()
   const months = (factor.monthly || []).filter((m) => Number.isFinite(m.value))
-  if (months.length < 2) return <p className="dt-empty">No monthly data for this variable.</p>
+  const points = (factor.points || []).filter((p) => Number.isFinite(p.value))
+  const yearly = months.length < 2
+  if (yearly && points.length < 2) return <p className="dt-empty">No data for this variable.</p>
   const t = (ym) => Number(ym.slice(0, 4)) + (Number(ym.slice(5, 7)) - 0.5) / 12
-  const x0 = t(months[0].month), x1 = t(months.at(-1).month)
+  const x0 = yearly ? points[0].year : t(months[0].month), x1 = yearly ? points.at(-1).year + 1 : t(months.at(-1).month)
   // a few towering months (fire smoke on PM2.5) squashed the rest: the axis stops near the 98th percentile, the line is
   // clipped there, and the tallest months are named above it
-  const cap = axisCap(months)
+  const cap = yearly ? null : axisCap(months)
   const T = cap ? 42 : 24
   const line = trend ? (factor.line || []).filter((p) => Number.isFinite(p.trend)) : []   // hidden until the guess on /explore
-  const points = (factor.points || []).filter((p) => Number.isFinite(p.value))
   // the yearly dots are on the same axis, so they are in its range too (count totals sat above the top tick)
   const ys = [...months.map((m) => (cap ? Math.min(m.value, cap.top) : m.value)), ...points.map((p) => p.value), ...line.flatMap((p) => [p.lo95, p.hi95]).filter(Number.isFinite)]
   const lo = Math.min(...ys), hi = Math.max(...ys), pad = (hi - lo) * 0.05 || 1
   const X = (v) => L + ((v - x0) / (x1 - x0 || 1)) * (W - L - R)
   const floor = lo >= 0 ? Math.max(0, lo - pad) : lo - pad   // a count axis never dips below zero
   const Y = (v) => T + (1 - (v - floor) / (hi + pad - floor)) * (H - T - B)
-  const path = months.map((m, i) => `${i ? 'L' : 'M'}${X(t(m.month)).toFixed(1)},${Y(m.value).toFixed(1)}`).join('')
+  const path = yearly ? '' : months.map((m, i) => `${i ? 'L' : 'M'}${X(t(m.month)).toFixed(1)},${Y(m.value).toFixed(1)}`).join('')
   const band = line.length > 1 && line.every((p) => Number.isFinite(p.lo95))
     ? `M${line.map((p) => `${X(p.year + 0.5)},${Y(p.hi95)}`).join('L')}L${[...line].reverse().map((p) => `${X(p.year + 0.5)},${Y(p.lo95)}`).join('L')}Z` : ''
   const firstYear = Math.ceil(x0), lastYear = Math.floor(x1)
@@ -80,7 +82,7 @@ export default function MonthlyLine({ factor, spans = [], trend = true }) {
         ))}
         {band && <path d={band} className="dt-band" />}
         <clipPath id={clip}><rect x={L} y={T} width={W - L - R} height={H - T - B} /></clipPath>
-        <path d={path} className="dt-month-line" clipPath={cap ? `url(#${clip})` : undefined} />
+        {path && <path d={path} className="dt-month-line" clipPath={cap ? `url(#${clip})` : undefined} />}
         {named.map((s) => (
           <g key={s.month} className="dt-spike">
             <path d={`M${s.at - 4},${T + 1}L${s.at + 4},${T + 1}L${s.at},${T - 5}Z`} />

@@ -116,6 +116,8 @@ def years_needed(table, slope_per_year):
 def seasonal_block(monthly, agg="mean", alpha=0.05, min_years=8, decimals=2):
     """Everything the seasons and test pages show for one monthly series; None with fewer than min_years years.
     agg is how three months make a season: "sum" for counts (days), "mean" for levels, "max" for wettest day."""
+    if pd.Series(monthly).dropna().empty:                # a yearly-only record (the frost-free season)
+        return None
     table = month_table(monthly)
     complete = table.dropna()
     if len(complete) < min_years:
@@ -148,20 +150,26 @@ def seasonal_block(monthly, agg="mean", alpha=0.05, min_years=8, decimals=2):
 
 
 
-def leave_one_out(points, alpha=0.05, decimals=2):
+def leave_one_out(points, alpha=0.05, decimals=2, base=None):
     """The yearly test again with each year left out, so a page can show "without 2023 the trend is ..." for an
     event year, and flag a trend that hangs on one year (`flips`: years whose removal changes the verdict).
-    points: [{"year", "value"}] as in the report."""
+    points: [{"year", "value"}] as in the report. `alpha`: the record's line after the report's correction;
+    `base`: the record's own verdict, so the check never disagrees with it about the full series."""
+    from analysis.trends import mk_test
     pts = [(p["year"], p["value"]) for p in points if p.get("value") is not None]
     if len(pts) < 9:
         return None
     x, y = np.array([a for a, _ in pts], float), np.array([b for _, b in pts], float)
-    mk_p = lambda v: 1.0 if np.ptp(v) == 0 else float(mk.original_test(v).p)
-    base = mk_p(y) < alpha
+    def mk_p(v, xs):
+        if np.ptp(v) == 0:
+            return 1.0
+        slope, intercept = theilslopes(v, xs)[:2]
+        return mk_test(v, xs, slope, intercept)[0]          # the same test as the verdict
+    base = (mk_p(y, x) < alpha) if base is None else bool(base)
     rows = []
     for i in range(len(x)):
         xi, yi = np.delete(x, i), np.delete(y, i)
-        p = mk_p(yi)
+        p = mk_p(yi, xi)
         rows.append({"year": int(x[i]), "p": round(p, 4), "clear": p < alpha,
                      "slope_per_decade": round(float(theilslopes(yi, xi)[0]) * 10, decimals + 1)})
     return {"clear": base, "years": rows, "flips": [r["year"] for r in rows if r["clear"] != base]}

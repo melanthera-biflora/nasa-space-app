@@ -27,7 +27,7 @@ from sources.power import POWER_START_YEAR, fetch_power, power_series
 # also available as pipeline.<name>, so the notebook and older code keep working
 from sources.power import (clean_daily, daily_flags, annual_counts, monthly_counts,  # noqa: F401
                            wettest_day, compare_heat_cutoffs)
-from analysis.trends import monthly_anomaly, trend_stats
+from analysis.trends import correct_across, monthly_anomaly, trend_stats
 from analysis.seasonal import leave_one_out, monthly_z, seasonal_block
 from analysis.verdict import level_for, trend_direction
 from analysis.story import describe
@@ -68,13 +68,20 @@ def _r(v, d):
     return None if v is None else round(v, d + 1)
 
 
-def make_factor(key, annual, monthly, th, narr, start_year, end_year):
+def factor_trend(key, annual, th, start_year, end_year):
+    st = th["settings"]
+    return trend_stats(annual, start_year, end_year, st["compare_window_years"], st["significance_alpha"], st["min_years_for_trend"])
+
+
+def make_factor(key, annual, monthly, th, narr, start_year, end_year, tr=None):
+    """One record's card. `tr` is its trend, already corrected across the report (build_neutral_report); a single
+    record (a state series) computes its own, with nothing to correct across."""
     cfg, st = th[key], th["settings"]
-    tr = trend_stats(annual, start_year, end_year, st["compare_window_years"],
-                     st["significance_alpha"], st["min_years_for_trend"])
+    tr = tr or factor_trend(key, annual, th, start_year, end_year)
     if tr is None:
+        empty = pd.Series(annual).notna().sum() == 0
         return {"key": key, "label": cfg["label"], "available": False, "parent": cfg.get("parent"),
-                "reason": "not enough years of data in this period"}
+                "reason": (empty and cfg.get("unavailable_reason")) or "not enough years of data in this period"}
     m = pd.Series(monthly).dropna()
     m = m[(m.index.year >= tr["period"][0]) & (m.index.year <= tr["period"][1])]
     anom = monthly_anomaly(m)
@@ -87,7 +94,9 @@ def make_factor(key, annual, monthly, th, narr, start_year, end_year):
         "definition": narr.get("definition"),
         "caveat": narr.get("caveat"),
         **{k: tr[k] for k in ("period", "n_years", "then_years", "now_years", "significant",
-                              "significance_label", "p_label", "mk_p", "points", "line")},
+                              "significance_label", "p_label", "mk_p", "mk_p_memory", "lag1", "memory_sensitive",
+                              "points", "line")},
+        **{k: tr[k] for k in ("q", "records_tested") if k in tr},
         "then": _r(tr["then"], d), "now": _r(tr["now"], d),
         "change_then_to_now": _r(tr["now"] - tr["then"], d),
         "slope_per_decade": _r(tr["slope_per_decade"], d),
@@ -107,7 +116,8 @@ def make_factor(key, annual, monthly, th, narr, start_year, end_year):
         "monthly_classes": monthly_classes(m.values, anom.values),
         "seasonal": seasonal_block(m, agg=season_agg(key, cfg), alpha=st["significance_alpha"],
                                    min_years=st["min_years_for_trend"], decimals=d),
-        "leave_one_out": leave_one_out(tr["points"], st["significance_alpha"], d),
+        # judged against the record's corrected line, so "it hangs on one year" agrees with the verdict
+        "leave_one_out": leave_one_out(tr["points"], tr.get("alpha_line", st["significance_alpha"]), d, base=tr["significant"]),
     }
 
 
@@ -180,7 +190,11 @@ def build_neutral_report(lat, lon, period_years=None, sources=("pm25", "no2", "f
         status.update(extra_status)
     series.update(extra)
 
-    factors = {k: make_factor(k, v["annual"], v["monthly"], th, narr.get(k, {}), start_year, end_year)
+    # two passes: every record's test, then one correction across them (about 16 tests per report), then the cards,
+    # so each verdict, sentence and trend direction comes from the corrected result (D47)
+    trends = {k: factor_trend(k, v["annual"], th, start_year, end_year) for k, v in series.items() if k in th}
+    correct_across(trends, st["significance_alpha"])
+    factors = {k: make_factor(k, v["annual"], v["monthly"], th, narr.get(k, {}), start_year, end_year, tr=trends[k])
                for k, v in series.items() if k in th}
 
     main = [f for f in factors.values() if f["available"] and not f.get("parent")]

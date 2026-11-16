@@ -10,7 +10,7 @@ describe('asking again when Climatch is busy', () => {
   const busy = (status) => Promise.resolve({ ok: false, status, json: () => Promise.reject(new Error('not JSON')) })
 
   it('tries twice more, a little apart, when the server is busy or the line drops', async () => {
-    const fetch = vi.fn().mockReturnValueOnce(busy(503)).mockReturnValueOnce(Promise.reject(new TypeError('reset'))).mockReturnValueOnce(ok({ n: 1 }))
+    const fetch = vi.fn().mockReturnValueOnce(busy(503)).mockImplementationOnce(() => Promise.reject(new TypeError('reset'))).mockReturnValueOnce(ok({ n: 1 }))
     vi.stubGlobal('fetch', fetch)
     const answer = getJson('/busy')
     await vi.advanceTimersByTimeAsync(4000)

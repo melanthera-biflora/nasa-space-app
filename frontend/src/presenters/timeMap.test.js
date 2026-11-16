@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { caption, fadeFor, frameField, frameLegend, meanLine, nextFrame, squareAt, squareText, ticks, yearLabel } from './timeMap'
+import { areaOf, caption, fadeFor, fieldsFor, frameField, frameLegend, lineLabel, meanLine, nextFrame, squareAt, squareText, switchArea, ticks, yearLabel } from './timeMap'
 
 const FRAMES = {
   unit: 'days', grid: { lats: [40], lons: [-100, -99], dlat: 0.5, dlon: 1 }, level_breaks: [10, 20], change_breaks: [1, 2, 5, 10],
@@ -68,5 +68,22 @@ describe('animated map presenter', () => {
     expect(squareText(FRAMES, sq, 2, 'smoke_days', 'change')).toBe('Near 40.00°N, 99.00°W: 15 days of medium or thick smoke a year more than in 2006–10 (2008–10).')
     expect(squareText(SINGLE, sq, 0, 'smoke_days', 'level', 'Spokane')).toBe('Near Spokane: 12 days of medium or thick smoke a year in 2001.')
     expect(squareText(FRAMES, squareAt(FRAMES, 40, -100), 1, 'smoke_days', 'level')).toBe('Near 40.00°N, 100.00°W: no value in 2007–09.')
+  })
+})
+
+describe('the North America map', () => {
+  it('lists its own records and keeps the record when the area changes', () => {
+    expect(fieldsFor('na').map((f) => f.key)).toEqual(['sst', 'smoke_days_na', 'pm25_na', 'fires_na'])
+    expect(areaOf('sst')).toBe('na') && expect(areaOf('pm25')).toBe('us')
+    expect(switchArea('fires', 'na')).toBe('fires_na')
+    expect(switchArea('fires_na', 'us')).toBe('fires')
+    expect(switchArea('no2', 'na')).toBe('sst')                   // no North America NO2: the sea instead
+    expect(switchArea('sst', 'us')).toBe('pm25')
+  })
+  it('says where its line is averaged', () => {
+    const sea = { years: [2001, 2002], span: 1, base_years: [2001, 2001], unit: '°C', us_mean: [26, 27], us_change: [0, 1], mean_area: 'the Gulf of Mexico' }
+    expect(caption(sea, 1, 'sst', 'level')).toBe('2002: across the Gulf of Mexico, an average of 27 °C at the sea surface (26 in 2001).')
+    expect(lineLabel(sea, 'level')).toBe('Gulf of Mexico average')
+    expect(lineLabel({ base_years: [2001, 2005] }, 'change')).toBe('Lower-48 average, change from 2001–05')
   })
 })

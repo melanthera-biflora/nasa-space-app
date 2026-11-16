@@ -21,6 +21,7 @@ export const STEPS = [
 const POINT_LABELS = {
   hot_days: 'Very hot days', warm_nights: 'Warm nights', cold_days: 'Very cold nights', heavy_rain_days: 'Heavy-rain days',
   wettest_day: 'Wettest day', dry_days: 'Dry days', muggy_days: 'Muggy days', humid_heat_days: 'Humid-heat days',
+  heat_index_days: 'Dangerous heat-index days', frost_free_season: 'Frost-free season',
   pm25: 'Fine particles (PM2.5)', no2: 'Nitrogen dioxide (NO₂)', fires: 'Fire detections', smoke_days: 'Smoke days',
   aod: 'Haze (aerosol optical depth)', rain_sat: 'Rain seen by satellite', surface_heat_5km: 'Ground heat (MODIS)',
   water_storage: 'Water storage (GRACE)',
@@ -54,7 +55,7 @@ const POWER_VARS = ['t2m', 't2m_max', 'precip', 'gwetroot', 'frost_days']
 const GRID_VARS = ['smoke_days', 'aod', 'rain_sat', 'surface_heat_5km', 'water_storage']
 export const STATE_VARS = [...POWER_VARS, 'pm25', 'no2', ...GRID_VARS]
 export const POINT_VARS = ['hot_days', 'warm_nights', 'cold_days', 'heavy_rain_days', 'wettest_day', 'dry_days',
-  'muggy_days', 'humid_heat_days', 'pm25', 'no2', 'fires', ...GRID_VARS]
+  'muggy_days', 'humid_heat_days', 'heat_index_days', 'frost_free_season', 'pm25', 'no2', 'fires', ...GRID_VARS]
 export const DEFAULT_PLACE = { kind: 'state', code: 'WI' }
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
@@ -181,12 +182,15 @@ export function takeaway(factor, place) {
   return `${factor.label} in ${place} ${dir} from ${format(factor.then)} to ${format(factor.now)} ${unitOf(factor)} ` +
     `(${factor.then_years?.[0]}–${factor.then_years?.at(-1)} vs ${factor.now_years?.[0]}–${factor.now_years?.at(-1)})` +
     `${factor.significant ? ', ' : ', a change that isn’t clear yet, '}` +
-    `with ${(factor.monthly || []).length} months of data from ${a} to ${b}.`
+    (factor.monthly?.length ? `with ${factor.monthly.length} months of data from ${a} to ${b}.`
+      : `with ${factor.n_years} years of data from ${a} to ${b}.`)
 }
 
 // ---- Test --------------------------------------------------------------------------------------------------------
 
-/** The two-state verdict for /test: "Clear trend" when the yearly Mann-Kendall p < 0.05, else "Not clear yet". */
+/** The two-state verdict for /test: "Clear trend" when the report says so (in a report, q < 0.05 after the correction
+ *  across its records, D47; for a state series, p < 0.05). A clear record that years-remembering-years could explain
+ *  carries a memory note. */
 export function verdict(factor) {
   if (!factor?.available) return { state: 'none', title: 'Not enough data', text: factor?.reason || '' }
   if (factor.constant) return { state: 'none', title: 'Nothing to test', text: `${factor.label} was the same in every year here.` }
@@ -203,6 +207,9 @@ export function verdict(factor) {
   // a clear verdict that hangs on one year says so in the headline, not only further down (round 3)
   const flips = factor.leave_one_out?.flips || []
   const hangs = clear && flips.length ? flips.join(' and ') : ''
+  // the test sees a rise but the rate is 0: a count most years had none of (the report holds it back, D47)
+  const tested = Number.isFinite(factor.q) ? factor.q : factor.mk_p
+  const mostlyNone = !clear && factor.slope_per_decade === 0 && tested < 0.05
   return {
     state: clear ? 'clear' : 'unclear',
     title: hangs ? `Clear trend, but it hangs on ${hangs}` : clear ? 'Clear trend' : 'Not clear yet',
@@ -211,10 +218,17 @@ export function verdict(factor) {
     rate: perDecade(factor, factor.slope_per_decade),
     range: Number.isFinite(lo) ? `95% range: ${sign(lo)} to ${sign(hi)}` : '',
     p: factor.p_label,
+    q: Number.isFinite(factor.q) ? (factor.q < 0.001 ? 'q < 0.001' : `q = ${factor.q.toFixed(3)}`) : '',
+    corrected: factor.records_tested > 1 ? `corrected for the ${factor.records_tested} records checked here` : '',
+    memory: clear && factor.memory_sensitive
+      ? 'This record remembers the year before: a high year tends to be followed by another, so its 25 years hold less evidence than they seem. Allowing for that, the change isn’t clear yet. Treat it as a lead.'
+      : '',
     words: hangs
       ? `With every year in, the test finds a clear change; without ${hangs}, it doesn't. Treat it as a lead, not a settled result.`
       : clear
       ? 'A change this large would rarely happen by chance in a series this long.'
+      : mostlyNone
+      ? 'The recent years are higher, but most years here had none, so the typical change from one year to the next is zero. That isn’t counted as a clear trend; watch the coming years.'
       : 'Year-to-year ups and downs could explain this change; it may only need a longer record.',
     yearsNeeded,
     monthly: s ? { clear: s.overall.clear, p: s.overall.p_label, text: monthlyWords(clear, s.overall) } : null,

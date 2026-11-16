@@ -8,12 +8,14 @@ from backend.schemas import MapFrames, TrendField
 
 router = APIRouter(prefix="/maps", tags=["maps"])
 Factor = Literal["pm25", "no2", "fires", "smoke_days", "aod"]
+# the North America frames (tools.map_frames_na): sea temperature, and three records past the border
+FrameFactor = Literal["pm25", "no2", "fires", "smoke_days", "aod", "sst", "pm25_na", "fires_na", "smoke_days_na"]
 
 
 @router.get("/{factor}/frames", response_model=MapFrames, responses=NOT_FOUND)
-def map_frames(factor: Factor, s=Depends(services)):
+def map_frames(factor: FrameFactor, s=Depends(services)):
     """Every grid cell's value for each year on one colour scale, so the map can play through time. Display data:
-    the trend tests are on /maps/{factor} (built by `python -m tools.map_frames`)."""
+    the trend tests are on /maps/{factor} (built by `python -m tools.map_frames` and `tools.map_frames_na`)."""
     return s.maps.frames(factor)
 
 

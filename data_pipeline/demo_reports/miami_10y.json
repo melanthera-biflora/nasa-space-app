@@ -49,6 +49,7 @@
  "verdict_rule": "High risk if any main factor is red · Caution if any is yellow · otherwise Suitable. Trend-only cards (no limit) don't change the verdict.",
  "card_order": [
   "humid_heat_days",
+  "heat_index_days",
   "warm_nights",
   "smoke_days",
   "pm25",
@@ -82,9 +83,10 @@
    "year": 2023,
    "factors": [
     "Warm nights",
+    "Dangerous heat-index days",
     "Smoke days"
    ],
-   "text": "2023: Warm nights and Smoke days were both unusually bad that year."
+   "text": "2023: Warm nights, Dangerous heat-index days and Smoke days were all unusually bad that year."
   }
  ],
  "factors": {
@@ -116,6 +118,9 @@
    "significance_label": "No change",
    "p_label": "no variation",
    "mk_p": 1.0,
+   "mk_p_memory": 1.0,
+   "lag1": 0.0,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -1424,6 +1429,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.088",
    "mk_p": 0.0879614743080801,
+   "mk_p_memory": 0.634,
+   "lag1": 0.54,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -1469,72 +1477,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 224.436,
-     "lo95": 207.595,
-     "hi95": 241.278
+     "trend": 222.0,
+     "lo95": 207.375,
+     "hi95": 231.75
     },
     {
      "year": 2017,
-     "trend": 225.939,
-     "lo95": 211.656,
-     "hi95": 240.223
+     "trend": 224.0,
+     "lo95": 212.625,
+     "hi95": 231.583
     },
     {
      "year": 2018,
-     "trend": 227.442,
-     "lo95": 215.43,
-     "hi95": 239.455
+     "trend": 226.0,
+     "lo95": 217.875,
+     "hi95": 231.417
     },
     {
      "year": 2019,
-     "trend": 228.945,
-     "lo95": 218.723,
-     "hi95": 239.168
+     "trend": 228.0,
+     "lo95": 223.125,
+     "hi95": 231.25
     },
     {
      "year": 2020,
-     "trend": 230.448,
-     "lo95": 221.251,
-     "hi95": 239.646
+     "trend": 230.0,
+     "lo95": 228.375,
+     "hi95": 231.083
     },
     {
      "year": 2021,
-     "trend": 231.952,
-     "lo95": 222.754,
-     "hi95": 241.149
+     "trend": 232.0,
+     "lo95": 230.917,
+     "hi95": 233.625
     },
     {
      "year": 2022,
-     "trend": 233.455,
-     "lo95": 223.232,
-     "hi95": 243.677
+     "trend": 234.0,
+     "lo95": 230.75,
+     "hi95": 238.875
     },
     {
      "year": 2023,
-     "trend": 234.958,
-     "lo95": 222.945,
-     "hi95": 246.97
+     "trend": 236.0,
+     "lo95": 230.583,
+     "hi95": 244.125
     },
     {
      "year": 2024,
-     "trend": 236.461,
-     "lo95": 222.177,
-     "hi95": 250.744
+     "trend": 238.0,
+     "lo95": 230.417,
+     "hi95": 249.375
     },
     {
      "year": 2025,
-     "trend": 237.964,
-     "lo95": 221.122,
-     "hi95": 254.805
+     "trend": 240.0,
+     "lo95": 230.25,
+     "hi95": 254.625
     }
    ],
+   "q": 0.3772,
+   "records_tested": 14,
    "then": 226.4,
    "now": 236.0,
    "change_then_to_now": 9.6,
-   "slope_per_decade": 15.0,
+   "slope_per_decade": 20.0,
    "slope_ci95_per_decade": [
-    -16.5,
-    46.6
+    -1.7,
+    52.5
    ],
    "usual_range": [
     218.4,
@@ -1551,7 +1561,7 @@
    },
    "story": {
     "happened": "Warm nights: 226 nights a year on average in 2016–2020, compared with 236 nights a year in 2021–2025.",
-    "is_it_real": "The trend is +15.0 nights per decade (95% CI -16.5 to +46.6), but not statistically significant yet (p = 0.088): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +20.0 nights per decade (95% CI -1.7 to +52.5), but not statistically significant yet (p = 0.088): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Warm nights keep the body from recovering from daytime heat, adding to heat stress the next day.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 218–246 nights."
    },
@@ -2710,20 +2720,17 @@
      {
       "year": 2024,
       "p": 0.0211,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 30.0
      },
      {
       "year": 2025,
       "p": 0.036,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 30.0
      }
     ],
-    "flips": [
-     2024,
-     2025
-    ]
+    "flips": []
    },
    "priority_for_user": true,
    "affects": [
@@ -2767,6 +2774,9 @@
    "significance_label": "No change",
    "p_label": "no variation",
    "mk_p": 1.0,
+   "mk_p_memory": 1.0,
+   "lag1": 0.0,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -4075,6 +4085,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.36",
    "mk_p": 0.361976326956698,
+   "mk_p_memory": 0.362,
+   "lag1": -0.435,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -4120,72 +4133,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 8.691,
-     "lo95": 4.981,
-     "hi95": 12.401
+     "trend": 7.125,
+     "lo95": 4.5,
+     "hi95": 11.062
     },
     {
      "year": 2017,
-     "trend": 8.248,
-     "lo95": 5.102,
-     "hi95": 11.395
+     "trend": 6.875,
+     "lo95": 4.833,
+     "hi95": 9.938
     },
     {
      "year": 2018,
-     "trend": 7.806,
-     "lo95": 5.16,
-     "hi95": 10.453
+     "trend": 6.625,
+     "lo95": 5.167,
+     "hi95": 8.812
     },
     {
      "year": 2019,
-     "trend": 7.364,
-     "lo95": 5.112,
-     "hi95": 9.616
+     "trend": 6.375,
+     "lo95": 5.5,
+     "hi95": 7.688
     },
     {
      "year": 2020,
-     "trend": 6.921,
-     "lo95": 4.895,
-     "hi95": 8.947
+     "trend": 6.125,
+     "lo95": 5.833,
+     "hi95": 6.562
     },
     {
      "year": 2021,
-     "trend": 6.479,
-     "lo95": 4.453,
-     "hi95": 8.505
+     "trend": 5.875,
+     "lo95": 5.438,
+     "hi95": 6.167
     },
     {
      "year": 2022,
-     "trend": 6.036,
-     "lo95": 3.784,
-     "hi95": 8.288
+     "trend": 5.625,
+     "lo95": 4.312,
+     "hi95": 6.5
     },
     {
      "year": 2023,
-     "trend": 5.594,
-     "lo95": 2.947,
-     "hi95": 8.24
+     "trend": 5.375,
+     "lo95": 3.188,
+     "hi95": 6.833
     },
     {
      "year": 2024,
-     "trend": 5.152,
-     "lo95": 2.005,
-     "hi95": 8.298
+     "trend": 5.125,
+     "lo95": 2.062,
+     "hi95": 7.167
     },
     {
      "year": 2025,
-     "trend": 4.709,
-     "lo95": 0.999,
-     "hi95": 8.419
+     "trend": 4.875,
+     "lo95": 0.938,
+     "hi95": 7.5
     }
    ],
+   "q": 0.5631,
+   "records_tested": 14,
    "then": 8.4,
    "now": 5.0,
    "change_then_to_now": -3.4,
-   "slope_per_decade": -4.4,
+   "slope_per_decade": -2.5,
    "slope_ci95_per_decade": [
-    -11.4,
-    2.5
+    -11.2,
+    3.3
    ],
    "usual_range": [
     3.9,
@@ -4202,7 +4217,7 @@
    },
    "story": {
     "happened": "Heavy rain days: 8 days a year on average in 2016–2020, compared with 5 days a year in 2021–2025.",
-    "is_it_real": "The trend is -4.4 days per decade (95% CI -11.4 to +2.5), but not statistically significant yet (p = 0.36): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is -2.5 days per decade (95% CI -11.2 to +3.3), but not statistically significant yet (p = 0.36): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Flooding and water damage can lead to damp and mould at home.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 4–10 days."
    },
@@ -5399,6 +5414,9 @@
    "significance_label": "No change",
    "p_label": "no variation",
    "mk_p": 1.0,
+   "mk_p_memory": 1.0,
+   "lag1": 0.0,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -6700,10 +6718,13 @@
     2021,
     2025
    ],
-   "significant": true,
-   "significance_label": "Significant",
+   "significant": false,
+   "significance_label": "Not significant yet",
    "p_label": "p = 0.037",
    "mk_p": 0.036794678710544426,
+   "mk_p_memory": 0.1338,
+   "lag1": 0.157,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -6749,79 +6770,81 @@
    "line": [
     {
      "year": 2016,
-     "trend": 215.255,
-     "lo95": 201.156,
-     "hi95": 229.353
+     "trend": 211.25,
+     "lo95": 199.25,
+     "hi95": 227.0
     },
     {
      "year": 2017,
-     "trend": 217.976,
-     "lo95": 206.019,
-     "hi95": 229.933
+     "trend": 214.75,
+     "lo95": 205.417,
+     "hi95": 227.0
     },
     {
      "year": 2018,
-     "trend": 220.697,
-     "lo95": 210.641,
-     "hi95": 230.753
+     "trend": 218.25,
+     "lo95": 211.583,
+     "hi95": 227.0
     },
     {
      "year": 2019,
-     "trend": 223.418,
-     "lo95": 214.861,
-     "hi95": 231.976
+     "trend": 221.75,
+     "lo95": 217.75,
+     "hi95": 227.0
     },
     {
      "year": 2020,
-     "trend": 226.139,
-     "lo95": 218.44,
-     "hi95": 233.839
+     "trend": 225.25,
+     "lo95": 223.917,
+     "hi95": 227.0
     },
     {
      "year": 2021,
-     "trend": 228.861,
-     "lo95": 221.161,
-     "hi95": 236.56
+     "trend": 228.75,
+     "lo95": 227.0,
+     "hi95": 230.083
     },
     {
      "year": 2022,
-     "trend": 231.582,
-     "lo95": 223.024,
-     "hi95": 240.139
+     "trend": 232.25,
+     "lo95": 227.0,
+     "hi95": 236.25
     },
     {
      "year": 2023,
-     "trend": 234.303,
-     "lo95": 224.247,
-     "hi95": 244.359
+     "trend": 235.75,
+     "lo95": 227.0,
+     "hi95": 242.417
     },
     {
      "year": 2024,
-     "trend": 237.024,
-     "lo95": 225.067,
-     "hi95": 248.981
+     "trend": 239.25,
+     "lo95": 227.0,
+     "hi95": 248.583
     },
     {
      "year": 2025,
-     "trend": 239.745,
-     "lo95": 225.647,
-     "hi95": 253.844
+     "trend": 242.75,
+     "lo95": 227.0,
+     "hi95": 254.75
     }
    ],
+   "q": 0.3772,
+   "records_tested": 14,
    "then": 221.4,
    "now": 233.6,
    "change_then_to_now": 12.2,
-   "slope_per_decade": 27.2,
+   "slope_per_decade": 35.0,
    "slope_ci95_per_decade": [
-    0.8,
-    53.6
+    -0.0,
+    61.7
    ],
    "usual_range": [
     209.9,
     238.9
    ],
    "level": "high_risk",
-   "trend_direction": "worsening",
+   "trend_direction": "no_clear_trend",
    "limits": {
     "caution_from": 30,
     "high_from": 90,
@@ -6831,9 +6854,9 @@
    },
    "story": {
     "happened": "Muggy days: 221 days a year on average in 2016–2020, compared with 234 days a year in 2021–2025.",
-    "is_it_real": "The trend is +27.2 days per decade (95% CI +0.8 to +53.6) and statistically significant (Mann-Kendall p = 0.037).",
+    "is_it_real": "The trend is +35.0 days per decade (95% CI -0.0 to +61.7), but not statistically significant yet (p = 0.037): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Long humid spells help mould grow indoors, a common asthma and allergy trigger.",
-    "what_it_likely_means": "This has been getting worse steadily: 2021–2025 was worse than 2016–2020, so the early years are no longer a good guide to this place."
+    "what_it_likely_means": "No clear direction: most years fell in the usual range of about 210–239 days."
    },
    "timeline": {
     "rolling_5yr": [
@@ -7934,7 +7957,7 @@
     "season_agg": "sum"
    },
    "leave_one_out": {
-    "clear": true,
+    "clear": false,
     "years": [
      {
       "year": 2016,
@@ -7963,13 +7986,13 @@
      {
       "year": 2020,
       "p": 0.036,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 35.6
      },
      {
       "year": 2021,
       "p": 0.0333,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 38.1
      },
      {
@@ -7987,24 +8010,17 @@
      {
       "year": 2024,
       "p": 0.036,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 43.8
      },
      {
       "year": 2025,
       "p": 0.0057,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 45.8
      }
     ],
-    "flips": [
-     2016,
-     2017,
-     2018,
-     2019,
-     2022,
-     2023
-    ]
+    "flips": []
    },
    "priority_for_user": false,
    "affects": [],
@@ -8038,6 +8054,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.21",
    "mk_p": 0.2104977000553374,
+   "mk_p_memory": 0.2105,
+   "lag1": -0.222,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -8083,72 +8102,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 183.818,
-     "lo95": 172.676,
-     "hi95": 194.96
+     "trend": 183.8,
+     "lo95": 168.5,
+     "hi95": 195.5
     },
     {
      "year": 2017,
-     "trend": 185.303,
-     "lo95": 175.854,
-     "hi95": 194.752
+     "trend": 185.4,
+     "lo95": 173.5,
+     "hi95": 194.5
     },
     {
      "year": 2018,
-     "trend": 186.788,
-     "lo95": 178.841,
-     "hi95": 194.735
+     "trend": 187.0,
+     "lo95": 178.5,
+     "hi95": 193.5
     },
     {
      "year": 2019,
-     "trend": 188.273,
-     "lo95": 181.51,
-     "hi95": 195.035
+     "trend": 188.6,
+     "lo95": 183.5,
+     "hi95": 192.5
     },
     {
      "year": 2020,
-     "trend": 189.758,
-     "lo95": 183.673,
-     "hi95": 195.842
+     "trend": 190.2,
+     "lo95": 188.5,
+     "hi95": 191.5
     },
     {
      "year": 2021,
-     "trend": 191.242,
-     "lo95": 185.158,
-     "hi95": 197.327
+     "trend": 191.8,
+     "lo95": 190.5,
+     "hi95": 193.5
     },
     {
      "year": 2022,
-     "trend": 192.727,
-     "lo95": 185.965,
-     "hi95": 199.49
+     "trend": 193.4,
+     "lo95": 189.5,
+     "hi95": 198.5
     },
     {
      "year": 2023,
-     "trend": 194.212,
-     "lo95": 186.265,
-     "hi95": 202.159
+     "trend": 195.0,
+     "lo95": 188.5,
+     "hi95": 203.5
     },
     {
      "year": 2024,
-     "trend": 195.697,
-     "lo95": 186.248,
-     "hi95": 205.146
+     "trend": 196.6,
+     "lo95": 187.5,
+     "hi95": 208.5
     },
     {
      "year": 2025,
-     "trend": 197.182,
-     "lo95": 186.04,
-     "hi95": 208.324
+     "trend": 198.2,
+     "lo95": 186.5,
+     "hi95": 213.5
     }
    ],
+   "q": 0.5631,
+   "records_tested": 14,
    "then": 189.2,
    "now": 191.8,
    "change_then_to_now": 2.6,
-   "slope_per_decade": 14.8,
+   "slope_per_decade": 16.0,
    "slope_ci95_per_decade": [
-    -6.0,
-    35.7
+    -10.0,
+    50.0
    ],
    "usual_range": [
     181.2,
@@ -8165,7 +8186,7 @@
    },
    "story": {
     "happened": "Humid-heat days: 189 days a year on average in 2016–2020, compared with 192 days a year in 2021–2025.",
-    "is_it_real": "The trend is +14.8 days per decade (95% CI -6.0 to +35.7), but not statistically significant yet (p = 0.21): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +16.0 days per decade (95% CI -10.0 to +50.0), but not statistically significant yet (p = 0.21): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Older adults, young children and people with heart disease are most affected by humid heat (CDC).",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 181–200 days."
    },
@@ -9339,6 +9360,1327 @@
    ],
    "health_flag": null
   },
+  "heat_index_days": {
+   "key": "heat_index_days",
+   "label": "Dangerous heat-index days",
+   "available": true,
+   "constant": false,
+   "parent": null,
+   "unit": "days / year",
+   "unit_short": "days",
+   "data_source": "NASA POWER (MERRA-2) daily max temperature T2M_MAX and dew point T2MDEW, ~50 km grid",
+   "definition": "Days when heat and humidity together feel like 103 °F or more at the hottest time of day, the National Weather Service's Danger level.",
+   "caveat": "Worked out from the day's highest temperature and its average dew point on a ~50 km grid; the heat index is measured in shade, and full sun can add up to 15 °F.",
+   "period": [
+    2016,
+    2025
+   ],
+   "n_years": 10,
+   "then_years": [
+    2016,
+    2020
+   ],
+   "now_years": [
+    2021,
+    2025
+   ],
+   "significant": false,
+   "significance_label": "Not significant yet",
+   "p_label": "p = 0.058",
+   "mk_p": 0.05838613075734278,
+   "mk_p_memory": 0.3547,
+   "lag1": 0.367,
+   "memory_sensitive": false,
+   "points": [
+    {
+     "year": 2016,
+     "value": 0.0
+    },
+    {
+     "year": 2017,
+     "value": 0.0
+    },
+    {
+     "year": 2018,
+     "value": 0.0
+    },
+    {
+     "year": 2019,
+     "value": 0.0
+    },
+    {
+     "year": 2020,
+     "value": 0.0
+    },
+    {
+     "year": 2021,
+     "value": 0.0
+    },
+    {
+     "year": 2022,
+     "value": 0.0
+    },
+    {
+     "year": 2023,
+     "value": 18.0
+    },
+    {
+     "year": 2024,
+     "value": 12.0
+    },
+    {
+     "year": 2025,
+     "value": 2.0
+    }
+   ],
+   "line": [
+    {
+     "year": 2016,
+     "trend": 0.0,
+     "lo95": -6.75,
+     "hi95": 0.0
+    },
+    {
+     "year": 2017,
+     "trend": 0.0,
+     "lo95": -5.25,
+     "hi95": 0.0
+    },
+    {
+     "year": 2018,
+     "trend": 0.0,
+     "lo95": -3.75,
+     "hi95": 0.0
+    },
+    {
+     "year": 2019,
+     "trend": 0.0,
+     "lo95": -2.25,
+     "hi95": 0.0
+    },
+    {
+     "year": 2020,
+     "trend": 0.0,
+     "lo95": -0.75,
+     "hi95": 0.0
+    },
+    {
+     "year": 2021,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.75
+    },
+    {
+     "year": 2022,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 2.25
+    },
+    {
+     "year": 2023,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 3.75
+    },
+    {
+     "year": 2024,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 5.25
+    },
+    {
+     "year": 2025,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 6.75
+    }
+   ],
+   "q": 0.3772,
+   "records_tested": 14,
+   "then": 0.0,
+   "now": 6.4,
+   "change_then_to_now": 6.4,
+   "slope_per_decade": 0.0,
+   "slope_ci95_per_decade": [
+    -0.0,
+    15.0
+   ],
+   "usual_range": [
+    0.0,
+    12.6
+   ],
+   "level": null,
+   "trend_direction": "no_clear_trend",
+   "limits": {
+    "caution_from": null,
+    "high_from": null,
+    "source": "Trend only: the National Weather Service's Danger level is for a single day, not a yearly count.",
+    "high_source": null,
+    "reference_only": null
+   },
+   "story": {
+    "happened": "Dangerous heat-index days: 0 days a year on average in 2016–2020, compared with 6 days a year in 2021–2025.",
+    "is_it_real": "The trend is +0.0 days per decade (95% CI -0.0 to +15.0), but not statistically significant yet (p = 0.058): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "why_it_matters": "At this level heat cramps and heat exhaustion are likely, and heat stroke is possible with long exposure or activity (National Weather Service). Older adults, young children and people with heart disease are most at risk (CDC).",
+    "what_it_likely_means": "No clear direction: most years fell in the usual range of about 0–13 days."
+   },
+   "timeline": {
+    "rolling_5yr": [
+     {
+      "year": 2018,
+      "value": 0.0
+     },
+     {
+      "year": 2019,
+      "value": 0.0
+     },
+     {
+      "year": 2020,
+      "value": 0.0
+     },
+     {
+      "year": 2021,
+      "value": 0.0
+     },
+     {
+      "year": 2022,
+      "value": 0.0
+     },
+     {
+      "year": 2023,
+      "value": 3.6
+     },
+     {
+      "year": 2024,
+      "value": 6.0
+     },
+     {
+      "year": 2025,
+      "value": 6.4
+     }
+    ],
+    "decades": [
+     {
+      "decade": "2010s",
+      "years": [
+       2016,
+       2019
+      ],
+      "average": 0.0,
+      "n_years": 4
+     },
+     {
+      "decade": "2020s",
+      "years": [
+       2020,
+       2025
+      ],
+      "average": 5.3,
+      "n_years": 6
+     }
+    ],
+    "highlights": {
+     "worst_year": {
+      "year": 2023,
+      "value": 18.0
+     },
+     "best_year": {
+      "year": 2022,
+      "value": 0.0
+     },
+     "top3_worst": [
+      {
+       "year": 2023,
+       "value": 18.0
+      },
+      {
+       "year": 2024,
+       "value": 12.0
+      },
+      {
+       "year": 2025,
+       "value": 2.0
+      }
+     ]
+    },
+    "unusual_years": [
+     {
+      "year": 2023,
+      "value": 18.0
+     }
+    ]
+   },
+   "source": {
+    "name": "NASA POWER",
+    "url": "https://power.larc.nasa.gov/"
+   },
+   "monthly": [
+    {
+     "month": "2016-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2016-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-07",
+     "value": 0.0,
+     "anomaly": -0.6,
+     "z": null
+    },
+    {
+     "month": "2016-08",
+     "value": 0.0,
+     "anomaly": -1.9,
+     "z": -0.487
+    },
+    {
+     "month": "2016-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2016-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2016-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2017-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-07",
+     "value": 0.0,
+     "anomaly": -0.6,
+     "z": null
+    },
+    {
+     "month": "2017-08",
+     "value": 0.0,
+     "anomaly": -1.9,
+     "z": -0.487
+    },
+    {
+     "month": "2017-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2017-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2017-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2018-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-07",
+     "value": 0.0,
+     "anomaly": -0.6,
+     "z": null
+    },
+    {
+     "month": "2018-08",
+     "value": 0.0,
+     "anomaly": -1.9,
+     "z": -0.487
+    },
+    {
+     "month": "2018-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2018-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2018-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2019-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-07",
+     "value": 0.0,
+     "anomaly": -0.6,
+     "z": null
+    },
+    {
+     "month": "2019-08",
+     "value": 0.0,
+     "anomaly": -1.9,
+     "z": -0.487
+    },
+    {
+     "month": "2019-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2019-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2019-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2020-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-07",
+     "value": 0.0,
+     "anomaly": -0.6,
+     "z": null
+    },
+    {
+     "month": "2020-08",
+     "value": 0.0,
+     "anomaly": -1.9,
+     "z": -0.487
+    },
+    {
+     "month": "2020-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2020-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2020-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2021-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-07",
+     "value": 0.0,
+     "anomaly": -0.6,
+     "z": null
+    },
+    {
+     "month": "2021-08",
+     "value": 0.0,
+     "anomaly": -1.9,
+     "z": -0.487
+    },
+    {
+     "month": "2021-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2021-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2021-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2022-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-07",
+     "value": 0.0,
+     "anomaly": -0.6,
+     "z": null
+    },
+    {
+     "month": "2022-08",
+     "value": 0.0,
+     "anomaly": -1.9,
+     "z": -0.487
+    },
+    {
+     "month": "2022-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2022-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2022-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2023-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-07",
+     "value": 4.0,
+     "anomaly": 3.4,
+     "z": null
+    },
+    {
+     "month": "2023-08",
+     "value": 12.0,
+     "anomaly": 10.1,
+     "z": 2.59
+    },
+    {
+     "month": "2023-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2023-10",
+     "value": 2.0,
+     "anomaly": 1.8,
+     "z": null
+    },
+    {
+     "month": "2023-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-05",
+     "value": 1.0,
+     "anomaly": 0.9,
+     "z": null
+    },
+    {
+     "month": "2024-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-07",
+     "value": 2.0,
+     "anomaly": 1.4,
+     "z": null
+    },
+    {
+     "month": "2024-08",
+     "value": 5.0,
+     "anomaly": 3.1,
+     "z": 0.795
+    },
+    {
+     "month": "2024-09",
+     "value": 4.0,
+     "anomaly": 3.6,
+     "z": null
+    },
+    {
+     "month": "2024-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2024-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-05",
+     "value": 0.0,
+     "anomaly": -0.1,
+     "z": null
+    },
+    {
+     "month": "2025-06",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-07",
+     "value": 0.0,
+     "anomaly": -0.6,
+     "z": null
+    },
+    {
+     "month": "2025-08",
+     "value": 2.0,
+     "anomaly": 0.1,
+     "z": 0.026
+    },
+    {
+     "month": "2025-09",
+     "value": 0.0,
+     "anomaly": -0.4,
+     "z": null
+    },
+    {
+     "month": "2025-10",
+     "value": 0.0,
+     "anomaly": -0.2,
+     "z": null
+    },
+    {
+     "month": "2025-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    }
+   ],
+   "monthly_classes": {
+    "value": [],
+    "anomaly": [
+     0.1,
+     0.4
+    ]
+   },
+   "seasonal": {
+    "overall": {
+     "slope_per_year": -0.0,
+     "slope_per_decade": -0.0,
+     "p": 0.0791,
+     "p_label": "p = 0.079",
+     "clear": false,
+     "n_years": 10,
+     "method": "Seasonal Kendall, corrected for month-to-month memory"
+    },
+    "seasons": [
+     {
+      "name": "winter",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 9
+     },
+     {
+      "name": "spring",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.2963,
+      "q": 0.395,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "summer",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.0584,
+      "q": 0.2335,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "autumn",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.1203,
+      "q": 0.2406,
+      "clear": false,
+      "n_years": 10
+     }
+    ],
+    "months": [
+     {
+      "name": "Jan",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Feb",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Mar",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Apr",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "May",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.2963,
+      "q": 0.8888,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Jun",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Jul",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.1955,
+      "q": 0.8888,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Aug",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.0584,
+      "q": 0.7006,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Sep",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.2963,
+      "q": 0.8888,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Oct",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.4862,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Nov",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 10
+     },
+     {
+      "name": "Dec",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 10
+     }
+    ],
+    "anomaly_test": {
+     "p": 0.1153,
+     "p_label": "p = 0.12",
+     "slope_per_decade": 0.0,
+     "method": "Hamed-Rao"
+    },
+    "years_needed": null,
+    "normals": [
+     {
+      "month": 1,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 2,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 3,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 4,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 5,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.1
+     },
+     {
+      "month": 6,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 7,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 2.2
+     },
+     {
+      "month": 8,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 1.5,
+      "p90": 5.7
+     },
+     {
+      "month": 9,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.4
+     },
+     {
+      "month": 10,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.2
+     },
+     {
+      "month": 11,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 12,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     }
+    ],
+    "season_agg": "sum"
+   },
+   "leave_one_out": {
+    "clear": false,
+    "years": [
+     {
+      "year": 2016,
+      "p": 0.0793,
+      "clear": false,
+      "slope_per_decade": 1.2
+     },
+     {
+      "year": 2017,
+      "p": 0.0793,
+      "clear": false,
+      "slope_per_decade": 1.1
+     },
+     {
+      "year": 2018,
+      "p": 0.0793,
+      "clear": false,
+      "slope_per_decade": 1.1
+     },
+     {
+      "year": 2019,
+      "p": 0.0793,
+      "clear": false,
+      "slope_per_decade": 1.1
+     },
+     {
+      "year": 2020,
+      "p": 0.0793,
+      "clear": false,
+      "slope_per_decade": 1.1
+     },
+     {
+      "year": 2021,
+      "p": 0.0793,
+      "clear": false,
+      "slope_per_decade": 1.1
+     },
+     {
+      "year": 2022,
+      "p": 0.0793,
+      "clear": false,
+      "slope_per_decade": 1.1
+     },
+     {
+      "year": 2023,
+      "p": 0.0822,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2024,
+      "p": 0.0822,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2025,
+      "p": 0.0822,
+      "clear": false,
+      "slope_per_decade": -0.0
+     }
+    ],
+    "flips": []
+   },
+   "priority_for_user": true,
+   "affects": [
+    "Heart disease",
+    "Older adults (65+)"
+   ],
+   "health_flag": null
+  },
   "wettest_day": {
    "key": "wettest_day",
    "label": "Wettest day of the year",
@@ -9367,6 +10709,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.28",
    "mk_p": 0.28313087066234655,
+   "mk_p_memory": 0.2905,
+   "lag1": -0.061,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -9412,72 +10757,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 56.445,
-     "lo95": 7.016,
-     "hi95": 105.875
+     "trend": 50.275,
+     "lo95": 4.75,
+     "hi95": 96.4
     },
     {
      "year": 2017,
-     "trend": 62.658,
-     "lo95": 20.735,
-     "hi95": 104.58
+     "trend": 55.925,
+     "lo95": 20.517,
+     "hi95": 91.8
     },
     {
      "year": 2018,
-     "trend": 68.87,
-     "lo95": 33.612,
-     "hi95": 104.127
+     "trend": 61.575,
+     "lo95": 36.283,
+     "hi95": 87.2
     },
     {
      "year": 2019,
-     "trend": 75.082,
-     "lo95": 45.079,
-     "hi95": 105.085
+     "trend": 67.225,
+     "lo95": 52.05,
+     "hi95": 82.6
     },
     {
      "year": 2020,
-     "trend": 81.294,
-     "lo95": 54.299,
-     "hi95": 108.289
+     "trend": 72.875,
+     "lo95": 67.817,
+     "hi95": 78.0
     },
     {
      "year": 2021,
-     "trend": 87.506,
-     "lo95": 60.511,
-     "hi95": 114.501
+     "trend": 78.525,
+     "lo95": 73.4,
+     "hi95": 83.583
     },
     {
      "year": 2022,
-     "trend": 93.718,
-     "lo95": 63.715,
-     "hi95": 123.721
+     "trend": 84.175,
+     "lo95": 68.8,
+     "hi95": 99.35
     },
     {
      "year": 2023,
-     "trend": 99.93,
-     "lo95": 64.673,
-     "hi95": 135.188
+     "trend": 89.825,
+     "lo95": 64.2,
+     "hi95": 115.117
     },
     {
      "year": 2024,
-     "trend": 106.142,
-     "lo95": 64.22,
-     "hi95": 148.065
+     "trend": 95.475,
+     "lo95": 59.6,
+     "hi95": 130.883
     },
     {
      "year": 2025,
-     "trend": 112.355,
-     "lo95": 62.925,
-     "hi95": 161.784
+     "trend": 101.125,
+     "lo95": 55.0,
+     "hi95": 146.65
     }
    ],
+   "q": 0.5631,
+   "records_tested": 14,
    "then": 75.9,
    "now": 92.9,
    "change_then_to_now": 17.0,
-   "slope_per_decade": 62.1,
+   "slope_per_decade": 56.5,
    "slope_ci95_per_decade": [
-    -30.5,
-    154.7
+    -46.0,
+    157.7
    ],
    "usual_range": [
     45.0,
@@ -9494,7 +10841,7 @@
    },
    "story": {
     "happened": "Wettest day of the year: 76 mm on average in 2016–2020, compared with 93 mm in 2021–2025.",
-    "is_it_real": "The trend is +62.1 mm per decade (95% CI -30.5 to +154.7), but not statistically significant yet (p = 0.28): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +56.5 mm per decade (95% CI -46.0 to +157.7), but not statistically significant yet (p = 0.28): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "The biggest single-day downpours are the ones most likely to cause local flooding.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 45–121 mm."
    },
@@ -10666,6 +12013,16 @@
    "affects": [],
    "health_flag": null
   },
+  "frost_free_season": {
+   "key": "frost_free_season",
+   "label": "Frost-free season",
+   "available": false,
+   "parent": null,
+   "reason": "frost is too rare here to measure a frost-free season",
+   "priority_for_user": false,
+   "affects": [],
+   "health_flag": null
+  },
   "pm25": {
    "key": "pm25",
    "label": "Fine particle pollution (PM2.5)",
@@ -10694,6 +12051,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.86",
    "mk_p": 0.8580276569875211,
+   "mk_p_memory": 0.858,
+   "lag1": -0.163,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -10739,72 +12099,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 11.595,
-     "lo95": 10.568,
-     "hi95": 12.621
-    },
-    {
-     "year": 2017,
-     "trend": 11.567,
-     "lo95": 10.697,
+     "trend": 11.472,
+     "lo95": 10.251,
      "hi95": 12.438
     },
     {
+     "year": 2017,
+     "trend": 11.449,
+     "lo95": 10.499,
+     "hi95": 12.2
+    },
+    {
      "year": 2018,
-     "trend": 11.539,
-     "lo95": 10.807,
-     "hi95": 12.272
+     "trend": 11.427,
+     "lo95": 10.748,
+     "hi95": 11.963
     },
     {
      "year": 2019,
-     "trend": 11.512,
-     "lo95": 10.889,
-     "hi95": 12.135
+     "trend": 11.404,
+     "lo95": 10.997,
+     "hi95": 11.726
     },
     {
      "year": 2020,
-     "trend": 11.484,
-     "lo95": 10.924,
-     "hi95": 12.045
+     "trend": 11.381,
+     "lo95": 11.245,
+     "hi95": 11.488
     },
     {
      "year": 2021,
-     "trend": 11.457,
-     "lo95": 10.896,
-     "hi95": 12.017
+     "trend": 11.358,
+     "lo95": 11.251,
+     "hi95": 11.494
     },
     {
      "year": 2022,
-     "trend": 11.429,
-     "lo95": 10.806,
-     "hi95": 12.052
+     "trend": 11.335,
+     "lo95": 11.014,
+     "hi95": 11.742
     },
     {
      "year": 2023,
-     "trend": 11.401,
-     "lo95": 10.669,
-     "hi95": 12.133
+     "trend": 11.313,
+     "lo95": 10.776,
+     "hi95": 11.991
     },
     {
      "year": 2024,
-     "trend": 11.374,
-     "lo95": 10.503,
-     "hi95": 12.244
+     "trend": 11.29,
+     "lo95": 10.539,
+     "hi95": 12.24
     },
     {
      "year": 2025,
-     "trend": 11.346,
-     "lo95": 10.32,
-     "hi95": 12.373
+     "trend": 11.267,
+     "lo95": 10.302,
+     "hi95": 12.488
     }
    ],
+   "q": 0.858,
+   "records_tested": 14,
    "then": 11.56,
    "now": 11.38,
    "change_then_to_now": -0.19,
-   "slope_per_decade": -0.28,
+   "slope_per_decade": -0.23,
    "slope_ci95_per_decade": [
-    -2.2,
-    1.65
+    -2.37,
+    2.49
    ],
    "usual_range": [
     10.67,
@@ -10821,7 +12183,7 @@
    },
    "story": {
     "happened": "Fine particle pollution (PM2.5): 11.6 µg/m³ on average in 2016–2020, compared with 11.4 µg/m³ in 2021–2025.",
-    "is_it_real": "The trend is -0.3 µg/m³ per decade (95% CI -2.2 to +1.6), but not statistically significant yet (p = 0.86): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is -0.2 µg/m³ per decade (95% CI -2.4 to +2.5), but not statistically significant yet (p = 0.86): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Fine particles can get deep into the lungs, and some into the bloodstream, affecting the lungs and heart and aggravating asthma.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 10.7–12.5 µg/m³."
    },
@@ -12029,6 +13391,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.59",
    "mk_p": 0.5915050369949166,
+   "mk_p_memory": 0.6659,
+   "lag1": 0.081,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -12074,72 +13439,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 2.754,
-     "lo95": 2.039,
-     "hi95": 3.469
+     "trend": 2.502,
+     "lo95": 2.079,
+     "hi95": 3.057
     },
     {
      "year": 2017,
-     "trend": 2.746,
-     "lo95": 2.14,
-     "hi95": 3.353
+     "trend": 2.531,
+     "lo95": 2.202,
+     "hi95": 2.963
     },
     {
      "year": 2018,
-     "trend": 2.739,
-     "lo95": 2.229,
-     "hi95": 3.249
+     "trend": 2.56,
+     "lo95": 2.325,
+     "hi95": 2.869
     },
     {
      "year": 2019,
-     "trend": 2.731,
-     "lo95": 2.297,
-     "hi95": 3.165
+     "trend": 2.589,
+     "lo95": 2.448,
+     "hi95": 2.774
     },
     {
      "year": 2020,
-     "trend": 2.724,
-     "lo95": 2.333,
-     "hi95": 3.114
+     "trend": 2.618,
+     "lo95": 2.571,
+     "hi95": 2.68
     },
     {
      "year": 2021,
-     "trend": 2.716,
-     "lo95": 2.326,
-     "hi95": 3.107
+     "trend": 2.648,
+     "lo95": 2.586,
+     "hi95": 2.695
     },
     {
      "year": 2022,
-     "trend": 2.709,
-     "lo95": 2.275,
-     "hi95": 3.143
+     "trend": 2.677,
+     "lo95": 2.492,
+     "hi95": 2.818
     },
     {
      "year": 2023,
-     "trend": 2.701,
-     "lo95": 2.191,
-     "hi95": 3.211
+     "trend": 2.706,
+     "lo95": 2.397,
+     "hi95": 2.941
     },
     {
      "year": 2024,
-     "trend": 2.694,
-     "lo95": 2.087,
-     "hi95": 3.3
+     "trend": 2.735,
+     "lo95": 2.303,
+     "hi95": 3.064
     },
     {
      "year": 2025,
-     "trend": 2.686,
-     "lo95": 1.971,
-     "hi95": 3.402
+     "trend": 2.764,
+     "lo95": 2.209,
+     "hi95": 3.187
     }
    ],
+   "q": 0.7528,
+   "records_tested": 14,
    "then": 2.759,
    "now": 2.681,
    "change_then_to_now": -0.079,
-   "slope_per_decade": -0.075,
+   "slope_per_decade": 0.292,
    "slope_ci95_per_decade": [
-    -1.415,
-    1.265
+    -0.943,
+    1.231
    ],
    "usual_range": [
     2.25,
@@ -12156,7 +13523,7 @@
    },
    "story": {
     "happened": "Traffic & industry pollution (NO₂): 2.76 ×10¹⁵ molec/cm² on average in 2016–2020, compared with 2.68 ×10¹⁵ molec/cm² in 2021–2025.",
-    "is_it_real": "The trend is -0.08 ×10¹⁵ molec/cm² per decade (95% CI -1.41 to +1.26), but not statistically significant yet (p = 0.59): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +0.29 ×10¹⁵ molec/cm² per decade (95% CI -0.94 to +1.23), but not statistically significant yet (p = 0.59): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "NO₂ inflames the airways; longer exposure may contribute to asthma developing.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 2.25–2.99 ×10¹⁵ molec/cm²."
    },
@@ -13356,6 +14723,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.32",
    "mk_p": 0.3232363233247706,
+   "mk_p_memory": 0.3815,
+   "lag1": 0.015,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -13401,71 +14771,73 @@
    "line": [
     {
      "year": 2016,
-     "trend": 17.418,
-     "lo95": -7.578,
-     "hi95": 42.414
+     "trend": 12.0,
+     "lo95": -5.25,
+     "hi95": 42.6
     },
     {
      "year": 2017,
-     "trend": 19.57,
-     "lo95": -1.63,
-     "hi95": 40.769
+     "trend": 15.0,
+     "lo95": 1.583,
+     "hi95": 38.8
     },
     {
      "year": 2018,
-     "trend": 21.721,
-     "lo95": 3.892,
-     "hi95": 39.551
+     "trend": 18.0,
+     "lo95": 8.417,
+     "hi95": 35.0
     },
     {
      "year": 2019,
-     "trend": 23.873,
-     "lo95": 8.701,
-     "hi95": 39.045
+     "trend": 21.0,
+     "lo95": 15.25,
+     "hi95": 31.2
     },
     {
      "year": 2020,
-     "trend": 26.024,
-     "lo95": 12.373,
-     "hi95": 39.675
+     "trend": 24.0,
+     "lo95": 22.083,
+     "hi95": 27.4
     },
     {
      "year": 2021,
-     "trend": 28.176,
-     "lo95": 14.525,
-     "hi95": 41.827
+     "trend": 27.0,
+     "lo95": 23.6,
+     "hi95": 28.917
     },
     {
      "year": 2022,
-     "trend": 30.327,
-     "lo95": 15.155,
-     "hi95": 45.499
+     "trend": 30.0,
+     "lo95": 19.8,
+     "hi95": 35.75
     },
     {
      "year": 2023,
-     "trend": 32.479,
-     "lo95": 14.649,
-     "hi95": 50.308
+     "trend": 33.0,
+     "lo95": 16.0,
+     "hi95": 42.583
     },
     {
      "year": 2024,
-     "trend": 34.63,
-     "lo95": 13.431,
-     "hi95": 55.83
+     "trend": 36.0,
+     "lo95": 12.2,
+     "hi95": 49.417
     },
     {
      "year": 2025,
-     "trend": 36.782,
-     "lo95": 11.786,
-     "hi95": 61.778
+     "trend": 39.0,
+     "lo95": 8.4,
+     "hi95": 56.25
     }
    ],
+   "q": 0.5631,
+   "records_tested": 14,
    "then": 20.2,
    "now": 34.0,
    "change_then_to_now": 13.8,
-   "slope_per_decade": 21.5,
+   "slope_per_decade": 30.0,
    "slope_ci95_per_decade": [
-    -25.3,
+    -38.0,
     68.3
    ],
    "usual_range": [
@@ -13483,7 +14855,7 @@
    },
    "story": {
     "happened": "Fire detections nearby: 20 detections a year on average in 2016–2020, compared with 34 detections a year in 2021–2025.",
-    "is_it_real": "The trend is +21.5 detections per decade (95% CI -25.3 to +68.3), but not statistically significant yet (p = 0.32): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +30.0 detections per decade (95% CI -38.0 to +68.3), but not statistically significant yet (p = 0.32): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Wildfire smoke carries fine particles that worsen asthma, COPD and heart disease, and is a risk in pregnancy.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 5–53 detections."
    },
@@ -14679,6 +16051,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.34",
    "mk_p": 0.33517687175502253,
+   "mk_p_memory": 0.7184,
+   "lag1": 0.467,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -14724,72 +16099,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 0.345,
-     "lo95": -2.021,
-     "hi95": 2.712
+     "trend": 1.0,
+     "lo95": -2.6,
+     "hi95": 1.0
     },
     {
      "year": 2017,
-     "trend": 0.558,
-     "lo95": -1.449,
-     "hi95": 2.565
+     "trend": 1.0,
+     "lo95": -1.8,
+     "hi95": 1.0
     },
     {
      "year": 2018,
-     "trend": 0.77,
-     "lo95": -0.918,
-     "hi95": 2.458
+     "trend": 1.0,
+     "lo95": -1.0,
+     "hi95": 1.0
     },
     {
      "year": 2019,
-     "trend": 0.982,
-     "lo95": -0.455,
-     "hi95": 2.418
+     "trend": 1.0,
+     "lo95": -0.2,
+     "hi95": 1.0
     },
     {
      "year": 2020,
-     "trend": 1.194,
-     "lo95": -0.098,
-     "hi95": 2.486
+     "trend": 1.0,
+     "lo95": 0.6,
+     "hi95": 1.0
     },
     {
      "year": 2021,
-     "trend": 1.406,
-     "lo95": 0.114,
-     "hi95": 2.698
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 1.4
     },
     {
      "year": 2022,
-     "trend": 1.618,
-     "lo95": 0.182,
-     "hi95": 3.055
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 2.2
     },
     {
      "year": 2023,
-     "trend": 1.83,
-     "lo95": 0.142,
-     "hi95": 3.518
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 3.0
     },
     {
      "year": 2024,
-     "trend": 2.042,
-     "lo95": 0.035,
-     "hi95": 4.049
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 3.8
     },
     {
      "year": 2025,
-     "trend": 2.255,
-     "lo95": -0.112,
-     "hi95": 4.621
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 4.6
     }
    ],
+   "q": 0.5631,
+   "records_tested": 14,
    "then": 0.4,
    "now": 2.2,
    "change_then_to_now": 1.8,
-   "slope_per_decade": 2.1,
+   "slope_per_decade": 0.0,
    "slope_ci95_per_decade": [
-    -2.3,
-    6.6
+    -0.0,
+    8.0
    ],
    "usual_range": [
     0.0,
@@ -14806,7 +16183,7 @@
    },
    "story": {
     "happened": "Smoke days: 0 days a year on average in 2016–2020, compared with 2 days a year in 2021–2025.",
-    "is_it_real": "The trend is +2.1 days per decade (95% CI -2.3 to +6.6), but not statistically significant yet (p = 0.34): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +0.0 days per decade (95% CI -0.0 to +8.0), but not statistically significant yet (p = 0.34): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Smoke is hardest on people with asthma or COPD, children and older adults (EPA AirNow).",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 0–4 days."
    },
@@ -15995,6 +17372,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.72",
    "mk_p": 0.7205147871362552,
+   "mk_p_memory": 0.7205,
+   "lag1": -0.115,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -16040,72 +17420,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 0.138,
+     "trend": 0.137,
      "lo95": 0.128,
-     "hi95": 0.147
+     "hi95": 0.145
     },
     {
      "year": 2017,
      "trend": 0.138,
      "lo95": 0.13,
-     "hi95": 0.146
+     "hi95": 0.143
     },
     {
      "year": 2018,
      "trend": 0.138,
      "lo95": 0.132,
-     "hi95": 0.145
+     "hi95": 0.142
     },
     {
      "year": 2019,
-     "trend": 0.139,
-     "lo95": 0.133,
-     "hi95": 0.144
+     "trend": 0.138,
+     "lo95": 0.135,
+     "hi95": 0.14
     },
     {
      "year": 2020,
-     "trend": 0.139,
-     "lo95": 0.134,
-     "hi95": 0.144
+     "trend": 0.138,
+     "lo95": 0.137,
+     "hi95": 0.139
     },
     {
      "year": 2021,
-     "trend": 0.139,
+     "trend": 0.138,
+     "lo95": 0.137,
+     "hi95": 0.139
+    },
+    {
+     "year": 2022,
+     "trend": 0.138,
+     "lo95": 0.136,
+     "hi95": 0.141
+    },
+    {
+     "year": 2023,
+     "trend": 0.138,
      "lo95": 0.134,
      "hi95": 0.144
     },
     {
-     "year": 2022,
-     "trend": 0.14,
-     "lo95": 0.134,
-     "hi95": 0.145
-    },
-    {
-     "year": 2023,
-     "trend": 0.14,
-     "lo95": 0.133,
-     "hi95": 0.147
-    },
-    {
      "year": 2024,
-     "trend": 0.14,
-     "lo95": 0.132,
-     "hi95": 0.148
+     "trend": 0.138,
+     "lo95": 0.133,
+     "hi95": 0.146
     },
     {
      "year": 2025,
-     "trend": 0.14,
+     "trend": 0.139,
      "lo95": 0.131,
-     "hi95": 0.15
+     "hi95": 0.148
     }
    ],
+   "q": 0.8125,
+   "records_tested": 14,
    "then": 0.1391,
    "now": 0.1392,
    "change_then_to_now": 0.0001,
-   "slope_per_decade": 0.0029,
+   "slope_per_decade": 0.0014,
    "slope_ci95_per_decade": [
-    -0.0148,
-    0.0205
+    -0.015,
+    0.0229
    ],
    "usual_range": [
     0.1327,
@@ -16122,7 +17504,7 @@
    },
    "story": {
     "happened": "Haze (aerosol optical depth): 0.139 AOD on average in 2016–2020, compared with 0.139 AOD in 2021–2025.",
-    "is_it_real": "The trend is +0.003 AOD per decade (95% CI -0.015 to +0.021), but not statistically significant yet (p = 0.72): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +0.001 AOD per decade (95% CI -0.015 to +0.023), but not statistically significant yet (p = 0.72): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 0.133–0.148 AOD."
    },
@@ -17322,6 +18704,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.75",
    "mk_p": 0.7544541774940892,
+   "mk_p_memory": 0.7545,
+   "lag1": -0.299,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -17363,66 +18748,68 @@
    "line": [
     {
      "year": 2016,
-     "trend": 1348.444,
-     "lo95": 1119.597,
-     "hi95": 1577.292
+     "trend": 1286.238,
+     "lo95": 993.667,
+     "hi95": 1491.0
     },
     {
      "year": 2017,
-     "trend": 1354.278,
-     "lo95": 1164.021,
-     "hi95": 1544.535
+     "trend": 1297.429,
+     "lo95": 1078.0,
+     "hi95": 1451.0
     },
     {
      "year": 2018,
-     "trend": 1360.111,
-     "lo95": 1203.123,
-     "hi95": 1517.099
+     "trend": 1308.619,
+     "lo95": 1162.333,
+     "hi95": 1411.0
     },
     {
      "year": 2019,
-     "trend": 1365.944,
-     "lo95": 1232.851,
-     "hi95": 1499.038
+     "trend": 1319.81,
+     "lo95": 1246.667,
+     "hi95": 1371.0
     },
     {
      "year": 2020,
-     "trend": 1371.778,
-     "lo95": 1247.668,
-     "hi95": 1495.888
+     "trend": 1331.0,
+     "lo95": 1331.0,
+     "hi95": 1331.0
     },
     {
      "year": 2021,
-     "trend": 1377.611,
-     "lo95": 1244.518,
-     "hi95": 1510.704
+     "trend": 1342.19,
+     "lo95": 1291.0,
+     "hi95": 1415.333
     },
     {
      "year": 2022,
-     "trend": 1383.444,
-     "lo95": 1226.456,
-     "hi95": 1540.432
+     "trend": 1353.381,
+     "lo95": 1251.0,
+     "hi95": 1499.667
     },
     {
      "year": 2023,
-     "trend": 1389.278,
-     "lo95": 1199.021,
-     "hi95": 1579.535
+     "trend": 1364.571,
+     "lo95": 1211.0,
+     "hi95": 1584.0
     },
     {
      "year": 2024,
-     "trend": 1395.111,
-     "lo95": 1166.264,
-     "hi95": 1623.959
+     "trend": 1375.762,
+     "lo95": 1171.0,
+     "hi95": 1668.333
     }
    ],
+   "q": 0.8125,
+   "records_tested": 14,
    "then": 1404.2,
    "now": 1401.0,
    "change_then_to_now": -3.2,
-   "slope_per_decade": 58.3,
+   "slope_per_decade": 111.9,
    "slope_ci95_per_decade": [
-    -422.3,
-    539.0
+    -400.0,
+    843.3
    ],
    "usual_range": [
     1236.6,
@@ -17439,7 +18826,7 @@
    },
    "story": {
     "happened": "Rain seen from satellites (IMERG): 1,404 mm on average in 2016–2020, compared with 1,401 mm in 2020–2024.",
-    "is_it_real": "The trend is +58.3 mm per decade (95% CI -422.3 to +539.0), but not statistically significant yet (p = 0.75): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +111.9 mm per decade (95% CI -400.0 to +843.3), but not statistically significant yet (p = 0.75): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 1,237–1,498 mm."
    },
@@ -18567,6 +19954,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.11",
    "mk_p": 0.10776229039192153,
+   "mk_p_memory": 0.1078,
+   "lag1": -0.573,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -18604,60 +19994,62 @@
    "line": [
     {
      "year": 2016,
-     "trend": 5.38,
-     "lo95": 3.625,
-     "hi95": 7.135
+     "trend": 4.652,
+     "lo95": 2.743,
+     "hi95": 6.387
     },
     {
      "year": 2019,
-     "trend": 5.912,
-     "lo95": 4.863,
-     "hi95": 6.961
+     "trend": 5.316,
+     "lo95": 4.448,
+     "hi95": 6.104
     },
     {
      "year": 2020,
-     "trend": 6.089,
-     "lo95": 5.199,
-     "hi95": 6.98
+     "trend": 5.537,
+     "lo95": 5.016,
+     "hi95": 6.01
     },
     {
      "year": 2021,
-     "trend": 6.267,
-     "lo95": 5.454,
-     "hi95": 7.079
+     "trend": 5.758,
+     "lo95": 5.585,
+     "hi95": 5.916
     },
     {
      "year": 2022,
-     "trend": 6.444,
-     "lo95": 5.605,
-     "hi95": 7.283
+     "trend": 5.979,
+     "lo95": 5.822,
+     "hi95": 6.153
     },
     {
      "year": 2023,
-     "trend": 6.621,
-     "lo95": 5.66,
-     "hi95": 7.583
+     "trend": 6.201,
+     "lo95": 5.728,
+     "hi95": 6.721
     },
     {
      "year": 2024,
-     "trend": 6.799,
-     "lo95": 5.65,
-     "hi95": 7.948
+     "trend": 6.422,
+     "lo95": 5.633,
+     "hi95": 7.29
     },
     {
      "year": 2025,
-     "trend": 6.976,
-     "lo95": 5.6,
-     "hi95": 8.352
+     "trend": 6.643,
+     "lo95": 5.539,
+     "hi95": 7.858
     }
    ],
+   "q": 0.3772,
+   "records_tested": 14,
    "then": 5.85,
    "now": 6.72,
    "change_then_to_now": 0.87,
-   "slope_per_decade": 1.77,
+   "slope_per_decade": 2.21,
    "slope_ci95_per_decade": [
-    -1.19,
-    4.74
+    -0.94,
+    5.68
    ],
    "usual_range": [
     5.46,
@@ -18674,7 +20066,7 @@
    },
    "story": {
     "happened": "Water storage (ground, soil, snow): 5.8 cm on average in 2016–2022, compared with 6.7 cm in 2021–2025.",
-    "is_it_real": "The trend is +1.8 cm per decade (95% CI -1.2 to +4.7), but not statistically significant yet (p = 0.11): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +2.2 cm per decade (95% CI -0.9 to +5.7), but not statistically significant yet (p = 0.11): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 5.5–7.5 cm."
    },
@@ -19442,6 +20834,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.47",
    "mk_p": 0.4742743507673295,
+   "mk_p_memory": 0.4743,
+   "lag1": -0.172,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2016,
@@ -19487,72 +20882,74 @@
    "line": [
     {
      "year": 2016,
-     "trend": 0.01,
-     "lo95": -0.527,
-     "hi95": 0.548
+     "trend": 0.088,
+     "lo95": -0.581,
+     "hi95": 0.445
     },
     {
      "year": 2017,
-     "trend": -0.024,
-     "lo95": -0.48,
-     "hi95": 0.432
+     "trend": 0.037,
+     "lo95": -0.483,
+     "hi95": 0.315
     },
     {
      "year": 2018,
-     "trend": -0.059,
-     "lo95": -0.442,
-     "hi95": 0.325
+     "trend": -0.014,
+     "lo95": -0.386,
+     "hi95": 0.185
     },
     {
      "year": 2019,
-     "trend": -0.093,
-     "lo95": -0.419,
-     "hi95": 0.233
+     "trend": -0.065,
+     "lo95": -0.288,
+     "hi95": 0.054
     },
     {
      "year": 2020,
-     "trend": -0.127,
-     "lo95": -0.421,
-     "hi95": 0.166
+     "trend": -0.116,
+     "lo95": -0.19,
+     "hi95": -0.076
     },
     {
      "year": 2021,
-     "trend": -0.162,
-     "lo95": -0.455,
-     "hi95": 0.132
+     "trend": -0.167,
+     "lo95": -0.206,
+     "hi95": -0.092
     },
     {
      "year": 2022,
-     "trend": -0.196,
-     "lo95": -0.522,
-     "hi95": 0.13
+     "trend": -0.217,
+     "lo95": -0.337,
+     "hi95": 0.006
     },
     {
      "year": 2023,
-     "trend": -0.231,
-     "lo95": -0.614,
-     "hi95": 0.153
+     "trend": -0.268,
+     "lo95": -0.467,
+     "hi95": 0.103
     },
     {
      "year": 2024,
-     "trend": -0.265,
-     "lo95": -0.721,
-     "hi95": 0.191
+     "trend": -0.319,
+     "lo95": -0.597,
+     "hi95": 0.201
     },
     {
      "year": 2025,
-     "trend": -0.299,
-     "lo95": -0.837,
-     "hi95": 0.238
+     "trend": -0.37,
+     "lo95": -0.728,
+     "hi95": 0.299
     }
    ],
+   "q": 0.664,
+   "records_tested": 14,
    "then": -0.01,
    "now": -0.28,
    "change_then_to_now": -0.27,
-   "slope_per_decade": -0.34,
+   "slope_per_decade": -0.51,
    "slope_ci95_per_decade": [
-    -1.35,
-    0.66
+    -1.3,
+    0.98
    ],
    "usual_range": [
     -0.61,
@@ -19569,7 +20966,7 @@
    },
    "story": {
     "happened": "Heat island vs surroundings: -0.0 °C on average in 2016–2020, compared with -0.3 °C in 2021–2025.",
-    "is_it_real": "The trend is -0.3 °C per decade (95% CI -1.4 to +0.7), but not statistically significant yet (p = 0.47): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is -0.5 °C per decade (95% CI -1.3 to +1.0), but not statistically significant yet (p = 0.47): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Urban heat islands add extra heat on top of the regional climate.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about -0.6–0.4 °C."
    },

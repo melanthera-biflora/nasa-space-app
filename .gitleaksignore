@@ -1,0 +1,4 @@
+# Checked false positives only. Each line is one rule on one file, never a whole folder.
+# The 51-city table is generated statistics on a single minified line; the generic-api-key rule reads the record
+# name "surface_heat_5km" after "key": as a key. No secret can reach this file (tools/compare_export.py writes it).
+data_pipeline/demo_reports/places_compare.json:generic-api-key:1

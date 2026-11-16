@@ -51,3 +51,33 @@ def test_change_edges_follow_the_spread_of_changes_not_the_extremes():
     assert e == sorted(e) and len(e) == 4 and e[-1] < 200
     assert change_edges(np.array([0.0012, 0.0031, 0.0047, 0.0088])) == sorted(set(change_edges(np.array([0.0012, 0.0031, 0.0047, 0.0088]))))
     assert all(len(f"{v:.2g}") <= 6 for v in change_edges(np.linspace(0, 0.05, 50)))   # 2 significant digits
+
+
+def test_the_line_and_the_colours_can_follow_a_focus_area_while_every_shown_cell_is_painted():
+    years, lats, lons = np.array([2001, 2002]), np.array([30.0, 60.0]), np.array([-100.0, -90.0])
+    cube = np.array([[[1.0, 2.0], [50.0, 60.0]], [[1.0, 2.0], [70.0, 80.0]]])    # the north row: big values (Canada)
+    inside = np.ones((2, 2), bool)
+    focus = np.array([[True, True], [False, False]])                             # the line is the south row only
+    f = frames(years, lats, lons, cube, inside, 1, base=1, focus=focus)
+    assert f["us_mean"] == [1.5, 1.5]
+    assert f["values"][1][2:] == [70.0, 80.0]                                    # still painted
+    assert max(f["level_breaks"]) <= 2                                           # classes from the focus cells
+
+
+def test_a_square_is_land_when_most_of_its_sea_temperature_squares_are_empty():
+    from tools.map_frames_na import land_cells
+    lats, lons = np.array([10.25]), np.array([-170.0, -169.375])
+    # four 0.25 deg sea-temperature squares per display square: the first is all land, the second 1 of 4 land
+    o_lat, o_lon = np.array([10.125, 10.375]), np.array([-170.125, -169.875, -169.625, -169.375])
+    ocean = np.array([[False, False, True, True], [False, False, False, True]])
+    assert land_cells(lats, lons, o_lat, o_lon, ocean).tolist() == [[True, False]]
+    ocean[:, 2:] = False                                                         # now 4 of 4 land
+    assert land_cells(lats, lons, o_lat, o_lon, ocean).tolist() == [[True, True]]
+
+
+def test_the_colours_can_come_from_more_cells_than_the_line():
+    years, lats, lons = np.array([2001, 2002]), np.array([20.0, 60.0]), np.array([-90.0])
+    cube = np.array([[[28.0], [2.0]], [[29.0], [3.0]]])                         # the Gulf (line) and the north (colours)
+    inside, gulf = np.ones((2, 1), bool), np.array([[True], [False]])
+    f = frames(years, lats, lons, cube, inside, 1, base=1, focus=gulf, scale=inside)
+    assert f["us_mean"] == [28.0, 29.0] and min(f["level_breaks"]) < 28

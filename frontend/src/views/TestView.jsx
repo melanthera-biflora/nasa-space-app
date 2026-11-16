@@ -20,11 +20,12 @@ export default function TestView() {
         {v && v.state !== 'none' && (
           <>
             <section className={`dt-verdict is-${v.state}`} aria-labelledby="verdict-h">
-              <p className="dt-verdict-kicker">{f.period?.[0]}–{f.period?.[1]}, {f.n_years} years, tested with Mann-Kendall</p>
+              <p className="dt-verdict-kicker">{f.period?.[0]}–{f.period?.[1]}, {f.n_years} years, tested with Mann-Kendall{v.corrected ? `, ${v.corrected}` : ''}</p>
               <h2 id="verdict-h">{v.title}{v.state === 'clear' && !v.hangs ? `: ${v.direction}` : ''}</h2>
               {answer && <p className="dt-guess-answer"><b>{answer.text}</b> {answer.match ? 'Your eye and the test agree.' : 'Your eye and the test disagree: that is why we test a pattern before trusting it.'}</p>}
-              <p className="dt-verdict-rate">{v.rate} <span className="dt-muted">(<Term title="95% range" definition="the rates that fit the data. If it includes zero, the data can't yet rule out no change.">{v.range}</Term>; <Term title="p-value" definition="how often a change this big would appear by chance if nothing were really changing. Under 0.05 (1 in 20) counts as a clear trend.">{v.p}</Term>)</span></p>
+              <p className="dt-verdict-rate">{v.rate} <span className="dt-muted">(<Term title="95% range" definition="the rates that fit the data. If it includes zero, the data can't yet rule out no change.">{v.range}</Term>; <Term title="p-value" definition="how often a change this big would appear by chance if nothing were really changing.">{v.p}</Term>{v.q && <>; <Term title="q" definition="the p-value adjusted for testing every record of this place at once (Benjamini-Hochberg). Under 0.05 counts as a clear trend.">{v.q}</Term></>})</span></p>
               <p>{v.words}</p>
+              {v.memory && <p className="dt-link-note">{v.memory}</p>}
               {v.monthly && <p>{v.monthly.text}</p>}
               {v.yearsNeeded && <p className="dt-years-needed"><b>How long would it take?</b> {v.yearsNeeded}</p>}
               {v.state === 'unclear' && canGoLonger && (
@@ -41,7 +42,7 @@ export default function TestView() {
             </figure>
             <details className="dt-method">
               <summary>How this test works</summary>
-              <p>Mann-Kendall asks: across every pair of years, does the later year come out higher more often than chance allows? If p is under 0.05, a pattern this strong would turn up by luck less than 1 time in 20. The rate is the straight-line change per decade with its 95% range. The monthly test (Seasonal Kendall) compares each month only with the same month in other years, and corrects for months that remember the month before.</p>
+              <p>Mann-Kendall asks: across every pair of years, does the later year come out higher more often than chance allows? A report tests about 16 records at once, so a few would look clear by luck; the Benjamini-Hochberg correction turns each p into a q, and a trend is clear when q is under 0.05. The rate is Sen’s slope, the middle of the slopes between every pair of years, so one wild year barely moves it; the 95% range and the band on the chart come from the same slopes. A memory check runs beside the test: when a year tends to repeat the one before, the record holds less evidence, and the page says so. The monthly test (Seasonal Kendall) compares each month only with the same month in other years, and corrects for months that remember the month before.</p>
               <p>“How long would it take” uses Weatherhead et al. (1998): from how noisy the months are and how much they remember, the years a change this size needs for a 50% and a 90% chance of a clear result.</p>
             </details>
             <nav className="dt-next-row" aria-label="Next steps">

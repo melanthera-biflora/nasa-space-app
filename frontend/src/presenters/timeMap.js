@@ -16,12 +16,39 @@ export const FRAME_FIELDS = [
   { key: 'no2', label: 'Nitrogen dioxide', noun: '×10¹⁵ molecules/cm² of NO₂' },
   { key: 'fires', label: 'Fires', noun: 'fire detections per 1° square' },
 ]
+// North America (tools/map_frames_na.py): the records whose data reach past the border, and the sea
+const SMOKE_NOTE = FRAME_FIELDS[0].note
+export const NA_FIELDS = [
+  { key: 'sst', label: 'Sea temperature', noun: '°C at the sea surface',
+    note: 'NOAA improved how it blends satellite and ship readings from 2016, so compare earlier years with care.' },
+  { key: 'smoke_days_na', label: 'Smoke days', noun: 'days of medium or thick smoke a year', note: SMOKE_NOTE },
+  { key: 'pm25_na', label: 'Fine particles', noun: 'µg/m³ of fine particles' },
+  { key: 'fires_na', label: 'Fires', noun: 'fire detections per 1° square' },
+]
+export const AREAS = [{ value: 'us', label: 'Lower 48' }, { value: 'na', label: 'North America' }]
+export const BOUNDS = { us: [[24, -125], [50, -66]], na: [[10, -170], [72, -50]] }
+export const areaOf = (key) => (NA_FIELDS.some((f) => f.key === key) ? 'na' : 'us')
+export const fieldsFor = (area) => (area === 'na' ? NA_FIELDS : FRAME_FIELDS)
+/** The same record on the other area's map; the sea takes the place of records the other map lacks. */
+export function switchArea(key, area) {
+  const us = key.replace(/_na$/, '')
+  if (area === 'us') return FRAME_FIELDS.some((f) => f.key === us) ? us : 'pm25'
+  return NA_FIELDS.some((f) => f.key === `${key}_na`) ? `${key}_na` : areaOf(key) === 'na' ? key : 'sst'
+}
+const meanArea = (frames) => frames.mean_area || 'the lower 48'
+/** The line's heading: "Lower-48 average", "Gulf of Mexico average", with the base years in the change view. */
+export function lineLabel(frames, view) {
+  const place = meanArea(frames).replace(/^the /, '')
+  const head = `${place === 'lower 48' ? 'Lower-48' : place} average`
+  return view === 'change' ? `${head}, change from ${baseLabel(frames)}` : head
+}
+
 export const VIEWS = [{ value: 'level', label: 'Each year' }, { value: 'change', label: 'Change from the start' }]
 export const SPEEDS = [{ value: 1600, label: 'Slow' }, { value: 1000, label: 'Normal' }, { value: 550, label: 'Fast' }]
 /** How long the new year takes to fade in over the last one: short at Fast, so most of each step shows only legend colours. */
 export const fadeFor = (speed) => (speed < 800 ? 150 : 300)
 
-const nounOf = (frames, key) => FRAME_FIELDS.find((f) => f.key === key)?.noun || frames.unit
+const nounOf = (frames, key) => [...FRAME_FIELDS, ...NA_FIELDS].find((f) => f.key === key)?.noun || frames.unit
 const span = (a, b) => (a === b ? `${a}` : `${a}–${String(b).slice(2)}`)
 
 /** The years a frame covers: "2021", or "2023–25" for a 3-year mean. */
@@ -44,9 +71,9 @@ const moreOrLess = (v, noun, base) => (v === 0 ? `about the same ${noun} as in $
 export function caption(frames, i, key, view) {
   const noun = nounOf(frames, key), when = yearLabel(frames, i)
   if (frames.us_mean[i] == null) return `${when}: no complete year of data.`
-  if (view === 'change') return `${when}: across the lower 48, ${moreOrLess(frames.us_change[i], noun, baseLabel(frames))}.`
+  if (view === 'change') return `${when}: across ${meanArea(frames)}, ${moreOrLess(frames.us_change[i], noun, baseLabel(frames))}.`
   const was = i > 0 ? ` (${format(frames.us_mean[0])} in ${yearLabel(frames, 0)})` : ''
-  return `${when}: across the lower 48, an average of ${format(frames.us_mean[i])} ${noun}${was}.`
+  return `${when}: across ${meanArea(frames)}, an average of ${format(frames.us_mean[i])} ${noun}${was}.`
 }
 
 /** The US-average line under the map, scaled 0-1 for drawing; in the change view it also places the zero line. */

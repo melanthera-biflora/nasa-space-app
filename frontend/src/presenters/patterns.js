@@ -10,6 +10,7 @@ const SHORT = {
   smoke_days: 'Smoke', aod: 'Haze', water_storage: 'Water storage', pm25: 'PM2.5', no2: 'NO₂', fires: 'Fires',
   hot_days: 'Very hot days', warm_nights: 'Warm nights', cold_days: 'Cold nights', heavy_rain_days: 'Heavy rain',
   wettest_day: 'Wettest day', dry_days: 'Dry days', muggy_days: 'Muggy days', humid_heat_days: 'Humid-heat days',
+  heat_index_days: 'Heat-index days', frost_free_season: 'Frost-free season',
   rain_sat: 'Satellite rain', surface_heat_5km: 'Ground heat', surface_heat: 'Ground heat (1 km)',
 }
 export const shortLabel = (key, labels = {}) => SHORT[key] || labels[key] || key

@@ -28,8 +28,9 @@ from analysis.seasonal import monthly_z
 
 # Which dataset each variable comes from: links inside one dataset are partly built in (same model, same days).
 FAMILIES = {**{k: "NASA POWER (MERRA-2 weather)" for k in ("hot_days", "warm_nights", "cold_days", "heavy_rain_days", "wettest_day",
-                                                                "dry_days", "muggy_days", "humid_heat_days", "t2m", "t2m_max", "precip",
-                                                                "gwetroot", "frost_days")},
+                                                                "dry_days", "muggy_days", "humid_heat_days", "heat_index_days",
+                                                                "frost_free_season", "t2m", "t2m_max", "precip", "gwetroot",
+                                                                "frost_days")},
             "pm25": "MERRA-2 aerosols", "aod": "MERRA-2 aerosols", "no2": "OMI", "fires": "FIRMS", "smoke_days": "NOAA HMS",
             "rain_sat": "GPM IMERG", "surface_heat_5km": "MODIS", "surface_heat": "MODIS", "heat_island": "MODIS",
             "water_storage": "GRACE"}

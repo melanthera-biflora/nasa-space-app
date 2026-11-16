@@ -108,6 +108,8 @@ time and resumes where it stopped if you run it again.
 | Ground heat, 5 km (MODIS MOD11C3) | `python -m sources.modis_lst_monthly` | Earthdata | ~3 GB |
 | Water storage (GRACE and GRACE-FO) | `python -m sources.grace` | Earthdata | ~45 MB |
 | Neighbourhood heat, 1 km (MODIS MOD11A2) | `python -m sources.modis_lst LAT LON`, once per demo city | None | 25–50 min per city |
+| Sea temperature, North America (NOAA OISST v2.1), for the North America map | `python -m sources.oisst` | None | ~60 MB |
+| Fire detections, Canada and Mexico, for the North America map | `python -m sources.fires_firms --na Canada Mexico` | None | ~300 MB |
 | El Niño index (NOAA CPC RONI) | `curl -o cache/indices/RONI.ascii.txt https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt` | None | 15 KB |
 
 NASA POWER weather needs no build: it downloads on the first report for a place (1–60 s) and is cached.
@@ -121,6 +123,13 @@ python -m tools.trend_field
 ```bash
 python -m tools.map_frames
 ```
+
+```bash
+python -m tools.map_frames_na
+```
+
+The North America map's files (`demo_reports/map_frames/sst.json`, `*_na.json`) are committed, so the app shows them
+without the sea-temperature and Canada/Mexico files; rebuild them only after downloading those.
 
 ```bash
 python -m tools.compare_export
@@ -234,7 +243,7 @@ npm --prefix frontend run lint
 
 | Data | Citation |
 | --- | --- |
-| **NASA POWER** daily and monthly weather (MERRA-2 based): very hot days, warm nights, cold nights, frost, heavy rain, dry and muggy days, state averages | These data were obtained from the NASA Langley Research Center (LaRC) POWER Project funded through the NASA Earth Science/Applied Science Program. https://power.larc.nasa.gov/ |
+| **NASA POWER** daily and monthly weather (MERRA-2 based): very hot days, warm nights, cold nights, frost, heavy rain, dry and muggy days, humid heat, dangerous heat-index days, the frost-free season, state averages | These data were obtained from the NASA Langley Research Center (LaRC) POWER Project funded through the NASA Earth Science/Applied Science Program. https://power.larc.nasa.gov/ |
 | **MERRA-2 aerosol diagnostics** (M2TMNXAER, V5.12.4): PM2.5 (rebuilt from dust, sea salt, sulfate, black and organic carbon) and haze (AOD) | Global Modeling and Assimilation Office (GMAO) (2015), MERRA-2 tavgM_2d_aer_Nx: 2d, Monthly mean, Time-averaged, Single-Level, Assimilation, Aerosol Diagnostics V5.12.4, Greenbelt, MD, USA, Goddard Earth Sciences Data and Information Services Center (GES DISC), https://doi.org/10.5067/FH9A0MLJPC7N. Gelaro, R., et al. (2017), The Modern-Era Retrospective Analysis for Research and Applications, Version 2 (MERRA-2), *J. Climate* 30, 5419–5454, https://doi.org/10.1175/JCLI-D-16-0758.1 |
 | **OMI/Aura NO₂** (OMNO2d, version 004) | Krotkov, N. A., et al., OMI/Aura NO2 Cloud-Screened Total and Tropospheric Column Daily L3 Global 0.25deg Lat/Lon Grid, version 004, GES DISC, https://doi.org/10.5067/Aura/OMI/DATA3407 |
 | **NASA FIRMS** MODIS active fire detections (Collection 6.1, Terra and Aqua) | MODIS Collection 6.1 Hotspot / Active Fire Detections MCD14ML, distributed from NASA FIRMS, https://doi.org/10.5067/FIRMS/MODIS/MCD14ML. We acknowledge the use of data and/or imagery from NASA's Fire Information for Resource Management System (FIRMS) (https://www.earthdata.nasa.gov/firms), part of NASA's Earth Science Data and Information System (ESDIS) |
@@ -248,6 +257,17 @@ npm --prefix frontend run lint
 | **OpenStreetMap**: map tiles, place search (Nominatim) and suggestions while typing (Photon by komoot) | © OpenStreetMap contributors, available under the Open Database License, https://www.openstreetmap.org/copyright. Nominatim, https://nominatim.org/. Photon, https://photon.komoot.io/ |
 | **Event catalogue** (heat waves, smoke, floods, droughts) | Each event lists its own source (NOAA, NASA, state agencies, peer-reviewed studies) in `data_pipeline/config/events.json` |
 
+### Methods
+
+| Method | Citation |
+| --- | --- |
+| Trend test (Mann-Kendall) | Mann, H. B. (1945), *Econometrica* 13, 245–259; Kendall, M. G. (1975), *Rank Correlation Methods* |
+| Rate of change (Theil-Sen slope) | Sen, P. K. (1968), *J. Am. Stat. Assoc.* 63, 1379–1389 |
+| Correction across a report's records and a map's squares (Benjamini-Hochberg) | Benjamini, Y., and Hochberg, Y. (1995), *J. R. Stat. Soc. B* 57, 289–300; for maps, Wilks, D. S. (2016), *Bull. Am. Meteorol. Soc.* 97, 2263–2273 |
+| Memory check (effective sample size with the lag-1 bias corrected) | Bayley, G. V., and Hammersley, J. M. (1946), *J. R. Stat. Soc. Suppl.* 8, 184–197; Marriott, F. H. C., and Pope, J. A. (1954), *Biometrika* 41, 390–402 |
+| Heat index | Rothfusz, L. P. (1990), NWS Technical Attachment SR 90-23; the National Weather Service's equation and levels, https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml and https://www.weather.gov/ama/heatindex |
+| Frost-free season | The US climate indicators' definition (last spring to first fall night at or below 32 °F), NOAA Climate.gov, https://www.climate.gov/news-features/featured-images/frost-free-season-lengthening-across-united-states |
+
 ### Used for checks only
 
 | Data | Citation |
@@ -255,12 +275,19 @@ npm --prefix frontend run lint
 | **EPA AirData** daily PM2.5 monitors (88101, 88502), 2003–2016: a check on MERRA-2 PM2.5 (why PM2.5 trends start in 2010) | U.S. Environmental Protection Agency, Air Quality System data, https://aqs.epa.gov/aqsweb/airdata/download_files.html |
 | **NOAA GHCN-Daily** airport stations: a check of the NASA grid against stations | Menne, M. J., et al. (2012), Global Historical Climatology Network - Daily (GHCN-Daily), Version 3, NOAA National Centers for Environmental Information, https://doi.org/10.7289/V5D21VHZ |
 
-### Downloaded for the North America maps (not shown yet)
+### On the North America map
 
 | Data | Citation |
 | --- | --- |
 | **NASA FIRMS**, Canada and Mexico | As FIRMS above |
 | **NOAA OISST v2.1** monthly sea-surface temperature | Huang, B., et al. (2021), Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) Version 2.1, *J. Climate* 34, 2923–2939, https://doi.org/10.1175/JCLI-D-20-0166.1. NOAA OI SST V2 High Resolution Dataset data provided by the NOAA PSL, Boulder, Colorado, USA, from their website at https://psl.noaa.gov |
+
+The map's PM2.5 and smoke days come from the MERRA-2 and NOAA HMS data cited above.
+
+### Downloaded, not shown yet
+
+| Data | Citation |
+| --- | --- |
 | **Climate indices**: ONI, PDO and AMO (from ERSST v5), NAO, PNA, AO | NOAA Climate Prediction Center, https://www.cpc.ncep.noaa.gov/. NOAA NCEI, https://www.ncei.noaa.gov/pub/data/cmb/ersst/v5/index/. Huang, B., et al. (2017), Extended Reconstructed Sea Surface Temperature, Version 5 (ERSSTv5), *J. Climate* 30, 8179–8205, https://doi.org/10.1175/JCLI-D-16-0836.1 |
 | **Natural Earth** country outlines (1:50m) | Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com |
 

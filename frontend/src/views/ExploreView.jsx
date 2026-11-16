@@ -15,6 +15,8 @@ export default function ExploreView() {
   const { events } = useEvents(c.place)
   const guess = c.guess
   const f = c.factor
+  const monthly = (f?.monthly || []).length > 1         // the frost-free season is yearly only
+  const every = monthly ? 'month' : 'year'
   const spans = (events || []).filter((e) => e.variables.includes(c.variable)).map((e) => ({
     id: e.id, from: Number(e.start.slice(0, 4)) + (Number(e.start.slice(5, 7)) - 1) / 12,
     to: Number(e.end.slice(0, 4)) + Number(e.end.slice(5, 7)) / 12,
@@ -26,13 +28,13 @@ export default function ExploreView() {
         {f && (
           <>
             <p className="dt-lede">{f.definition}</p>
-            <ChartFrame wide live title={`Every month, ${f.period?.[0]}–${f.period?.[1]}`}
-              takeaway={guess ? takeaway(f, c.placeName) : `Every month from ${f.period?.[0]} to ${f.period?.[1]}, with the yearly values as dots. The trend line and the verdict appear once you make your call below.`}
+            <ChartFrame wide live title={`Every ${every}, ${f.period?.[0]}–${f.period?.[1]}`}
+              takeaway={guess ? takeaway(f, c.placeName) : `Every ${every} from ${f.period?.[0]} to ${f.period?.[1]}${monthly ? ', with the yearly values as dots' : ''}. The trend line and the verdict appear once you make your call below.`}
               table={{ columns: ['Year', `Yearly value (${unitOf(f)})`], rows: (f.points || []).map((p) => [p.year, format(p.value)]) }}>
               <Stripes stripes={stripes(f)} variable={c.variable} />
               <MonthlyLine factor={f} spans={spans} trend={Boolean(guess)} />
               <ul className="dt-legend" aria-hidden="true">
-                <li><i className="k-month" />Each month</li><li><i className="k-year" />Yearly value</li>
+                {monthly && <li><i className="k-month" />Each month</li>}<li><i className="k-year" />Yearly value</li>
                 {guess && <li><i className="k-trend" />Trend with 95% band</li>}{spans.length > 0 && <li><i className="k-event" />Catalogued event</li>}
               </ul>
               <p className="dt-source"><Icon name="info" size={14} />Data: {f.data_source}.</p>

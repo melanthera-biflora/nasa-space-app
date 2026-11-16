@@ -23,7 +23,7 @@ export default function MapView() {
   return (
     <main className="dt-main" id="main">
       <h1 tabIndex={-1}>Where else in the US is it changing?</h1>
-      <p className="dt-lede">Watch a record change across the lower 48, year by year, then see where the change passes the trend test.</p>
+      <p className="dt-lede">Watch a record change across the lower 48, year by year, or across North America with the seas around it; then see where the change passes the trend test.</p>
       <section className="dt-chart" aria-labelledby="years">
         <h2 id="years" className="dt-chart-title">Year by year</h2>
         <p className="dt-takeaway">Press play to run from the first year to the latest. Every year uses the same colours; “Change from the start” shows each year against the record’s first five.</p>

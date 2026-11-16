@@ -18,7 +18,9 @@ export default function SeasonsView() {
     <main className="dt-main" id="main">
       <h1 tabIndex={-1}>{c.label} in {c.placeName}: when in the year is it changing?</h1>
       <Status current={c}>
-        {f && !bars && <p className="dt-status">This variable has too few complete years for a month-by-month test (surface heat, for example, is summer only).</p>}
+        {f && !bars && <p className="dt-status">{(f.monthly || []).length
+          ? 'This variable has too few complete years for a month-by-month test (surface heat, for example, is summer only).'
+          : 'This record is one number a year, so it has no months or seasons to compare. Its yearly change is on the next step.'}</p>}
         {bars && (
           <>
             <p className="dt-lede"><b>{bars.summary}</b></p>

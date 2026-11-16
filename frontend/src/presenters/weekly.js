@@ -6,7 +6,7 @@ import { format } from '../lib/format'
 
 const BY_CARD = {
   hot_days: 't2m_max', warm_nights: 't2m_min', cold_days: 't2m_min', heavy_rain_days: 'precip', wettest_day: 'precip',
-  dry_days: 'precip', muggy_days: 'rh', humid_heat_days: 'wetbulb',
+  dry_days: 'precip', muggy_days: 'rh', humid_heat_days: 'wetbulb', heat_index_days: 't2m_max', frost_free_season: 't2m_min',
 }
 const MONTH_STARTS = { '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec' }
 const DATE = (mmdd) => `${MONTH_STARTS[mmdd.slice(0, 2)]} ${Number(mmdd.slice(3))}`
