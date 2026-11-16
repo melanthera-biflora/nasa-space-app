@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { barAt, cardScales, changes, compareRows, everywhere, groupCities, judge, limitOptions, metaByKey, RULE, scatterNote, scatterPoints, thenNow, topicsFor, verdict } from './compare'
+import { barAt, cardScales, changes, compareRows, everywhere, findCities, groupCities, judge, limitOptions, metaByKey, pageOf, pageWith, RULE, scatterNote, scatterPoints, thenNow, topicsFor, verdict } from './compare'
 
 const cell = (now, p = 0.5, clear = false, slope = 1, last5 = [now - 2, now - 1, now, now + 1, now + 2]) =>
   ({ now, then: now - 5, slope_per_decade: slope, p, clear, last5: last5.map((v, i) => ({ year: 2021 + i, value: v })) })
@@ -134,4 +134,29 @@ it('never writes a score, rank, percentage or "best"', () => {
   const text = [RULE, ...groupCities(table, chosen, meta).flatMap((g) => [g.title, ...g.cities.flatMap((c) => c.lines.map((l) => l.text))]),
     verdict([table.cities[0], table.cities[1]], chosen, meta)].join(' ')
   expect(text).not.toMatch(/\bbest\b|\bscore|\brank|%|★/i)
+})
+
+describe('finding a city and paging the list', () => {
+  const city = (name, state) => ({ city: { name, state } })
+  const groups = [
+    { met: 2, cities: [city('San Diego', 'CA'), city('Seattle', 'WA'), city('San José', 'CA')] },
+    { met: 1, cities: [city('Boston', 'MA'), city('Santa Fe', 'NM')] },
+    { met: 0, cities: [city('Miami', 'FL')] },
+  ]
+  it('matches the name or the state, ignoring case and accents, and drops empty groups', () => {
+    const found = findCities(groups, 'san jose')
+    expect(found.map((g) => g.cities.map((j) => j.city.name))).toEqual([['San José']])
+    expect(findCities(groups, ' ca ').flatMap((g) => g.cities).length).toBe(2)
+    expect(findCities(groups, '')).toBe(groups)
+    expect(findCities(groups, 'zzz')).toEqual([])
+  })
+  it('shows one page at a time and finds the page a city is on', () => {
+    const list = Array.from({ length: 14 }, (_, i) => i)
+    expect(pageOf(list, 0, 6)).toEqual({ items: [0, 1, 2, 3, 4, 5], page: 0, pages: 3 })
+    expect(pageOf(list, 2, 6).items).toEqual([12, 13])
+    expect(pageOf(list, 9, 6).page).toBe(2)                       // past the end: the last page
+    expect(pageOf([], 0, 6)).toEqual({ items: [], page: 0, pages: 1 })
+    expect(pageWith(groups[0].cities, 'San José', 2)).toBe(1)
+    expect(pageWith(groups[0].cities, 'Nowhere', 2)).toBe(0)
+  })
 })

@@ -146,8 +146,15 @@ class SeasonalTrend(BaseModel):
     slope_per_decade: float | None = None
     p: float | None = None
     q: float | None = None                       # Benjamini-Hochberg across the 4 seasons or the 12 months
-    clear: bool | None = None                    # q < 0.05
+    clear: bool | None = None                    # q < 0.05 and a rate other than 0 (D47)
     n_years: int | None = None
+    then: float | None = None                    # its average over the first 5 years (Seasonal.windows.then)
+    now: float | None = None                     # and over the last 5
+
+
+class SeasonalWindows(BaseModel):
+    then: list[int]                              # [first, last] year of the early average
+    now: list[int]                               # and of the recent one
 
 
 class AnomalyTest(BaseModel):
@@ -180,6 +187,7 @@ class Seasonal(BaseModel):
     anomaly_test: AnomalyTest
     years_needed: YearsNeeded | None = None      # null when the rate is zero
     normals: list[MonthNormal] = []              # usual range per calendar month ("this year vs normal")
+    windows: SeasonalWindows | None = None       # the years behind each row's then and now ("the typical year")
     season_agg: Literal["sum", "mean", "max"]
 
 

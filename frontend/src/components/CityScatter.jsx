@@ -19,7 +19,7 @@ const clamp = (v, a, b) => Math.min(b, Math.max(a, v))
 // The view (round 4): it opens fitted to most cities, so one far-out value no longer squashes the rest; cities off the
 // scale sit at the edge as named markers, and "Show all" fits everyone. Drag to pan, Ctrl/⌘ + wheel or the buttons to
 // zoom (a plain wheel scrolls the page, as on the maps); by keyboard: + and − zoom, the arrows pan, 0 resets.
-export default function CityScatter({ points, limit, unit, xLabel, hovered, selected, onHover, onToggle, resetKey = '' }) {
+export default function CityScatter({ points, limit, unit, xLabel, hovered, selected, onHover, onToggle, resetKey = '', note: lead = '' }) {
   const still = useReducedMotion()
   const clipId = useId()
   const [ref, W] = useChartWidth(MAX_W)
@@ -85,18 +85,17 @@ export default function CityScatter({ points, limit, unit, xLabel, hovered, sele
   return (
     <div className="cs-wrap">
       <div className="cs-tools">
-        {(frame.off.length > 0 || mode === 'all') && (
+        {(frame.off.length > 0 || mode === 'all') ? (
           <Segmented legend="Fit" hideLegend name={`cs-fit-${clipId}`} size="sm" value={mode} onChange={setMode}
             options={[{ value: 'most', label: 'Fit most cities' }, { value: 'all', label: 'Show all' }]} />
-        )}
-        <span className="cs-zoom">
-          <span className="cs-hint">Drag to move. Ctrl + scroll to zoom.</span>
-          <Button size="sm" variant="ghost" icon="plus" onClick={() => zoomBy(0.8)} aria-label="Zoom in">Zoom in</Button>
-          <Button size="sm" variant="ghost" icon="minus" onClick={() => zoomBy(1.25)} aria-label="Zoom out">Zoom out</Button>
-          {custom.for === key && <Button size="sm" variant="ghost" onClick={() => setCustom({ for: '', x: null, y: null })}>Reset view</Button>}
+        ) : <span />}
+        <span className="cs-zoom" role="group" aria-label="Zoom">
+          <Button size="sm" variant="icon" icon="plus" onClick={() => zoomBy(0.8)} aria-label="Zoom in" />
+          <Button size="sm" variant="icon" icon="minus" onClick={() => zoomBy(1.25)} aria-label="Zoom out" />
+          <Button size="sm" variant="icon" icon="replay" onClick={() => setCustom({ for: '', x: null, y: null })} aria-label="Reset the view"
+            disabled={custom.for !== key} />
         </span>
       </div>
-      {note && <p className="dt-link-note cs-off" role="status">{note}</p>}
       <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} className="dt-svg cs-svg dt-interactive" tabIndex={0} role="group"
         onPointerLeave={() => { onHover(null); drag.current = null }} onPointerDown={onPointerDown} onPointerMove={onPointerMove}
         onPointerUp={() => { drag.current = null }} onKeyDown={onKeyDown}
@@ -114,8 +113,9 @@ export default function CityScatter({ points, limit, unit, xLabel, hovered, sele
         {view.y[0] < 0 && <text x={side.x} y={H - B - 6} textAnchor={side.a} className="cs-note">falling</text>}
         {xTicks.map((v) => <text key={v} x={X(v)} y={H - B + 18} textAnchor="middle" className="dt-tick">{format(v)}</text>)}
         {yTicks.map((v) => <text key={v} x={L - 6} y={Y(v) + 4} textAnchor="end" className="dt-tick">{sign(v)}</text>)}
-        <text x={(L + W - R) / 2} y={H - 6} textAnchor="middle" className="cs-axis">{xLabel} ({unit})</text>
-        <text x={14} y={(T + H - B) / 2} textAnchor="middle" className="cs-axis" transform={`rotate(-90 14 ${(T + H - B) / 2})`}>change per decade</text>
+        <text x={(L + W - R) / 2} y={H - 6} textAnchor="middle" className="cs-axis">{xLabel} ({unit}) →</text>
+        <text x={14} y={(T + H - B) / 2} textAnchor="middle" className="cs-axis" transform={`rotate(-90 14 ${(T + H - B) / 2})`}>change per decade →</text>
+        {limit != null && X(limit) > L + 170 && X(limit) <= W - R && <text x={X(limit) - 6} y={T + 12} textAnchor="end" className="cs-note cs-under-label">← under your limit</text>}
         <g clipPath={`url(#${clipId})`}>
           {points.filter(inView).map((p) => {
             const on = selected.includes(p.name), isHot = hovered === p.name
@@ -152,6 +152,8 @@ export default function CityScatter({ points, limit, unit, xLabel, hovered, sele
           )}
         </AnimatePresence>
       </svg>
+      {(lead || note) && <p className="cs-notes" role="status">{[lead, note].filter(Boolean).join(' ')}</p>}
+      <p className="cs-hint">Drag to move · Ctrl + scroll or the buttons to zoom · by keyboard: arrows move, + and − zoom, 0 resets</p>
     </div>
   )
 }

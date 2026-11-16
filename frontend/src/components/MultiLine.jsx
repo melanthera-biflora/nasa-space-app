@@ -3,10 +3,10 @@ import { useState } from 'react'
 import { useChartWidth } from '../lib/chartWidth'
 import { format } from '../lib/format'
 import { chartIndex } from '../lib/roving'
+import { placeColor } from '../lib/placeColors'
 import { niceTicks } from '../lib/ticks'
 
 const MAX_W = 720, H = 240, L = 48, T = 14, B = 26
-const SERIES_COLORS = ['var(--cat-1)', 'var(--cat-2)', 'var(--cat-3)', 'var(--cat-4)']
 
 // Up to four places on one set of axes (Weather Spark's compare pattern): lines labelled at their right end, a
 // crosshair on hover that reads every place's value for that year, and dashes as a second cue besides colour.
@@ -59,9 +59,9 @@ export default function MultiLine({ series, unit, xFormat = String, endLabels = 
         const last = pts.at(-1)
         return (
           <g key={s.name}>
-            <path d={pts.map((p, j) => `${j ? 'L' : 'M'}${X(p.year)},${Y(p.value)}`).join('')} fill="none" stroke={SERIES_COLORS[i]} strokeWidth="2"
+            <path d={pts.map((p, j) => `${j ? 'L' : 'M'}${X(p.year)},${Y(p.value)}`).join('')} fill="none" stroke={placeColor(i)} strokeWidth="2"
               strokeDasharray={i === 0 ? undefined : ['', '6 3', '2 3', '8 3 2 3'][i]} />
-            {endLabels && <text x={X(last.year) + 6} y={labelY[s.name]} className="ml-label" fill={SERIES_COLORS[i]}>{s.name}</text>}
+            {endLabels && <text x={X(last.year) + 6} y={labelY[s.name]} className="ml-label" fill={placeColor(i)}>{s.name}</text>}
           </g>
         )
       })}

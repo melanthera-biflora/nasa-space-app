@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   axisCap, band, classSteps, cycle, defaultBandYear, guessAnswer, monthTable, readGuess, stripeKey, waterSense, takeaway, eventsFor, fragility, linkNote, periodsFor, readPlace, readVariable, readYears, recordName, seasonBars, spanLabel, stripes,
-  unusualMonths, variableLabel, verdict, withoutEventYears, POINT_VARS,
+  unusualMonths, variableLabel, verdict, withoutEventYears, POINT_VARS, typicalYear,
 } from './detective'
 
 const months = (year, values, z = []) => values.map((v, i) => ({ month: `${year}-${String(i + 1).padStart(2, '0')}`, value: v, z: z[i] ?? 0.1 }))
@@ -119,6 +119,19 @@ describe('the seasons page', () => {
     expect(b.summary).toBe('As a season, the change is clear in summer and autumn. Month by month, only September is clear.')
     expect(b.seasons.find((s) => s.name === 'winter').clear).toBe(false)
     expect(b.note).toMatch(/12 tests/)
+  })
+  it('draws the typical year then and now from the pipeline month averages, and words each month', () => {
+    const withEnds = { ...factor, seasonal: { ...factor.seasonal, windows: { then: [2001, 2005], now: [2021, 2025] },
+      months: factor.seasonal.months.map((m, i) => ({ ...m, then: 5 + i, now: m.name === 'Sep' ? 20 : 5 + i })) } }
+    const t = typicalYear(withEnds)
+    expect(t.thenLabel).toBe('2001–05') && expect(t.nowLabel).toBe('2021–25')
+    expect(t.months).toHaveLength(12)
+    expect(t.months[0]).toMatchObject({ label: 'Jan', then: 5, now: 5, lo: 4, hi: 9, clear: false })
+    const sep = t.months[8]
+    expect(sep).toMatchObject({ clear: true, up: true })
+    expect(sep.text).toBe('September: 2001–05 average 13, 2021–25 average 20 µg/m³; +2 µg/m³ per decade, a clear change.')
+    expect(t.min).toBe(4) && expect(t.max).toBe(20)
+    expect(typicalYear(factor)).toBeNull()                    // a report from before the averages were added
   })
   it('lays each calendar month side by side', () => {
     const c = cycle(factor)
