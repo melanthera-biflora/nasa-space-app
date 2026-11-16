@@ -1,6 +1,6 @@
 """
 Trend for every NASA grid cell over the lower 48 states, for the "Where else is it changing?" map.
-Each cell gets the same statistics as a report card (tools reuse analysis.trend_stats: OLS rate per decade,
+Each cell gets the same statistics as a report card (tools reuse analysis.trend_stats: Theil-Sen rate per decade,
 Mann-Kendall p, first vs last 5-year means), plus a Benjamini-Hochberg false-discovery check across the map,
 because testing thousands of cells at p < 0.05 marks some cells by chance (Wilks 2016).
 
@@ -72,23 +72,8 @@ def _annual_grid(key):
             annual = annual.where(g.count("time") >= 9)
         return annual.year.values, da.lat.values, da.lon.values, annual.values
     if key == "fires":
-        from sources.fires_firms import FIRST_TREND_YEAR, _load_all
-        df, metas = _load_all()
-        years = sorted(set.intersection(*[set(m["years"]) for m in metas]))
-        years = np.array([y for y in years if y >= FIRST_TREND_YEAR])
-        lats = np.arange(BOX["lat"][0] + 0.5, BOX["lat"][1], 1.0)
-        lons = np.arange(BOX["lon"][0] + 0.5, BOX["lon"][1], 1.0)
-        df = df[df.lat.between(*BOX["lat"], inclusive="left") & df.lon.between(*BOX["lon"], inclusive="left")]
-        df = df.assign(y=df.date.dt.year, i=((df.lat - BOX["lat"][0]) // 1).astype(int),
-                       j=((df.lon - BOX["lon"][0]) // 1).astype(int))
-        df = df[df.y.isin(years)]
-        counts = df.groupby(["y", "i", "j"]).size()
-        cube = np.zeros((len(years), len(lats), len(lons)))      # 0 means "no fire seen", not "no data"
-        yi = {y: n for n, y in enumerate(years)}
-        for (y, i, j), c in counts.items():
-            cube[yi[y], i, j] = c
-        cube[:, cube.sum(axis=0) < MIN_FIRES] = np.nan             # too few fires for a trend
-        return years, lats, lons, cube
+        from sources.fires_firms import _load_all
+        return fire_counts(*_load_all(), BOX)
     if key in ("smoke_days", "aod"):
         name, var, agg, first = {"smoke_days": ("hms_smoke_days.nc", "smoke_days_mh", "sum", 2011),     # D37
                                  "aod": ("aod_monthly_us.nc", "aod", "mean", 2001)}[key]
@@ -100,6 +85,27 @@ def _annual_grid(key):
         yearly = yearly.where(yearly.year >= first, drop=True)
         return yearly.year.values, yearly.lat.values, yearly.lon.values, yearly.values
     raise ValueError(f"unknown field {key!r}")
+
+
+def fire_counts(df, metas, box):
+    """FIRMS detections per 1° cell and year inside box, for the years every country file covers (from 2003). Cells
+    with fewer than MIN_FIRES detections in all are blank: too few fires for a trend."""
+    from sources.fires_firms import FIRST_TREND_YEAR
+    years = sorted(set.intersection(*[set(m["years"]) for m in metas]))
+    years = np.array([y for y in years if y >= FIRST_TREND_YEAR])
+    lats = np.arange(box["lat"][0] + 0.5, box["lat"][1], 1.0)
+    lons = np.arange(box["lon"][0] + 0.5, box["lon"][1], 1.0)
+    df = df[df.lat.between(*box["lat"], inclusive="left") & df.lon.between(*box["lon"], inclusive="left")]
+    df = df.assign(y=df.date.dt.year, i=((df.lat - box["lat"][0]) // 1).astype(int),
+                   j=((df.lon - box["lon"][0]) // 1).astype(int))
+    df = df[df.y.isin(years)]
+    counts = df.groupby(["y", "i", "j"]).size()
+    cube = np.zeros((len(years), len(lats), len(lons)))      # 0 means "no fire seen", not "no data"
+    yi = {y: n for n, y in enumerate(years)}
+    for (y, i, j), c in counts.items():
+        cube[yi[y], i, j] = c
+    cube[:, cube.sum(axis=0) < MIN_FIRES] = np.nan
+    return years, lats, lons, cube
 
 
 def _crop(da):

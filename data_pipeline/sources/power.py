@@ -22,7 +22,8 @@ POWER_URL = "https://power.larc.nasa.gov/api/temporal/daily/point"
 # T2MWET is the daily MEAN wet-bulb temperature (°C); POWER has no daily max (only hourly T2MWET).
 POWER_PARAMS = ["T2M_MAX", "T2M_MIN", "RH2M", "T2MDEW", "PRECTOTCORR", "T2MWET"]
 POWER_START_YEAR = 2001
-DAILY_FACTORS = ["hot_days", "warm_nights", "cold_days", "heavy_rain_days", "dry_days", "muggy_days", "humid_heat_days"]
+DAILY_FACTORS = ["hot_days", "warm_nights", "cold_days", "heavy_rain_days", "dry_days", "muggy_days", "humid_heat_days",
+                 "heat_index_days"]
 
 
 def fetch_power(lat, lon, start_year=POWER_START_YEAR, end_year=2025, cache_dir=CACHE_DIR):
@@ -60,6 +61,42 @@ def clean_daily(df, min_valid_days=330):
     return df, valid_per_year, bad_years
 
 
+def heat_index_f(t_f, rh):
+    """The National Weather Service heat index (F) from air temperature (F) and relative humidity (%): Steadman's simple
+    form, or, when that averaged with the temperature is 80 F or more, the Rothfusz regression with the NWS adjustments
+    (https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml)."""
+    t, rh = np.asarray(t_f, float), np.asarray(rh, float)
+    simple = 0.5 * (t + 61.0 + (t - 68.0) * 1.2 + rh * 0.094)
+    full = (-42.379 + 2.04901523 * t + 10.14333127 * rh - 0.22475541 * t * rh - 0.00683783 * t * t
+            - 0.05481717 * rh * rh + 0.00122874 * t * t * rh + 0.00085282 * t * rh * rh - 0.00000199 * t * t * rh * rh)
+    dry = np.where((rh < 13) & (t >= 80) & (t <= 112),
+                   (13 - rh) / 4 * np.sqrt(np.clip((17 - np.abs(t - 95)) / 17, 0, None)), 0.0)
+    humid = np.where((rh > 85) & (t >= 80) & (t <= 87), (rh - 85) / 10 * (87 - t) / 5, 0.0)
+    return np.where((simple + t) / 2 >= 80, full - dry + humid, simple)
+
+
+def afternoon_heat_index_f(tmax_c, dew_c):
+    """The day's peak heat index (F): its highest temperature with the humidity that temperature gives at the day's
+    mean dew point (Magnus formula; dew point changes little through a day). POWER has no hourly humidity here."""
+    t, td = np.asarray(tmax_c, float), np.asarray(dew_c, float)
+    rh = 100 * np.exp(17.625 * td / (243.04 + td)) / np.exp(17.625 * t / (243.04 + t))
+    return heat_index_f(t * 9 / 5 + 32, np.clip(rh, 0, 100))
+
+
+def frost_free_season(df, frost_c=0.0, min_share=0.8):
+    """Days per year between the last spring night at or below frost_c (before July) and the first fall one (from
+    July): the US EPA's growing-season indicator. A year without one of the two frosts has no season to measure; where
+    fewer than `min_share` of the years have both, frost is too rare and the whole record is left empty."""
+    tmin = df["T2M_MIN"].dropna()
+    out = {}
+    for year, t in tmin.groupby(tmin.index.year):
+        frosty = t[t <= frost_c].index
+        spring, fall = frosty[frosty.month < 7], frosty[frosty.month >= 7]
+        out[year] = float((fall.min() - spring.max()).days - 1) if len(spring) and len(fall) else np.nan
+    season = pd.Series(out, dtype=float)
+    return season if season.notna().mean() >= min_share else season * np.nan
+
+
 def daily_flags(df, th):
     def flag(series, cond):
         out = cond.astype(float)
@@ -76,6 +113,11 @@ def daily_flags(df, th):
         # humid heat (A3, D27): daily-mean wet-bulb; an old cache without T2MWET gives an empty card, not an error
         "humid_heat_days": (flag(df["T2MWET"], df["T2MWET"] >= th["humid_heat_days"]["wet_bulb_c"])
                             if "T2MWET" in df and "humid_heat_days" in th else pd.Series(np.nan, index=df.index)),
+        # item 18: the National Weather Service's "Danger" heat index (103 F) at the day's hottest
+        "heat_index_days": (flag(df["T2M_MAX"].where(df["T2MDEW"].notna()),
+                                 pd.Series(afternoon_heat_index_f(df["T2M_MAX"], df["T2MDEW"]), index=df.index)
+                                 >= th["heat_index_days"]["heat_index_f"])
+                            if "heat_index_days" in th else pd.Series(np.nan, index=df.index)),
     }, index=df.index)
 
 
@@ -109,6 +151,11 @@ def power_series(daily, th, min_valid_days=330):
     series = {k: {"annual": annual[k], "monthly": monthly[k]} for k in DAILY_FACTORS}
     wet_a, wet_m = wettest_day(df, bad_years)
     series["wettest_day"] = {"annual": wet_a, "monthly": wet_m}
+    if "frost_free_season" in th:                       # a yearly measure: no monthly values
+        cfg = th["frost_free_season"]
+        season = frost_free_season(df, cfg["frost_c"], cfg["min_share_of_years"])
+        season.loc[season.index.isin(bad_years)] = np.nan
+        series["frost_free_season"] = {"annual": season, "monthly": pd.Series(dtype=float, index=pd.DatetimeIndex([]))}
     return series, bad_years
 
 

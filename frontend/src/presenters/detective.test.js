@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   axisCap, band, classSteps, cycle, defaultBandYear, guessAnswer, monthTable, readGuess, stripeKey, waterSense, takeaway, eventsFor, fragility, linkNote, periodsFor, readPlace, readVariable, readYears, recordName, seasonBars, spanLabel, stripes,
-  unusualMonths, variableLabel, verdict, withoutEventYears,
+  unusualMonths, variableLabel, verdict, withoutEventYears, POINT_VARS,
 } from './detective'
 
 const months = (year, values, z = []) => values.map((v, i) => ({ month: `${year}-${String(i + 1).padStart(2, '0')}`, value: v, z: z[i] ?? 0.1 }))
@@ -235,5 +235,35 @@ describe('custom periods', () => {
     expect(readRange({ from: 1990, to: 2015 }, { kind: 'point' }, 'hot_days')).toBeNull()
     expect(readRange({ from: 1990, to: 2015 }, { kind: 'state' }, 't2m')).toEqual({ from: 1990, to: 2015 })
     expect(readRange({}, { kind: 'state' }, 't2m')).toBeNull()
+  })
+})
+
+describe('the verdict after the per-report correction (D47)', () => {
+  const base = { available: true, label: 'Warm nights', n_years: 25, slope_per_decade: 8, slope_ci95_per_decade: [4, 12], p_label: 'p = 0.004' }
+  it('shows q beside p and names the correction', () => {
+    const v = verdict({ ...base, significant: true, q: 0.031, records_tested: 16 })
+    expect(v.q).toBe('q = 0.031')
+    expect(v.corrected).toBe('corrected for the 16 records checked here')
+    expect(v.memory).toBe('')
+  })
+  it('adds the memory note to a clear record the memory check cannot confirm, never to an unclear one', () => {
+    expect(verdict({ ...base, significant: true, q: 0.01, records_tested: 16, memory_sensitive: true }).memory).toMatch(/remembers the year before/)
+    expect(verdict({ ...base, significant: false, q: 0.2, records_tested: 16, memory_sensitive: false }).memory).toBe('')
+  })
+  it('a rise in a record most years had none of is not called clear, and says why', () => {
+    const v = verdict({ ...base, significant: false, q: 0.04, records_tested: 16, slope_per_decade: 0 })
+    expect(v.state).toBe('unclear')
+    expect(v.words).toMatch(/most years here had none/)
+    expect(verdict({ ...base, significant: false, q: 0.3, records_tested: 16, slope_per_decade: 0 }).words).not.toMatch(/most years/)
+  })
+  it('a state series (one record, nothing to correct across) shows no q', () => {
+    const v = verdict({ ...base, significant: true })
+    expect(v.q).toBe('') && expect(v.corrected).toBe('')
+  })
+})
+
+describe('record names', () => {
+  it('every record an address can pick has a name, never its raw key', () => {
+    expect(POINT_VARS.filter((k) => variableLabel({ kind: 'point' }, k) === k)).toEqual([])
   })
 })

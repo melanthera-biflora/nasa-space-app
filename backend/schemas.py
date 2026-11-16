@@ -218,7 +218,12 @@ class Factor(Open):
     slope_per_decade: float | None = None        # OLS rate per decade
     slope_ci95_per_decade: list[float | None] = []
     mk_p: float | None = None                    # Mann-Kendall p
-    significant: bool | None = None
+    q: float | None = None                       # Benjamini-Hochberg across the report's records (D47); absent for a state series
+    records_tested: int | None = None            # how many records that correction covered
+    mk_p_memory: float | None = None             # the same test allowing for year-to-year memory (a note, not the verdict)
+    lag1: float | None = None                    # how much a year remembers the one before
+    memory_sensitive: bool | None = None         # clear, but not once memory is allowed for
+    significant: bool | None = None              # q < 0.05 in a report (p < 0.05 for a single state series)
     significance_label: str | None = None
     p_label: str | None = None
     usual_range: list[float | None] = []
@@ -496,8 +501,11 @@ class MapFrames(Open):
     change_breaks: list[float]                   # four symmetric edges for the change view
     values: list[list[float | None]]             # [year][cell], row by row; None outside the US or with no data
     change: list[list[float | None]]             # [year][cell]: value minus the cell's early-years mean
-    us_mean: list[float | None]                  # area-weighted US mean per year
+    us_mean: list[float | None]                  # area-weighted US mean per year (or the mean_label area's)
     us_change: list[float | None]                # area-weighted US mean of change per year
+    area: str | None = None                      # "North America" for the wider maps; absent = the lower 48
+    mean_area: str | None = None                 # where the line averages, e.g. "the Gulf of Mexico"
+    coverage: str | None = None                  # where the field has data, in one or two sentences
 
 
 class PatternPair(BaseModel):

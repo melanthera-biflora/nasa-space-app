@@ -3,7 +3,7 @@
 import {
   Activity, ChevronLeft, Pause, Play, RotateCcw, ArrowDownRight, ArrowUp, ArrowUpRight, Calendar, Car, ChartScatter, Check, ChevronDown, ChevronRight, CloudFog, CloudRain,
   Building2, Droplets, ExternalLink, Eye, Flame, Gauge, GitCompareArrows, Hash, Haze, History, House, Info, Layers, Link2, Map as MapIcon, MapPin, Menu, Minus, Moon,
-  MousePointerClick, PanelLeftClose, PanelLeftOpen, Plus, Route, Satellite, Scale, Search, Snowflake, Sun, Thermometer, TriangleAlert, Users, Waves, Wind, X,
+  MousePointerClick, PanelLeftClose, PanelLeftOpen, Plus, Route, Satellite, Scale, Search, Snowflake, Sprout, Sun, Thermometer, TriangleAlert, Users, Waves, Wind, X,
 } from 'lucide-react'
 
 export const PATHS = {
@@ -16,6 +16,8 @@ export const PATHS = {
   compare: GitCompareArrows, home: House, plus: Plus, eye: Eye, gauge: Gauge, pointer: MousePointerClick,
   // D36: the animated map's player
   play: Play, pause: Pause, replay: RotateCcw, 'chevron-left': ChevronLeft,
+  // item 18: the frost-free season
+  sprout: Sprout,
 }
 
 // eslint-disable-next-line react-refresh/only-export-components -- a list of names for /kit, beside the icon table

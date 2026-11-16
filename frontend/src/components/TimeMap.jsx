@@ -6,20 +6,20 @@ import { addBasemap, addLandMask, addStateOutline } from '../lib/basemap'
 import { paint } from '../lib/fieldPaint'
 import { cooperativeZoom, motionOK, ZOOM_KEY } from '../lib/mapGestures'
 import { isMoveKey, panStep, stepSquare } from '../presenters/trendMap'
-import { baseLabel, caption, fadeFor, FRAME_FIELDS, frameField, frameLegend, meanLine, nextFrame, paintView, SPEEDS, squareAt, squareText, ticks, useMapFrames, VIEWS, yearLabel } from '../presenters/timeMap'
+import { areaOf, AREAS, BOUNDS, caption, fadeFor, fieldsFor, frameField, frameLegend, lineLabel, meanLine, nextFrame, paintView, SPEEDS, squareAt, squareText, switchArea, ticks, useMapFrames, VIEWS, yearLabel } from '../presenters/timeMap'
 import Icon from './ui/Icon'
 import Segmented from './ui/Segmented'
 import './Maps.css'
 import './TimeMap.css'
 
-const LOWER_48 = [[24, -125], [50, -66]]
 const SHOWN = 0.92
 const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 
 // "How it changed, year by year" (D36): a view. Every frame is painted once into its own image overlay in one pane
 // (the pane holds the 0.92 opacity), and the new year fades in ON TOP of the last one, which is hidden once covered:
 // fading both at once let the white base show through mid-way, so the map seemed to breathe. Instant with reduced
-// motion. Squares stay squares (one NASA grid box each); a white mask cuts them at the coast and the borders.
+// motion. Squares stay squares (one NASA grid box each); on the lower-48 map a white mask cuts them at the coast and
+// the borders, and the North America map (sea temperature and three records past the border) has no mask.
 // Opens paused on the latest year; Play runs from the first. presenters/timeMap.js gives the words, the line, the legend.
 export default function TimeMap({ initial = 'pm25', here, region = null, onRecord }) {
   const ref = useRef(null)
@@ -27,6 +27,7 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
   // the record follows the page's (URL) record; a chip choice the place can't take stays local (round 3)
   const [pick, setPick] = useState({ for: initial, key: initial })
   const key = pick.for === initial ? pick.key : initial
+  const area = areaOf(key)
   const setKey = (k) => { setPick({ for: initial, key: k }); onRecord?.(k) }
   const [view, setView] = useState('level')
   const [speed, setSpeed] = useState(1000)
@@ -42,7 +43,8 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
   const captionId = useId()
   const fade = fadeFor(speed)
   const mapRef = useRef(null)
-  const frameRef = useRef([LOWER_48, {}])      // the last framing, applied again when the map changes size
+  const frameRef = useRef([BOUNDS.us, {}])     // the last framing, applied again when the map changes size
+  const [mask, setMask] = useState(null)
 
   useEffect(() => {
     // keyboard: false, because the arrow keys move between squares (see onKeyDown)
@@ -56,14 +58,14 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
     map.on('mouseout', () => setHover(null))
     mapRef.current = map
     const c = new AbortController()
-    fetchStateOutline('L48', c.signal).then((o) => addLandMask(map, o.rings)).catch(() => {})   // no outline: squares as before
+    fetchStateOutline('L48', c.signal).then((o) => setMask(addLandMask(map, o.rings))).catch(() => {})   // no outline: squares as before
     // framed again on a new size: a phone lays the map out after the first fit, which left a state at the US zoom
     const observer = new ResizeObserver(() => { map.invalidateSize(); map.fitBounds(...frameRef.current) })
     observer.observe(ref.current)
     return () => { c.abort(); stopGestures(); observer.disconnect(); map.remove() }
   }, [])
 
-  // A state in the URL (region=XX): its outline over the squares, and the map framed on it; Home still shows the lower 48
+  // A state in the URL (region=XX): its outline over the squares, and the lower-48 map framed on it; Home shows the area
   useEffect(() => {
     const map = mapRef.current
     if (!map || !region) return undefined
@@ -72,11 +74,21 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
     fetchStateOutline(region, c.signal).then((o) => {
       const added = addStateOutline(map, o, token('--ink'))
       outline = added.layer
+      if (area !== 'us') return              // North America stays framed whole, with the state outlined
       frameRef.current = [added.bounds, { padding: [24, 24], animate: false }]   // framing on load, not a motion
       map.fitBounds(...frameRef.current)
     }).catch(() => {})                       // no outline: the lower 48 as before
-    return () => { c.abort(); outline?.remove(); frameRef.current = [LOWER_48, {}] }
-  }, [region])
+    return () => { c.abort(); outline?.remove(); frameRef.current = [BOUNDS.us, {}] }
+  }, [region, area])
+
+  // The area: the white land mask only on the lower-48 map, and the map framed on the area (the lower 48 on a state)
+  useEffect(() => {
+    const map = mapRef.current
+    if (mask) { if (area === 'us') mask.addTo(map); else mask.remove() }
+    if (!map || (region && area === 'us')) return
+    frameRef.current = [BOUNDS[area], {}]
+    map.fitBounds(...frameRef.current)
+  }, [area, mask, region])
 
   // New frames or view: drop the old images, then paint the rest one per tick so Play never waits on a frame.
   useEffect(() => {
@@ -85,7 +97,7 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
     if (!frames) return undefined
     l.add = (k) => {
       if (!l.images.has(k)) {
-        const img = paint(frameField(frames, k, view), paintView(view))
+        const img = paint(frameField(frames, k, view), paintView(view), undefined, frames.area ? 4 : 8)
         l.images.set(k, L.imageOverlay(img.url, img.bounds, { pane: 'frames', className: 'tl-frame', opacity: 0, alt: '', interactive: false }).addTo(l.frames))
       }
       return l.images.get(k)
@@ -96,20 +108,21 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
     return () => clearTimeout(timer)
   }, [frames, view])
 
-  const { label, note } = FRAME_FIELDS.find((f) => f.key === key) ?? {}
+  const { label, note } = fieldsFor(area).find((f) => f.key === key) ?? {}
+  const across = area === 'na' ? 'across North America' : 'across the lower 48'
   useEffect(() => {
     const l = layersRef.current
     if (!l.add) return undefined
     const image = l.add(i), old = l.current
     image.setZIndex(++l.z).setOpacity(1)      // on top (setZIndex: moving the element in the page would cancel the fade)
-    image.getElement()?.setAttribute('alt', `${label}, ${yearLabel(frames, i)}, across the lower 48`)
+    image.getElement()?.setAttribute('alt', `${label}, ${yearLabel(frames, i)}, ${across}`)
     l.current = image
     if (!old || old === image) return undefined
     old.getElement()?.setAttribute('alt', '')
     const wait = motionOK() ? fade : 0
     const timer = setTimeout(() => old.setOpacity(0), wait)       // hidden once the new year covers it
     return () => { clearTimeout(timer); old.setOpacity(0) }
-  }, [frames, view, i, label, fade])
+  }, [frames, view, i, label, fade, across])
 
   useEffect(() => {
     if (!playing || !frames) return undefined
@@ -150,7 +163,7 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
   // Keyboard, like the trend map: arrows move between squares, Shift + arrows pan, + and - zoom, Home shows the US
   function onKeyDown(e) {
     const map = mapRef.current
-    if (e.key === 'Home' || e.key === '0') { e.preventDefault(); map.fitBounds(LOWER_48, { animate: motionOK() }); return }
+    if (e.key === 'Home' || e.key === '0') { e.preventDefault(); map.fitBounds(BOUNDS[area], { animate: motionOK() }); return }
     if (['+', '=', '-', '_'].includes(e.key)) { e.preventDefault(); map.setZoom(map.getZoom() + ((e.key === '+' || e.key === '=') ? 1 : -1) * map.options.zoomDelta); return }
     if (e.key === 'Escape') { setHover(null); return }
     if (!isMoveKey(e.key) || !frames) return
@@ -173,13 +186,15 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
   return (
     <figure className="map-figure tl">
       <div className="tl-toolbar">
+        <Segmented legend="Area" hideLegend name="tl-area" size="sm" value={area} options={AREAS}
+          onChange={(a) => { setPlaying(false); setKey(switchArea(key, a)) }} />
         <Segmented legend="Record" hideLegend name="tl-field" size="sm" value={key}
-          options={FRAME_FIELDS.map((f) => ({ value: f.key, label: f.label }))} onChange={(k) => { setPlaying(false); setKey(k) }} />
+          options={fieldsFor(area).map((f) => ({ value: f.key, label: f.label }))} onChange={(k) => { setPlaying(false); setKey(k) }} />
         <Segmented legend="Show" hideLegend name="tl-view" size="sm" value={view} options={VIEWS} onChange={setView} />
       </div>
       <div className="tl-stage" style={{ '--tl-fade': `${fade}ms` }}>
         <div ref={ref} className="map-canvas map-canvas-us" role="region" tabIndex={0} aria-describedby={captionId} onKeyDown={onKeyDown}
-          aria-label={`Map of ${label ?? 'the record'} across the lower 48, one year at a time. Arrow keys move between squares, Shift and arrows pan, plus and minus zoom, Home shows the whole country.`} />
+          aria-label={`Map of ${label ?? 'the record'} ${across}, one year at a time. Arrow keys move between squares, Shift and arrows pan, plus and minus zoom, Home shows the whole map.`} />
         {frames && (
           <p className="tl-year" aria-hidden="true">
             {yearLabel(frames, i)}
@@ -202,7 +217,7 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
               </div>
               <div className="tl-track">
                 <p className="tl-spark-head">
-                  <span>{view === 'change' ? `Lower-48 average, change from ${baseLabel(frames)}` : 'Lower-48 average'}</span>
+                  <span>{lineLabel(frames, view)}</span>
                   <b>{line.current ? `${line.current.text} ${frames.unit}` : '—'}</b>
                 </p>
                 <div className="tl-spark" aria-hidden="true">
@@ -233,12 +248,13 @@ export default function TimeMap({ initial = 'pm25', here, region = null, onRecor
               <p className="tm-ramp-ends"><span>{lg.ends[0]}</span><span>{lg.ends[1]}</span></p>
             </div>
             <p className="map-note">
-              Moving colours aren’t proof of a trend: one smoky summer can colour a whole year. <a href="#trend">See where change is clear</a>.
+              Moving colours aren’t proof of a trend: one unusual year can colour the whole map.{area === 'us' && <> <a href="#trend">See where change is clear</a>.</>}
               {frames.span > 1 && ` ${label} are ${frames.span}-year averages, so one season doesn’t flicker the whole map.`}
               {' '}Same colours for every year. Source: {frames.source}.
             </p>
             <p className="map-note">
-              Each square is one NASA grid box, about {key === 'fires' ? '100' : '50'} km across, cut at the coast and the border: it is that box’s average, and finer detail isn’t in the data. The short fade between years is not data.
+              {frames.coverage && `${frames.coverage} `}
+              Each square is one grid box, about {key.startsWith('fires') ? '100' : key === 'sst' ? '80' : '50'} km across{area === 'us' ? ', cut at the coast and the border' : ''}: it is that box’s average, and finer detail isn’t in the data. The short fade between years is not data.
               {' '}Wheel zoom: click the map first, or hold <kbd>{ZOOM_KEY}</kbd>.
             </p>
             {note && <p className="map-note">{note}</p>}

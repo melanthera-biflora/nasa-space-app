@@ -615,6 +615,17 @@
       "title": "Label",
       "type": "string"
      },
+     "lag1": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lag1"
+     },
      "leave_one_out": {
       "anyOf": [
        {
@@ -654,6 +665,17 @@
       "title": "Line",
       "type": "array"
      },
+     "memory_sensitive": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Memory Sensitive"
+     },
      "mk_p": {
       "anyOf": [
        {
@@ -664,6 +686,17 @@
        }
       ],
       "title": "Mk P"
+     },
+     "mk_p_memory": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Mk P Memory"
      },
      "monthly": {
       "default": [],
@@ -762,6 +795,17 @@
       ],
       "title": "Priority For User"
      },
+     "q": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Q"
+     },
      "reason": {
       "anyOf": [
        {
@@ -772,6 +816,17 @@
        }
       ],
       "title": "Reason"
+     },
+     "records_tested": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Records Tested"
      },
      "seasonal": {
       "anyOf": [
@@ -1316,6 +1371,17 @@
    "MapFrames": {
     "additionalProperties": true,
     "properties": {
+     "area": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Area"
+     },
      "base_years": {
       "items": {
        "type": "integer"
@@ -1347,6 +1413,17 @@
       "title": "Change Breaks",
       "type": "array"
      },
+     "coverage": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Coverage"
+     },
      "factor": {
       "title": "Factor",
       "type": "string"
@@ -1366,6 +1443,17 @@
       },
       "title": "Level Breaks",
       "type": "array"
+     },
+     "mean_area": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Mean Area"
      },
      "span": {
       "default": 1,
@@ -3687,7 +3775,7 @@
   },
   "/api/v1/maps/{factor}/frames": {
    "get": {
-    "description": "Every grid cell's value for each year on one colour scale, so the map can play through time. Display data:\nthe trend tests are on /maps/{factor} (built by `python -m tools.map_frames`).",
+    "description": "Every grid cell's value for each year on one colour scale, so the map can play through time. Display data:\nthe trend tests are on /maps/{factor} (built by `python -m tools.map_frames` and `tools.map_frames_na`).",
     "operationId": "map_frames_api_v1_maps__factor__frames_get",
     "parameters": [
      {
@@ -3700,7 +3788,11 @@
         "no2",
         "fires",
         "smoke_days",
-        "aod"
+        "aod",
+        "sst",
+        "pm25_na",
+        "fires_na",
+        "smoke_days_na"
        ],
        "title": "Factor",
        "type": "string"

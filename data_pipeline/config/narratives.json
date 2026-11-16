@@ -154,6 +154,26 @@
     "actions_source_name": "CDC — Heat and Older Adults (65+)",
     "actions_source_url": "https://www.cdc.gov/heat-health/risk-factors/heat-and-older-adults-aged-65.html"
   },
+  "heat_index_days": {
+    "definition": "Days when heat and humidity together feel like 103 °F or more at the hottest time of day, the National Weather Service's Danger level.",
+    "health_link": "At this level heat cramps and heat exhaustion are likely, and heat stroke is possible with long exposure or activity (National Weather Service). Older adults, young children and people with heart disease are most at risk (CDC).",
+    "caveat": "Worked out from the day's highest temperature and its average dew point on a ~50 km grid; the heat index is measured in shade, and full sun can add up to 15 °F.",
+    "source_name": "NASA POWER",
+    "source_url": "https://power.larc.nasa.gov/",
+    "actions": ["Choose a home with working air conditioning and a plan for power cuts.", "Plan outdoor work and play for early morning on hot, humid days."],
+    "actions_source_name": "National Weather Service — Heat Index",
+    "actions_source_url": "https://www.weather.gov/ama/heatindex"
+  },
+  "frost_free_season": {
+    "definition": "The number of days between the last frost of spring and the first frost of fall (nights at 32 °F or colder).",
+    "health_link": "A longer frost-free season gives plants more time to release pollen and gives ticks and mosquitoes longer to be active.",
+    "caveat": "Night lows on a ~50 km grid; valleys and open fields frost earlier than city centres. Left empty where frost comes in fewer than four years out of five.",
+    "source_name": "NASA POWER",
+    "source_url": "https://power.larc.nasa.gov/",
+    "actions": ["Expect allergy seasons to start earlier and end later; keep medicines on hand through the whole season.", "Check for ticks after time outdoors in spring and fall too."],
+    "actions_source_name": "NOAA Climate.gov — The frost-free season is lengthening",
+    "actions_source_url": "https://www.climate.gov/news-features/featured-images/frost-free-season-lengthening-across-united-states"
+  },
   "smoke_days": {
     "definition": "Days with medium or thick wildfire smoke drawn over this place on NOAA's satellite smoke maps.",
     "health_link": "Smoke is hardest on people with asthma or COPD, children and older adults (EPA AirNow).",

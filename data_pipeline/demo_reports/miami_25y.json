@@ -54,6 +54,7 @@
  "verdict_rule": "High risk if any main factor is red · Caution if any is yellow · otherwise Suitable. Trend-only cards (no limit) don't change the verdict.",
  "card_order": [
   "humid_heat_days",
+  "heat_index_days",
   "warm_nights",
   "surface_heat",
   "smoke_days",
@@ -141,9 +142,10 @@
    "year": 2023,
    "factors": [
     "Warm nights",
+    "Dangerous heat-index days",
     "Smoke days"
    ],
-   "text": "2023: Warm nights and Smoke days were both unusually bad that year."
+   "text": "2023: Warm nights, Dangerous heat-index days and Smoke days were all unusually bad that year."
   }
  ],
  "factors": {
@@ -175,6 +177,9 @@
    "significance_label": "No change",
    "p_label": "no variation",
    "mk_p": 1.0,
+   "mk_p_memory": 1.0,
+   "lag1": 0.0,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -2872,6 +2877,9 @@
    "significance_label": "Significant",
    "p_label": "p < 0.001",
    "mk_p": 0.0005414468818749629,
+   "mk_p_memory": 0.0011,
+   "lag1": 0.017,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -2977,162 +2985,164 @@
    "line": [
     {
      "year": 2001,
-     "trend": 193.745,
-     "lo95": 179.315,
-     "hi95": 208.174
+     "trend": 193.45,
+     "lo95": 183.0,
+     "hi95": 205.286
     },
     {
      "year": 2002,
-     "trend": 195.649,
-     "lo95": 182.093,
-     "hi95": 209.206
+     "trend": 195.579,
+     "lo95": 186.0,
+     "hi95": 206.429
     },
     {
      "year": 2003,
-     "trend": 197.554,
-     "lo95": 184.847,
-     "hi95": 210.261
+     "trend": 197.708,
+     "lo95": 189.0,
+     "hi95": 207.571
     },
     {
      "year": 2004,
-     "trend": 199.458,
-     "lo95": 187.572,
-     "hi95": 211.345
+     "trend": 199.837,
+     "lo95": 192.0,
+     "hi95": 208.714
     },
     {
      "year": 2005,
-     "trend": 201.363,
-     "lo95": 190.262,
-     "hi95": 212.464
+     "trend": 201.967,
+     "lo95": 195.0,
+     "hi95": 209.857
     },
     {
      "year": 2006,
-     "trend": 203.268,
-     "lo95": 192.91,
-     "hi95": 213.626
+     "trend": 204.096,
+     "lo95": 198.0,
+     "hi95": 211.0
     },
     {
      "year": 2007,
-     "trend": 205.172,
-     "lo95": 195.504,
-     "hi95": 214.841
+     "trend": 206.225,
+     "lo95": 201.0,
+     "hi95": 212.143
     },
     {
      "year": 2008,
-     "trend": 207.077,
-     "lo95": 198.033,
-     "hi95": 216.121
+     "trend": 208.354,
+     "lo95": 204.0,
+     "hi95": 213.286
     },
     {
      "year": 2009,
-     "trend": 208.982,
-     "lo95": 200.482,
-     "hi95": 217.481
+     "trend": 210.483,
+     "lo95": 207.0,
+     "hi95": 214.429
     },
     {
      "year": 2010,
-     "trend": 210.886,
-     "lo95": 202.836,
-     "hi95": 218.936
+     "trend": 212.612,
+     "lo95": 210.0,
+     "hi95": 215.571
     },
     {
      "year": 2011,
-     "trend": 212.791,
-     "lo95": 205.078,
-     "hi95": 220.504
+     "trend": 214.742,
+     "lo95": 213.0,
+     "hi95": 216.714
     },
     {
      "year": 2012,
-     "trend": 214.695,
-     "lo95": 207.192,
-     "hi95": 222.199
+     "trend": 216.871,
+     "lo95": 216.0,
+     "hi95": 217.857
     },
     {
      "year": 2013,
-     "trend": 216.6,
-     "lo95": 209.168,
-     "hi95": 224.032
+     "trend": 219.0,
+     "lo95": 219.0,
+     "hi95": 219.0
     },
     {
      "year": 2014,
-     "trend": 218.505,
-     "lo95": 211.001,
-     "hi95": 226.008
+     "trend": 221.129,
+     "lo95": 220.143,
+     "hi95": 222.0
     },
     {
      "year": 2015,
-     "trend": 220.409,
-     "lo95": 212.696,
-     "hi95": 228.122
+     "trend": 223.258,
+     "lo95": 221.286,
+     "hi95": 225.0
     },
     {
      "year": 2016,
-     "trend": 222.314,
-     "lo95": 214.264,
-     "hi95": 230.364
+     "trend": 225.387,
+     "lo95": 222.429,
+     "hi95": 228.0
     },
     {
      "year": 2017,
-     "trend": 224.218,
-     "lo95": 215.719,
-     "hi95": 232.718
+     "trend": 227.517,
+     "lo95": 223.571,
+     "hi95": 231.0
     },
     {
      "year": 2018,
-     "trend": 226.123,
-     "lo95": 217.079,
-     "hi95": 235.167
+     "trend": 229.646,
+     "lo95": 224.714,
+     "hi95": 234.0
     },
     {
      "year": 2019,
-     "trend": 228.028,
-     "lo95": 218.359,
-     "hi95": 237.696
+     "trend": 231.775,
+     "lo95": 225.857,
+     "hi95": 237.0
     },
     {
      "year": 2020,
-     "trend": 229.932,
-     "lo95": 219.574,
-     "hi95": 240.29
+     "trend": 233.904,
+     "lo95": 227.0,
+     "hi95": 240.0
     },
     {
      "year": 2021,
-     "trend": 231.837,
-     "lo95": 220.736,
-     "hi95": 242.938
+     "trend": 236.033,
+     "lo95": 228.143,
+     "hi95": 243.0
     },
     {
      "year": 2022,
-     "trend": 233.742,
-     "lo95": 221.855,
-     "hi95": 245.628
+     "trend": 238.162,
+     "lo95": 229.286,
+     "hi95": 246.0
     },
     {
      "year": 2023,
-     "trend": 235.646,
-     "lo95": 222.939,
-     "hi95": 248.353
+     "trend": 240.292,
+     "lo95": 230.429,
+     "hi95": 249.0
     },
     {
      "year": 2024,
-     "trend": 237.551,
-     "lo95": 223.994,
-     "hi95": 251.107
+     "trend": 242.421,
+     "lo95": 231.571,
+     "hi95": 252.0
     },
     {
      "year": 2025,
-     "trend": 239.455,
-     "lo95": 225.026,
-     "hi95": 253.885
+     "trend": 244.55,
+     "lo95": 232.714,
+     "hi95": 255.0
     }
    ],
+   "q": 0.0024,
+   "records_tested": 16,
    "then": 201.6,
    "now": 236.0,
    "change_then_to_now": 34.4,
-   "slope_per_decade": 19.0,
+   "slope_per_decade": 21.3,
    "slope_ci95_per_decade": [
-    8.7,
-    29.4
+    11.4,
+    30.0
    ],
    "usual_range": [
     187.0,
@@ -3149,7 +3159,7 @@
    },
    "story": {
     "happened": "Warm nights: 202 nights a year on average in 2001–2005, compared with 236 nights a year in 2021–2025.",
-    "is_it_real": "The trend is +19.0 nights per decade (95% CI +8.7 to +29.4) and statistically significant (Mann-Kendall p < 0.001).",
+    "is_it_real": "The trend is +21.3 nights per decade (95% CI +11.4 to +30.0) and statistically significant (Mann-Kendall p < 0.001).",
     "why_it_matters": "Warm nights keep the body from recovering from daytime heat, adding to heat stress the next day.",
     "what_it_likely_means": "This has been getting worse steadily: 2021–2025 was worse than 2001–2005, so the early years are no longer a good guide to this place."
    },
@@ -5605,6 +5615,9 @@
    "significance_label": "No change",
    "p_label": "no variation",
    "mk_p": 1.0,
+   "mk_p_memory": 1.0,
+   "lag1": 0.0,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -8302,6 +8315,9 @@
    "significance_label": "Significant",
    "p_label": "p = 0.002",
    "mk_p": 0.0020956799480904564,
+   "mk_p_memory": 0.0021,
+   "lag1": -0.306,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -8407,162 +8423,164 @@
    "line": [
     {
      "year": 2001,
-     "trend": 12.486,
-     "lo95": 10.124,
-     "hi95": 14.849
+     "trend": 12.429,
+     "lo95": 10.6,
+     "hi95": 15.0
     },
     {
      "year": 2002,
-     "trend": 12.172,
-     "lo95": 9.953,
-     "hi95": 14.392
+     "trend": 12.143,
+     "lo95": 10.467,
+     "hi95": 14.5
     },
     {
      "year": 2003,
-     "trend": 11.858,
-     "lo95": 9.778,
-     "hi95": 13.939
+     "trend": 11.857,
+     "lo95": 10.333,
+     "hi95": 14.0
     },
     {
      "year": 2004,
-     "trend": 11.545,
-     "lo95": 9.598,
-     "hi95": 13.491
+     "trend": 11.571,
+     "lo95": 10.2,
+     "hi95": 13.5
     },
     {
      "year": 2005,
-     "trend": 11.231,
-     "lo95": 9.413,
-     "hi95": 13.048
+     "trend": 11.286,
+     "lo95": 10.067,
+     "hi95": 13.0
     },
     {
      "year": 2006,
-     "trend": 10.917,
-     "lo95": 9.221,
-     "hi95": 12.613
+     "trend": 11.0,
+     "lo95": 9.933,
+     "hi95": 12.5
     },
     {
      "year": 2007,
-     "trend": 10.603,
-     "lo95": 9.02,
-     "hi95": 12.186
+     "trend": 10.714,
+     "lo95": 9.8,
+     "hi95": 12.0
     },
     {
      "year": 2008,
-     "trend": 10.289,
-     "lo95": 8.808,
-     "hi95": 11.77
+     "trend": 10.429,
+     "lo95": 9.667,
+     "hi95": 11.5
     },
     {
      "year": 2009,
-     "trend": 9.975,
-     "lo95": 8.584,
-     "hi95": 11.367
+     "trend": 10.143,
+     "lo95": 9.533,
+     "hi95": 11.0
     },
     {
      "year": 2010,
-     "trend": 9.662,
-     "lo95": 8.343,
-     "hi95": 10.98
+     "trend": 9.857,
+     "lo95": 9.4,
+     "hi95": 10.5
     },
     {
      "year": 2011,
-     "trend": 9.348,
-     "lo95": 8.085,
-     "hi95": 10.611
+     "trend": 9.571,
+     "lo95": 9.267,
+     "hi95": 10.0
     },
     {
      "year": 2012,
-     "trend": 9.034,
-     "lo95": 7.805,
-     "hi95": 10.262
+     "trend": 9.286,
+     "lo95": 9.133,
+     "hi95": 9.5
     },
     {
      "year": 2013,
-     "trend": 8.72,
-     "lo95": 7.503,
-     "hi95": 9.937
+     "trend": 9.0,
+     "lo95": 9.0,
+     "hi95": 9.0
     },
     {
      "year": 2014,
-     "trend": 8.406,
-     "lo95": 7.178,
-     "hi95": 9.635
+     "trend": 8.714,
+     "lo95": 8.5,
+     "hi95": 8.867
     },
     {
      "year": 2015,
-     "trend": 8.092,
-     "lo95": 6.829,
-     "hi95": 9.355
+     "trend": 8.429,
+     "lo95": 8.0,
+     "hi95": 8.733
     },
     {
      "year": 2016,
-     "trend": 7.778,
-     "lo95": 6.46,
-     "hi95": 9.097
+     "trend": 8.143,
+     "lo95": 7.5,
+     "hi95": 8.6
     },
     {
      "year": 2017,
-     "trend": 7.465,
-     "lo95": 6.073,
-     "hi95": 8.856
+     "trend": 7.857,
+     "lo95": 7.0,
+     "hi95": 8.467
     },
     {
      "year": 2018,
-     "trend": 7.151,
-     "lo95": 5.67,
-     "hi95": 8.632
+     "trend": 7.571,
+     "lo95": 6.5,
+     "hi95": 8.333
     },
     {
      "year": 2019,
-     "trend": 6.837,
-     "lo95": 5.254,
-     "hi95": 8.42
+     "trend": 7.286,
+     "lo95": 6.0,
+     "hi95": 8.2
     },
     {
      "year": 2020,
-     "trend": 6.523,
-     "lo95": 4.827,
-     "hi95": 8.219
+     "trend": 7.0,
+     "lo95": 5.5,
+     "hi95": 8.067
     },
     {
      "year": 2021,
-     "trend": 6.209,
-     "lo95": 4.392,
-     "hi95": 8.027
+     "trend": 6.714,
+     "lo95": 5.0,
+     "hi95": 7.933
     },
     {
      "year": 2022,
-     "trend": 5.895,
-     "lo95": 3.949,
-     "hi95": 7.842
+     "trend": 6.429,
+     "lo95": 4.5,
+     "hi95": 7.8
     },
     {
      "year": 2023,
-     "trend": 5.582,
-     "lo95": 3.501,
-     "hi95": 7.662
+     "trend": 6.143,
+     "lo95": 4.0,
+     "hi95": 7.667
     },
     {
      "year": 2024,
-     "trend": 5.268,
-     "lo95": 3.048,
-     "hi95": 7.487
+     "trend": 5.857,
+     "lo95": 3.5,
+     "hi95": 7.533
     },
     {
      "year": 2025,
-     "trend": 4.954,
-     "lo95": 2.591,
-     "hi95": 7.316
+     "trend": 5.571,
+     "lo95": 3.0,
+     "hi95": 7.4
     }
    ],
+   "q": 0.0056,
+   "records_tested": 16,
    "then": 11.8,
    "now": 5.0,
    "change_then_to_now": -6.8,
-   "slope_per_decade": -3.1,
+   "slope_per_decade": -2.9,
    "slope_ci95_per_decade": [
-    -4.8,
-    -1.5
+    -5.0,
+    -1.3
    ],
    "usual_range": [
     4.4,
@@ -8579,7 +8597,7 @@
    },
    "story": {
     "happened": "Heavy rain days: 12 days a year on average in 2001–2005, compared with 5 days a year in 2021–2025.",
-    "is_it_real": "The trend is -3.1 days per decade (95% CI -4.8 to -1.5) and statistically significant (Mann-Kendall p = 0.002).",
+    "is_it_real": "The trend is -2.9 days per decade (95% CI -5.0 to -1.3) and statistically significant (Mann-Kendall p = 0.002).",
     "why_it_matters": "Flooding and water damage can lead to damp and mould at home.",
     "what_it_likely_means": "This has been improving steadily: 2021–2025 was better than 2001–2005."
    },
@@ -11028,6 +11046,9 @@
    "significance_label": "No change",
    "p_label": "no variation",
    "mk_p": 1.0,
+   "mk_p_memory": 1.0,
+   "lag1": 0.0,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -13722,6 +13743,9 @@
    "significance_label": "Significant",
    "p_label": "p < 0.001",
    "mk_p": 0.0005869845481489833,
+   "mk_p_memory": 0.0006,
+   "lag1": -0.047,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -13827,162 +13851,164 @@
    "line": [
     {
      "year": 2001,
-     "trend": 188.957,
-     "lo95": 174.37,
-     "hi95": 203.544
+     "trend": 183.709,
+     "lo95": 172.667,
+     "hi95": 196.286
     },
     {
      "year": 2002,
-     "trend": 190.884,
-     "lo95": 177.18,
-     "hi95": 204.588
+     "trend": 185.9,
+     "lo95": 175.778,
+     "hi95": 197.429
     },
     {
      "year": 2003,
-     "trend": 192.811,
-     "lo95": 179.965,
-     "hi95": 205.656
+     "trend": 188.091,
+     "lo95": 178.889,
+     "hi95": 198.571
     },
     {
      "year": 2004,
-     "trend": 194.738,
-     "lo95": 182.722,
-     "hi95": 206.754
+     "trend": 190.282,
+     "lo95": 182.0,
+     "hi95": 199.714
     },
     {
      "year": 2005,
-     "trend": 196.665,
-     "lo95": 185.443,
-     "hi95": 207.886
+     "trend": 192.473,
+     "lo95": 185.111,
+     "hi95": 200.857
     },
     {
      "year": 2006,
-     "trend": 198.592,
-     "lo95": 188.121,
-     "hi95": 209.063
+     "trend": 194.664,
+     "lo95": 188.222,
+     "hi95": 202.0
     },
     {
      "year": 2007,
-     "trend": 200.518,
-     "lo95": 190.745,
-     "hi95": 210.292
+     "trend": 196.855,
+     "lo95": 191.333,
+     "hi95": 203.143
     },
     {
      "year": 2008,
-     "trend": 202.445,
-     "lo95": 193.303,
-     "hi95": 211.588
+     "trend": 199.045,
+     "lo95": 194.444,
+     "hi95": 204.286
     },
     {
      "year": 2009,
-     "trend": 204.372,
-     "lo95": 195.781,
-     "hi95": 212.964
+     "trend": 201.236,
+     "lo95": 197.556,
+     "hi95": 205.429
     },
     {
      "year": 2010,
-     "trend": 206.299,
-     "lo95": 198.162,
-     "hi95": 214.437
+     "trend": 203.427,
+     "lo95": 200.667,
+     "hi95": 206.571
     },
     {
      "year": 2011,
-     "trend": 208.226,
-     "lo95": 200.429,
-     "hi95": 216.023
+     "trend": 205.618,
+     "lo95": 203.778,
+     "hi95": 207.714
     },
     {
      "year": 2012,
-     "trend": 210.153,
-     "lo95": 202.568,
-     "hi95": 217.738
+     "trend": 207.809,
+     "lo95": 206.889,
+     "hi95": 208.857
     },
     {
      "year": 2013,
-     "trend": 212.08,
-     "lo95": 204.567,
-     "hi95": 219.593
+     "trend": 210.0,
+     "lo95": 210.0,
+     "hi95": 210.0
     },
     {
      "year": 2014,
-     "trend": 214.007,
-     "lo95": 206.422,
-     "hi95": 221.592
+     "trend": 212.191,
+     "lo95": 211.143,
+     "hi95": 213.111
     },
     {
      "year": 2015,
-     "trend": 215.934,
-     "lo95": 208.137,
-     "hi95": 223.731
+     "trend": 214.382,
+     "lo95": 212.286,
+     "hi95": 216.222
     },
     {
      "year": 2016,
-     "trend": 217.861,
-     "lo95": 209.723,
-     "hi95": 225.998
+     "trend": 216.573,
+     "lo95": 213.429,
+     "hi95": 219.333
     },
     {
      "year": 2017,
-     "trend": 219.788,
-     "lo95": 211.196,
-     "hi95": 228.379
+     "trend": 218.764,
+     "lo95": 214.571,
+     "hi95": 222.444
     },
     {
      "year": 2018,
-     "trend": 221.715,
-     "lo95": 212.572,
-     "hi95": 230.857
+     "trend": 220.955,
+     "lo95": 215.714,
+     "hi95": 225.556
     },
     {
      "year": 2019,
-     "trend": 223.642,
-     "lo95": 213.868,
-     "hi95": 233.415
+     "trend": 223.145,
+     "lo95": 216.857,
+     "hi95": 228.667
     },
     {
      "year": 2020,
-     "trend": 225.568,
-     "lo95": 215.097,
-     "hi95": 236.039
+     "trend": 225.336,
+     "lo95": 218.0,
+     "hi95": 231.778
     },
     {
      "year": 2021,
-     "trend": 227.495,
-     "lo95": 216.274,
-     "hi95": 238.717
+     "trend": 227.527,
+     "lo95": 219.143,
+     "hi95": 234.889
     },
     {
      "year": 2022,
-     "trend": 229.422,
-     "lo95": 217.406,
-     "hi95": 241.438
+     "trend": 229.718,
+     "lo95": 220.286,
+     "hi95": 238.0
     },
     {
      "year": 2023,
-     "trend": 231.349,
-     "lo95": 218.504,
-     "hi95": 244.195
+     "trend": 231.909,
+     "lo95": 221.429,
+     "hi95": 241.111
     },
     {
      "year": 2024,
-     "trend": 233.276,
-     "lo95": 219.572,
-     "hi95": 246.98
+     "trend": 234.1,
+     "lo95": 222.571,
+     "hi95": 244.222
     },
     {
      "year": 2025,
-     "trend": 235.203,
-     "lo95": 220.616,
-     "hi95": 249.79
+     "trend": 236.291,
+     "lo95": 223.714,
+     "hi95": 247.333
     }
    ],
+   "q": 0.0024,
+   "records_tested": 16,
    "then": 201.6,
    "now": 233.6,
    "change_then_to_now": 32.0,
-   "slope_per_decade": 19.3,
+   "slope_per_decade": 21.9,
    "slope_ci95_per_decade": [
-    8.9,
-    29.7
+    11.4,
+    31.1
    ],
    "usual_range": [
     184.2,
@@ -13999,7 +14025,7 @@
    },
    "story": {
     "happened": "Muggy days: 202 days a year on average in 2001–2005, compared with 234 days a year in 2021–2025.",
-    "is_it_real": "The trend is +19.3 days per decade (95% CI +8.9 to +29.7) and statistically significant (Mann-Kendall p < 0.001).",
+    "is_it_real": "The trend is +21.9 days per decade (95% CI +11.4 to +31.1) and statistically significant (Mann-Kendall p < 0.001).",
     "why_it_matters": "Long humid spells help mould grow indoors, a common asthma and allergy trigger.",
     "what_it_likely_means": "This has been getting worse steadily: 2021–2025 was worse than 2001–2005, so the early years are no longer a good guide to this place."
    },
@@ -16454,6 +16480,9 @@
    "significance_label": "Significant",
    "p_label": "p < 0.001",
    "mk_p": 0.0007630253194672587,
+   "mk_p_memory": 0.0008,
+   "lag1": -0.035,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -16559,162 +16588,164 @@
    "line": [
     {
      "year": 2001,
-     "trend": 160.022,
-     "lo95": 147.826,
-     "hi95": 172.217
+     "trend": 154.885,
+     "lo95": 149.0,
+     "hi95": 164.0
     },
     {
      "year": 2002,
-     "trend": 161.513,
-     "lo95": 150.056,
-     "hi95": 172.97
+     "trend": 156.644,
+     "lo95": 151.25,
+     "hi95": 165.0
     },
     {
      "year": 2003,
-     "trend": 163.005,
-     "lo95": 152.265,
-     "hi95": 173.744
+     "trend": 158.404,
+     "lo95": 153.5,
+     "hi95": 166.0
     },
     {
      "year": 2004,
-     "trend": 164.496,
-     "lo95": 154.45,
-     "hi95": 174.542
+     "trend": 160.163,
+     "lo95": 155.75,
+     "hi95": 167.0
     },
     {
      "year": 2005,
-     "trend": 165.988,
-     "lo95": 156.606,
-     "hi95": 175.37
+     "trend": 161.923,
+     "lo95": 158.0,
+     "hi95": 168.0
     },
     {
      "year": 2006,
-     "trend": 167.479,
-     "lo95": 158.725,
-     "hi95": 176.234
+     "trend": 163.683,
+     "lo95": 160.25,
+     "hi95": 169.0
     },
     {
      "year": 2007,
-     "trend": 168.971,
-     "lo95": 160.799,
-     "hi95": 177.142
+     "trend": 165.442,
+     "lo95": 162.5,
+     "hi95": 170.0
     },
     {
      "year": 2008,
-     "trend": 170.462,
-     "lo95": 162.819,
-     "hi95": 178.106
+     "trend": 167.202,
+     "lo95": 164.75,
+     "hi95": 171.0
     },
     {
      "year": 2009,
-     "trend": 171.954,
-     "lo95": 164.771,
-     "hi95": 179.137
+     "trend": 168.962,
+     "lo95": 167.0,
+     "hi95": 172.0
     },
     {
      "year": 2010,
-     "trend": 173.445,
-     "lo95": 166.642,
-     "hi95": 180.249
+     "trend": 170.721,
+     "lo95": 169.25,
+     "hi95": 173.0
     },
     {
      "year": 2011,
-     "trend": 174.937,
-     "lo95": 168.418,
-     "hi95": 181.456
+     "trend": 172.481,
+     "lo95": 171.5,
+     "hi95": 174.0
     },
     {
      "year": 2012,
-     "trend": 176.428,
-     "lo95": 170.087,
-     "hi95": 182.77
+     "trend": 174.24,
+     "lo95": 173.75,
+     "hi95": 175.0
     },
     {
      "year": 2013,
-     "trend": 177.92,
-     "lo95": 171.638,
-     "hi95": 184.202
+     "trend": 176.0,
+     "lo95": 176.0,
+     "hi95": 176.0
     },
     {
      "year": 2014,
-     "trend": 179.412,
-     "lo95": 173.07,
-     "hi95": 185.753
+     "trend": 177.76,
+     "lo95": 177.0,
+     "hi95": 178.25
     },
     {
      "year": 2015,
-     "trend": 180.903,
-     "lo95": 174.384,
-     "hi95": 187.422
+     "trend": 179.519,
+     "lo95": 178.0,
+     "hi95": 180.5
     },
     {
      "year": 2016,
-     "trend": 182.395,
-     "lo95": 175.591,
-     "hi95": 189.198
+     "trend": 181.279,
+     "lo95": 179.0,
+     "hi95": 182.75
     },
     {
      "year": 2017,
-     "trend": 183.886,
-     "lo95": 176.703,
-     "hi95": 191.069
+     "trend": 183.038,
+     "lo95": 180.0,
+     "hi95": 185.0
     },
     {
      "year": 2018,
-     "trend": 185.378,
-     "lo95": 177.734,
-     "hi95": 193.021
+     "trend": 184.798,
+     "lo95": 181.0,
+     "hi95": 187.25
     },
     {
      "year": 2019,
-     "trend": 186.869,
-     "lo95": 178.698,
-     "hi95": 195.041
+     "trend": 186.558,
+     "lo95": 182.0,
+     "hi95": 189.5
     },
     {
      "year": 2020,
-     "trend": 188.361,
-     "lo95": 179.606,
-     "hi95": 197.115
+     "trend": 188.317,
+     "lo95": 183.0,
+     "hi95": 191.75
     },
     {
      "year": 2021,
-     "trend": 189.852,
-     "lo95": 180.47,
-     "hi95": 199.234
+     "trend": 190.077,
+     "lo95": 184.0,
+     "hi95": 194.0
     },
     {
      "year": 2022,
-     "trend": 191.344,
-     "lo95": 181.298,
-     "hi95": 201.39
+     "trend": 191.837,
+     "lo95": 185.0,
+     "hi95": 196.25
     },
     {
      "year": 2023,
-     "trend": 192.835,
-     "lo95": 182.096,
-     "hi95": 203.575
+     "trend": 193.596,
+     "lo95": 186.0,
+     "hi95": 198.5
     },
     {
      "year": 2024,
-     "trend": 194.327,
-     "lo95": 182.87,
-     "hi95": 205.784
+     "trend": 195.356,
+     "lo95": 187.0,
+     "hi95": 200.75
     },
     {
      "year": 2025,
-     "trend": 195.818,
-     "lo95": 183.623,
-     "hi95": 208.014
+     "trend": 197.115,
+     "lo95": 188.0,
+     "hi95": 203.0
     }
    ],
+   "q": 0.0024,
+   "records_tested": 16,
    "then": 169.8,
    "now": 191.8,
    "change_then_to_now": 22.0,
-   "slope_per_decade": 14.9,
+   "slope_per_decade": 17.6,
    "slope_ci95_per_decade": [
-    6.2,
-    23.6
+    10.0,
+    22.5
    ],
    "usual_range": [
     158.4,
@@ -16731,7 +16762,7 @@
    },
    "story": {
     "happened": "Humid-heat days: 170 days a year on average in 2001–2005, compared with 192 days a year in 2021–2025.",
-    "is_it_real": "The trend is +14.9 days per decade (95% CI +6.2 to +23.6) and statistically significant (Mann-Kendall p < 0.001).",
+    "is_it_real": "The trend is +17.6 days per decade (95% CI +10.0 to +22.5) and statistically significant (Mann-Kendall p < 0.001).",
     "why_it_matters": "Older adults, young children and people with heart disease are most affected by humid heat (CDC).",
     "what_it_likely_means": "This has been getting worse steadily: 2021–2025 was worse than 2001–2005, so the early years are no longer a good guide to this place."
    },
@@ -19159,6 +19190,2726 @@
     "text": "Take care for heart disease and older adults (65+)"
    }
   },
+  "heat_index_days": {
+   "key": "heat_index_days",
+   "label": "Dangerous heat-index days",
+   "available": true,
+   "constant": false,
+   "parent": null,
+   "unit": "days / year",
+   "unit_short": "days",
+   "data_source": "NASA POWER (MERRA-2) daily max temperature T2M_MAX and dew point T2MDEW, ~50 km grid",
+   "definition": "Days when heat and humidity together feel like 103 °F or more at the hottest time of day, the National Weather Service's Danger level.",
+   "caveat": "Worked out from the day's highest temperature and its average dew point on a ~50 km grid; the heat index is measured in shade, and full sun can add up to 15 °F.",
+   "period": [
+    2001,
+    2025
+   ],
+   "n_years": 25,
+   "then_years": [
+    2001,
+    2005
+   ],
+   "now_years": [
+    2021,
+    2025
+   ],
+   "significant": false,
+   "significance_label": "Not significant yet",
+   "p_label": "p = 0.036",
+   "mk_p": 0.035720312728136916,
+   "mk_p_memory": 0.275,
+   "lag1": 0.461,
+   "memory_sensitive": false,
+   "points": [
+    {
+     "year": 2001,
+     "value": 0.0
+    },
+    {
+     "year": 2002,
+     "value": 0.0
+    },
+    {
+     "year": 2003,
+     "value": 0.0
+    },
+    {
+     "year": 2004,
+     "value": 0.0
+    },
+    {
+     "year": 2005,
+     "value": 0.0
+    },
+    {
+     "year": 2006,
+     "value": 0.0
+    },
+    {
+     "year": 2007,
+     "value": 0.0
+    },
+    {
+     "year": 2008,
+     "value": 0.0
+    },
+    {
+     "year": 2009,
+     "value": 1.0
+    },
+    {
+     "year": 2010,
+     "value": 0.0
+    },
+    {
+     "year": 2011,
+     "value": 0.0
+    },
+    {
+     "year": 2012,
+     "value": 0.0
+    },
+    {
+     "year": 2013,
+     "value": 0.0
+    },
+    {
+     "year": 2014,
+     "value": 0.0
+    },
+    {
+     "year": 2015,
+     "value": 0.0
+    },
+    {
+     "year": 2016,
+     "value": 0.0
+    },
+    {
+     "year": 2017,
+     "value": 0.0
+    },
+    {
+     "year": 2018,
+     "value": 0.0
+    },
+    {
+     "year": 2019,
+     "value": 0.0
+    },
+    {
+     "year": 2020,
+     "value": 0.0
+    },
+    {
+     "year": 2021,
+     "value": 0.0
+    },
+    {
+     "year": 2022,
+     "value": 0.0
+    },
+    {
+     "year": 2023,
+     "value": 18.0
+    },
+    {
+     "year": 2024,
+     "value": 12.0
+    },
+    {
+     "year": 2025,
+     "value": 2.0
+    }
+   ],
+   "line": [
+    {
+     "year": 2001,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2002,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2003,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2004,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2005,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2006,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2007,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2008,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2009,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2010,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2011,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2012,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2013,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2014,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2015,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2016,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2017,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2018,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2019,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2020,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2021,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2022,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2023,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2024,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    },
+    {
+     "year": 2025,
+     "trend": 0.0,
+     "lo95": 0.0,
+     "hi95": 0.0
+    }
+   ],
+   "q": 0.0816,
+   "records_tested": 16,
+   "then": 0.0,
+   "now": 6.4,
+   "change_then_to_now": 6.4,
+   "slope_per_decade": 0.0,
+   "slope_ci95_per_decade": [
+    -0.0,
+    -0.0
+   ],
+   "usual_range": [
+    0.0,
+    1.6
+   ],
+   "level": null,
+   "trend_direction": "no_clear_trend",
+   "limits": {
+    "caution_from": null,
+    "high_from": null,
+    "source": "Trend only: the National Weather Service's Danger level is for a single day, not a yearly count.",
+    "high_source": null,
+    "reference_only": null
+   },
+   "story": {
+    "happened": "Dangerous heat-index days: 0 days a year on average in 2001–2005, compared with 6 days a year in 2021–2025.",
+    "is_it_real": "The trend is +0.0 days per decade (95% CI -0.0 to -0.0), but not statistically significant yet (p = 0.036): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "why_it_matters": "At this level heat cramps and heat exhaustion are likely, and heat stroke is possible with long exposure or activity (National Weather Service). Older adults, young children and people with heart disease are most at risk (CDC).",
+    "what_it_likely_means": "No clear direction: most years fell in the usual range of about 0–2 days."
+   },
+   "timeline": {
+    "rolling_5yr": [
+     {
+      "year": 2003,
+      "value": 0.0
+     },
+     {
+      "year": 2004,
+      "value": 0.0
+     },
+     {
+      "year": 2005,
+      "value": 0.0
+     },
+     {
+      "year": 2006,
+      "value": 0.0
+     },
+     {
+      "year": 2007,
+      "value": 0.0
+     },
+     {
+      "year": 2008,
+      "value": 0.0
+     },
+     {
+      "year": 2009,
+      "value": 0.2
+     },
+     {
+      "year": 2010,
+      "value": 0.2
+     },
+     {
+      "year": 2011,
+      "value": 0.2
+     },
+     {
+      "year": 2012,
+      "value": 0.2
+     },
+     {
+      "year": 2013,
+      "value": 0.2
+     },
+     {
+      "year": 2014,
+      "value": 0.0
+     },
+     {
+      "year": 2015,
+      "value": 0.0
+     },
+     {
+      "year": 2016,
+      "value": 0.0
+     },
+     {
+      "year": 2017,
+      "value": 0.0
+     },
+     {
+      "year": 2018,
+      "value": 0.0
+     },
+     {
+      "year": 2019,
+      "value": 0.0
+     },
+     {
+      "year": 2020,
+      "value": 0.0
+     },
+     {
+      "year": 2021,
+      "value": 0.0
+     },
+     {
+      "year": 2022,
+      "value": 0.0
+     },
+     {
+      "year": 2023,
+      "value": 3.6
+     },
+     {
+      "year": 2024,
+      "value": 6.0
+     },
+     {
+      "year": 2025,
+      "value": 6.4
+     }
+    ],
+    "decades": [
+     {
+      "decade": "2000s",
+      "years": [
+       2001,
+       2009
+      ],
+      "average": 0.1,
+      "n_years": 9
+     },
+     {
+      "decade": "2010s",
+      "years": [
+       2010,
+       2019
+      ],
+      "average": 0.0,
+      "n_years": 10
+     },
+     {
+      "decade": "2020s",
+      "years": [
+       2020,
+       2025
+      ],
+      "average": 5.3,
+      "n_years": 6
+     }
+    ],
+    "highlights": {
+     "worst_year": {
+      "year": 2023,
+      "value": 18.0
+     },
+     "best_year": {
+      "year": 2022,
+      "value": 0.0
+     },
+     "top3_worst": [
+      {
+       "year": 2023,
+       "value": 18.0
+      },
+      {
+       "year": 2024,
+       "value": 12.0
+      },
+      {
+       "year": 2025,
+       "value": 2.0
+      }
+     ]
+    },
+    "unusual_years": [
+     {
+      "year": 2023,
+      "value": 18.0
+     },
+     {
+      "year": 2024,
+      "value": 12.0
+     },
+     {
+      "year": 2025,
+      "value": 2.0
+     }
+    ]
+   },
+   "source": {
+    "name": "NASA POWER",
+    "url": "https://power.larc.nasa.gov/"
+   },
+   "monthly": [
+    {
+     "month": "2001-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2001-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2001-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2001-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2001-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2001-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2001-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2001-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2001-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2001-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2001-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2001-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2002-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2002-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2002-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2002-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2002-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2002-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2002-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2002-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2002-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2002-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2002-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2002-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2003-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2003-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2003-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2003-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2003-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2003-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2003-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2003-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2003-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2003-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2003-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2003-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2004-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2004-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2004-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2004-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2004-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2004-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2004-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2004-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2004-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2004-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2004-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2004-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2005-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2005-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2005-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2005-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2005-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2005-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2005-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2005-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2005-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2005-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2005-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2005-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2006-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2006-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2006-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2006-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2006-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2006-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2006-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2006-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2006-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2006-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2006-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2006-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2007-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2007-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2007-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2007-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2007-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2007-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2007-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2007-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2007-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2007-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2007-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2007-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2008-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2008-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2008-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2008-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2008-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2008-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2008-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2008-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2008-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2008-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2008-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2008-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2009-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2009-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2009-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2009-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2009-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2009-06",
+     "value": 1.0,
+     "anomaly": 0.96,
+     "z": null
+    },
+    {
+     "month": "2009-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2009-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2009-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2009-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2009-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2009-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2010-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2010-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2010-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2010-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2010-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2010-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2010-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2010-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2010-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2010-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2010-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2010-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2011-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2011-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2011-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2011-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2011-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2011-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2011-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2011-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2011-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2011-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2011-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2011-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2012-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2012-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2012-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2012-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2012-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2012-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2012-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2012-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2012-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2012-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2012-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2012-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2013-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2013-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2013-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2013-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2013-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2013-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2013-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2013-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2013-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2013-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2013-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2013-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2014-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2014-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2014-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2014-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2014-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2014-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2014-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2014-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2014-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2014-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2014-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2014-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2015-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2015-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2015-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2015-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2015-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2015-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2015-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2015-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2015-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2015-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2015-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2015-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2016-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2016-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2016-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2016-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2016-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2016-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2016-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2017-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2017-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2017-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2017-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2017-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2017-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2017-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2018-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2018-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2018-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2018-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2018-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2018-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2018-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2019-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2019-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2019-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2019-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2019-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2019-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2019-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2020-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2020-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2020-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2020-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2020-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2020-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2020-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2021-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2021-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2021-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2021-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2021-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2021-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2021-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2022-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2022-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2022-08",
+     "value": 0.0,
+     "anomaly": -0.76,
+     "z": null
+    },
+    {
+     "month": "2022-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2022-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2022-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2022-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2023-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2023-07",
+     "value": 4.0,
+     "anomaly": 3.76,
+     "z": null
+    },
+    {
+     "month": "2023-08",
+     "value": 12.0,
+     "anomaly": 11.24,
+     "z": null
+    },
+    {
+     "month": "2023-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2023-10",
+     "value": 2.0,
+     "anomaly": 1.92,
+     "z": null
+    },
+    {
+     "month": "2023-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2023-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-05",
+     "value": 1.0,
+     "anomaly": 0.96,
+     "z": null
+    },
+    {
+     "month": "2024-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2024-07",
+     "value": 2.0,
+     "anomaly": 1.76,
+     "z": null
+    },
+    {
+     "month": "2024-08",
+     "value": 5.0,
+     "anomaly": 4.24,
+     "z": null
+    },
+    {
+     "month": "2024-09",
+     "value": 4.0,
+     "anomaly": 3.84,
+     "z": null
+    },
+    {
+     "month": "2024-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2024-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2024-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-01",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-02",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-03",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-04",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-05",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2025-06",
+     "value": 0.0,
+     "anomaly": -0.04,
+     "z": null
+    },
+    {
+     "month": "2025-07",
+     "value": 0.0,
+     "anomaly": -0.24,
+     "z": null
+    },
+    {
+     "month": "2025-08",
+     "value": 2.0,
+     "anomaly": 1.24,
+     "z": null
+    },
+    {
+     "month": "2025-09",
+     "value": 0.0,
+     "anomaly": -0.16,
+     "z": null
+    },
+    {
+     "month": "2025-10",
+     "value": 0.0,
+     "anomaly": -0.08,
+     "z": null
+    },
+    {
+     "month": "2025-11",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    },
+    {
+     "month": "2025-12",
+     "value": 0.0,
+     "anomaly": 0.0,
+     "z": null
+    }
+   ],
+   "monthly_classes": {
+    "value": [],
+    "anomaly": [
+     0.04,
+     0.16
+    ]
+   },
+   "seasonal": {
+    "overall": {
+     "slope_per_year": -0.0,
+     "slope_per_decade": -0.0,
+     "p": 0.0266,
+     "p_label": "p = 0.027",
+     "clear": false,
+     "n_years": 25,
+     "method": "Seasonal Kendall, corrected for month-to-month memory"
+    },
+    "seasons": [
+     {
+      "name": "winter",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 24
+     },
+     {
+      "name": "spring",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.1454,
+      "q": 0.1938,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "summer",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.0357,
+      "q": 0.0714,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "autumn",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.0357,
+      "q": 0.0714,
+      "clear": false,
+      "n_years": 25
+     }
+    ],
+    "months": [
+     {
+      "name": "Jan",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Feb",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Mar",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Apr",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "May",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.1454,
+      "q": 0.4361,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Jun",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.6274,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Jul",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.0454,
+      "q": 0.2725,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Aug",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.0098,
+      "q": 0.1172,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Sep",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.1454,
+      "q": 0.4361,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Oct",
+      "available": true,
+      "slope_per_decade": -0.0,
+      "p": 0.1877,
+      "q": 0.4505,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Nov",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 25
+     },
+     {
+      "name": "Dec",
+      "available": true,
+      "slope_per_decade": 0.0,
+      "p": 1.0,
+      "q": 1.0,
+      "clear": false,
+      "n_years": 25
+     }
+    ],
+    "anomaly_test": {
+     "p": 0.287,
+     "p_label": "p = 0.29",
+     "slope_per_decade": 0.0,
+     "method": "Hamed-Rao"
+    },
+    "years_needed": null,
+    "normals": [
+     {
+      "month": 1,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 2,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 3,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 4,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 5,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 6,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 7,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 8,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 1.2
+     },
+     {
+      "month": 9,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 10,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 11,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     },
+     {
+      "month": 12,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p90": 0.0
+     }
+    ],
+    "season_agg": "sum"
+   },
+   "leave_one_out": {
+    "clear": false,
+    "years": [
+     {
+      "year": 2001,
+      "p": 0.0414,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2002,
+      "p": 0.0414,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2003,
+      "p": 0.0414,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2004,
+      "p": 0.0414,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2005,
+      "p": 0.0414,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2006,
+      "p": 0.0414,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2007,
+      "p": 0.0414,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2008,
+      "p": 0.0414,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2009,
+      "p": 0.0103,
+      "clear": true,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2010,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2011,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2012,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2013,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2014,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2015,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2016,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2017,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2018,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2019,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2020,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2021,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2022,
+      "p": 0.0343,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2023,
+      "p": 0.1076,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2024,
+      "p": 0.1076,
+      "clear": false,
+      "slope_per_decade": -0.0
+     },
+     {
+      "year": 2025,
+      "p": 0.1076,
+      "clear": false,
+      "slope_per_decade": -0.0
+     }
+    ],
+    "flips": [
+     2009
+    ]
+   },
+   "priority_for_user": true,
+   "affects": [
+    "Heart disease",
+    "Older adults (65+)"
+   ],
+   "health_flag": null
+  },
   "wettest_day": {
    "key": "wettest_day",
    "label": "Wettest day of the year",
@@ -19187,6 +21938,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.053",
    "mk_p": 0.052566837375503495,
+   "mk_p_memory": 0.162,
+   "lag1": 0.237,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -19292,162 +22046,164 @@
    "line": [
     {
      "year": 2001,
-     "trend": 37.254,
-     "lo95": 14.93,
-     "hi95": 59.577
+     "trend": 37.589,
+     "lo95": 17.529,
+     "hi95": 56.271
     },
     {
      "year": 2002,
-     "trend": 39.422,
-     "lo95": 18.449,
-     "hi95": 60.395
+     "trend": 39.132,
+     "lo95": 20.743,
+     "hi95": 56.257
     },
     {
      "year": 2003,
-     "trend": 41.591,
-     "lo95": 21.932,
-     "hi95": 61.25
+     "trend": 40.675,
+     "lo95": 23.957,
+     "hi95": 56.243
     },
     {
      "year": 2004,
-     "trend": 43.759,
-     "lo95": 25.37,
-     "hi95": 62.148
+     "trend": 42.217,
+     "lo95": 27.171,
+     "hi95": 56.229
     },
     {
      "year": 2005,
-     "trend": 45.928,
-     "lo95": 28.754,
-     "hi95": 63.102
+     "trend": 43.76,
+     "lo95": 30.386,
+     "hi95": 56.214
     },
     {
      "year": 2006,
-     "trend": 48.096,
-     "lo95": 32.071,
-     "hi95": 64.121
+     "trend": 45.302,
+     "lo95": 33.6,
+     "hi95": 56.2
     },
     {
      "year": 2007,
-     "trend": 50.265,
-     "lo95": 35.307,
-     "hi95": 65.223
+     "trend": 46.845,
+     "lo95": 36.814,
+     "hi95": 56.186
     },
     {
      "year": 2008,
-     "trend": 52.433,
-     "lo95": 38.441,
-     "hi95": 66.425
+     "trend": 48.387,
+     "lo95": 40.029,
+     "hi95": 56.171
     },
     {
      "year": 2009,
-     "trend": 54.602,
-     "lo95": 41.453,
-     "hi95": 67.751
+     "trend": 49.93,
+     "lo95": 43.243,
+     "hi95": 56.157
     },
     {
      "year": 2010,
-     "trend": 56.77,
-     "lo95": 44.317,
-     "hi95": 69.224
+     "trend": 51.472,
+     "lo95": 46.457,
+     "hi95": 56.143
     },
     {
      "year": 2011,
-     "trend": 58.939,
-     "lo95": 47.006,
-     "hi95": 70.871
+     "trend": 53.015,
+     "lo95": 49.671,
+     "hi95": 56.129
     },
     {
      "year": 2012,
-     "trend": 61.107,
-     "lo95": 49.499,
-     "hi95": 72.716
+     "trend": 54.557,
+     "lo95": 52.886,
+     "hi95": 56.114
     },
     {
      "year": 2013,
-     "trend": 63.276,
-     "lo95": 51.778,
-     "hi95": 74.774
+     "trend": 56.1,
+     "lo95": 56.1,
+     "hi95": 56.1
     },
     {
      "year": 2014,
-     "trend": 65.445,
-     "lo95": 53.836,
-     "hi95": 77.053
+     "trend": 57.643,
+     "lo95": 56.086,
+     "hi95": 59.314
     },
     {
      "year": 2015,
-     "trend": 67.613,
-     "lo95": 55.681,
-     "hi95": 79.546
+     "trend": 59.185,
+     "lo95": 56.071,
+     "hi95": 62.529
     },
     {
      "year": 2016,
-     "trend": 69.782,
-     "lo95": 57.328,
-     "hi95": 82.235
+     "trend": 60.728,
+     "lo95": 56.057,
+     "hi95": 65.743
     },
     {
      "year": 2017,
-     "trend": 71.95,
-     "lo95": 58.801,
-     "hi95": 85.099
+     "trend": 62.27,
+     "lo95": 56.043,
+     "hi95": 68.957
     },
     {
      "year": 2018,
-     "trend": 74.119,
-     "lo95": 60.127,
-     "hi95": 88.111
+     "trend": 63.813,
+     "lo95": 56.029,
+     "hi95": 72.171
     },
     {
      "year": 2019,
-     "trend": 76.287,
-     "lo95": 61.329,
-     "hi95": 91.245
+     "trend": 65.355,
+     "lo95": 56.014,
+     "hi95": 75.386
     },
     {
      "year": 2020,
-     "trend": 78.456,
-     "lo95": 62.431,
-     "hi95": 94.481
+     "trend": 66.898,
+     "lo95": 56.0,
+     "hi95": 78.6
     },
     {
      "year": 2021,
-     "trend": 80.624,
-     "lo95": 63.45,
-     "hi95": 97.798
+     "trend": 68.44,
+     "lo95": 55.986,
+     "hi95": 81.814
     },
     {
      "year": 2022,
-     "trend": 82.793,
-     "lo95": 64.404,
-     "hi95": 101.182
+     "trend": 69.983,
+     "lo95": 55.971,
+     "hi95": 85.029
     },
     {
      "year": 2023,
-     "trend": 84.961,
-     "lo95": 65.302,
-     "hi95": 104.62
+     "trend": 71.525,
+     "lo95": 55.957,
+     "hi95": 88.243
     },
     {
      "year": 2024,
-     "trend": 87.13,
-     "lo95": 66.157,
-     "hi95": 108.103
+     "trend": 73.068,
+     "lo95": 55.943,
+     "hi95": 91.457
     },
     {
      "year": 2025,
-     "trend": 89.298,
-     "lo95": 66.975,
-     "hi95": 111.622
+     "trend": 74.611,
+     "lo95": 55.929,
+     "hi95": 94.671
     }
    ],
+   "q": 0.1051,
+   "records_tested": 16,
    "then": 55.5,
    "now": 92.9,
    "change_then_to_now": 37.4,
-   "slope_per_decade": 21.7,
+   "slope_per_decade": 15.4,
    "slope_ci95_per_decade": [
-    5.7,
-    37.6
+    -0.1,
+    32.1
    ],
    "usual_range": [
     32.0,
@@ -19464,7 +22220,7 @@
    },
    "story": {
     "happened": "Wettest day of the year: 55 mm on average in 2001–2005, compared with 93 mm in 2021–2025.",
-    "is_it_real": "The trend is +21.7 mm per decade (95% CI +5.7 to +37.6), but not statistically significant yet (p = 0.053): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +15.4 mm per decade (95% CI -0.1 to +32.1), but not statistically significant yet (p = 0.053): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "The biggest single-day downpours are the ones most likely to cause local flooding.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 32–99 mm."
    },
@@ -21729,7 +24485,7 @@
      {
       "year": 2001,
       "p": 0.0395,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 16.8
      },
      {
@@ -21741,7 +24497,7 @@
      {
       "year": 2003,
       "p": 0.0395,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 16.6
      },
      {
@@ -21771,7 +24527,7 @@
      {
       "year": 2008,
       "p": 0.0445,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 16.0
      },
      {
@@ -21801,19 +24557,19 @@
      {
       "year": 2013,
       "p": 0.0395,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 16.0
      },
      {
       "year": 2014,
       "p": 0.035,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 15.9
      },
      {
       "year": 2015,
       "p": 0.0309,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 15.9
      },
      {
@@ -21878,16 +24634,20 @@
      }
     ],
     "flips": [
-     2001,
-     2003,
      2004,
-     2008,
-     2013,
-     2014,
-     2015,
      2021
     ]
    },
+   "priority_for_user": false,
+   "affects": [],
+   "health_flag": null
+  },
+  "frost_free_season": {
+   "key": "frost_free_season",
+   "label": "Frost-free season",
+   "available": false,
+   "parent": null,
+   "reason": "frost is too rare here to measure a frost-free season",
    "priority_for_user": false,
    "affects": [],
    "health_flag": null
@@ -21920,6 +24680,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.065",
    "mk_p": 0.06490335860944318,
+   "mk_p_memory": 0.0734,
+   "lag1": -0.026,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2010,
@@ -21989,108 +24752,110 @@
    "line": [
     {
      "year": 2010,
-     "trend": 10.686,
-     "lo95": 10.007,
-     "hi95": 11.365
+     "trend": 10.438,
+     "lo95": 9.847,
+     "hi95": 11.181
     },
     {
      "year": 2011,
-     "trend": 10.753,
-     "lo95": 10.138,
-     "hi95": 11.368
+     "trend": 10.527,
+     "lo95": 10.015,
+     "hi95": 11.172
     },
     {
      "year": 2012,
-     "trend": 10.82,
-     "lo95": 10.266,
-     "hi95": 11.374
+     "trend": 10.617,
+     "lo95": 10.184,
+     "hi95": 11.162
     },
     {
      "year": 2013,
-     "trend": 10.887,
-     "lo95": 10.39,
-     "hi95": 11.384
+     "trend": 10.706,
+     "lo95": 10.352,
+     "hi95": 11.153
     },
     {
      "year": 2014,
-     "trend": 10.954,
-     "lo95": 10.507,
-     "hi95": 11.4
+     "trend": 10.796,
+     "lo95": 10.52,
+     "hi95": 11.143
     },
     {
      "year": 2015,
-     "trend": 11.021,
-     "lo95": 10.616,
-     "hi95": 11.425
+     "trend": 10.886,
+     "lo95": 10.689,
+     "hi95": 11.133
     },
     {
      "year": 2016,
-     "trend": 11.088,
-     "lo95": 10.714,
-     "hi95": 11.462
+     "trend": 10.975,
+     "lo95": 10.857,
+     "hi95": 11.124
     },
     {
      "year": 2017,
-     "trend": 11.155,
-     "lo95": 10.797,
-     "hi95": 11.512
+     "trend": 11.065,
+     "lo95": 11.025,
+     "hi95": 11.114
     },
     {
      "year": 2018,
-     "trend": 11.222,
-     "lo95": 10.864,
-     "hi95": 11.579
+     "trend": 11.154,
+     "lo95": 11.105,
+     "hi95": 11.194
     },
     {
      "year": 2019,
-     "trend": 11.288,
-     "lo95": 10.914,
-     "hi95": 11.663
+     "trend": 11.244,
+     "lo95": 11.095,
+     "hi95": 11.362
     },
     {
      "year": 2020,
-     "trend": 11.355,
-     "lo95": 10.951,
-     "hi95": 11.76
+     "trend": 11.334,
+     "lo95": 11.086,
+     "hi95": 11.53
     },
     {
      "year": 2021,
-     "trend": 11.422,
-     "lo95": 10.976,
-     "hi95": 11.869
+     "trend": 11.423,
+     "lo95": 11.076,
+     "hi95": 11.699
     },
     {
      "year": 2022,
-     "trend": 11.489,
-     "lo95": 10.992,
-     "hi95": 11.986
+     "trend": 11.513,
+     "lo95": 11.067,
+     "hi95": 11.867
     },
     {
      "year": 2023,
-     "trend": 11.556,
-     "lo95": 11.002,
-     "hi95": 12.11
+     "trend": 11.602,
+     "lo95": 11.057,
+     "hi95": 12.035
     },
     {
      "year": 2024,
-     "trend": 11.623,
-     "lo95": 11.008,
-     "hi95": 12.238
+     "trend": 11.692,
+     "lo95": 11.048,
+     "hi95": 12.204
     },
     {
      "year": 2025,
-     "trend": 11.69,
-     "lo95": 11.011,
-     "hi95": 12.369
+     "trend": 11.781,
+     "lo95": 11.038,
+     "hi95": 12.372
     }
    ],
+   "q": 0.1154,
+   "records_tested": 16,
    "then": 10.64,
    "now": 11.38,
    "change_then_to_now": 0.73,
-   "slope_per_decade": 0.67,
+   "slope_per_decade": 0.9,
    "slope_ci95_per_decade": [
     -0.1,
-    1.44
+    1.68
    ],
    "usual_range": [
     10.37,
@@ -22107,7 +24872,7 @@
    },
    "story": {
     "happened": "Fine particle pollution (PM2.5): 10.6 µg/m³ on average in 2010–2014, compared with 11.4 µg/m³ in 2021–2025.",
-    "is_it_real": "The trend is +0.7 µg/m³ per decade (95% CI -0.1 to +1.4), but not statistically significant yet (p = 0.065): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +0.9 µg/m³ per decade (95% CI -0.1 to +1.7), but not statistically significant yet (p = 0.065): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Fine particles can get deep into the lungs, and some into the bloodstream, affecting the lungs and heart and aggravating asthma.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 10.4–12.2 µg/m³."
    },
@@ -23687,7 +26452,7 @@
      {
       "year": 2012,
       "p": 0.0377,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 0.94
      },
      {
@@ -23747,13 +26512,13 @@
      {
       "year": 2022,
       "p": 0.0294,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 0.99
      },
      {
       "year": 2023,
       "p": 0.0478,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": 0.99
      },
      {
@@ -23770,9 +26535,6 @@
      }
     ],
     "flips": [
-     2012,
-     2022,
-     2023,
      2025
     ]
    },
@@ -23816,6 +26578,9 @@
    "significance_label": "Significant",
    "p_label": "p < 0.001",
    "mk_p": 0.0003263486811857508,
+   "mk_p_memory": 0.0833,
+   "lag1": 0.483,
+   "memory_sensitive": true,
    "points": [
     {
      "year": 2005,
@@ -23905,138 +26670,140 @@
    "line": [
     {
      "year": 2005,
-     "trend": 4.023,
-     "lo95": 3.494,
-     "hi95": 4.551
+     "trend": 3.726,
+     "lo95": 3.251,
+     "hi95": 4.102
     },
     {
      "year": 2006,
-     "trend": 3.933,
-     "lo95": 3.443,
-     "hi95": 4.423
+     "trend": 3.642,
+     "lo95": 3.214,
+     "hi95": 3.98
     },
     {
      "year": 2007,
-     "trend": 3.843,
-     "lo95": 3.39,
-     "hi95": 4.297
+     "trend": 3.558,
+     "lo95": 3.177,
+     "hi95": 3.858
     },
     {
      "year": 2008,
-     "trend": 3.754,
-     "lo95": 3.335,
-     "hi95": 4.172
+     "trend": 3.474,
+     "lo95": 3.141,
+     "hi95": 3.737
     },
     {
      "year": 2009,
-     "trend": 3.664,
-     "lo95": 3.279,
-     "hi95": 4.049
+     "trend": 3.39,
+     "lo95": 3.104,
+     "hi95": 3.615
     },
     {
      "year": 2010,
-     "trend": 3.574,
-     "lo95": 3.219,
-     "hi95": 3.929
-    },
-    {
-     "year": 2011,
-     "trend": 3.484,
-     "lo95": 3.156,
-     "hi95": 3.813
-    },
-    {
-     "year": 2012,
-     "trend": 3.395,
-     "lo95": 3.089,
-     "hi95": 3.7
-    },
-    {
-     "year": 2013,
      "trend": 3.305,
-     "lo95": 3.017,
-     "hi95": 3.593
-    },
-    {
-     "year": 2014,
-     "trend": 3.215,
-     "lo95": 2.938,
+     "lo95": 3.068,
      "hi95": 3.493
     },
     {
+     "year": 2011,
+     "trend": 3.221,
+     "lo95": 3.031,
+     "hi95": 3.371
+    },
+    {
+     "year": 2012,
+     "trend": 3.137,
+     "lo95": 2.994,
+     "hi95": 3.25
+    },
+    {
+     "year": 2013,
+     "trend": 3.053,
+     "lo95": 2.958,
+     "hi95": 3.128
+    },
+    {
+     "year": 2014,
+     "trend": 2.969,
+     "lo95": 2.921,
+     "hi95": 3.006
+    },
+    {
      "year": 2015,
-     "trend": 3.126,
-     "lo95": 2.852,
-     "hi95": 3.399
+     "trend": 2.884,
+     "lo95": 2.884,
+     "hi95": 2.884
     },
     {
      "year": 2016,
-     "trend": 3.036,
-     "lo95": 2.758,
-     "hi95": 3.313
+     "trend": 2.8,
+     "lo95": 2.763,
+     "hi95": 2.848
     },
     {
      "year": 2017,
-     "trend": 2.946,
-     "lo95": 2.658,
-     "hi95": 3.235
+     "trend": 2.716,
+     "lo95": 2.641,
+     "hi95": 2.811
     },
     {
      "year": 2018,
-     "trend": 2.857,
-     "lo95": 2.551,
-     "hi95": 3.162
+     "trend": 2.632,
+     "lo95": 2.519,
+     "hi95": 2.774
     },
     {
      "year": 2019,
-     "trend": 2.767,
-     "lo95": 2.439,
-     "hi95": 3.095
+     "trend": 2.548,
+     "lo95": 2.397,
+     "hi95": 2.738
     },
     {
      "year": 2020,
-     "trend": 2.677,
-     "lo95": 2.322,
-     "hi95": 3.032
+     "trend": 2.463,
+     "lo95": 2.276,
+     "hi95": 2.701
     },
     {
      "year": 2021,
-     "trend": 2.587,
-     "lo95": 2.202,
-     "hi95": 2.973
+     "trend": 2.379,
+     "lo95": 2.154,
+     "hi95": 2.665
     },
     {
      "year": 2022,
-     "trend": 2.498,
-     "lo95": 2.079,
-     "hi95": 2.916
+     "trend": 2.295,
+     "lo95": 2.032,
+     "hi95": 2.628
     },
     {
      "year": 2023,
-     "trend": 2.408,
-     "lo95": 1.954,
-     "hi95": 2.862
+     "trend": 2.211,
+     "lo95": 1.91,
+     "hi95": 2.591
     },
     {
      "year": 2024,
-     "trend": 2.318,
-     "lo95": 1.828,
-     "hi95": 2.809
+     "trend": 2.127,
+     "lo95": 1.789,
+     "hi95": 2.555
     },
     {
      "year": 2025,
-     "trend": 2.229,
-     "lo95": 1.7,
-     "hi95": 2.757
+     "trend": 2.042,
+     "lo95": 1.667,
+     "hi95": 2.518
     }
    ],
+   "q": 0.0024,
+   "records_tested": 16,
    "then": 4.175,
    "now": 2.681,
    "change_then_to_now": -1.494,
-   "slope_per_decade": -0.897,
+   "slope_per_decade": -0.842,
    "slope_ci95_per_decade": [
-    -1.349,
-    -0.445
+    -1.218,
+    -0.366
    ],
    "usual_range": [
     2.447,
@@ -24053,7 +26820,7 @@
    },
    "story": {
     "happened": "Traffic & industry pollution (NO₂): 4.18 ×10¹⁵ molec/cm² on average in 2005–2009, compared with 2.68 ×10¹⁵ molec/cm² in 2021–2025.",
-    "is_it_real": "The trend is -0.90 ×10¹⁵ molec/cm² per decade (95% CI -1.35 to -0.44) and statistically significant (Mann-Kendall p < 0.001).",
+    "is_it_real": "The trend is -0.84 ×10¹⁵ molec/cm² per decade (95% CI -1.22 to -0.37) and statistically significant (Mann-Kendall p < 0.001).",
     "why_it_matters": "NO₂ inflames the airways; longer exposure may contribute to asthma developing.",
     "what_it_likely_means": "This has been improving steadily: 2021–2025 was better than 2005–2009."
    },
@@ -26172,6 +28939,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.56",
    "mk_p": 0.5605815008164299,
+   "mk_p_memory": 0.5606,
+   "lag1": -0.059,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2003,
@@ -26269,150 +29039,152 @@
    "line": [
     {
      "year": 2003,
-     "trend": 84.739,
-     "lo95": 36.08,
-     "hi95": 133.399
+     "trend": 38.0,
+     "lo95": 10.824,
+     "hi95": 80.429
     },
     {
      "year": 2004,
-     "trend": 81.621,
-     "lo95": 36.163,
-     "hi95": 127.078
+     "trend": 37.0,
+     "lo95": 12.294,
+     "hi95": 75.571
     },
     {
      "year": 2005,
-     "trend": 78.502,
-     "lo95": 36.149,
-     "hi95": 120.855
+     "trend": 36.0,
+     "lo95": 13.765,
+     "hi95": 70.714
     },
     {
      "year": 2006,
-     "trend": 75.383,
-     "lo95": 36.016,
-     "hi95": 114.751
+     "trend": 35.0,
+     "lo95": 15.235,
+     "hi95": 65.857
     },
     {
      "year": 2007,
-     "trend": 72.265,
-     "lo95": 35.733,
-     "hi95": 108.796
+     "trend": 34.0,
+     "lo95": 16.706,
+     "hi95": 61.0
     },
     {
      "year": 2008,
-     "trend": 69.146,
-     "lo95": 35.264,
-     "hi95": 103.028
+     "trend": 33.0,
+     "lo95": 18.176,
+     "hi95": 56.143
     },
     {
      "year": 2009,
-     "trend": 66.028,
-     "lo95": 34.561,
-     "hi95": 97.494
+     "trend": 32.0,
+     "lo95": 19.647,
+     "hi95": 51.286
     },
     {
      "year": 2010,
-     "trend": 62.909,
-     "lo95": 33.566,
-     "hi95": 92.252
+     "trend": 31.0,
+     "lo95": 21.118,
+     "hi95": 46.429
     },
     {
      "year": 2011,
-     "trend": 59.791,
-     "lo95": 32.213,
-     "hi95": 87.369
+     "trend": 30.0,
+     "lo95": 22.588,
+     "hi95": 41.571
     },
     {
      "year": 2012,
-     "trend": 56.672,
-     "lo95": 30.427,
-     "hi95": 82.917
+     "trend": 29.0,
+     "lo95": 24.059,
+     "hi95": 36.714
     },
     {
      "year": 2013,
-     "trend": 53.553,
-     "lo95": 28.142,
-     "hi95": 78.965
+     "trend": 28.0,
+     "lo95": 25.529,
+     "hi95": 31.857
     },
     {
      "year": 2014,
-     "trend": 50.435,
-     "lo95": 25.307,
-     "hi95": 75.562
+     "trend": 27.0,
+     "lo95": 27.0,
+     "hi95": 27.0
     },
     {
      "year": 2015,
-     "trend": 47.316,
-     "lo95": 21.905,
-     "hi95": 72.728
+     "trend": 26.0,
+     "lo95": 22.143,
+     "hi95": 28.471
     },
     {
      "year": 2016,
-     "trend": 44.198,
-     "lo95": 17.953,
-     "hi95": 70.443
+     "trend": 25.0,
+     "lo95": 17.286,
+     "hi95": 29.941
     },
     {
      "year": 2017,
-     "trend": 41.079,
-     "lo95": 13.501,
-     "hi95": 68.657
+     "trend": 24.0,
+     "lo95": 12.429,
+     "hi95": 31.412
     },
     {
      "year": 2018,
-     "trend": 37.96,
-     "lo95": 8.618,
-     "hi95": 67.303
+     "trend": 23.0,
+     "lo95": 7.571,
+     "hi95": 32.882
     },
     {
      "year": 2019,
-     "trend": 34.842,
-     "lo95": 3.375,
-     "hi95": 66.308
+     "trend": 22.0,
+     "lo95": 2.714,
+     "hi95": 34.353
     },
     {
      "year": 2020,
-     "trend": 31.723,
-     "lo95": -2.159,
-     "hi95": 65.605
+     "trend": 21.0,
+     "lo95": -2.143,
+     "hi95": 35.824
     },
     {
      "year": 2021,
-     "trend": 28.605,
-     "lo95": -7.927,
-     "hi95": 65.136
+     "trend": 20.0,
+     "lo95": -7.0,
+     "hi95": 37.294
     },
     {
      "year": 2022,
-     "trend": 25.486,
-     "lo95": -13.881,
-     "hi95": 64.854
+     "trend": 19.0,
+     "lo95": -11.857,
+     "hi95": 38.765
     },
     {
      "year": 2023,
-     "trend": 22.368,
-     "lo95": -19.985,
-     "hi95": 64.72
+     "trend": 18.0,
+     "lo95": -16.714,
+     "hi95": 40.235
     },
     {
      "year": 2024,
-     "trend": 19.249,
-     "lo95": -26.209,
-     "hi95": 64.707
+     "trend": 17.0,
+     "lo95": -21.571,
+     "hi95": 41.706
     },
     {
      "year": 2025,
-     "trend": 16.13,
-     "lo95": -32.529,
-     "hi95": 64.79
+     "trend": 16.0,
+     "lo95": -26.429,
+     "hi95": 43.176
     }
    ],
+   "q": 0.6407,
+   "records_tested": 16,
    "then": 86.8,
    "now": 34.0,
    "change_then_to_now": -52.8,
-   "slope_per_decade": -31.2,
+   "slope_per_decade": -10.0,
    "slope_ci95_per_decade": [
-    -69.1,
-    6.7
+    -48.6,
+    14.7
    ],
    "usual_range": [
     5.6,
@@ -26429,7 +29201,7 @@
    },
    "story": {
     "happened": "Fire detections nearby: 87 detections a year on average in 2003–2007, compared with 34 detections a year in 2021–2025.",
-    "is_it_real": "The trend is -31.2 detections per decade (95% CI -69.1 to +6.7), but not statistically significant yet (p = 0.56): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is -10.0 detections per decade (95% CI -48.6 to +14.7), but not statistically significant yet (p = 0.56): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Wildfire smoke carries fine particles that worsen asthma, COPD and heart disease, and is a risk in pregnancy.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 6–114 detections."
    },
@@ -28709,6 +31481,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.36",
    "mk_p": 0.36167933938530505,
+   "mk_p_memory": 0.6604,
+   "lag1": 0.439,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2011,
@@ -28774,102 +31549,104 @@
    "line": [
     {
      "year": 2011,
-     "trend": 0.267,
-     "lo95": -1.327,
-     "hi95": 1.86
+     "trend": 1.0,
+     "lo95": -0.4,
+     "hi95": 1.0
     },
     {
      "year": 2012,
-     "trend": 0.381,
-     "lo95": -1.052,
-     "hi95": 1.813
+     "trend": 1.0,
+     "lo95": -0.2,
+     "hi95": 1.0
     },
     {
      "year": 2013,
-     "trend": 0.495,
-     "lo95": -0.785,
-     "hi95": 1.776
+     "trend": 1.0,
+     "lo95": 0.0,
+     "hi95": 1.0
     },
     {
      "year": 2014,
-     "trend": 0.61,
-     "lo95": -0.531,
-     "hi95": 1.75
+     "trend": 1.0,
+     "lo95": 0.2,
+     "hi95": 1.0
     },
     {
      "year": 2015,
-     "trend": 0.724,
-     "lo95": -0.295,
-     "hi95": 1.743
+     "trend": 1.0,
+     "lo95": 0.4,
+     "hi95": 1.0
     },
     {
      "year": 2016,
-     "trend": 0.838,
-     "lo95": -0.084,
-     "hi95": 1.761
+     "trend": 1.0,
+     "lo95": 0.6,
+     "hi95": 1.0
     },
     {
      "year": 2017,
-     "trend": 0.952,
-     "lo95": 0.093,
-     "hi95": 1.812
+     "trend": 1.0,
+     "lo95": 0.8,
+     "hi95": 1.0
     },
     {
      "year": 2018,
-     "trend": 1.067,
-     "lo95": 0.23,
-     "hi95": 1.904
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 1.0
     },
     {
      "year": 2019,
-     "trend": 1.181,
-     "lo95": 0.322,
-     "hi95": 2.04
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 1.2
     },
     {
      "year": 2020,
-     "trend": 1.295,
-     "lo95": 0.373,
-     "hi95": 2.218
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 1.4
     },
     {
      "year": 2021,
-     "trend": 1.41,
-     "lo95": 0.39,
-     "hi95": 2.429
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 1.6
     },
     {
      "year": 2022,
-     "trend": 1.524,
-     "lo95": 0.383,
-     "hi95": 2.665
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 1.8
     },
     {
      "year": 2023,
-     "trend": 1.638,
-     "lo95": 0.358,
-     "hi95": 2.918
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 2.0
     },
     {
      "year": 2024,
-     "trend": 1.752,
-     "lo95": 0.32,
-     "hi95": 3.185
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 2.2
     },
     {
      "year": 2025,
-     "trend": 1.867,
-     "lo95": 0.273,
-     "hi95": 3.46
+     "trend": 1.0,
+     "lo95": 1.0,
+     "hi95": 2.4
     }
    ],
+   "q": 0.4822,
+   "records_tested": 16,
    "then": 0.6,
    "now": 2.2,
    "change_then_to_now": 1.6,
-   "slope_per_decade": 1.1,
+   "slope_per_decade": 0.0,
    "slope_ci95_per_decade": [
-    -0.8,
-    3.1
+    -0.0,
+    2.0
    ],
    "usual_range": [
     0.0,
@@ -28886,7 +31663,7 @@
    },
    "story": {
     "happened": "Smoke days: 1 days a year on average in 2011–2015, compared with 2 days a year in 2021–2025.",
-    "is_it_real": "The trend is +1.1 days per decade (95% CI -0.8 to +3.1), but not statistically significant yet (p = 0.36): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +0.0 days per decade (95% CI -0.0 to +2.0), but not statistically significant yet (p = 0.36): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Smoke is hardest on people with asthma or COPD, children and older adults (EPA AirNow).",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 0–3 days."
    },
@@ -30489,6 +33266,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.072",
    "mk_p": 0.07212432275983494,
+   "mk_p_memory": 0.198,
+   "lag1": 0.244,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -30594,162 +33374,164 @@
    "line": [
     {
      "year": 2001,
-     "trend": 0.149,
-     "lo95": 0.142,
-     "hi95": 0.155
+     "trend": 0.148,
+     "lo95": 0.141,
+     "hi95": 0.156
     },
     {
      "year": 2002,
-     "trend": 0.148,
-     "lo95": 0.142,
-     "hi95": 0.155
-    },
-    {
-     "year": 2003,
-     "trend": 0.148,
-     "lo95": 0.142,
+     "trend": 0.147,
+     "lo95": 0.141,
      "hi95": 0.154
     },
     {
-     "year": 2004,
+     "year": 2003,
      "trend": 0.147,
-     "lo95": 0.142,
+     "lo95": 0.141,
      "hi95": 0.153
     },
     {
-     "year": 2005,
-     "trend": 0.147,
-     "lo95": 0.142,
+     "year": 2004,
+     "trend": 0.146,
+     "lo95": 0.141,
      "hi95": 0.152
     },
     {
+     "year": 2005,
+     "trend": 0.146,
+     "lo95": 0.141,
+     "hi95": 0.151
+    },
+    {
      "year": 2006,
-     "trend": 0.146,
-     "lo95": 0.141,
-     "hi95": 0.151
-    },
-    {
-     "year": 2007,
-     "trend": 0.146,
-     "lo95": 0.141,
-     "hi95": 0.151
-    },
-    {
-     "year": 2008,
-     "trend": 0.146,
+     "trend": 0.145,
      "lo95": 0.141,
      "hi95": 0.15
     },
     {
-     "year": 2009,
+     "year": 2007,
      "trend": 0.145,
      "lo95": 0.141,
      "hi95": 0.149
     },
     {
-     "year": 2010,
-     "trend": 0.145,
+     "year": 2008,
+     "trend": 0.144,
      "lo95": 0.141,
-     "hi95": 0.148
+     "hi95": 0.147
+    },
+    {
+     "year": 2009,
+     "trend": 0.144,
+     "lo95": 0.141,
+     "hi95": 0.146
+    },
+    {
+     "year": 2010,
+     "trend": 0.143,
+     "lo95": 0.141,
+     "hi95": 0.145
     },
     {
      "year": 2011,
-     "trend": 0.144,
-     "lo95": 0.141,
-     "hi95": 0.148
+     "trend": 0.143,
+     "lo95": 0.142,
+     "hi95": 0.144
     },
     {
      "year": 2012,
-     "trend": 0.144,
-     "lo95": 0.14,
-     "hi95": 0.147
+     "trend": 0.142,
+     "lo95": 0.142,
+     "hi95": 0.143
     },
     {
      "year": 2013,
-     "trend": 0.143,
-     "lo95": 0.14,
-     "hi95": 0.147
+     "trend": 0.142,
+     "lo95": 0.142,
+     "hi95": 0.142
     },
     {
      "year": 2014,
-     "trend": 0.143,
-     "lo95": 0.139,
-     "hi95": 0.146
+     "trend": 0.141,
+     "lo95": 0.141,
+     "hi95": 0.142
     },
     {
      "year": 2015,
-     "trend": 0.142,
+     "trend": 0.141,
      "lo95": 0.139,
-     "hi95": 0.146
+     "hi95": 0.142
     },
     {
      "year": 2016,
-     "trend": 0.142,
+     "trend": 0.14,
      "lo95": 0.138,
-     "hi95": 0.146
+     "hi95": 0.142
     },
     {
      "year": 2017,
-     "trend": 0.142,
-     "lo95": 0.138,
-     "hi95": 0.146
+     "trend": 0.14,
+     "lo95": 0.137,
+     "hi95": 0.142
     },
     {
      "year": 2018,
-     "trend": 0.141,
-     "lo95": 0.137,
-     "hi95": 0.145
+     "trend": 0.139,
+     "lo95": 0.136,
+     "hi95": 0.142
     },
     {
      "year": 2019,
-     "trend": 0.141,
-     "lo95": 0.136,
-     "hi95": 0.145
+     "trend": 0.139,
+     "lo95": 0.135,
+     "hi95": 0.142
     },
     {
      "year": 2020,
-     "trend": 0.14,
-     "lo95": 0.135,
-     "hi95": 0.145
+     "trend": 0.138,
+     "lo95": 0.134,
+     "hi95": 0.142
     },
     {
      "year": 2021,
-     "trend": 0.14,
-     "lo95": 0.135,
-     "hi95": 0.145
+     "trend": 0.138,
+     "lo95": 0.132,
+     "hi95": 0.142
     },
     {
      "year": 2022,
-     "trend": 0.139,
-     "lo95": 0.134,
-     "hi95": 0.145
+     "trend": 0.137,
+     "lo95": 0.131,
+     "hi95": 0.142
     },
     {
      "year": 2023,
-     "trend": 0.139,
-     "lo95": 0.133,
-     "hi95": 0.145
+     "trend": 0.137,
+     "lo95": 0.13,
+     "hi95": 0.142
     },
     {
      "year": 2024,
-     "trend": 0.139,
-     "lo95": 0.132,
-     "hi95": 0.145
+     "trend": 0.136,
+     "lo95": 0.129,
+     "hi95": 0.142
     },
     {
      "year": 2025,
-     "trend": 0.138,
-     "lo95": 0.131,
-     "hi95": 0.145
+     "trend": 0.136,
+     "lo95": 0.128,
+     "hi95": 0.142
     }
    ],
+   "q": 0.1154,
+   "records_tested": 16,
    "then": 0.1446,
    "now": 0.1392,
    "change_then_to_now": -0.0054,
-   "slope_per_decade": -0.0044,
+   "slope_per_decade": -0.0051,
    "slope_ci95_per_decade": [
-    -0.0093,
-    0.0006
+    -0.0116,
+    0.0007
    ],
    "usual_range": [
     0.1332,
@@ -30766,7 +33548,7 @@
    },
    "story": {
     "happened": "Haze (aerosol optical depth): 0.145 AOD on average in 2001–2005, compared with 0.139 AOD in 2021–2025.",
-    "is_it_real": "The trend is -0.004 AOD per decade (95% CI -0.009 to +0.001), but not statistically significant yet (p = 0.072): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is -0.005 AOD per decade (95% CI -0.012 to +0.001), but not statistically significant yet (p = 0.072): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 0.133–0.156 AOD."
    },
@@ -33049,7 +35831,7 @@
      {
       "year": 2004,
       "p": 0.0468,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": -0.0068
      },
      {
@@ -33145,7 +35927,7 @@
      {
       "year": 2020,
       "p": 0.0416,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": -0.0058
      },
      {
@@ -33169,7 +35951,7 @@
      {
       "year": 2024,
       "p": 0.0416,
-      "clear": true,
+      "clear": false,
       "slope_per_decade": -0.0064
      },
      {
@@ -33181,10 +35963,7 @@
     ],
     "flips": [
      2001,
-     2002,
-     2004,
-     2020,
-     2024
+     2002
     ]
    },
    "priority_for_user": false,
@@ -33219,6 +35998,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.31",
    "mk_p": 0.30916269487358283,
+   "mk_p_memory": 0.3092,
+   "lag1": -0.216,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -33320,156 +36102,158 @@
    "line": [
     {
      "year": 2001,
-     "trend": 1439.477,
-     "lo95": 1315.228,
-     "hi95": 1563.725
+     "trend": 1396.716,
+     "lo95": 1267.6,
+     "hi95": 1496.286
     },
     {
      "year": 2002,
-     "trend": 1434.971,
-     "lo95": 1318.556,
-     "hi95": 1551.387
+     "trend": 1392.088,
+     "lo95": 1274.2,
+     "hi95": 1483.0
     },
     {
      "year": 2003,
-     "trend": 1430.466,
-     "lo95": 1321.659,
-     "hi95": 1539.273
+     "trend": 1387.461,
+     "lo95": 1280.8,
+     "hi95": 1469.714
     },
     {
      "year": 2004,
-     "trend": 1425.961,
-     "lo95": 1324.489,
-     "hi95": 1527.433
+     "trend": 1382.833,
+     "lo95": 1287.4,
+     "hi95": 1456.429
     },
     {
      "year": 2005,
-     "trend": 1421.456,
-     "lo95": 1326.98,
-     "hi95": 1515.931
+     "trend": 1378.206,
+     "lo95": 1294.0,
+     "hi95": 1443.143
     },
     {
      "year": 2006,
-     "trend": 1416.951,
-     "lo95": 1329.053,
-     "hi95": 1504.848
+     "trend": 1373.578,
+     "lo95": 1300.6,
+     "hi95": 1429.857
     },
     {
      "year": 2007,
-     "trend": 1412.445,
-     "lo95": 1330.605,
-     "hi95": 1494.285
+     "trend": 1368.951,
+     "lo95": 1307.2,
+     "hi95": 1416.571
     },
     {
      "year": 2008,
-     "trend": 1407.94,
-     "lo95": 1331.514,
-     "hi95": 1484.366
+     "trend": 1364.324,
+     "lo95": 1313.8,
+     "hi95": 1403.286
     },
     {
      "year": 2009,
-     "trend": 1403.435,
-     "lo95": 1331.634,
-     "hi95": 1475.236
+     "trend": 1359.696,
+     "lo95": 1320.4,
+     "hi95": 1390.0
     },
     {
      "year": 2010,
-     "trend": 1398.93,
-     "lo95": 1330.803,
-     "hi95": 1467.057
+     "trend": 1355.069,
+     "lo95": 1327.0,
+     "hi95": 1376.714
     },
     {
      "year": 2011,
-     "trend": 1394.424,
-     "lo95": 1328.861,
-     "hi95": 1459.988
+     "trend": 1350.441,
+     "lo95": 1333.6,
+     "hi95": 1363.429
     },
     {
      "year": 2012,
-     "trend": 1389.919,
-     "lo95": 1325.676,
-     "hi95": 1454.163
+     "trend": 1345.814,
+     "lo95": 1340.2,
+     "hi95": 1350.143
     },
     {
      "year": 2013,
-     "trend": 1385.414,
-     "lo95": 1321.171,
-     "hi95": 1449.657
+     "trend": 1341.186,
+     "lo95": 1336.857,
+     "hi95": 1346.8
     },
     {
      "year": 2014,
-     "trend": 1380.909,
-     "lo95": 1315.345,
-     "hi95": 1446.472
+     "trend": 1336.559,
+     "lo95": 1323.571,
+     "hi95": 1353.4
     },
     {
      "year": 2015,
-     "trend": 1376.404,
-     "lo95": 1308.276,
-     "hi95": 1444.531
+     "trend": 1331.931,
+     "lo95": 1310.286,
+     "hi95": 1360.0
     },
     {
      "year": 2016,
-     "trend": 1371.898,
-     "lo95": 1300.097,
-     "hi95": 1443.7
+     "trend": 1327.304,
+     "lo95": 1297.0,
+     "hi95": 1366.6
     },
     {
      "year": 2017,
-     "trend": 1367.393,
-     "lo95": 1290.967,
-     "hi95": 1443.819
+     "trend": 1322.676,
+     "lo95": 1283.714,
+     "hi95": 1373.2
     },
     {
      "year": 2018,
-     "trend": 1362.888,
-     "lo95": 1281.048,
-     "hi95": 1444.728
+     "trend": 1318.049,
+     "lo95": 1270.429,
+     "hi95": 1379.8
     },
     {
      "year": 2019,
-     "trend": 1358.383,
-     "lo95": 1270.485,
-     "hi95": 1446.28
+     "trend": 1313.422,
+     "lo95": 1257.143,
+     "hi95": 1386.4
     },
     {
      "year": 2020,
-     "trend": 1353.878,
-     "lo95": 1259.402,
-     "hi95": 1448.353
+     "trend": 1308.794,
+     "lo95": 1243.857,
+     "hi95": 1393.0
     },
     {
      "year": 2021,
-     "trend": 1349.372,
-     "lo95": 1247.9,
-     "hi95": 1450.844
+     "trend": 1304.167,
+     "lo95": 1230.571,
+     "hi95": 1399.6
     },
     {
      "year": 2022,
-     "trend": 1344.867,
-     "lo95": 1236.06,
-     "hi95": 1453.674
+     "trend": 1299.539,
+     "lo95": 1217.286,
+     "hi95": 1406.2
     },
     {
      "year": 2023,
-     "trend": 1340.362,
-     "lo95": 1223.946,
-     "hi95": 1456.778
+     "trend": 1294.912,
+     "lo95": 1204.0,
+     "hi95": 1412.8
     },
     {
      "year": 2024,
-     "trend": 1335.857,
-     "lo95": 1211.608,
-     "hi95": 1460.105
+     "trend": 1290.284,
+     "lo95": 1190.714,
+     "hi95": 1419.4
     }
    ],
+   "q": 0.4497,
+   "records_tested": 16,
    "then": 1506.2,
    "now": 1401.0,
    "change_then_to_now": -105.2,
-   "slope_per_decade": -45.1,
+   "slope_per_decade": -46.3,
    "slope_ci95_per_decade": [
-    -137.6,
-    47.5
+    -132.9,
+    66.0
    ],
    "usual_range": [
     1230.6,
@@ -33486,7 +36270,7 @@
    },
    "story": {
     "happened": "Rain seen from satellites (IMERG): 1,506 mm on average in 2001–2005, compared with 1,401 mm in 2020–2024.",
-    "is_it_real": "The trend is -45.1 mm per decade (95% CI -137.6 to +47.5), but not statistically significant yet (p = 0.31): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is -46.3 mm per decade (95% CI -132.9 to +66.0), but not statistically significant yet (p = 0.31): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 1,231–1,636 mm."
    },
@@ -35851,6 +38635,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.82",
    "mk_p": 0.821385740974321,
+   "mk_p_memory": 0.8445,
+   "lag1": 0.08,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -35944,144 +38731,146 @@
    "line": [
     {
      "year": 2001,
-     "trend": 32.009,
-     "lo95": 31.614,
-     "hi95": 32.403
+     "trend": 32.133,
+     "lo95": 31.767,
+     "hi95": 32.484
     },
     {
      "year": 2002,
-     "trend": 32.012,
-     "lo95": 31.645,
-     "hi95": 32.379
+     "trend": 32.135,
+     "lo95": 31.804,
+     "hi95": 32.453
     },
     {
      "year": 2003,
-     "trend": 32.016,
-     "lo95": 31.675,
-     "hi95": 32.357
+     "trend": 32.138,
+     "lo95": 31.841,
+     "hi95": 32.422
     },
     {
      "year": 2004,
-     "trend": 32.019,
-     "lo95": 31.703,
-     "hi95": 32.335
+     "trend": 32.14,
+     "lo95": 31.878,
+     "hi95": 32.391
     },
     {
      "year": 2005,
-     "trend": 32.023,
-     "lo95": 31.731,
-     "hi95": 32.315
+     "trend": 32.142,
+     "lo95": 31.916,
+     "hi95": 32.359
     },
     {
      "year": 2006,
-     "trend": 32.026,
-     "lo95": 31.756,
-     "hi95": 32.296
+     "trend": 32.144,
+     "lo95": 31.953,
+     "hi95": 32.328
     },
     {
      "year": 2007,
-     "trend": 32.03,
-     "lo95": 31.78,
-     "hi95": 32.28
+     "trend": 32.146,
+     "lo95": 31.99,
+     "hi95": 32.297
     },
     {
      "year": 2008,
-     "trend": 32.033,
-     "lo95": 31.8,
+     "trend": 32.149,
+     "lo95": 32.027,
      "hi95": 32.266
     },
     {
      "year": 2009,
-     "trend": 32.037,
-     "lo95": 31.818,
-     "hi95": 32.256
+     "trend": 32.151,
+     "lo95": 32.064,
+     "hi95": 32.234
     },
     {
      "year": 2010,
-     "trend": 32.04,
-     "lo95": 31.831,
-     "hi95": 32.25
+     "trend": 32.153,
+     "lo95": 32.101,
+     "hi95": 32.203
     },
     {
      "year": 2011,
-     "trend": 32.044,
-     "lo95": 31.839,
-     "hi95": 32.248
+     "trend": 32.155,
+     "lo95": 32.138,
+     "hi95": 32.172
     },
     {
      "year": 2012,
-     "trend": 32.047,
-     "lo95": 31.843,
-     "hi95": 32.252
+     "trend": 32.157,
+     "lo95": 32.141,
+     "hi95": 32.175
     },
     {
      "year": 2013,
-     "trend": 32.051,
-     "lo95": 31.841,
-     "hi95": 32.26
+     "trend": 32.16,
+     "lo95": 32.109,
+     "hi95": 32.212
     },
     {
      "year": 2014,
-     "trend": 32.054,
-     "lo95": 31.835,
-     "hi95": 32.273
+     "trend": 32.162,
+     "lo95": 32.078,
+     "hi95": 32.249
     },
     {
      "year": 2015,
-     "trend": 32.058,
-     "lo95": 31.825,
-     "hi95": 32.291
+     "trend": 32.164,
+     "lo95": 32.047,
+     "hi95": 32.286
     },
     {
      "year": 2016,
-     "trend": 32.061,
-     "lo95": 31.811,
-     "hi95": 32.311
+     "trend": 32.166,
+     "lo95": 32.016,
+     "hi95": 32.323
     },
     {
      "year": 2017,
-     "trend": 32.065,
-     "lo95": 31.795,
-     "hi95": 32.335
-    },
-    {
-     "year": 2018,
-     "trend": 32.068,
-     "lo95": 31.776,
+     "trend": 32.168,
+     "lo95": 31.984,
      "hi95": 32.36
     },
     {
+     "year": 2018,
+     "trend": 32.171,
+     "lo95": 31.953,
+     "hi95": 32.397
+    },
+    {
      "year": 2019,
-     "trend": 32.072,
-     "lo95": 31.756,
-     "hi95": 32.387
+     "trend": 32.173,
+     "lo95": 31.922,
+     "hi95": 32.434
     },
     {
      "year": 2020,
-     "trend": 32.075,
-     "lo95": 31.734,
-     "hi95": 32.416
+     "trend": 32.175,
+     "lo95": 31.891,
+     "hi95": 32.471
     },
     {
      "year": 2021,
-     "trend": 32.079,
-     "lo95": 31.712,
-     "hi95": 32.446
+     "trend": 32.177,
+     "lo95": 31.859,
+     "hi95": 32.508
     },
     {
      "year": 2022,
-     "trend": 32.082,
-     "lo95": 31.688,
-     "hi95": 32.477
+     "trend": 32.179,
+     "lo95": 31.828,
+     "hi95": 32.545
     }
    ],
+   "q": 0.8214,
+   "records_tested": 16,
    "then": 31.95,
    "now": 32.02,
    "change_then_to_now": 0.07,
-   "slope_per_decade": 0.04,
+   "slope_per_decade": 0.02,
    "slope_ci95_per_decade": [
-    -0.29,
-    0.36
+    -0.31,
+    0.37
    ],
    "usual_range": [
     31.4,
@@ -38299,6 +41088,9 @@
    "significance_label": "Significant",
    "p_label": "p < 0.001",
    "mk_p": 0.0006576543953178415,
+   "mk_p_memory": 0.1186,
+   "lag1": 0.502,
+   "memory_sensitive": true,
    "points": [
     {
      "year": 2003,
@@ -38384,132 +41176,134 @@
    "line": [
     {
      "year": 2003,
-     "trend": -0.794,
-     "lo95": -2.618,
-     "hi95": 1.03
+     "trend": -0.369,
+     "lo95": -1.675,
+     "hi95": 1.087
     },
     {
      "year": 2004,
-     "trend": -0.438,
-     "lo95": -2.144,
-     "hi95": 1.268
+     "trend": 0.001,
+     "lo95": -1.168,
+     "hi95": 1.303
     },
     {
      "year": 2005,
-     "trend": -0.083,
-     "lo95": -1.675,
-     "hi95": 1.51
+     "trend": 0.37,
+     "lo95": -0.66,
+     "hi95": 1.52
     },
     {
      "year": 2006,
-     "trend": 0.273,
-     "lo95": -1.211,
-     "hi95": 1.757
+     "trend": 0.74,
+     "lo95": -0.153,
+     "hi95": 1.736
     },
     {
      "year": 2007,
-     "trend": 0.628,
-     "lo95": -0.753,
-     "hi95": 2.01
+     "trend": 1.11,
+     "lo95": 0.354,
+     "hi95": 1.953
     },
     {
      "year": 2008,
-     "trend": 0.984,
-     "lo95": -0.304,
-     "hi95": 2.272
+     "trend": 1.479,
+     "lo95": 0.861,
+     "hi95": 2.169
     },
     {
      "year": 2009,
-     "trend": 1.34,
-     "lo95": 0.136,
-     "hi95": 2.543
+     "trend": 1.849,
+     "lo95": 1.368,
+     "hi95": 2.385
     },
     {
      "year": 2010,
-     "trend": 1.695,
-     "lo95": 0.564,
-     "hi95": 2.826
+     "trend": 2.219,
+     "lo95": 1.875,
+     "hi95": 2.602
     },
     {
      "year": 2011,
-     "trend": 2.051,
-     "lo95": 0.978,
-     "hi95": 3.124
+     "trend": 2.588,
+     "lo95": 2.382,
+     "hi95": 2.818
     },
     {
      "year": 2012,
-     "trend": 2.406,
-     "lo95": 1.374,
-     "hi95": 3.438
+     "trend": 2.958,
+     "lo95": 2.889,
+     "hi95": 3.035
     },
     {
      "year": 2013,
-     "trend": 2.762,
-     "lo95": 1.752,
-     "hi95": 3.772
+     "trend": 3.328,
+     "lo95": 3.251,
+     "hi95": 3.396
     },
     {
      "year": 2014,
-     "trend": 3.118,
-     "lo95": 2.11,
-     "hi95": 4.125
+     "trend": 3.697,
+     "lo95": 3.468,
+     "hi95": 3.904
     },
     {
      "year": 2016,
-     "trend": 3.829,
-     "lo95": 2.765,
-     "hi95": 4.892
+     "trend": 4.437,
+     "lo95": 3.9,
+     "hi95": 4.918
     },
     {
      "year": 2019,
-     "trend": 4.895,
-     "lo95": 3.625,
-     "hi95": 6.166
+     "trend": 5.546,
+     "lo95": 4.55,
+     "hi95": 6.439
     },
     {
      "year": 2020,
-     "trend": 5.251,
-     "lo95": 3.889,
-     "hi95": 6.613
+     "trend": 5.916,
+     "lo95": 4.766,
+     "hi95": 6.946
     },
     {
      "year": 2021,
-     "trend": 5.607,
-     "lo95": 4.144,
-     "hi95": 7.07
+     "trend": 6.285,
+     "lo95": 4.983,
+     "hi95": 7.453
     },
     {
      "year": 2022,
-     "trend": 5.962,
-     "lo95": 4.392,
-     "hi95": 7.533
+     "trend": 6.655,
+     "lo95": 5.199,
+     "hi95": 7.961
     },
     {
      "year": 2023,
-     "trend": 6.318,
-     "lo95": 4.635,
-     "hi95": 8.001
+     "trend": 7.025,
+     "lo95": 5.415,
+     "hi95": 8.468
     },
     {
      "year": 2024,
-     "trend": 6.673,
-     "lo95": 4.873,
-     "hi95": 8.474
+     "trend": 7.394,
+     "lo95": 5.632,
+     "hi95": 8.975
     },
     {
      "year": 2025,
-     "trend": 7.029,
-     "lo95": 5.108,
-     "hi95": 8.95
+     "trend": 7.764,
+     "lo95": 5.848,
+     "hi95": 9.482
     }
    ],
+   "q": 0.0024,
+   "records_tested": 16,
    "then": 0.92,
    "now": 6.72,
    "change_then_to_now": 5.8,
-   "slope_per_decade": 3.56,
+   "slope_per_decade": 3.7,
    "slope_ci95_per_decade": [
-    2.12,
-    4.99
+    2.16,
+    5.07
    ],
    "usual_range": [
     -1.66,
@@ -38526,7 +41320,7 @@
    },
    "story": {
     "happened": "Water storage (ground, soil, snow): 0.9 cm on average in 2003–2007, compared with 6.7 cm in 2021–2025.",
-    "is_it_real": "The trend is +3.6 cm per decade (95% CI +2.1 to +5.0) and statistically significant (Mann-Kendall p < 0.001).",
+    "is_it_real": "The trend is +3.7 cm per decade (95% CI +2.2 to +5.1) and statistically significant (Mann-Kendall p < 0.001).",
     "why_it_matters": "",
     "what_it_likely_means": "This has been improving steadily: 2021–2025 was better than 2003–2007."
    },
@@ -40576,6 +43370,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.46",
    "mk_p": 0.4634692802376992,
+   "mk_p_memory": 0.4771,
+   "lag1": -0.012,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -40669,144 +43466,146 @@
    "line": [
     {
      "year": 2001,
-     "trend": 35.175,
-     "lo95": 34.568,
-     "hi95": 35.782
+     "trend": 35.348,
+     "lo95": 34.834,
+     "hi95": 35.926
     },
     {
      "year": 2002,
-     "trend": 35.195,
-     "lo95": 34.63,
-     "hi95": 35.76
+     "trend": 35.366,
+     "lo95": 34.901,
+     "hi95": 35.889
     },
     {
      "year": 2003,
-     "trend": 35.215,
-     "lo95": 34.691,
-     "hi95": 35.74
+     "trend": 35.384,
+     "lo95": 34.968,
+     "hi95": 35.852
     },
     {
      "year": 2004,
-     "trend": 35.235,
-     "lo95": 34.749,
-     "hi95": 35.721
+     "trend": 35.402,
+     "lo95": 35.035,
+     "hi95": 35.815
     },
     {
      "year": 2005,
-     "trend": 35.255,
-     "lo95": 34.806,
-     "hi95": 35.705
+     "trend": 35.42,
+     "lo95": 35.102,
+     "hi95": 35.778
     },
     {
      "year": 2006,
-     "trend": 35.275,
-     "lo95": 34.86,
-     "hi95": 35.691
+     "trend": 35.438,
+     "lo95": 35.169,
+     "hi95": 35.741
     },
     {
      "year": 2007,
-     "trend": 35.295,
-     "lo95": 34.91,
-     "hi95": 35.68
+     "trend": 35.456,
+     "lo95": 35.236,
+     "hi95": 35.704
     },
     {
      "year": 2008,
-     "trend": 35.315,
-     "lo95": 34.957,
-     "hi95": 35.674
+     "trend": 35.474,
+     "lo95": 35.303,
+     "hi95": 35.667
     },
     {
      "year": 2009,
-     "trend": 35.335,
-     "lo95": 34.998,
-     "hi95": 35.673
+     "trend": 35.492,
+     "lo95": 35.37,
+     "hi95": 35.63
     },
     {
      "year": 2010,
-     "trend": 35.355,
-     "lo95": 35.033,
-     "hi95": 35.678
+     "trend": 35.51,
+     "lo95": 35.437,
+     "hi95": 35.593
     },
     {
      "year": 2011,
-     "trend": 35.375,
-     "lo95": 35.06,
-     "hi95": 35.69
+     "trend": 35.528,
+     "lo95": 35.504,
+     "hi95": 35.556
     },
     {
      "year": 2012,
-     "trend": 35.395,
-     "lo95": 35.081,
-     "hi95": 35.71
+     "trend": 35.547,
+     "lo95": 35.519,
+     "hi95": 35.571
     },
     {
      "year": 2013,
-     "trend": 35.415,
-     "lo95": 35.093,
-     "hi95": 35.738
+     "trend": 35.565,
+     "lo95": 35.482,
+     "hi95": 35.638
     },
     {
      "year": 2014,
-     "trend": 35.435,
-     "lo95": 35.098,
-     "hi95": 35.773
+     "trend": 35.583,
+     "lo95": 35.445,
+     "hi95": 35.705
     },
     {
      "year": 2015,
-     "trend": 35.455,
-     "lo95": 35.097,
-     "hi95": 35.814
+     "trend": 35.601,
+     "lo95": 35.408,
+     "hi95": 35.772
     },
     {
      "year": 2016,
-     "trend": 35.475,
-     "lo95": 35.091,
-     "hi95": 35.86
+     "trend": 35.619,
+     "lo95": 35.371,
+     "hi95": 35.839
     },
     {
      "year": 2017,
-     "trend": 35.495,
-     "lo95": 35.08,
-     "hi95": 35.911
+     "trend": 35.637,
+     "lo95": 35.334,
+     "hi95": 35.906
     },
     {
      "year": 2018,
-     "trend": 35.515,
-     "lo95": 35.066,
-     "hi95": 35.965
+     "trend": 35.655,
+     "lo95": 35.297,
+     "hi95": 35.973
     },
     {
      "year": 2019,
-     "trend": 35.535,
-     "lo95": 35.049,
-     "hi95": 36.021
+     "trend": 35.673,
+     "lo95": 35.26,
+     "hi95": 36.04
     },
     {
      "year": 2020,
-     "trend": 35.555,
-     "lo95": 35.031,
-     "hi95": 36.08
+     "trend": 35.691,
+     "lo95": 35.223,
+     "hi95": 36.107
     },
     {
      "year": 2021,
-     "trend": 35.575,
-     "lo95": 35.01,
-     "hi95": 36.141
+     "trend": 35.709,
+     "lo95": 35.186,
+     "hi95": 36.174
     },
     {
      "year": 2022,
-     "trend": 35.595,
-     "lo95": 34.989,
-     "hi95": 36.202
+     "trend": 35.727,
+     "lo95": 35.149,
+     "hi95": 36.241
     }
    ],
+   "q": 0.5704,
+   "records_tested": 16,
    "then": 35.28,
    "now": 35.72,
    "change_then_to_now": 0.44,
-   "slope_per_decade": 0.2,
+   "slope_per_decade": 0.18,
    "slope_ci95_per_decade": [
-    -0.29,
-    0.69
+    -0.37,
+    0.67
    ],
    "usual_range": [
     34.47,
@@ -40823,7 +43622,7 @@
    },
    "story": {
     "happened": "Neighborhood surface heat: 35.3 °C on average in 2001–2005, compared with 35.7 °C in 2018–2022.",
-    "is_it_real": "The trend is +0.2 °C per decade (95% CI -0.3 to +0.7), but not statistically significant yet (p = 0.46): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is +0.2 °C per decade (95% CI -0.4 to +0.7), but not statistically significant yet (p = 0.46): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Neighborhoods with more pavement and fewer trees stay hotter, raising heat stress for people living there.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about 34.5–36.2 °C."
    },
@@ -41566,6 +44365,9 @@
    "significance_label": "Not significant yet",
    "p_label": "p = 0.76",
    "mk_p": 0.7614215361463608,
+   "mk_p_memory": 0.7614,
+   "lag1": -0.243,
+   "memory_sensitive": false,
    "points": [
     {
      "year": 2001,
@@ -41671,162 +44473,164 @@
    "line": [
     {
      "year": 2001,
-     "trend": -0.084,
-     "lo95": -0.328,
-     "hi95": 0.16
+     "trend": -0.071,
+     "lo95": -0.325,
+     "hi95": 0.141
     },
     {
      "year": 2002,
-     "trend": -0.087,
-     "lo95": -0.317,
-     "hi95": 0.142
+     "trend": -0.076,
+     "lo95": -0.309,
+     "hi95": 0.119
     },
     {
      "year": 2003,
-     "trend": -0.091,
-     "lo95": -0.306,
-     "hi95": 0.124
+     "trend": -0.08,
+     "lo95": -0.292,
+     "hi95": 0.096
     },
     {
      "year": 2004,
-     "trend": -0.094,
-     "lo95": -0.295,
-     "hi95": 0.107
+     "trend": -0.085,
+     "lo95": -0.276,
+     "hi95": 0.074
     },
     {
      "year": 2005,
-     "trend": -0.097,
-     "lo95": -0.285,
-     "hi95": 0.091
+     "trend": -0.09,
+     "lo95": -0.26,
+     "hi95": 0.051
     },
     {
      "year": 2006,
-     "trend": -0.1,
-     "lo95": -0.276,
-     "hi95": 0.075
+     "trend": -0.095,
+     "lo95": -0.243,
+     "hi95": 0.029
     },
     {
      "year": 2007,
-     "trend": -0.104,
-     "lo95": -0.267,
-     "hi95": 0.06
-    },
-    {
-     "year": 2008,
-     "trend": -0.107,
-     "lo95": -0.26,
-     "hi95": 0.046
-    },
-    {
-     "year": 2009,
-     "trend": -0.11,
-     "lo95": -0.254,
-     "hi95": 0.034
-    },
-    {
-     "year": 2010,
-     "trend": -0.113,
-     "lo95": -0.25,
-     "hi95": 0.023
-    },
-    {
-     "year": 2011,
-     "trend": -0.116,
-     "lo95": -0.247,
-     "hi95": 0.014
-    },
-    {
-     "year": 2012,
-     "trend": -0.12,
-     "lo95": -0.247,
+     "trend": -0.1,
+     "lo95": -0.227,
      "hi95": 0.007
     },
     {
+     "year": 2008,
+     "trend": -0.104,
+     "lo95": -0.21,
+     "hi95": -0.016
+    },
+    {
+     "year": 2009,
+     "trend": -0.109,
+     "lo95": -0.194,
+     "hi95": -0.038
+    },
+    {
+     "year": 2010,
+     "trend": -0.114,
+     "lo95": -0.178,
+     "hi95": -0.061
+    },
+    {
+     "year": 2011,
+     "trend": -0.119,
+     "lo95": -0.161,
+     "hi95": -0.083
+    },
+    {
+     "year": 2012,
+     "trend": -0.124,
+     "lo95": -0.145,
+     "hi95": -0.106
+    },
+    {
      "year": 2013,
-     "trend": -0.123,
-     "lo95": -0.249,
-     "hi95": 0.003
+     "trend": -0.128,
+     "lo95": -0.128,
+     "hi95": -0.128
     },
     {
      "year": 2014,
-     "trend": -0.126,
-     "lo95": -0.253,
-     "hi95": 0.001
+     "trend": -0.133,
+     "lo95": -0.151,
+     "hi95": -0.112
     },
     {
      "year": 2015,
-     "trend": -0.129,
-     "lo95": -0.26,
-     "hi95": 0.001
+     "trend": -0.138,
+     "lo95": -0.173,
+     "hi95": -0.096
     },
     {
      "year": 2016,
-     "trend": -0.133,
-     "lo95": -0.269,
-     "hi95": 0.004
+     "trend": -0.143,
+     "lo95": -0.196,
+     "hi95": -0.079
     },
     {
      "year": 2017,
-     "trend": -0.136,
-     "lo95": -0.28,
-     "hi95": 0.008
+     "trend": -0.148,
+     "lo95": -0.218,
+     "hi95": -0.063
     },
     {
      "year": 2018,
-     "trend": -0.139,
-     "lo95": -0.292,
-     "hi95": 0.014
+     "trend": -0.152,
+     "lo95": -0.241,
+     "hi95": -0.047
     },
     {
      "year": 2019,
-     "trend": -0.142,
-     "lo95": -0.306,
-     "hi95": 0.021
+     "trend": -0.157,
+     "lo95": -0.263,
+     "hi95": -0.03
     },
     {
      "year": 2020,
-     "trend": -0.146,
-     "lo95": -0.321,
-     "hi95": 0.03
+     "trend": -0.162,
+     "lo95": -0.286,
+     "hi95": -0.014
     },
     {
      "year": 2021,
-     "trend": -0.149,
-     "lo95": -0.337,
-     "hi95": 0.039
+     "trend": -0.167,
+     "lo95": -0.308,
+     "hi95": 0.003
     },
     {
      "year": 2022,
-     "trend": -0.152,
-     "lo95": -0.353,
-     "hi95": 0.049
+     "trend": -0.172,
+     "lo95": -0.331,
+     "hi95": 0.019
     },
     {
      "year": 2023,
-     "trend": -0.155,
-     "lo95": -0.37,
-     "hi95": 0.06
+     "trend": -0.176,
+     "lo95": -0.353,
+     "hi95": 0.035
     },
     {
      "year": 2024,
-     "trend": -0.158,
-     "lo95": -0.388,
-     "hi95": 0.071
+     "trend": -0.181,
+     "lo95": -0.376,
+     "hi95": 0.052
     },
     {
      "year": 2025,
-     "trend": -0.162,
-     "lo95": -0.406,
-     "hi95": 0.083
+     "trend": -0.186,
+     "lo95": -0.398,
+     "hi95": 0.068
     }
    ],
+   "q": 0.8122,
+   "records_tested": 16,
    "then": -0.23,
    "now": -0.28,
    "change_then_to_now": -0.05,
-   "slope_per_decade": -0.03,
+   "slope_per_decade": -0.05,
    "slope_ci95_per_decade": [
-    -0.21,
-    0.14
+    -0.22,
+    0.16
    ],
    "usual_range": [
     -0.45,
@@ -41843,7 +44647,7 @@
    },
    "story": {
     "happened": "Heat island vs surroundings: -0.2 °C on average in 2001–2005, compared with -0.3 °C in 2021–2025.",
-    "is_it_real": "The trend is -0.0 °C per decade (95% CI -0.2 to +0.1), but not statistically significant yet (p = 0.76): it could still be normal year-to-year ups and downs. A longer record may settle it.",
+    "is_it_real": "The trend is -0.0 °C per decade (95% CI -0.2 to +0.2), but not statistically significant yet (p = 0.76): it could still be normal year-to-year ups and downs. A longer record may settle it.",
     "why_it_matters": "Urban heat islands add extra heat on top of the regional climate.",
     "what_it_likely_means": "No clear direction: most years fell in the usual range of about -0.4–0.3 °C."
    },

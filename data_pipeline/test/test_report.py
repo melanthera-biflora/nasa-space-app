@@ -129,3 +129,17 @@ def test_smoke_and_humid_heat_get_actions_with_their_health_source(daily, fake_e
     by = {a["factor"]: a for a in out["actions"]}
     for k, host in (("smoke_days", "epa.gov"), ("humid_heat_days", "cdc.gov")):
         assert by[k]["actions"] and host in by[k]["source"]["url"]
+
+
+def test_one_report_is_corrected_across_its_records(daily, fake_extra):
+    """D47: about 16 records are tested per report, so "clearly" means q < 0.05 across them, and every card says
+    which test it used; the single-year check agrees with the verdict about the full series."""
+    rep = report(daily, fake_extra)
+    tested = [f for f in rep["factors"].values() if f.get("available") and not f.get("constant")]
+    assert tested and all("q" in f and f["records_tested"] == len(tested) for f in tested)
+    assert all(f["significant"] == (f["q"] < 0.05) for f in tested)
+    assert all(f["q"] + 1e-4 >= f["mk_p"] and f["mk_p_memory"] + 1e-4 >= f["mk_p"] for f in tested)   # q rounded to 4
+    assert all(not f["memory_sensitive"] or f["significant"] for f in tested)
+    for f in tested:
+        if f.get("leave_one_out"):
+            assert f["leave_one_out"]["clear"] == f["significant"]

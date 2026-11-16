@@ -26,10 +26,10 @@ const valueOf = (field, view, n) => (view === 'change' ? field.slope[n] : field[
 // One block per grid cell, rows placed in Web Mercator so each square sits on its true latitude.
 // Change view: only squares that pass the map-wide check get colour; the rest are grey and hatched (IPCC AR6 style).
 // `only` (a class index) fades every other class, so the legend works as a filter.
-export function paint(field, view, only) {
+// S: pixels per square across; 4 for the North America grids (25 frames of 2 MP each would hold ~200 MB of images)
+export function paint(field, view, only, S = 8) {
   const { lats, lons, dlat, dlon } = field.grid
   const edges = edgesFor(field, view)
-  const S = 8
   const top = lats[lats.length - 1] + dlat / 2, bottom = lats[0] - dlat / 2
   const height = Math.round(lats.length * S * 1.3)
   const y = (lat) => Math.round(((mercY(top) - mercY(lat)) / (mercY(top) - mercY(bottom))) * height)

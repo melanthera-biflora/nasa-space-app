@@ -6,13 +6,14 @@ import { cardKeys, profileText, rankedActions } from './report'
 
 // The four themes the records are grouped in, in a fixed order (not by statistical status); unknown keys go last.
 export const THEMES = [
-  { id: 'heat', label: 'Heat and cold', icon: 'thermometer', keys: ['hot_days', 'warm_nights', 'humid_heat_days', 'muggy_days', 'cold_days', 'frost_days'] },
+  { id: 'heat', label: 'Heat and cold', icon: 'thermometer', keys: ['hot_days', 'warm_nights', 'humid_heat_days', 'heat_index_days', 'muggy_days', 'cold_days', 'frost_days', 'frost_free_season'] },
   { id: 'water', label: 'Rain and water', icon: 'droplets', keys: ['heavy_rain_days', 'wettest_day', 'rain_sat', 'dry_days'] },
   { id: 'air', label: 'Air and smoke', icon: 'wind', keys: ['smoke_days', 'pm25', 'aod', 'no2', 'fires'] },
   { id: 'ground', label: 'Ground', icon: 'layers', keys: ['surface_heat', 'heat_island', 'surface_heat_5km', 'water_storage'] },
 ]
 const ICONS = {
-  hot_days: 'sun', warm_nights: 'moon', humid_heat_days: 'droplets', muggy_days: 'droplets', cold_days: 'snowflake', frost_days: 'snowflake',
+  hot_days: 'sun', warm_nights: 'moon', humid_heat_days: 'droplets', heat_index_days: 'thermometer', muggy_days: 'droplets', cold_days: 'snowflake', frost_days: 'snowflake',
+  frost_free_season: 'sprout',
   heavy_rain_days: 'cloud-rain', wettest_day: 'cloud-rain', rain_sat: 'satellite', dry_days: 'sun', smoke_days: 'cloud-fog',
   pm25: 'haze', aod: 'haze', no2: 'car', fires: 'flame', surface_heat: 'thermometer', heat_island: 'thermometer',
   surface_heat_5km: 'thermometer', water_storage: 'waves',
@@ -28,7 +29,8 @@ export const nameOf = (f) => NAMES[f.key] || f.label
 // of the square it averages over. From the report's data_source lines; the years come from the record itself.
 const POWER = { kind: 'Model estimate', grid: '50 km', dataset: 'NASA POWER (MERRA-2 reanalysis)' }
 export const QUALITY = {
-  hot_days: POWER, warm_nights: POWER, humid_heat_days: POWER, muggy_days: POWER, cold_days: POWER, frost_days: POWER,
+  hot_days: POWER, warm_nights: POWER, humid_heat_days: POWER, heat_index_days: POWER, muggy_days: POWER, cold_days: POWER, frost_days: POWER,
+  frost_free_season: POWER,
   heavy_rain_days: POWER, wettest_day: POWER, dry_days: POWER,
   pm25: { kind: 'Model estimate', grid: '50 km', dataset: 'NASA MERRA-2 aerosols (no nitrate, so it can read low)' },
   aod: { kind: 'Model estimate', grid: '50 km', dataset: 'NASA MERRA-2 aerosols' },

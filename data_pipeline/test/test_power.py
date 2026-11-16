@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from paths import load_thresholds
-from sources.power import annual_counts, clean_daily, daily_flags, wettest_day
+from sources.power import annual_counts, clean_daily, daily_flags, frost_free_season, heat_index_f, wettest_day
 
 
 def test_minus_999_becomes_empty(daily):
@@ -52,3 +52,41 @@ def test_wettest_day_is_the_maximum_not_the_sum():
     df = pd.DataFrame({"PRECTOTCORR": rain})
     annual, _ = wettest_day(df)
     assert annual.loc[2022] == 80.0
+
+
+# ---- Item 18: two records households ask about (built from the cached daily data) --------------------------------
+
+def test_heat_index_matches_the_nws_chart():
+    # NWS heat index chart: 96 F at 65% humidity reads 121 F; 90 F at 50% reads 95 F; 80 F at 40% reads 80 F
+    assert abs(heat_index_f(96, 65) - 121) <= 1.5
+    assert abs(heat_index_f(90, 50) - 95) <= 1.5
+    assert abs(heat_index_f(80, 40) - 80) <= 1.5
+    assert heat_index_f(70, 50) < 75                       # the simple form below 80 F, never the regression
+
+
+def test_dangerous_heat_index_days_need_heat_and_humidity():
+    th = load_thresholds()
+    days = pd.date_range("2020-07-01", periods=3, freq="D")
+    df = pd.DataFrame({"T2M_MAX": [38.0, 38.0, 30.0], "T2M_MIN": [25.0] * 3, "RH2M": [50.0] * 3,
+                       "T2MDEW": [24.0, 5.0, 24.0], "PRECTOTCORR": [0.0] * 3, "T2MWET": [20.0] * 3}, index=days)
+    hi = daily_flags(df, th)["heat_index_days"]
+    assert list(hi) == [1.0, 0.0, 0.0]                    # 38 C and humid: danger; 38 C and dry: no; 30 C humid: no
+
+
+def test_frost_free_season_is_the_days_between_last_spring_and_first_fall_frost():
+    days = pd.date_range("2010-01-01", "2012-12-31", freq="D")
+    tmin = pd.Series(10.0, index=days)
+    tmin[(days.month <= 3)] = -2.0                         # frost every night to the end of March
+    tmin[(days.month >= 11)] = -2.0                        # and again from November 1
+    tmin[(days.year == 2012) & (days.month == 4) & (days.day == 20)] = -1.0   # a late frost on April 20, 2012
+    season = frost_free_season(pd.DataFrame({"T2M_MIN": tmin}), 0.0, min_share=0.8)
+    assert season[2010] == 214                             # April 1 to October 31
+    assert season[2012] == 194                             # April 21 to October 31
+
+
+def test_frost_free_season_is_empty_where_frost_is_rare():
+    days = pd.date_range("2010-01-01", "2014-12-31", freq="D")
+    tmin = pd.Series(15.0, index=days)
+    tmin[(days.year == 2011) & (days.month == 1) & (days.day == 5)] = -1.0      # one frost in five years
+    assert frost_free_season(pd.DataFrame({"T2M_MIN": tmin}), 0.0, min_share=0.8).dropna().empty
+

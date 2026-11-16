@@ -453,6 +453,20 @@ def test_map_frames_are_served_from_their_files_or_say_how_to_build_them(tmp_pat
     assert c.get("/api/v1/maps/secrets/frames").status_code in (400, 422)
 
 
+def test_north_america_frames_carry_their_area_and_what_the_line_averages(tmp_path):
+    import json as _json
+    (tmp_path / "sst.json").write_text(_json.dumps({
+        "factor": "sst", "label": "Sea temperature", "unit": "°C", "grid": {"lats": [25.0], "lons": [-90.0], "dlat": 0.5, "dlon": 0.5},
+        "years": [2001], "span": 1, "base_years": [2001, 2001], "level_breaks": [20.0], "change_breaks": [0.1, 0.2, 0.5, 1.0],
+        "values": [[26.0]], "change": [[0.0]], "us_mean": [26.0], "us_change": [0.0],
+        "area": "North America", "mean_area": "the Gulf of Mexico", "coverage": "Sea only."}), encoding="utf-8")
+    store = FileStore()
+    c = TestClient(create_app(Services(store, None, None, MapService(store, [], frames_dir=tmp_path))))
+    body = c.get("/api/v1/maps/sst/frames").json()
+    assert body["area"] == "North America" and body["mean_area"] == "the Gulf of Mexico" and body["coverage"]
+    assert c.get("/api/v1/maps/sst").status_code == 422          # no trend field for the North America records
+
+
 
 def test_the_lower_48_outline_joins_every_contiguous_state_for_the_map_mask():
     from backend.services import RegionService

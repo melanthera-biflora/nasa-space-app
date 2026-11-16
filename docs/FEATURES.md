@@ -8,11 +8,11 @@
 | | |
 | --- | --- |
 | Years of data | 25 (2001–2025) |
-| Records in a report | Up to 18 per address (heat, cold, rain, humidity, smoke, air pollution, fires, ground heat, water) |
-| Datasets | 10 NASA and NOAA datasets in the app, plus OpenStreetMap for places |
+| Records in a report | Up to 20 per address (heat, heat index, cold, the frost-free season, rain, humidity, smoke, air pollution, fires, ground heat, water) |
+| Datasets | 11 NASA and NOAA datasets in the app (sea temperature joins for the North America map), plus OpenStreetMap for places |
 | Places | Any US address, ZIP or city; 50 states and DC as state averages; 51 cities side by side |
-| US map | About 2,800 NASA grid squares over the lower 48, animated year by year |
-| Statistical tests | Mann-Kendall trend test, seasonal Kendall, false-discovery corrections, years-needed estimate, single-year check |
+| Maps | About 2,800 NASA grid squares over the lower 48, animated year by year; North America with its seas (sea temperature, smoke, PM2.5, fires in Canada and Mexico) |
+| Statistical tests | Mann-Kendall trend test with a Theil-Sen rate, a false-discovery correction across each report's records and each map's squares, a memory check, seasonal Kendall, years-needed estimate, single-year check |
 | Tests in the code | About 480 automated tests (frontend, backend, data pipeline) |
 
 ## 1. A report for your household
@@ -47,9 +47,9 @@
 | --- | --- | --- |
 | 1. Look | `/explore` | Every month on one chart with climate stripes. **Guess first** (up, down or flat) before the trend line appears |
 | 2. Seasons | `/seasons` | Which seasons and months are changing, as a month heatmap (also a table, keyboard friendly) and a cycle chart |
-| 3. Is it real? | `/test` | The trend test answers your guess: rate per decade with its range, how many years a trend needs, and whether one disaster year carries it |
+| 3. Is it real? | `/test` | The trend test answers your guess: rate per decade with its range, corrected for the other records checked at the same place, a note when years that remember the year before make the evidence thinner, how many years a trend needs, and whether one disaster year carries it |
 | 4. Spike or trend? | `/events` | The unusual months, matched with documented disasters (heat waves, wildfire smoke, floods) and their sources |
-| 5. Where else? | `/map` | An animated map of the lower 48, year by year, then where change is clear (PM2.5, NO₂, fires, smoke days, haze) |
+| 5. Where else? | `/map` | An animated map of the lower 48 (PM2.5, NO₂, fires, smoke days, haze) or North America (sea temperature, smoke days, PM2.5, fires), year by year, then where change is clear |
 | 6. What moves together? | `/patterns` | Links between records with lead times (one record moving a few months before another), early-clue hit rates, signs of change, more extremes, hot-and-dry months, and **El Niño and La Niña winters** |
 
 - Works for an address or a whole state; the place, record and years ride in the link, so any view can be shared.
