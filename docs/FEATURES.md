@@ -37,8 +37,9 @@
 - **Map and chart side by side:** pointing at a card lights its dot on the map and on the chart, and back.
 - **All 51 cities on one chart:** today's level against how fast it changes. Drag, zoom with Ctrl + scroll or buttons,
   keyboard keys; a far-out city (Anchorage's water loss) is named at the edge instead of squashing the rest.
-- **Side by side for up to 3 places:** a then → now arrow chart per topic, "4 of the last 5 years under your limit",
-  and a table that can show only the rows that differ.
+- **Side by side for up to 3 places:** a slope chart per topic with a colour per place, "4 of the last 5 years under
+  your limit", each year's lines in the same colours, and a table that can show only the rows that differ.
+- **Find a city** by name or state, and the list shows 6 cities a page per group, so nothing loads all 51 cards at once.
 - **Starting place:** list each group by distance from where you live now.
 
 ## 3. Look closer: the detective steps
@@ -46,7 +47,7 @@
 | Step | Page | What it does |
 | --- | --- | --- |
 | 1. Look | `/explore` | Every month on one chart with climate stripes. **Guess first** (up, down or flat) before the trend line appears |
-| 2. Seasons | `/seasons` | Which seasons and months are changing, as a month heatmap (also a table, keyboard friendly) and a cycle chart |
+| 2. Seasons | `/seasons` | The typical year then and now (each month's early and recent averages), which seasons and months changed clearly, a cycle chart and a month heatmap (also tables, keyboard friendly) |
 | 3. Is it real? | `/test` | The trend test answers your guess: rate per decade with its range, corrected for the other records checked at the same place, a note when years that remember the year before make the evidence thinner, how many years a trend needs, and whether one disaster year carries it |
 | 4. Spike or trend? | `/events` | The unusual months, matched with documented disasters (heat waves, wildfire smoke, floods) and their sources |
 | 5. Where else? | `/map` | An animated map of the lower 48 (PM2.5, NO₂, fires, smoke days, haze) or North America (sea temperature, smoke days, PM2.5, fires), year by year, then where change is clear |

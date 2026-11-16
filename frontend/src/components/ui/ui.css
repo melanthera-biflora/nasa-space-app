@@ -240,3 +240,15 @@
 .ui-seg.is-dark .ui-seg-thumb { background: var(--highlight); box-shadow: none; border-radius: var(--radius-round); }
 .ui-seg.is-dark .ui-seg-opt input:focus-visible + span { outline-color: var(--highlight); }
 
+
+/* Pager: pages of a long list (the 51 cities on /compare) */
+.ui-pager { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); margin: var(--space-3) 0 0; }
+.ui-pager-pages { display: flex; flex-wrap: wrap; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.ui-pager-num {
+  min-width: var(--control-sm); height: var(--control-sm); padding: 0 8px; border: 1px solid transparent; border-radius: var(--radius-control);
+  background: none; color: var(--ink); font: inherit; font-size: var(--text-14); font-variant-numeric: tabular-nums; cursor: pointer;
+}
+.ui-pager-num:hover { background: var(--n-3); }
+.ui-pager-num[aria-current='page'] { background: var(--brand-12); color: var(--on-brand); font-weight: 600; }
+.ui-pager-num:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.ui-pager-where { margin-left: auto; font-size: var(--text-12); color: var(--ink-muted); font-variant-numeric: tabular-nums; }

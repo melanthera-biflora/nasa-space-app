@@ -178,7 +178,13 @@ a.dt-sections-top { display: inline-flex; align-items: center; gap: 4px; margin-
 .dt-bar-track i.is-down { background: var(--falling); }
 .dt-bar-track i.is-drier { background: var(--drier); }
 .dt-bar-track i.is-wetter { background: var(--wetter); }
-.dt-bars li.is-faded .dt-bar-track i { opacity: 0.28; }
+.dt-bars li.is-faded .dt-bar-track i { background: none; border: 1.5px dashed var(--flat); }   /* not clear yet: an outline */
+.dt-bars li.is-faded .dt-bar-track i.is-up { border-color: var(--rising); }
+.dt-bars li.is-faded .dt-bar-track i.is-down { border-color: var(--falling); }
+.dt-bars li.is-faded .dt-bar-track i.is-drier { border-color: var(--drier); }
+.dt-bars li.is-faded .dt-bar-track i.is-wetter { border-color: var(--wetter); }
+.dt-bars .dt-bars-scale { grid-template-areas: '. track'; }
+.dt-bar-scale { grid-area: track; display: flex; justify-content: space-between; font-size: var(--text-12); color: var(--ink-muted); font-variant-numeric: tabular-nums; }
 .dt-bar-text { grid-area: text; font-size: var(--text-12); color: var(--ink-muted); }
 .dt-bars li.is-clear .dt-bar-text { color: var(--ink); font-weight: 600; }
 .dt-cycle-panel { fill: var(--surface-sunken); }
@@ -337,3 +343,21 @@ a.dt-sections-top { display: inline-flex; align-items: center; gap: 4px; margin-
 }
 .dt-case-report { display: inline-block; margin-top: var(--space-2); font-size: var(--text-14); color: var(--brand-11); text-underline-offset: 3px; }
 .dt-spike path { fill: var(--ink); }
+
+/* The typical year, then and now (TypicalYear): early average dashed and hollow, recent solid, the usual range grey */
+.ty-svg { overflow: visible; }
+.ty-band { fill: var(--surface-sunken); }
+.ty-col { fill: var(--brand-2); }
+.ty-then-line { fill: none; stroke: var(--flat); stroke-width: 1.75; stroke-dasharray: 5 4; }
+.ty-now-line { fill: none; stroke: var(--brand-9); stroke-width: 2.5; stroke-linejoin: round; }
+.ty-then { fill: var(--surface); stroke: var(--flat); stroke-width: 2; }
+.ty-now { fill: var(--brand-9); stroke: var(--surface); stroke-width: 1.5; }
+.ty-link { stroke-width: 6; stroke-linecap: round; stroke-opacity: 0.45; }
+.ty-link.is-up { stroke: var(--rising); } .ty-link.is-down { stroke: var(--falling); }
+.ty-link.is-drier { stroke: var(--drier); } .ty-link.is-wetter { stroke: var(--wetter); }
+.ty-clear { font-weight: 700; fill: var(--ink); }
+.ty-legend i { height: 0; border-top: 2px solid; border-radius: 0; }
+.ty-legend .ty-k-then { border-top: 2px dashed var(--flat); }
+.ty-legend .ty-k-now { border-top: 3px solid var(--brand-9); }
+.ty-legend .ty-k-band { height: 10px; border: 0; border-radius: 2px; background: var(--surface-sunken); }
+.ty-legend .ty-k-link { width: 6px; height: 14px; border: 0; border-radius: 3px; background: linear-gradient(var(--rising), var(--falling)); opacity: 0.6; }

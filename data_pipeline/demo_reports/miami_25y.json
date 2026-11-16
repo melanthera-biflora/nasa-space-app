@@ -2439,7 +2439,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "spring",
@@ -2448,7 +2450,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "summer",
@@ -2457,7 +2461,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "autumn",
@@ -2466,7 +2472,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      }
     ],
     "months": [
@@ -2477,7 +2485,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Feb",
@@ -2486,7 +2496,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Mar",
@@ -2495,7 +2507,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Apr",
@@ -2504,7 +2518,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "May",
@@ -2513,7 +2529,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Jun",
@@ -2522,7 +2540,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Jul",
@@ -2531,7 +2551,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Aug",
@@ -2540,7 +2562,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Sep",
@@ -2549,7 +2573,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Oct",
@@ -2558,7 +2584,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Nov",
@@ -2567,7 +2595,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Dec",
@@ -2576,7 +2606,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      }
     ],
     "anomaly_test": {
@@ -2684,6 +2716,16 @@
       "p90": 0.0
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -5165,7 +5207,9 @@
       "p": 0.0518,
       "q": 0.0691,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 3.5,
+      "now": 11.2
      },
      {
       "name": "spring",
@@ -5174,7 +5218,9 @@
       "p": 0.0011,
       "q": 0.0046,
       "clear": true,
-      "n_years": 25
+      "n_years": 25,
+      "then": 38.6,
+      "now": 54.2
      },
      {
       "name": "summer",
@@ -5183,7 +5229,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 92.0,
+      "now": 92.0
      },
      {
       "name": "autumn",
@@ -5192,7 +5240,9 @@
       "p": 0.0204,
       "q": 0.0408,
       "clear": true,
-      "n_years": 25
+      "n_years": 25,
+      "then": 68.0,
+      "now": 77.6
      }
     ],
     "months": [
@@ -5203,7 +5253,9 @@
       "p": 0.0259,
       "q": 0.0777,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 1.6
      },
      {
       "name": "Feb",
@@ -5212,7 +5264,9 @@
       "p": 0.0096,
       "q": 0.0592,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.2,
+      "now": 3.2
      },
      {
       "name": "Mar",
@@ -5221,7 +5275,9 @@
       "p": 0.1093,
       "q": 0.2186,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 7.4,
+      "now": 8.8
      },
      {
       "name": "Apr",
@@ -5230,7 +5286,9 @@
       "p": 0.0099,
       "q": 0.0592,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 7.6,
+      "now": 16.2
      },
      {
       "name": "May",
@@ -5239,7 +5297,9 @@
       "p": 0.0336,
       "q": 0.0806,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 23.6,
+      "now": 29.2
      },
      {
       "name": "Jun",
@@ -5248,7 +5308,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 30.0,
+      "now": 30.0
      },
      {
       "name": "Jul",
@@ -5257,7 +5319,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 31.0,
+      "now": 31.0
      },
      {
       "name": "Aug",
@@ -5266,7 +5330,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 31.0,
+      "now": 31.0
      },
      {
       "name": "Sep",
@@ -5275,7 +5341,9 @@
       "p": 0.7641,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 29.4,
+      "now": 29.8
      },
      {
       "name": "Oct",
@@ -5284,7 +5352,9 @@
       "p": 0.2746,
       "q": 0.4119,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 27.4,
+      "now": 29.0
      },
      {
       "name": "Nov",
@@ -5293,7 +5363,9 @@
       "p": 0.0205,
       "q": 0.0777,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 11.2,
+      "now": 18.8
      },
      {
       "name": "Dec",
@@ -5302,7 +5374,9 @@
       "p": 0.2579,
       "q": 0.4119,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 2.8,
+      "now": 7.4
      }
     ],
     "anomaly_test": {
@@ -5415,6 +5489,16 @@
       "p90": 13.0
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -7877,7 +7961,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "spring",
@@ -7886,7 +7972,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "summer",
@@ -7895,7 +7983,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "autumn",
@@ -7904,7 +7994,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      }
     ],
     "months": [
@@ -7915,7 +8007,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Feb",
@@ -7924,7 +8018,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Mar",
@@ -7933,7 +8029,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Apr",
@@ -7942,7 +8040,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "May",
@@ -7951,7 +8051,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Jun",
@@ -7960,7 +8062,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Jul",
@@ -7969,7 +8073,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Aug",
@@ -7978,7 +8084,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Sep",
@@ -7987,7 +8095,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Oct",
@@ -7996,7 +8106,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Nov",
@@ -8005,7 +8117,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Dec",
@@ -8014,7 +8128,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      }
     ],
     "anomaly_test": {
@@ -8122,6 +8238,16 @@
       "p90": 0.0
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -10604,7 +10730,9 @@
       "p": 0.1226,
       "q": 0.1635,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 1.2,
+      "now": 0.4
      },
      {
       "name": "spring",
@@ -10613,7 +10741,9 @@
       "p": 0.0219,
       "q": 0.057,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 2.8,
+      "now": 0.8
      },
      {
       "name": "summer",
@@ -10622,7 +10752,9 @@
       "p": 0.0285,
       "q": 0.057,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 4.8,
+      "now": 1.6
      },
      {
       "name": "autumn",
@@ -10631,7 +10763,9 @@
       "p": 0.5519,
       "q": 0.5519,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 3.2,
+      "now": 2.2
      }
     ],
     "months": [
@@ -10642,7 +10776,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.2,
+      "now": 0.0
      },
      {
       "name": "Feb",
@@ -10651,7 +10787,9 @@
       "p": 0.1778,
       "q": 0.4268,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.6,
+      "now": 0.2
      },
      {
       "name": "Mar",
@@ -10660,7 +10798,9 @@
       "p": 0.0388,
       "q": 0.2325,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 1.0,
+      "now": 0.2
      },
      {
       "name": "Apr",
@@ -10669,7 +10809,9 @@
       "p": 0.4924,
       "q": 0.7386,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.4,
+      "now": 0.4
      },
      {
       "name": "May",
@@ -10678,7 +10820,9 @@
       "p": 0.175,
       "q": 0.4268,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 1.4,
+      "now": 0.2
      },
      {
       "name": "Jun",
@@ -10687,7 +10831,9 @@
       "p": 0.5902,
       "q": 0.787,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 2.2,
+      "now": 1.4
      },
      {
       "name": "Jul",
@@ -10696,7 +10842,9 @@
       "p": 0.0773,
       "q": 0.3092,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.8,
+      "now": 0.0
      },
      {
       "name": "Aug",
@@ -10705,7 +10853,9 @@
       "p": 0.0326,
       "q": 0.2325,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 1.8,
+      "now": 0.2
      },
      {
       "name": "Sep",
@@ -10714,7 +10864,9 @@
       "p": 0.3242,
       "q": 0.6484,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 2.2,
+      "now": 1.0
      },
      {
       "name": "Oct",
@@ -10723,7 +10875,9 @@
       "p": 0.8792,
       "q": 0.9592,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.6,
+      "now": 0.4
      },
      {
       "name": "Nov",
@@ -10732,7 +10886,9 @@
       "p": 0.4054,
       "q": 0.6949,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.4,
+      "now": 0.8
      },
      {
       "name": "Dec",
@@ -10741,7 +10897,9 @@
       "p": 0.8342,
       "q": 0.9592,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.2,
+      "now": 0.2
      }
     ],
     "anomaly_test": {
@@ -10854,6 +11012,16 @@
       "p90": 1.0
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -13308,7 +13476,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "spring",
@@ -13317,7 +13487,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "summer",
@@ -13326,7 +13498,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "autumn",
@@ -13335,7 +13509,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      }
     ],
     "months": [
@@ -13346,7 +13522,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Feb",
@@ -13355,7 +13533,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Mar",
@@ -13364,7 +13544,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Apr",
@@ -13373,7 +13555,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "May",
@@ -13382,7 +13566,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Jun",
@@ -13391,7 +13577,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Jul",
@@ -13400,7 +13588,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Aug",
@@ -13409,7 +13599,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Sep",
@@ -13418,7 +13610,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Oct",
@@ -13427,7 +13621,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Nov",
@@ -13436,7 +13632,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Dec",
@@ -13445,7 +13643,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      }
     ],
     "anomaly_test": {
@@ -13553,6 +13753,16 @@
       "p90": 0.0
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -16040,7 +16250,9 @@
       "p": 0.0067,
       "q": 0.0134,
       "clear": true,
-      "n_years": 24
+      "n_years": 24,
+      "then": 10.8,
+      "now": 22.6
      },
      {
       "name": "spring",
@@ -16049,7 +16261,9 @@
       "p": 0.0002,
       "q": 0.0006,
       "clear": true,
-      "n_years": 25
+      "n_years": 25,
+      "then": 35.0,
+      "now": 47.2
      },
      {
       "name": "summer",
@@ -16058,7 +16272,9 @@
       "p": 0.6853,
       "q": 0.6853,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 92.0,
+      "now": 91.8
      },
      {
       "name": "autumn",
@@ -16067,7 +16283,9 @@
       "p": 0.0879,
       "q": 0.1172,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 64.6,
+      "now": 70.6
      }
     ],
     "months": [
@@ -16078,7 +16296,9 @@
       "p": 0.0223,
       "q": 0.0775,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 1.4,
+      "now": 5.6
      },
      {
       "name": "Feb",
@@ -16087,7 +16307,9 @@
       "p": 0.0103,
       "q": 0.0775,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 2.6,
+      "now": 7.2
      },
      {
       "name": "Mar",
@@ -16096,7 +16318,9 @@
       "p": 0.1869,
       "q": 0.3204,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 9.6,
+      "now": 10.2
      },
      {
       "name": "Apr",
@@ -16105,7 +16329,9 @@
       "p": 0.0254,
       "q": 0.0775,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 5.8,
+      "now": 11.8
      },
      {
       "name": "May",
@@ -16114,7 +16340,9 @@
       "p": 0.0258,
       "q": 0.0775,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 19.6,
+      "now": 25.2
      },
      {
       "name": "Jun",
@@ -16123,7 +16351,9 @@
       "p": 0.6853,
       "q": 0.8223,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 30.0,
+      "now": 29.8
      },
      {
       "name": "Jul",
@@ -16132,7 +16362,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 31.0,
+      "now": 31.0
      },
      {
       "name": "Aug",
@@ -16141,7 +16373,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 31.0,
+      "now": 31.0
      },
      {
       "name": "Sep",
@@ -16150,7 +16384,9 @@
       "p": 0.2372,
       "q": 0.3558,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 30.0,
+      "now": 29.4
      },
      {
       "name": "Oct",
@@ -16159,7 +16395,9 @@
       "p": 0.2999,
       "q": 0.3999,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 24.8,
+      "now": 25.0
      },
      {
       "name": "Nov",
@@ -16168,7 +16406,9 @@
       "p": 0.1006,
       "q": 0.2011,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 9.8,
+      "now": 16.2
      },
      {
       "name": "Dec",
@@ -16177,7 +16417,9 @@
       "p": 0.077,
       "q": 0.1849,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 6.0,
+      "now": 11.2
      }
     ],
     "anomaly_test": {
@@ -16290,6 +16532,16 @@
       "p90": 15.6
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -18768,7 +19020,9 @@
       "p": 0.024,
       "q": 0.0479,
       "clear": true,
-      "n_years": 24
+      "n_years": 24,
+      "then": 0.5,
+      "now": 2.8
      },
      {
       "name": "spring",
@@ -18777,7 +19031,9 @@
       "p": 0.0002,
       "q": 0.001,
       "clear": true,
-      "n_years": 25
+      "n_years": 25,
+      "then": 21.0,
+      "now": 32.2
      },
      {
       "name": "summer",
@@ -18786,7 +19042,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 92.0,
+      "now": 91.8
      },
      {
       "name": "autumn",
@@ -18795,7 +19053,9 @@
       "p": 0.0791,
       "q": 0.1055,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 56.4,
+      "now": 64.2
      }
     ],
     "months": [
@@ -18806,7 +19066,9 @@
       "p": 0.1454,
       "q": 0.2907,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.4
      },
      {
       "name": "Feb",
@@ -18815,7 +19077,9 @@
       "p": 0.112,
       "q": 0.2688,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.2,
+      "now": 1.0
      },
      {
       "name": "Mar",
@@ -18824,7 +19088,9 @@
       "p": 0.2647,
       "q": 0.3971,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 4.2,
+      "now": 3.0
      },
      {
       "name": "Apr",
@@ -18833,7 +19099,9 @@
       "p": 0.0078,
       "q": 0.047,
       "clear": true,
-      "n_years": 25
+      "n_years": 25,
+      "then": 1.2,
+      "now": 6.8
      },
      {
       "name": "May",
@@ -18842,7 +19110,9 @@
       "p": 0.0042,
       "q": 0.047,
       "clear": true,
-      "n_years": 25
+      "n_years": 25,
+      "then": 15.6,
+      "now": 22.4
      },
      {
       "name": "Jun",
@@ -18851,7 +19121,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 30.0,
+      "now": 29.8
      },
      {
       "name": "Jul",
@@ -18860,7 +19132,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 31.0,
+      "now": 31.0
      },
      {
       "name": "Aug",
@@ -18869,7 +19143,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 31.0,
+      "now": 31.0
      },
      {
       "name": "Sep",
@@ -18878,7 +19154,9 @@
       "p": 0.9004,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 29.4,
+      "now": 29.8
      },
      {
       "name": "Oct",
@@ -18887,7 +19165,9 @@
       "p": 0.2399,
       "q": 0.3971,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 22.8,
+      "now": 23.8
      },
      {
       "name": "Nov",
@@ -18896,7 +19176,9 @@
       "p": 0.036,
       "q": 0.144,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 4.2,
+      "now": 10.6
      },
      {
       "name": "Dec",
@@ -18905,7 +19187,9 @@
       "p": 0.0544,
       "q": 0.1631,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.2,
+      "now": 2.2
      }
     ],
     "anomaly_test": {
@@ -19018,6 +19302,16 @@
       "p90": 4.6
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -21498,7 +21792,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "spring",
@@ -21507,7 +21803,9 @@
       "p": 0.1454,
       "q": 0.1938,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.2
      },
      {
       "name": "summer",
@@ -21516,7 +21814,9 @@
       "p": 0.0357,
       "q": 0.0714,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 5.0
      },
      {
       "name": "autumn",
@@ -21525,7 +21825,9 @@
       "p": 0.0357,
       "q": 0.0714,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 1.2
      }
     ],
     "months": [
@@ -21536,7 +21838,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Feb",
@@ -21545,7 +21849,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Mar",
@@ -21554,7 +21860,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Apr",
@@ -21563,7 +21871,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "May",
@@ -21572,7 +21882,9 @@
       "p": 0.1454,
       "q": 0.4361,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.2
      },
      {
       "name": "Jun",
@@ -21581,7 +21893,9 @@
       "p": 0.6274,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Jul",
@@ -21590,7 +21904,9 @@
       "p": 0.0454,
       "q": 0.2725,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 1.2
      },
      {
       "name": "Aug",
@@ -21599,7 +21915,9 @@
       "p": 0.0098,
       "q": 0.1172,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 3.8
      },
      {
       "name": "Sep",
@@ -21608,7 +21926,9 @@
       "p": 0.1454,
       "q": 0.4361,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.8
      },
      {
       "name": "Oct",
@@ -21617,7 +21937,9 @@
       "p": 0.1877,
       "q": 0.4505,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.4
      },
      {
       "name": "Nov",
@@ -21626,7 +21948,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Dec",
@@ -21635,7 +21959,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0,
+      "now": 0.0
      }
     ],
     "anomaly_test": {
@@ -21743,6 +22069,16 @@
       "p90": 0.0
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -24227,7 +24563,9 @@
       "p": 0.0273,
       "q": 0.1091,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 27.9,
+      "now": 16.5
      },
      {
       "name": "spring",
@@ -24236,7 +24574,9 @@
       "p": 0.2621,
       "q": 0.5243,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 39.5,
+      "now": 24.6
      },
      {
       "name": "summer",
@@ -24245,7 +24585,9 @@
       "p": 0.4137,
       "q": 0.5516,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 33.5,
+      "now": 79.3
      },
      {
       "name": "autumn",
@@ -24254,7 +24596,9 @@
       "p": 0.6572,
       "q": 0.6572,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 50.4,
+      "now": 41.4
      }
     ],
     "months": [
@@ -24265,7 +24609,9 @@
       "p": 0.8335,
       "q": 0.907,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 14.2,
+      "now": 7.2
      },
      {
       "name": "Feb",
@@ -24274,7 +24620,9 @@
       "p": 0.6572,
       "q": 0.907,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 14.7,
+      "now": 14.1
      },
      {
       "name": "Mar",
@@ -24283,7 +24631,9 @@
       "p": 0.0316,
       "q": 0.3794,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 21.2,
+      "now": 12.1
      },
      {
       "name": "Apr",
@@ -24292,7 +24642,9 @@
       "p": 0.6238,
       "q": 0.907,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 18.9,
+      "now": 16.3
      },
      {
       "name": "May",
@@ -24301,7 +24653,9 @@
       "p": 0.1682,
       "q": 0.5607,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 36.7,
+      "now": 16.9
      },
      {
       "name": "Jun",
@@ -24310,7 +24664,9 @@
       "p": 0.2336,
       "q": 0.5607,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 25.1,
+      "now": 79.2
      },
      {
       "name": "Jul",
@@ -24319,7 +24675,9 @@
       "p": 0.199,
       "q": 0.5607,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 21.6,
+      "now": 16.5
      },
      {
       "name": "Aug",
@@ -24328,7 +24686,9 @@
       "p": 0.1543,
       "q": 0.5607,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 30.2,
+      "now": 15.9
      },
      {
       "name": "Sep",
@@ -24337,7 +24697,9 @@
       "p": 0.6572,
       "q": 0.907,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 37.7,
+      "now": 27.0
      },
      {
       "name": "Oct",
@@ -24346,7 +24708,9 @@
       "p": 0.907,
       "q": 0.907,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 23.2,
+      "now": 20.6
      },
      {
       "name": "Nov",
@@ -24355,7 +24719,9 @@
       "p": 0.7261,
       "q": 0.907,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 23.7,
+      "now": 27.7
      },
      {
       "name": "Dec",
@@ -24364,7 +24730,9 @@
       "p": 0.8517,
       "q": 0.907,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 15.8,
+      "now": 14.7
      }
     ],
     "anomaly_test": {
@@ -24477,6 +24845,16 @@
       "p90": 32.6
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "max"
    },
    "leave_one_out": {
@@ -26182,7 +26560,9 @@
       "p": 0.2763,
       "q": 0.5231,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 7.59,
+      "now": 8.16
      },
      {
       "name": "spring",
@@ -26191,7 +26571,9 @@
       "p": 0.9641,
       "q": 0.9641,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 9.92,
+      "now": 10.0
      },
      {
       "name": "summer",
@@ -26200,7 +26582,9 @@
       "p": 0.0382,
       "q": 0.1526,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 14.86,
+      "now": 16.74
      },
      {
       "name": "autumn",
@@ -26209,7 +26593,9 @@
       "p": 0.3923,
       "q": 0.5231,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 9.84,
+      "now": 10.54
      }
     ],
     "months": [
@@ -26220,7 +26606,9 @@
       "p": 0.444,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 8.43,
+      "now": 8.68
      },
      {
       "name": "Feb",
@@ -26229,7 +26617,9 @@
       "p": 0.3214,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 8.26,
+      "now": 7.96
      },
      {
       "name": "Mar",
@@ -26238,7 +26628,9 @@
       "p": 0.5281,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 9.76,
+      "now": 9.33
      },
      {
       "name": "Apr",
@@ -26247,7 +26639,9 @@
       "p": 0.6204,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 9.88,
+      "now": 10.02
      },
      {
       "name": "May",
@@ -26256,7 +26650,9 @@
       "p": 0.3214,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 10.12,
+      "now": 10.65
      },
      {
       "name": "Jun",
@@ -26265,7 +26661,9 @@
       "p": 0.7526,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 15.12,
+      "now": 16.18
      },
      {
       "name": "Jul",
@@ -26274,7 +26672,9 @@
       "p": 0.0957,
       "q": 0.6904,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 14.98,
+      "now": 19.45
      },
      {
       "name": "Aug",
@@ -26283,7 +26683,9 @@
       "p": 0.6204,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 14.48,
+      "now": 14.59
      },
      {
       "name": "Sep",
@@ -26292,7 +26694,9 @@
       "p": 0.8219,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 10.52,
+      "now": 11.85
      },
      {
       "name": "Oct",
@@ -26301,7 +26705,9 @@
       "p": 0.7868,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 9.92,
+      "now": 10.71
      },
      {
       "name": "Nov",
@@ -26310,7 +26716,9 @@
       "p": 0.7868,
       "q": 0.8219,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 9.07,
+      "now": 9.07
      },
      {
       "name": "Dec",
@@ -26319,7 +26727,9 @@
       "p": 0.1151,
       "q": 0.6904,
       "clear": false,
-      "n_years": 16
+      "n_years": 16,
+      "then": 7.17,
+      "now": 8.02
      }
     ],
     "anomaly_test": {
@@ -26432,6 +26842,16 @@
       "p90": 9.24
      }
     ],
+    "windows": {
+     "then": [
+      2010,
+      2014
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "mean"
    },
    "leave_one_out": {
@@ -28523,7 +28943,9 @@
       "p": 0.0058,
       "q": 0.0058,
       "clear": true,
-      "n_years": 20
+      "n_years": 20,
+      "then": 4.943,
+      "now": 3.215
      },
      {
       "name": "spring",
@@ -28532,7 +28954,9 @@
       "p": 0.0006,
       "q": 0.0025,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 3.909,
+      "now": 2.377
      },
      {
       "name": "summer",
@@ -28541,7 +28965,9 @@
       "p": 0.0041,
       "q": 0.0055,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 3.48,
+      "now": 2.153
      },
      {
       "name": "autumn",
@@ -28550,7 +28976,9 @@
       "p": 0.0012,
       "q": 0.0025,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 4.393,
+      "now": 2.894
      }
     ],
     "months": [
@@ -28561,7 +28989,9 @@
       "p": 0.0497,
       "q": 0.0542,
       "clear": false,
-      "n_years": 21
+      "n_years": 21,
+      "then": 4.795,
+      "now": 3.6
      },
      {
       "name": "Feb",
@@ -28570,7 +29000,9 @@
       "p": 0.0,
       "q": 0.0003,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 5.222,
+      "now": 2.495
      },
      {
       "name": "Mar",
@@ -28579,7 +29011,9 @@
       "p": 0.001,
       "q": 0.004,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 4.146,
+      "now": 2.452
      },
      {
       "name": "Apr",
@@ -28588,7 +29022,9 @@
       "p": 0.0015,
       "q": 0.0046,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 3.84,
+      "now": 2.3
      },
      {
       "name": "May",
@@ -28597,7 +29033,9 @@
       "p": 0.0028,
       "q": 0.0056,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 3.742,
+      "now": 2.378
      },
      {
       "name": "Jun",
@@ -28606,7 +29044,9 @@
       "p": 0.0235,
       "q": 0.0314,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 3.746,
+      "now": 2.382
      },
      {
       "name": "Jul",
@@ -28615,7 +29055,9 @@
       "p": 0.006,
       "q": 0.009,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 3.052,
+      "now": 1.984
      },
      {
       "name": "Aug",
@@ -28624,7 +29066,9 @@
       "p": 0.0041,
       "q": 0.0071,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 3.642,
+      "now": 2.093
      },
      {
       "name": "Sep",
@@ -28633,7 +29077,9 @@
       "p": 0.0372,
       "q": 0.0446,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 4.083,
+      "now": 2.777
      },
      {
       "name": "Oct",
@@ -28642,7 +29088,9 @@
       "p": 0.0004,
       "q": 0.0025,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 4.147,
+      "now": 2.7
      },
      {
       "name": "Nov",
@@ -28651,7 +29099,9 @@
       "p": 0.0028,
       "q": 0.0056,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 4.947,
+      "now": 3.206
      },
      {
       "name": "Dec",
@@ -28660,7 +29110,9 @@
       "p": 0.4503,
       "q": 0.4503,
       "clear": false,
-      "n_years": 21
+      "n_years": 21,
+      "then": 4.74,
+      "now": 3.802
      }
     ],
     "anomaly_test": {
@@ -28773,6 +29225,16 @@
       "p90": 4.541
      }
     ],
+    "windows": {
+     "then": [
+      2005,
+      2009
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "mean"
    },
    "leave_one_out": {
@@ -31053,7 +31515,9 @@
       "p": 0.4064,
       "q": 0.4849,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 12.2,
+      "now": 3.0
      },
      {
       "name": "spring",
@@ -31062,7 +31526,9 @@
       "p": 0.2431,
       "q": 0.4849,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 14.6,
+      "now": 25.2
      },
      {
       "name": "summer",
@@ -31071,7 +31537,9 @@
       "p": 0.4849,
       "q": 0.4849,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 55.0,
+      "now": 4.6
      },
      {
       "name": "autumn",
@@ -31080,7 +31548,9 @@
       "p": 0.3002,
       "q": 0.4849,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 7.0,
+      "now": 1.2
      }
     ],
     "months": [
@@ -31091,7 +31561,9 @@
       "p": 0.1825,
       "q": 0.4727,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 8.0,
+      "now": 1.4
      },
      {
       "name": "Feb",
@@ -31100,7 +31572,9 @@
       "p": 0.507,
       "q": 0.676,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 1.2,
+      "now": 1.4
      },
      {
       "name": "Mar",
@@ -31109,7 +31583,9 @@
       "p": 0.1325,
       "q": 0.4727,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 2.6,
+      "now": 9.0
      },
      {
       "name": "Apr",
@@ -31118,7 +31594,9 @@
       "p": 0.1578,
       "q": 0.4727,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 5.6,
+      "now": 8.6
      },
      {
       "name": "May",
@@ -31127,7 +31605,9 @@
       "p": 0.9543,
       "q": 1.0,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 6.4,
+      "now": 7.6
      },
      {
       "name": "Jun",
@@ -31136,7 +31616,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 8.2,
+      "now": 1.4
      },
      {
       "name": "Jul",
@@ -31145,7 +31627,9 @@
       "p": 0.4142,
       "q": 0.6212,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 19.6,
+      "now": 1.6
      },
      {
       "name": "Aug",
@@ -31154,7 +31638,9 @@
       "p": 0.197,
       "q": 0.4727,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 27.2,
+      "now": 1.6
      },
      {
       "name": "Sep",
@@ -31163,7 +31649,9 @@
       "p": 0.3019,
       "q": 0.5176,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 1.0,
+      "now": 0.8
      },
      {
       "name": "Oct",
@@ -31172,7 +31660,9 @@
       "p": 0.1706,
       "q": 0.4727,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 4.4,
+      "now": 0.0
      },
      {
       "name": "Nov",
@@ -31181,7 +31671,9 @@
       "p": 0.2948,
       "q": 0.5176,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 1.6,
+      "now": 0.4
      },
      {
       "name": "Dec",
@@ -31190,7 +31682,9 @@
       "p": 0.8442,
       "q": 1.0,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 1.0,
+      "now": 0.2
      }
     ],
     "anomaly_test": {
@@ -31303,6 +31797,16 @@
       "p90": 2.6
      }
     ],
+    "windows": {
+     "then": [
+      2003,
+      2007
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -32888,7 +33392,9 @@
       "p": 0.3211,
       "q": 0.5739,
       "clear": false,
-      "n_years": 14
+      "n_years": 14,
+      "then": 0.0,
+      "now": 0.2
      },
      {
       "name": "spring",
@@ -32897,7 +33403,9 @@
       "p": 0.0282,
       "q": 0.1126,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 1.2
      },
      {
       "name": "summer",
@@ -32906,7 +33414,9 @@
       "p": 0.4305,
       "q": 0.5739,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.4,
+      "now": 0.6
      },
      {
       "name": "autumn",
@@ -32915,7 +33425,9 @@
       "p": 0.7989,
       "q": 0.7989,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.2,
+      "now": 0.2
      }
     ],
     "months": [
@@ -32926,7 +33438,9 @@
       "p": 0.2976,
       "q": 0.7143,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.2
      },
      {
       "name": "Feb",
@@ -32935,7 +33449,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Mar",
@@ -32944,7 +33460,9 @@
       "p": 0.2976,
       "q": 0.7143,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.6
      },
      {
       "name": "Apr",
@@ -32953,7 +33471,9 @@
       "p": 0.4179,
       "q": 0.7379,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.2
      },
      {
       "name": "May",
@@ -32962,7 +33482,9 @@
       "p": 0.2671,
       "q": 0.7143,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.4
      },
      {
       "name": "Jun",
@@ -32971,7 +33493,9 @@
       "p": 0.4305,
       "q": 0.7379,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.4,
+      "now": 0.6
      },
      {
       "name": "Jul",
@@ -32980,7 +33504,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Aug",
@@ -32989,7 +33515,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Sep",
@@ -32998,7 +33526,9 @@
       "p": 0.1325,
       "q": 0.7143,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.2,
+      "now": 0.0
      },
      {
       "name": "Oct",
@@ -33007,7 +33537,9 @@
       "p": 0.2976,
       "q": 0.7143,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.2
      },
      {
       "name": "Nov",
@@ -33016,7 +33548,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.0
      },
      {
       "name": "Dec",
@@ -33025,7 +33559,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 15
+      "n_years": 15,
+      "then": 0.0,
+      "now": 0.0
      }
     ],
     "anomaly_test": {
@@ -33133,6 +33669,16 @@
       "p90": 0.0
      }
     ],
+    "windows": {
+     "then": [
+      2011,
+      2015
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -35555,7 +36101,9 @@
       "p": 0.087,
       "q": 0.174,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 0.1104,
+      "now": 0.1001
      },
      {
       "name": "spring",
@@ -35564,7 +36112,9 @@
       "p": 0.0585,
       "q": 0.174,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.176,
+      "now": 0.1597
      },
      {
       "name": "summer",
@@ -35573,7 +36123,9 @@
       "p": 0.5283,
       "q": 0.6238,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1689,
+      "now": 0.1724
      },
      {
       "name": "autumn",
@@ -35582,7 +36134,9 @@
       "p": 0.6238,
       "q": 0.6238,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1246,
+      "now": 0.1234
      }
     ],
     "months": [
@@ -35593,7 +36147,9 @@
       "p": 0.0585,
       "q": 0.2341,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0992,
+      "now": 0.105
      },
      {
       "name": "Feb",
@@ -35602,7 +36158,9 @@
       "p": 0.0008,
       "q": 0.0101,
       "clear": true,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.128,
+      "now": 0.1
      },
      {
       "name": "Mar",
@@ -35611,7 +36169,9 @@
       "p": 0.0526,
       "q": 0.2341,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1713,
+      "now": 0.1397
      },
      {
       "name": "Apr",
@@ -35620,7 +36180,9 @@
       "p": 0.2158,
       "q": 0.6474,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1755,
+      "now": 0.1637
      },
      {
       "name": "May",
@@ -35629,7 +36191,9 @@
       "p": 0.3624,
       "q": 0.7248,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1813,
+      "now": 0.1757
      },
      {
       "name": "Jun",
@@ -35638,7 +36202,9 @@
       "p": 0.4982,
       "q": 0.8541,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1633,
+      "now": 0.1709
      },
      {
       "name": "Jul",
@@ -35647,7 +36213,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1788,
+      "now": 0.1823
      },
      {
       "name": "Aug",
@@ -35656,7 +36224,9 @@
       "p": 0.2933,
       "q": 0.7038,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1645,
+      "now": 0.1638
      },
      {
       "name": "Sep",
@@ -35665,7 +36235,9 @@
       "p": 0.6913,
       "q": 0.9218,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1532,
+      "now": 0.1399
      },
      {
       "name": "Oct",
@@ -35674,7 +36246,9 @@
       "p": 0.5912,
       "q": 0.8867,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.1231,
+      "now": 0.1257
      },
      {
       "name": "Nov",
@@ -35683,7 +36257,9 @@
       "p": 0.9814,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0976,
+      "now": 0.1045
      },
      {
       "name": "Dec",
@@ -35692,7 +36268,9 @@
       "p": 0.9441,
       "q": 1.0,
       "clear": false,
-      "n_years": 25
+      "n_years": 25,
+      "then": 0.0993,
+      "now": 0.0992
      }
     ],
     "anomaly_test": {
@@ -35805,6 +36383,16 @@
       "p90": 0.1087
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "mean"
    },
    "leave_one_out": {
@@ -38201,7 +38789,9 @@
       "p": 0.9579,
       "q": 1.0,
       "clear": false,
-      "n_years": 23
+      "n_years": 23,
+      "then": 145.0,
+      "now": 156.8
      },
      {
       "name": "spring",
@@ -38210,7 +38800,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 273.6,
+      "now": 258.4
      },
      {
       "name": "summer",
@@ -38219,7 +38811,9 @@
       "p": 0.0122,
       "q": 0.0489,
       "clear": true,
-      "n_years": 24
+      "n_years": 24,
+      "then": 674.2,
+      "now": 531.6
      },
      {
       "name": "autumn",
@@ -38228,7 +38822,9 @@
       "p": 0.8622,
       "q": 1.0,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 432.0,
+      "now": 473.4
      }
     ],
     "months": [
@@ -38239,7 +38835,9 @@
       "p": 0.4128,
       "q": 0.8255,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 31.2,
+      "now": 28.8
      },
      {
       "name": "Feb",
@@ -38248,7 +38846,9 @@
       "p": 0.9012,
       "q": 0.9012,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 49.6,
+      "now": 57.2
      },
      {
       "name": "Mar",
@@ -38257,7 +38857,9 @@
       "p": 0.264,
       "q": 0.7921,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 76.2,
+      "now": 40.2
      },
      {
       "name": "Apr",
@@ -38266,7 +38868,9 @@
       "p": 0.5681,
       "q": 0.8518,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 63.8,
+      "now": 79.0
      },
      {
       "name": "May",
@@ -38275,7 +38879,9 @@
       "p": 0.7098,
       "q": 0.8518,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 133.6,
+      "now": 139.2
      },
      {
       "name": "Jun",
@@ -38284,7 +38890,9 @@
       "p": 0.8427,
       "q": 0.9012,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 262.6,
+      "now": 263.8
      },
      {
       "name": "Jul",
@@ -38293,7 +38901,9 @@
       "p": 0.0419,
       "q": 0.3472,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 187.8,
+      "now": 141.8
      },
      {
       "name": "Aug",
@@ -38302,7 +38912,9 @@
       "p": 0.0868,
       "q": 0.3472,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 223.8,
+      "now": 126.0
      },
      {
       "name": "Sep",
@@ -38311,7 +38923,9 @@
       "p": 0.078,
       "q": 0.3472,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 250.2,
+      "now": 203.4
      },
      {
       "name": "Oct",
@@ -38320,7 +38934,9 @@
       "p": 0.6733,
       "q": 0.8518,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 118.0,
+      "now": 145.8
      },
      {
       "name": "Nov",
@@ -38329,7 +38945,9 @@
       "p": 0.385,
       "q": 0.8255,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 63.8,
+      "now": 124.2
      },
      {
       "name": "Dec",
@@ -38338,7 +38956,9 @@
       "p": 0.6914,
       "q": 0.8518,
       "clear": false,
-      "n_years": 24
+      "n_years": 24,
+      "then": 45.6,
+      "now": 51.6
      }
     ],
     "anomaly_test": {
@@ -38451,6 +39071,16 @@
       "p90": 112.7
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2020,
+      2024
+     ]
+    },
     "season_agg": "sum"
    },
    "leave_one_out": {
@@ -40666,7 +41296,9 @@
       "p": 0.2634,
       "q": 0.595,
       "clear": false,
-      "n_years": 21
+      "n_years": 21,
+      "then": 23.18,
+      "now": 23.72
      },
      {
       "name": "spring",
@@ -40675,7 +41307,9 @@
       "p": 0.4463,
       "q": 0.595,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 29.12,
+      "now": 29.43
      },
      {
       "name": "summer",
@@ -40684,7 +41318,9 @@
       "p": 0.8214,
       "q": 0.8214,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 31.95,
+      "now": 32.02
      },
      {
       "name": "autumn",
@@ -40693,7 +41329,9 @@
       "p": 0.3373,
       "q": 0.595,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 28.35,
+      "now": 28.72
      }
     ],
     "months": [
@@ -40704,7 +41342,9 @@
       "p": 0.7778,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 22.09,
+      "now": 22.38
      },
      {
       "name": "Feb",
@@ -40713,7 +41353,9 @@
       "p": 0.592,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 24.52,
+      "now": 25.18
      },
      {
       "name": "Mar",
@@ -40722,7 +41364,9 @@
       "p": 0.4611,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 26.91,
+      "now": 27.29
      },
      {
       "name": "Apr",
@@ -40731,7 +41375,9 @@
       "p": 0.6315,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 29.51,
+      "now": 29.91
      },
      {
       "name": "May",
@@ -40740,7 +41386,9 @@
       "p": 1.0,
       "q": 1.0,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 30.95,
+      "now": 31.1
      },
      {
       "name": "Jun",
@@ -40749,7 +41397,9 @@
       "p": 0.7136,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 31.75,
+      "now": 32.26
      },
      {
       "name": "Jul",
@@ -40758,7 +41408,9 @@
       "p": 0.692,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 31.77,
+      "now": 31.85
      },
      {
       "name": "Aug",
@@ -40767,7 +41419,9 @@
       "p": 0.3801,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 32.33,
+      "now": 31.96
      },
      {
       "name": "Sep",
@@ -40776,7 +41430,9 @@
       "p": 0.2823,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 30.35,
+      "now": 30.93
      },
      {
       "name": "Oct",
@@ -40785,7 +41441,9 @@
       "p": 0.9775,
       "q": 1.0,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 28.64,
+      "now": 28.91
      },
      {
       "name": "Nov",
@@ -40794,7 +41452,9 @@
       "p": 0.3231,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 26.06,
+      "now": 26.32
      },
      {
       "name": "Dec",
@@ -40803,7 +41463,9 @@
       "p": 0.2709,
       "q": 0.9333,
       "clear": false,
-      "n_years": 22
+      "n_years": 22,
+      "then": 22.99,
+      "now": 23.84
      }
     ],
     "anomaly_test": {
@@ -40916,6 +41578,16 @@
       "p90": 25.3
      }
     ],
+    "windows": {
+     "then": [
+      2001,
+      2005
+     ],
+     "now": [
+      2018,
+      2022
+     ]
+    },
     "season_agg": "mean"
    },
    "leave_one_out": {
@@ -42960,7 +43632,9 @@
       "p": 0.0007,
       "q": 0.0029,
       "clear": true,
-      "n_years": 16
+      "n_years": 16,
+      "then": 0.67,
+      "now": 7.01
      },
      {
       "name": "spring",
@@ -42969,7 +43643,9 @@
       "p": 0.023,
       "q": 0.0235,
       "clear": true,
-      "n_years": 18
+      "n_years": 18,
+      "then": -0.6,
+      "now": 3.98
      },
      {
       "name": "summer",
@@ -42978,7 +43654,9 @@
       "p": 0.0026,
       "q": 0.0051,
       "clear": true,
-      "n_years": 16
+      "n_years": 16,
+      "then": -0.04,
+      "now": 6.27
      },
      {
       "name": "autumn",
@@ -42987,7 +43665,9 @@
       "p": 0.0235,
       "q": 0.0235,
       "clear": true,
-      "n_years": 17
+      "n_years": 17,
+      "then": 2.77,
+      "now": 9.67
      }
     ],
     "months": [
@@ -42998,7 +43678,9 @@
       "p": 0.0,
       "q": 0.0005,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 0.87,
+      "now": 7.9
      },
      {
       "name": "Feb",
@@ -43007,7 +43689,9 @@
       "p": 0.0032,
       "q": 0.0067,
       "clear": true,
-      "n_years": 20
+      "n_years": 20,
+      "then": 0.37,
+      "now": 6.0
      },
      {
       "name": "Mar",
@@ -43016,7 +43700,9 @@
       "p": 0.0275,
       "q": 0.03,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 0.5,
+      "now": 5.22
      },
      {
       "name": "Apr",
@@ -43025,7 +43711,9 @@
       "p": 0.0103,
       "q": 0.0137,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": -0.82,
+      "now": 3.01
      },
      {
       "name": "May",
@@ -43034,7 +43722,9 @@
       "p": 0.0039,
       "q": 0.0067,
       "clear": true,
-      "n_years": 20
+      "n_years": 20,
+      "then": -1.48,
+      "now": 3.71
      },
      {
       "name": "Jun",
@@ -43043,7 +43733,9 @@
       "p": 0.0071,
       "q": 0.0106,
       "clear": true,
-      "n_years": 20
+      "n_years": 20,
+      "then": -0.94,
+      "now": 3.97
      },
      {
       "name": "Jul",
@@ -43052,7 +43744,9 @@
       "p": 0.0023,
       "q": 0.0067,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 0.6,
+      "now": 6.72
      },
      {
       "name": "Aug",
@@ -43061,7 +43755,9 @@
       "p": 0.0039,
       "q": 0.0067,
       "clear": true,
-      "n_years": 20
+      "n_years": 20,
+      "then": 2.57,
+      "now": 8.12
      },
      {
       "name": "Sep",
@@ -43070,7 +43766,9 @@
       "p": 0.0209,
       "q": 0.0251,
       "clear": true,
-      "n_years": 19
+      "n_years": 19,
+      "then": 3.8,
+      "now": 9.89
      },
      {
       "name": "Oct",
@@ -43079,7 +43777,9 @@
       "p": 0.1237,
       "q": 0.1237,
       "clear": false,
-      "n_years": 19
+      "n_years": 19,
+      "then": 3.69,
+      "now": 9.38
      },
      {
       "name": "Nov",
@@ -43088,7 +43788,9 @@
       "p": 0.0004,
       "q": 0.0025,
       "clear": true,
-      "n_years": 21
+      "n_years": 21,
+      "then": 0.81,
+      "now": 9.73
      },
      {
       "name": "Dec",
@@ -43097,7 +43799,9 @@
       "p": 0.0026,
       "q": 0.0067,
       "clear": true,
-      "n_years": 20
+      "n_years": 20,
+      "then": 0.16,
+      "now": 7.02
      }
     ],
     "anomaly_test": {
@@ -43210,6 +43914,16 @@
       "p90": 8.65
      }
     ],
+    "windows": {
+     "then": [
+      2003,
+      2007
+     ],
+     "now": [
+      2021,
+      2025
+     ]
+    },
     "season_agg": "mean"
    },
    "leave_one_out": {

@@ -5,13 +5,14 @@ import { moveFocus } from '../lib/roving'
 import './TrendChart.css'
 import { niceTicks } from '../lib/ticks'
 
-const MAX_W = 800, H = 260, LEFT = 52, RIGHT = 18, TOP = 32, BOTTOM = 36
+const MAX_W = 800, H = 272, LEFT = 52, RIGHT = 18, TOP = 42, BOTTOM = 36
 const pathOf = (rows, x, y, key) => rows.map((r, i) => `${i ? 'L' : 'M'} ${x(r.year)} ${y(r[key])}`).join(' ')
 // yearly values: a missing year breaks the line (GRACE has gaps), instead of a straight line across it
 const gappedPath = (rows, x, y, key) => rows.map((r, i) => `${i && r.year - rows[i - 1].year === 1 ? 'L' : 'M'} ${x(r.year)} ${y(r[key])}`).join(' ')
 
-// Yearly values, the fitted trend with its 95% band, the first/last 5-year averages and the unusual years.
-// Optional second place in orange. Never draws past the last year of data.
+// Yearly values (a dot a year), the trend with its 95% band (indigo when the trend is clear, grey and dashed when it
+// isn't yet), the first and last 5-year averages on a light tint, unusual years ringed in orange, and any limit named
+// where it is drawn (its source under the chart). Optional second place in orange. Never draws past the last year.
 export default function TrendChart({ factor, compare = null, compareName = '', placeName = '' }) {
   const [hover, setHover] = useState(null)
   const [svgRef, W] = useChartWidth(MAX_W)
@@ -82,25 +83,38 @@ export default function TrendChart({ factor, compare = null, compareName = '', p
             </g>
           )
         })}
+        <text className="tc-axis tc-unit" x={LEFT - 10} y={TOP - 4} textAnchor="end">{unit}</text>
         {windows.map(([key, [a, b], v]) => (
           <g key={key}>
             <rect className="tc-window" x={x(a)} y={TOP} width={Math.max(2, x(b) - x(a))} height={H - TOP - BOTTOM} />
             <line className="tc-window-mean" x1={x(a)} x2={x(b)} y1={y(v)} y2={y(v)} />
             {/* anchored at the outer edges, so neither label runs off a narrow chart */}
-            <text className="tc-window-label" x={key === 'then' ? x(a) : x(b)} y={TOP - 10} textAnchor={key === 'then' ? 'start' : 'end'}>
-              {a}–{String(b).slice(2)} avg {format(v)}
+            <text className="tc-window-label" x={key === 'then' ? x(a) : x(b)} y={TOP - 4} textAnchor={key === 'then' ? 'start' : 'end'}>
+              {a}–{String(b).slice(2)} average <tspan className="tc-window-value">{format(v)}</tspan>
             </text>
           </g>
         ))}
-        {band && <path className="tc-band" d={band} />}
-        {hasLimit && <line className="tc-limit" x1={LEFT} x2={W - RIGHT} y1={y(limit)} y2={y(limit)} />}
-        {hasCaution && <line className="tc-limit is-health" x1={LEFT} x2={W - RIGHT} y1={y(caution)} y2={y(caution)} />}
+        {band && <path className={`tc-band${factor.significant ? '' : ' is-unclear'}`} d={band} />}
+        {hasLimit && (
+          <g>
+            <line className="tc-limit" x1={LEFT} x2={W - RIGHT} y1={y(limit)} y2={y(limit)} />
+            <text className="tc-limit-label" x={W - RIGHT} y={y(limit) - 5} textAnchor="end">High level {format(limit)}</text>
+          </g>
+        )}
+        {hasCaution && (
+          <g>
+            <line className="tc-limit is-health" x1={LEFT} x2={W - RIGHT} y1={y(caution)} y2={y(caution)} />
+            <text className="tc-limit-label is-health" x={W - RIGHT} y={y(caution) - 5} textAnchor="end">Health standard {format(caution)}</text>
+          </g>
+        )}
         <path className="tc-values" pathLength="1" d={gappedPath(points, x, y, 'value')} />
-        {line.length > 0 && <path className="tc-trend" pathLength="1" d={pathOf(line, x, y, 'trend')} />}
+        {/* pathLength 1 drives the draw-in, but it would stretch an unclear trend's dashes over the whole line */}
+        {line.length > 0 && <path className={`tc-trend${factor.significant ? '' : ' is-unclear'}`} pathLength={factor.significant ? 1 : undefined} d={pathOf(line, x, y, 'trend')} />}
         {cPoints.length > 0 && <path className="tc-compare-values" pathLength="1" d={pathOf(cPoints, x, y, 'value')} />}
         {cLine.length > 0 && <path className="tc-compare-trend" d={pathOf(cLine, x, y, 'trend')} />}
+        {points.map((p) => <circle key={`d${p.year}`} className="tc-dot" cx={x(p.year)} cy={y(p.value)} r="2.75" />)}
         {points.filter((p) => unusual.has(p.year)).map((p) => (
-          <circle key={`u${p.year}`} className="tc-record" cx={x(p.year)} cy={y(p.value)} r="4.5" />
+          <circle key={`u${p.year}`} className="tc-record" cx={x(p.year)} cy={y(p.value)} r="6" />
         ))}
         {worst && Number.isFinite(worst.value) && (
           <text className="tc-record-label" x={Math.max(LEFT + 60, Math.min(W - RIGHT - 60, x(worst.year)))}
@@ -120,24 +134,38 @@ export default function TrendChart({ factor, compare = null, compareName = '', p
               onFocus={() => { setHover(i); setStop(i) }} onBlur={() => setHover(null)} onKeyDown={moveFocus} />
           </g>
         ))}
-        {active && (
-          <g pointerEvents="none">
-            <circle className="tc-active" cx={x(active.year)} cy={y(active.value)} r="4" />
-            <text className="tc-tooltip" x={Math.max(130, Math.min(W - 130, x(active.year)))} y={H - BOTTOM - 8} textAnchor="middle">
-              {active.year}: {format(active.value)} {unit}
-            </text>
-          </g>
-        )}
+        {active && (() => {
+          const at = line.find((l) => l.year === active.year)?.trend
+          const bx = Math.max(LEFT, Math.min(W - RIGHT - 168, x(active.year) - 84))
+          const by = y(active.value) - 58 < TOP ? y(active.value) + 14 : y(active.value) - 58
+          return (
+            <g pointerEvents="none">
+              <line className="tc-guide" x1={x(active.year)} x2={x(active.year)} y1={TOP} y2={H - BOTTOM} />
+              <circle className="tc-active" cx={x(active.year)} cy={y(active.value)} r="5" />
+              <g transform={`translate(${bx} ${by})`}>
+                <rect className="tc-tip" width="168" height={Number.isFinite(at) ? 44 : 28} rx="6" />
+                <text className="tc-tip-title" x="10" y="18">{active.year}: {format(active.value)} {unit}</text>
+                {Number.isFinite(at) && <text className="tc-tip-text" x="10" y="35">trend line at {format(at)}</text>}
+              </g>
+            </g>
+          )
+        })()}
       </svg>
       <figcaption className="tc-legend">
-        <span><i className="tc-key tc-key-values" />Yearly value · {factor.unit}</span>
-        <span><i className="tc-key tc-key-trend" />Trend with 95% band</span>
+        <span><i className="tc-key tc-key-dot" />Each year ({factor.unit})</span>
+        <span><i className={`tc-key tc-key-trend${factor.significant ? '' : ' is-unclear'}`} />Trend with 95% band{factor.significant ? '' : ' (dashed: not clear yet)'}</span>
         <span><i className="tc-key tc-key-window" />First and last 5-year averages</span>
         {unusual.size > 0 && <span><i className="tc-key tc-key-record" />Unusual years (worse than 9 in 10)</span>}
         {compare && <span><i className="tc-key tc-key-compare" />{compareName} (dashed: its trend)</span>}
-        {hasCaution && <span><i className="tc-key tc-key-limit is-health" />Health standard {format(caution)} · {factor.limits.source}</span>}
-        {hasLimit && <span><i className="tc-key tc-key-limit" />High-level cutoff {format(limit)} · {factor.limits.high_source || factor.limits.source}</span>}
+        {hasCaution && <span><i className="tc-key tc-key-limit is-health" />Health standard</span>}
+        {hasLimit && <span><i className="tc-key tc-key-limit" />High level</span>}
       </figcaption>
+      {(hasCaution || hasLimit) && (
+        <p className="tc-sources">
+          {hasCaution && <>Health standard {format(caution)}: {factor.limits.source}. </>}
+          {hasLimit && <>High level {format(limit)}: {factor.limits.high_source || factor.limits.source}.</>}
+        </p>
+      )}
     </figure>
   )
 }

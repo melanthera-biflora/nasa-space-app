@@ -2407,6 +2407,16 @@
       "title": "Seasons",
       "type": "array"
      },
+     "windows": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/SeasonalWindows"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
      "years_needed": {
       "anyOf": [
        {
@@ -2503,6 +2513,17 @@
       "title": "Name",
       "type": "string"
      },
+     "now": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Now"
+     },
      "p": {
       "anyOf": [
        {
@@ -2535,6 +2556,17 @@
        }
       ],
       "title": "Slope Per Decade"
+     },
+     "then": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Then"
      }
     },
     "required": [
@@ -2542,6 +2574,30 @@
      "available"
     ],
     "title": "SeasonalTrend",
+    "type": "object"
+   },
+   "SeasonalWindows": {
+    "properties": {
+     "now": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Now",
+      "type": "array"
+     },
+     "then": {
+      "items": {
+       "type": "integer"
+      },
+      "title": "Then",
+      "type": "array"
+     }
+    },
+    "required": [
+     "then",
+     "now"
+    ],
+    "title": "SeasonalWindows",
     "type": "object"
    },
    "SourceLink": {

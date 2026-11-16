@@ -9,6 +9,7 @@ import { ICONS } from '../components/ui/iconPaths'
 import MonthGrid from '../components/ui/MonthGrid'
 import NavMenu from '../components/ui/NavMenu'
 import NumBadge from '../components/ui/NumBadge'
+import Pager from '../components/ui/Pager'
 import Segmented from '../components/ui/Segmented'
 import Skeleton from '../components/ui/Skeleton'
 import StatusLine from '../components/ui/StatusLine'
@@ -31,6 +32,7 @@ function Section({ title, children, note }) {
 
 export default function KitView() {
   const [years, setYears] = useState(25)
+  const [page, setPage] = useState(1)
   const [range, setRange] = useState({ from: 2001, to: 2025 })
   const [bad, setBad] = useState({ from: 2020, to: 2025 })
   const [month, setMonth] = useState(6)
@@ -115,6 +117,10 @@ export default function KitView() {
           { id: 'table', label: 'Table', content: <p className="kit-text">2001: 77 nights · 2025: 93 nights</p> },
         ]} />
         <Disclosure summary="How this test works">Mann-Kendall compares every pair of years: does the later one come out higher more often than chance allows?</Disclosure>
+      </Section>
+
+      <Section title="Pages" note="A long list one page at a time: the current page is filled, the ends stay focusable when they can't move.">
+        <Pager page={page} pages={6} total={31} size={6} onChange={setPage} label="Kit pages" />
       </Section>
 
       <Section title="Loading" note="Nothing for 400 ms, then a skeleton of the real layout and one status line.">
